@@ -1,0 +1,55 @@
+﻿@* Generator: Template TypeVisibility: Internal *@
+@using System
+@using System.Collections.Generic
+@using System.Globalization
+@using System.IO
+@using System.Text
+@using Diagnostics
+@inherits Web.RazorPageBase
+@functions {
+    public List<DiagnosticsPlugin> DiagnosticsPlugins { get; set; }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Noodle Diagnostics</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="/noodle/embedded/bootstrapcss" />
+    <script type="text/javascript" src="/noodle/embedded/jquery"></script>
+    <script type="text/javascript" src="/noodle/embedded/bootstrapjs"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <div class="page-header">
+                    <h1>Diagnostics</h1>
+                </div>
+            </div>
+            <div class="span12">
+                <div class="accordion" id="diagnostics-accordian">
+                    @foreach (var plugin in DiagnosticsPlugins)
+                    {
+                        var name = plugin.GetType().Name.ToLower();
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#diagnostics-accordian" href="#@name">@plugin.DisplayName</a>
+                            </div>
+                            <div id="@name" class="accordion-body collapse out">
+                                <div class="accordion-inner">
+                                    @Html(plugin.BuildHtml())
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <hr />
+                @DateTime.Now.ToString(CultureInfo.InvariantCulture)
+            </div>
+        </div>
+    </div>
+</body>
+</html>

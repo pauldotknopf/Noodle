@@ -1,0 +1,333 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using Noodle;
+using Noodle.Web;
+
+namespace Noodle.Resources
+{
+    /// <summary>
+    /// Methods to register styles and javascripts.
+    /// </summary>
+    public static class Register
+    {
+        /// <summary>Path to jQuery.</summary>
+        public static string JQueryPath { get; set; }
+
+        #region page StyleSheet
+
+        /// <summary>Register an embedded style sheet reference in the page's header.</summary>
+        /// <param name="page">The page onto which to register the style sheet.</param>
+        /// <param name="type">The type whose assembly contains the embedded style sheet.</param>
+        /// <param name="resourceName">The name of the embedded resource.</param>
+        public static void StyleSheet(this Page page, Type type, string resourceName)
+        {
+            StyleSheet(page, page.ClientScript.GetWebResourceUrl(type, resourceName), Media.All);
+        }
+
+        /// <summary>Register a style sheet reference in the page's header.</summary>
+        /// <param name="page">The page onto which to register the style sheet.</param>
+        /// <param name="resourceUrl">The url to the style sheet to register.</param>
+        public static void StyleSheet(this Page page, string resourceUrl)
+        {
+            StyleSheet(page, resourceUrl, Media.All);
+        }
+
+        /// <summary>Register a style sheet reference in the page's header with media type.</summary>
+        /// <param name="page">The page onto which to register the style sheet.</param>
+        /// <param name="resourceUrl">The url to the style sheet to register.</param>
+        /// <param name="media">The media type to assign, e.g. print.</param>
+        public static void StyleSheet(this Page page, string resourceUrl, Media media)
+        {
+            if (page == null) throw new ArgumentNullException("page");
+            if (resourceUrl == null) throw new ArgumentNullException("resourceUrl");
+
+            resourceUrl = Url.ToAbsolute(resourceUrl);
+
+            if (page.Items[resourceUrl] == null)
+            {
+                PlaceHolder holder = GetPlaceHolder(page);
+
+                var link = new HtmlLink();
+                link.Href = Url.ResolveTokens(resourceUrl);
+                link.Attributes["type"] = "text/css";
+                link.Attributes["media"] = media.ToString().ToLower();
+                link.Attributes["rel"] = "stylesheet";
+                holder.Controls.Add(link);
+
+                page.Items[resourceUrl] = true;
+            }
+        }
+
+        #endregion
+
+        #region page JavaScript
+
+        /// <summary>Register an embedded javascript resource reference in the page header.</summary>
+        /// <param name="page">The page in whose header to register the javascript.</param>
+        /// <param name="type">The type in whose assembly the javascript is embedded.</param>
+        /// <param name="resourceName">The name of the embedded resource.</param>
+        public static void JavaScript(this Page page, Type type, string resourceName)
+        {
+            JavaScript(page, page.ClientScript.GetWebResourceUrl(type, resourceName));
+        }
+
+        /// <summary>Register an embedded javascript resource reference in the page header with options.</summary>
+        /// <param name="page">The page in whose header to register the javascript.</param>
+        /// <param name="type">The type in whose assembly the javascript is embedded.</param>
+        /// <param name="resourceName">The name of the embedded resource.</param>
+        /// <param name="options">Options flag.</param>
+        public static void JavaScript(this Page page, Type type, string resourceName, ScriptOptions options)
+        {
+            JavaScript(page, page.ClientScript.GetWebResourceUrl(type, resourceName), options);
+        }
+
+        /// <summary>Registers a script block on a page.</summary>
+        /// <param name="page">The page onto which to added the script.</param>
+        /// <param name="script">The script to add.</param>
+        /// <param name="position">Where to add the script.</param>
+        /// <param name="options">Script registration options.</param>
+        public static void JavaScript(this Page page, string script, ScriptPosition position, ScriptOptions options)
+        {
+            if (page == null) throw new ArgumentNullException("page");
+
+            if (position == ScriptPosition.Header)
+            {
+                JavaScript(page, script, options);
+            }
+            else if (position == ScriptPosition.Bottom)
+            {
+                string key = script.GetHashCode().ToString();
+                if (options.Is(ScriptOptions.None))
+                    page.ClientScript.RegisterStartupScript(typeof(Register), key, script);
+                else if (options.Is(ScriptOptions.ScriptTags))
+                    page.ClientScript.RegisterStartupScript(typeof(Register), key, script, true);
+                else if (options.Is(ScriptOptions.DocumentReady))
+                {
+                    page.JQuery();
+                    page.ClientScript.RegisterStartupScript(typeof(Register), key, EmbedDocumentReady(script), true);
+                }
+                else if (options.Is(ScriptOptions.Include))
+                    page.ClientScript.RegisterClientScriptInclude(key, Url.ResolveTokens(script));
+                else
+                    throw new ArgumentException("options");
+            }
+            else
+                throw new ArgumentException("position");
+        }
+
+        private static string EmbedDocumentReady(string script)
+        {
+            return "jQuery(document).ready(function(){" + script + "});";
+        }
+
+        public static void JavaScript(this Page page, string script, ScriptOptions options)
+        {
+            if (page == null) throw new ArgumentNullException("page");
+
+            if (page.Items[script] == null)
+            {
+                PlaceHolder holder = GetPlaceHolder(page);
+
+                if (options.Is(ScriptOptions.Include))
+                {
+                    AddScriptInclude(page, script, holder, options.Is(ScriptOptions.Prioritize));
+                }
+                else if (options.Is(ScriptOptions.None))
+                {
+                    holder.Page.Items[script] = AddString(holder, script, options.Is(ScriptOptions.Prioritize));
+                }
+                else
+                {
+                    Script scriptHolder = GetScriptHolder(page);
+                    if (options.Is(ScriptOptions.ScriptTags))
+                    {
+                        holder.Page.Items[script] = AddString(scriptHolder, script + Environment.NewLine, Is(options, ScriptOptions.Prioritize));
+                    }
+                    else if (options.Is(ScriptOptions.DocumentReady))
+                    {
+                        JQuery(page);
+                        holder.Page.Items[script] = AddString(scriptHolder, EmbedDocumentReady(script) + Environment.NewLine, options.Is(ScriptOptions.Prioritize));
+                    }
+                }
+            }
+        }
+
+        private class Script : Control
+        {
+            protected override void Render(HtmlTextWriter writer)
+            {
+                writer.Write("<script type='text/javascript'>");
+                writer.Write("//<![CDATA[");
+                writer.Write(Environment.NewLine);
+                base.Render(writer);
+                writer.Write(Environment.NewLine);
+                writer.Write("//]]>");
+                writer.Write("</script>");
+            }
+        }
+
+        private static bool Is(this ScriptOptions options, ScriptOptions expectedOption)
+        {
+            return (options & expectedOption) == expectedOption;
+        }
+
+        private static Literal AddString(Control holder, string script, bool priority)
+        {
+            var l = new Literal();
+            l.Text = script;
+            if (priority)
+                holder.Controls.AddAt(0, l);
+            else
+                holder.Controls.Add(l);
+            return l;
+        }
+
+        private static Control AddScriptInclude(Page page, string resourceUrl, Control holder, bool priority)
+        {
+            if (page == null) throw new ArgumentNullException("page");
+
+            var script = new HtmlGenericControl("script");
+            page.Items[resourceUrl] = script;
+
+            resourceUrl = Url.ResolveTokens(resourceUrl);
+
+            script.Attributes["src"] = resourceUrl;
+            script.Attributes["type"] = "text/javascript";
+            if (priority)
+                holder.Controls.AddAt(0, script);
+            else
+                holder.Controls.Add(script);
+
+            return script;
+        }
+
+        /// <summary>Registers a script reference in the page's header.</summary>
+        /// <param name="page">The page onto which to register the javascript.</param>
+        /// <param name="resourceUrl">The url to the javascript to register.</param>
+        public static void JavaScript(this Page page, string resourceUrl)
+        {
+            if (page == null) throw new ArgumentNullException("page");
+            if (resourceUrl == null) throw new ArgumentNullException("resourceUrl");
+
+            JavaScript(page, resourceUrl, ScriptOptions.Include);
+        }
+
+        public static void JQuery(this Page page)
+        {
+            JavaScript(page, Url.ResolveTokens(JQueryPath), ScriptPosition.Header, ScriptOptions.Prioritize | ScriptOptions.Include);
+        }
+
+        private static Script GetScriptHolder(Page page)
+        {
+            var holder = GetPlaceHolder(page);
+            var scripts = page.Items["Noodle.Resources.scripts"] as Script;
+            if (scripts == null)
+            {
+                page.Items["Noodle.Resources.scripts"] = scripts = new Script();
+                holder.Controls.Add(scripts);
+            }
+            return scripts;
+        }
+
+        private static PlaceHolder GetPlaceHolder(Page page)
+        {
+            var holder = page.Items["Noodle.Resources.holder"] as PlaceHolder;
+            if (holder == null)
+            {
+                if (page.Header == null)
+                    throw new NoodleException("Couldn't find the page header. The register command needs the tag <header runat='server'> somewhere in the page template, master page or a user control.");
+
+                page.Items["Noodle.Resources.holder"] = holder = new PlaceHolder();
+                if (page.Header.Controls.Count > 0)
+                    page.Header.Controls.AddAt(1, holder);
+                else
+                    page.Header.Controls.Add(holder);
+            }
+            return holder;
+        }
+
+        #endregion
+
+        #region MVC
+        public static bool RegisterResource(IDictionary<string, object> stateCollection, string resourceUrl)
+        {
+            if (IsRegistered(stateCollection, resourceUrl))
+                return true;
+
+            stateCollection[resourceUrl] = "";
+            return false;
+        }
+
+        public static bool IsRegistered(IDictionary<string, object> stateCollection, string resourceUrl)
+        {
+            return stateCollection.ContainsKey(resourceUrl);
+        }
+
+        public static string JavaScript(IDictionary<string, object> stateCollection, string resourceUrl)
+        {
+            if (IsRegistered(stateCollection, resourceUrl))
+                return null;
+
+            RegisterResource(stateCollection, resourceUrl);
+
+            return string.Format("<script type=\"text/javascript\" src=\"{0}\"></script>", Url.ResolveTokens(resourceUrl));
+        }
+
+        const string scriptFormat = @"<script type=""text/javascript"">//<![CDATA[
+{0}//]]></script>";
+        public static string JavaScript(IDictionary<string, object> stateCollection, string script, ScriptOptions options)
+        {
+            if (IsRegistered(stateCollection, script))
+                return null;
+
+            RegisterResource(stateCollection, script);
+
+            if (options == ScriptOptions.Include)
+                return JavaScript(stateCollection, script);
+            if (options == ScriptOptions.None)
+                return script;
+            if (options == ScriptOptions.ScriptTags)
+                return string.Format(scriptFormat, script);
+            if (options == ScriptOptions.DocumentReady)
+                return string.Format(scriptFormat, EmbedDocumentReady(script));
+
+            throw new NotSupportedException(options + " not supported");
+        }
+
+        public static string JQuery(IDictionary<string, object> stateCollection)
+        {
+            return JavaScript(stateCollection, Url.ResolveTokens(JQueryPath));
+        }
+
+        public static string StyleSheet(IDictionary<string, object> stateCollection, string resourceUrl)
+        {
+            if (IsRegistered(stateCollection, resourceUrl))
+                return null;
+
+            RegisterResource(stateCollection, resourceUrl);
+
+            return string.Format("<link href=\"{0}\" rel=\"stylesheet\" type=\"text/css\" />", Url.ResolveTokens(resourceUrl));
+        }
+        #endregion
+
+        #region UpdatePanel
+
+        /// <summary>
+        /// Registers a script that will be run inside of an update panel
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="script"></param>
+        /// <param name="addScriptTags"> </param>
+        public static void RunAjaxScript(this Control control, string script, bool addScriptTags = true)
+        {
+            //var scriptManager = ScriptManager.GetCurrent(control.Page);
+            ScriptManager.RegisterStartupScript(control, typeof(Page), script, script, addScriptTags);
+        }
+        #endregion
+    }
+}
