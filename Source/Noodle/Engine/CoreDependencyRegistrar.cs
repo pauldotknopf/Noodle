@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Web;
 using System.Web.Configuration;
 using Ninject;
+using Ninject.Planning.Bindings.Resolvers;
 using Noodle.Caching;
 using Noodle.Configuration;
 using Noodle.Data;
@@ -46,6 +47,7 @@ namespace Noodle.Engine
                 kernel.Bind<ConnectionStringSettingsCollection>().ToConstant(ConfigurationManager.ConnectionStrings);
                 kernel.Bind<AppSettings>().ToConstant(new AppSettings(ConfigurationManager.AppSettings));
             }
+            kernel.Components.Add<IBindingResolver, AutoStartBindingResolver>(); //hack to get IStartupTasks configuired.
             kernel.Bind<NoodleCoreConfiguration>().ToConstant(coreConfig);
             kernel.Bind<ConfigurationManagerWrapper>().ToConstant(configuration);
             kernel.Bind<ServiceRegistrator>().ToSelf().InSingletonScope();

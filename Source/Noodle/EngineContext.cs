@@ -116,7 +116,12 @@ namespace Noodle
 
         public static void RunStartupTasks(IKernel kernel)
         {
-            // TODO
+            var all = kernel.GetBindings(typeof (AutoStartBindingResolver.AutoStartBindingService));
+            var startupServices = all.Select(x => kernel.Get(x.Service)).Cast<IStartupTask>().OrderBy(x => x.Order);
+            foreach (var service in startupServices)
+            {
+                service.Execute();
+            }
         }
 
         private static void RegisterAttributedServices(IKernel kernel)

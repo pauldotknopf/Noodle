@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
+using Ninject.Planning.Bindings.Resolvers;
 using Noodle.Engine;
 
 namespace Noodle.Tests
@@ -36,7 +37,8 @@ namespace Noodle.Tests
                 StartupTask1.Executed.ShouldBeNull();
                 StartupTask1.NumberOfTimesRan.ShouldEqual(0);
 
-                var kernel = new StandardKernel();
+                var kernel = new StandardKernel(new NinjectSettings{});
+                kernel.Components.Add<IBindingResolver, AutoStartBindingResolver>();
                 kernel.Get<StartupTask1>();
                 EngineContext.RunStartupTasks(kernel);
 
