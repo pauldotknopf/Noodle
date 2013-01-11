@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ninject;
 using Noodle.Configuration;
 using Noodle.Engine;
 using Noodle.Plugins;
 using Noodle.Security;
-using Noodle.TinyIoC;
 
 namespace Noodle.Tests.Plugins
 {
@@ -57,8 +57,8 @@ namespace Noodle.Tests.Plugins
         public PluginFinderTests()
         {
             var edit = new NoodleCoreConfiguration();
-            var kernel = new TinyIoCContainer();
-            kernel.Register<ISecurityManager, FakeSecurityManager>();
+            var kernel = new StandardKernel();
+            kernel.Bind<ISecurityManager>().To<FakeSecurityManager>();
             _finder = new PluginFinder(new AppDomainTypeFinder(), edit, kernel);
         }
 

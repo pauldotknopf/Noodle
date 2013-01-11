@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject">
+      <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
@@ -86,32 +89,15 @@
     <Compile Include="Configuration\SchedulerElement.cs" />
     <Compile Include="ContainerExtensions.cs" />
     <Compile Include="Contract.cs" />
-    <Compile Include="Data\AbstraceEmbeddedSchemaProvider.cs" />
     <Compile Include="Data\ConnectionInitializer.cs" />
     <Compile Include="Data\ConnectionInitializerPluginAttribute.cs" />
     <Compile Include="Data\ConnectionProvider.cs" />
     <Compile Include="Data\DatabaseService.cs" />
     <Compile Include="Data\DatabaseTypeEnum.cs" />
-    <Compile Include="Data\Deploy\Deploy.generated.cs" />
-    <Compile Include="Data\Deploy\DeployService.cs" />
-    <Compile Include="Data\Deploy\IDeployService.cs" />
-    <Compile Include="Data\Deploy\Models\ActionResponse.cs" />
-    <Compile Include="Data\Deploy\Models\ConnectionString.cs" />
-    <Compile Include="Data\Deploy\Models\DeployReportResponse.cs" />
-    <Compile Include="Data\Deploy\Models\DeployResponse.cs" />
-    <Compile Include="Data\Deploy\Models\DeployScriptsResponse.cs" />
-    <Compile Include="Data\Deploy\Models\SchemaModel.cs" />
-    <Compile Include="Data\Deploy\RequestHandler.cs" />
-    <Compile Include="Data\EmbeddedSchemaPlanner.cs" />
-    <Compile Include="Data\EmbeddedSchemaProviderAttribute.cs" />
     <Compile Include="Data\IConnectionProvider.cs" />
     <Compile Include="Data\IDatabaseService.cs" />
-    <Compile Include="Data\IEmbeddedSchemaPlanner.cs" />
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\SqlConnectionProvider.cs" />
-    <Compile Include="Data\SqlPackageEmbeddedSchemaProvider.cs" />
-    <Compile Include="Data\SqlPackage\DeploymentReport.cs" />
-    <Compile Include="Data\VSDBCMDEmbeddedSchemaProvider.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DateTimeHelper.cs" />
     <Compile Include="DebugTextWriter.cs" />
@@ -142,12 +128,6 @@
     <Compile Include="FluentDateTime\TimeSpanExtensions.cs" />
     <Compile Include="IBaseEntityWithDetails.cs" />
     <Compile Include="IDateTimeHelper.cs" />
-    <Compile Include="Imaging\IImageManipulator.cs" />
-    <Compile Include="Imaging\ImageManipulationParameters.cs" />
-    <Compile Include="Imaging\ImageManipulator.cs" />
-    <Compile Include="Imaging\ImageResizeMode.cs" />
-    <Compile Include="Imaging\ImageResizeParameters.cs" />
-    <Compile Include="Imaging\QColorMatrix.cs" />
     <Compile Include="IMultipleValue.cs" />
     <Compile Include="IPagedList.cs" />
     <Compile Include="ISettings.cs" />
@@ -205,9 +185,6 @@
     <Compile Include="Single.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TimeUnit.cs" />
-    <Compile Include="TinyIoC\NoodleTinyIoC.cs" />
-    <Compile Include="TinyIoC\TinyIoC.cs" />
-    <Compile Include="TinyIoC\TinyIoCAspNetExtensions.cs" />
     <Compile Include="Web\AdaptiveContext.cs" />
     <Compile Include="Web\CacheUtility.cs" />
     <Compile Include="Web\CookieExtensions.cs" />
@@ -232,7 +209,7 @@
     <Compile Include="WriteLockDisposable.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Deploy\Deploy.cshtml" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Extensions\README.txt" />

@@ -2,6 +2,7 @@
 using System.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Ninject;
 using Noodle.Configuration;
 using Noodle.Data;
 
@@ -32,7 +33,7 @@ namespace Noodle.Tests
                 ConnectionString = "server=somewhere",
                 Name = "connection1"
             });
-            var connectionProvider = GetTestKernel().Resolve<IConnectionProvider>();
+            var connectionProvider = GetTestKernel().Get<IConnectionProvider>();
 
             // assert
             ExceptionAssert.Throws<NoodleException>(() => connectionProvider.GetDbConnection("testName2", true));
@@ -54,7 +55,7 @@ namespace Noodle.Tests
                                                              Name = "Noodle",
                                                              ConnectionString = "server=overhere"
                                                          });
-            var connectionProvider = GetTestKernel().Resolve<IConnectionProvider>();
+            var connectionProvider = GetTestKernel().Get<IConnectionProvider>();
 
             // assert
             connectionProvider.GetDbConnection("testName").ConnectionString.ShouldEqual("server=overhere");
@@ -80,29 +81,29 @@ namespace Noodle.Tests
                 Name = "NoodleCustom",
                 ConnectionString = "server=overthere"
             });
-            var connectionProvider = GetTestKernel().Resolve<IConnectionProvider>();
+            var connectionProvider = GetTestKernel().Get<IConnectionProvider>();
 
             // assert
             connectionProvider.GetDbConnection("testName").ConnectionString.ShouldEqual("server=overthere");
             connectionProvider.GetDbConnection().ConnectionString.ShouldEqual("server=overhere");
         }
 
-        public override TinyIoC.TinyIoCContainer GetTestKernel(params Engine.IDependencyRegistrar[] dependencyRegistrars)
+        public override IKernel GetTestKernel(params Engine.IDependencyRegistrar[] dependencyRegistrars)
         {
             var kernel = base.GetTestKernel(dependencyRegistrars);
 
             var configuration = new Mock<NoodleCoreConfiguration>();
             configuration.Setup(x => x.ConnectionStrings).Returns(() =>
-                                                                      {
-                                                                          var connectionStrings = new ConnectionStringCollection();
-                                                                          foreach(var pointer in _connectionStringPointers)
-                                                                          {
-                                                                              connectionStrings.Add(pointer);
-                                                                          }
-                                                                          return connectionStrings;
-                                                                      });
-            kernel.Register(configuration.Object);
-            kernel.Register(_connectionStrings);
+            {
+                var connectionStrings = new ConnectionStringCollection();
+                foreach(var pointer in _connectionStringPointers)
+                {
+                    connectionStrings.Add(pointer);
+                }
+                return connectionStrings;
+            });
+            kernel.Rebind<NoodleCoreConfiguration>().ToConstant(configuration.Object);
+            kernel.Rebind<ConnectionStringSettingsCollection>().ToConstant(_connectionStrings);
             return kernel;
         }
     }

@@ -1,4 +1,4 @@
-using Noodle.TinyIoC;
+using Ninject;
 
 namespace Noodle.Plugins
 {
@@ -10,6 +10,6 @@ namespace Noodle.Plugins
 	{
 		/// <summary>Executes the plugin initializer.</summary>
         /// <param name="kernel">A reference to the kernel.</param>
-		void Initialize(TinyIoCContainer kernel);
+        void Initialize(IKernel kernel);
 	}
 }

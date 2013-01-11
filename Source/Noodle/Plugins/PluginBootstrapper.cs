@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Ninject;
 using Noodle.Configuration;
 using Noodle.Engine;
 
@@ -78,7 +79,7 @@ namespace Noodle.Plugins
 		/// <summary>
 		/// Invokes the initialize method on the supplied plugins.
 		/// </summary>
-		public void InitializePlugins(TinyIoC.TinyIoCContainer kernel)
+        public void InitializePlugins(IKernel kernel)
 		{
 		    var plugins = GetPluginDefinitions();
             var exceptions = new List<Exception>();

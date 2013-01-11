@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
+using Ninject;
 using Noodle.Configuration;
 using Noodle.Engine;
 using Noodle.Security;
@@ -16,10 +17,10 @@ namespace Noodle.Plugins
     {
         private readonly IList<IPlugin> _plugins;
         private readonly ITypeFinder _typeFinder;
-	    private readonly TinyIoC.TinyIoCContainer _kernel;
+        private readonly IKernel _kernel;
 	    private readonly IEnumerable<PluginElement> _removedPlugins = new PluginElement[0];
 
-        public PluginFinder(ITypeFinder typeFinder, NoodleCoreConfiguration config, TinyIoC.TinyIoCContainer kernel)
+        public PluginFinder(ITypeFinder typeFinder, NoodleCoreConfiguration config, IKernel kernel)
         {
             _removedPlugins = config.Plugins.RemovedElements;
 			_typeFinder = typeFinder;
@@ -33,7 +34,7 @@ namespace Noodle.Plugins
     	/// <returns>An enumeration of plugins.</returns>
     	public IEnumerable<T> GetPlugins<T>(IPrincipal user) where T : class, IPlugin
 		{
-		    return GetPlugins<T>().Where(plugin => _kernel.Resolve<ISecurityManager>().IsAuthorized(plugin as ISecurableBase, user));
+		    return GetPlugins<T>().Where(plugin => _kernel.Get<ISecurityManager>().IsAuthorized(plugin as ISecurableBase, user));
 		}
 
 	    public IEnumerable<T> GetPlugins<T>() where T : class, IPlugin
@@ -50,7 +51,7 @@ namespace Noodle.Plugins
             where T : class, IPlugin
             where TO : class
         {
-            return _plugins.OfType<T>().Where(plugin => _kernel.Resolve<ISecurityManager>().IsAuthorized(plugin as ISecurableBase, user)).Select(CreatePluginTo<TO>);
+            return _plugins.OfType<T>().Where(plugin => _kernel.Get<ISecurityManager>().IsAuthorized(plugin as ISecurableBase, user)).Select(CreatePluginTo<TO>);
         }
 
         /// <summary>Gets plugins found in the environment sorted and filtered by the given user.</summary>
@@ -112,7 +113,7 @@ namespace Noodle.Plugins
         private TO CreatePluginTo<TO>(IPlugin plugin) where TO : class
         {
             // TODO: Resolve unregistered?
-            var instance = _kernel.Resolve(plugin.Decorates);
+            var instance = Activator.CreateInstance(plugin.Decorates);
             var destinationType = instance as TO;
             if (destinationType == null)
                 throw new InvalidOperationException(

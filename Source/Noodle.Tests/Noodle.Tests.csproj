@@ -54,6 +54,9 @@
     <Reference Include="Moq">
       <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -76,8 +79,6 @@
   <ItemGroup>
     <Compile Include="ConnectionProviderTests.cs" />
     <Compile Include="CrudCollectionTests.cs" />
-    <Compile Include="DataTestBase.cs" />
-    <Compile Include="EmbeddedSchemaPlannerTests.cs" />
     <Compile Include="DateTimeAssert.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="FakeIdentity.cs" />
@@ -112,7 +113,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>

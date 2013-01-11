@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ninject;
 using Noodle.Collections;
 using Noodle.Data;
 
@@ -7,13 +8,13 @@ namespace Noodle.Tests
 {
     public class RepositoryTestHelper<T> where T:BaseEntity, new()
     {
-        private readonly TinyIoC.TinyIoCContainer _kernel;
+        private readonly IKernel _kernel;
         private readonly Func<T, int> _hashCode;
         private readonly Func<int, T> _create;
         private T _instance;
         private Func<T, bool> _isDeleted;
 
-        public RepositoryTestHelper(TinyIoC.TinyIoCContainer kernel, Func<T, int> hashCode, Func<int, T> create, Func<T, bool> isDeleted = null)
+        public RepositoryTestHelper(IKernel kernel, Func<T, int> hashCode, Func<int, T> create, Func<T, bool> isDeleted = null)
         {
             _isDeleted = isDeleted ?? ((item) => item == null);
             _kernel = kernel;
@@ -24,7 +25,7 @@ namespace Noodle.Tests
         private void CanInsert()
         {
             _instance = _create(1);
-            _kernel.Resolve<IRepository<T>>().Insert(_instance);
+            _kernel.Get<IRepository<T>>().Insert(_instance);
             (_instance.Id > 0).ShouldBeTrue();
         }
 
@@ -38,9 +39,9 @@ namespace Noodle.Tests
             _instance = _create(2);
             _instance.Id = id;
 
-            _kernel.Resolve<IRepository<T>>().Update(_instance);
+            _kernel.Get<IRepository<T>>().Update(_instance);
 
-            var dbInstance = _kernel.Resolve<IRepository<T>>().GetById(_instance.Id);
+            var dbInstance = _kernel.Get<IRepository<T>>().GetById(_instance.Id);
 
             Comparer().Equals(dbInstance, _instance).ShouldBeTrue();
         }
@@ -50,9 +51,9 @@ namespace Noodle.Tests
             if (_instance == null)
                 CanInsert();
 
-            _kernel.Resolve<IRepository<T>>().Delete(_instance);
+            _kernel.Get<IRepository<T>>().Delete(_instance);
 
-            var dbInstance = _kernel.Resolve<IRepository<T>>().GetById(_instance.Id);
+            var dbInstance = _kernel.Get<IRepository<T>>().GetById(_instance.Id);
 
             _isDeleted(dbInstance).ShouldBeTrue();
         }

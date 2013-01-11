@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ninject;
 using Noodle.Engine;
-using Noodle.TinyIoC;
 
 namespace Noodle.Tests
 {
@@ -28,19 +28,27 @@ namespace Noodle.Tests
         [TestMethod]
         public void Can_startup()
         {
-            var now = DateTime.Now;
-            CommonHelper.CurrentTime = () => now;
-            StartupTask1.Executed.ShouldBeNull();
-            StartupTask1.NumberOfTimesRan.ShouldEqual(0);
+            var prev = CommonHelper.CurrentTime;
+            try
+            {
+                var now = DateTime.Now;
+                CommonHelper.CurrentTime = () => now;
+                StartupTask1.Executed.ShouldBeNull();
+                StartupTask1.NumberOfTimesRan.ShouldEqual(0);
 
-            var kernel = new TinyIoCContainer();
-            kernel.Register<StartupTask1>();
-            EngineContext.RunStartupTasks(kernel);
+                var kernel = new StandardKernel();
+                kernel.Get<StartupTask1>();
+                EngineContext.RunStartupTasks(kernel);
 
-            kernel.Resolve<StartupTask1>();
+                kernel.Get<StartupTask1>();
 
-            StartupTask1.Executed.ShouldEqual(now);
-            StartupTask1.NumberOfTimesRan.ShouldEqual(1);
+                StartupTask1.Executed.ShouldEqual(now);
+                StartupTask1.NumberOfTimesRan.ShouldEqual(1);
+            }
+            finally
+            {
+                CommonHelper.CurrentTime = prev;
+            }
         }
     }
 }

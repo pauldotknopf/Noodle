@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
+using Ninject;
 using Noodle.Configuration;
 using Noodle.Engine;
-using Noodle.TinyIoC;
 
 namespace Noodle
 {
@@ -17,12 +17,12 @@ namespace Noodle
         /// <summary>
         /// Return the singleton kernel element
         /// </summary>
-        public static TinyIoC.TinyIoCContainer Current
+        public static IKernel Current
         {
             get
             {
                 Configure(false);
-                return Singleton<TinyIoC.TinyIoCContainer>.Instance;
+                return Singleton<IKernel>.Instance;
             }
         }
         #endregion
@@ -31,25 +31,25 @@ namespace Noodle
         public static void Configure(bool force)
         {
             // If the kernel hasn't been created or the call is forcing a new one do something, otherwise, just exit
-            if (Singleton<TinyIoCContainer>.Instance == null || force)
+            if (Singleton<IKernel>.Instance == null || force)
             {
                 lock (ContainerCreationLockObject)
                 {
                     // someone may have waited for the lock, but it has been built for them, check one more time.
-                    if (Singleton<TinyIoCContainer>.Instance == null || force)
+                    if (Singleton<IKernel>.Instance == null || force)
                     {
-                        var kernel = new TinyIoCContainer();
+                        var kernel = new StandardKernel();
 
                         CoreDependencyRegistrar.Register(kernel);
-                        var configuration = kernel.Resolve<ConfigurationManagerWrapper>();
-                        var typeFinder = kernel.Resolve<ITypeFinder>();
+                        var configuration = kernel.Get<ConfigurationManagerWrapper>();
+                        var typeFinder = kernel.Get<ITypeFinder>();
 
                         // register everything!
                         RegisterAttributedServices(kernel);
                         RegisterDependencyRegistrar(typeFinder, kernel, configuration);
 
                         // set the kernel to the static accessor
-                        Singleton<TinyIoC.TinyIoCContainer>.Instance = kernel;
+                        Singleton<IKernel>.Instance = kernel;
 ;
                         // run all startup tasks
                         RunStartupTasks(kernel);
@@ -63,12 +63,12 @@ namespace Noodle
 
         public static T Resolve<T>() where T : class
         {
-            return Current.Resolve<T>();
+            return Current.Get<T>();
         }
 
         public static IEnumerable<T> ResolveAll<T>() where T : class
         {
-            return Current.ResolveAll<T>();
+            return Current.GetAll<T>();
         }
 
         public static object ResolveUnregistered(Type type)
@@ -85,7 +85,7 @@ namespace Noodle
 
         #region Private helpers
 
-        private static void RegisterDependencyRegistrar(ITypeFinder typeFinder, TinyIoC.TinyIoCContainer kernel, ConfigurationManagerWrapper configuration)
+        private static void RegisterDependencyRegistrar(ITypeFinder typeFinder, IKernel kernel, ConfigurationManagerWrapper configuration)
         {
             var dependencyRegistrarTypes = new List<IDependencyRegistrar>();
             foreach (var dependencyRegistrarType in typeFinder.Find<IDependencyRegistrar>())
@@ -114,20 +114,14 @@ namespace Noodle
             }
         }
 
-        public static void RunStartupTasks(TinyIoC.TinyIoCContainer kernel)
+        public static void RunStartupTasks(IKernel kernel)
         {
-            var services = kernel.GetServiceWithImplementationsOf<IStartupTask>();
-            var startUpTasks = services.Select(kernel.Resolve).Cast<IStartupTask>().ToList();
-
-            foreach (var startupTask in startUpTasks.OrderBy(x => x.Order))
-            {
-                startupTask.Execute();
-            }
+            // TODO
         }
 
-        private static void RegisterAttributedServices(TinyIoC.TinyIoCContainer kernel)
+        private static void RegisterAttributedServices(IKernel kernel)
         {
-            var serviceRegistrar = kernel.Resolve<ServiceRegistrator>();
+            var serviceRegistrar = kernel.Get<ServiceRegistrator>();
             serviceRegistrar.RegisterServices(kernel);
         }
 

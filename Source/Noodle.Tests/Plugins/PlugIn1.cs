@@ -1,3 +1,4 @@
+using Ninject;
 using Noodle.Plugins;
 using Noodle.Tests.Plugins;
 
@@ -9,7 +10,7 @@ namespace Noodle.Tests.Plugins
 	{
         public static bool WasInitialized { get; set; }
 
-        public void Initialize(TinyIoC.TinyIoCContainer kernel)
+        public void Initialize(IKernel kernel)
 		{
             WasInitialized = true;
 		}

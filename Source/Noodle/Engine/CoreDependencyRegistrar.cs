@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Configuration;
 using System.Web;
-using System.Web.ApplicationServices;
 using System.Web.Configuration;
+using Ninject;
 using Noodle.Caching;
 using Noodle.Configuration;
 using Noodle.Data;
-using Noodle.Data.Deploy;
 using Noodle.Email;
-using Noodle.Imaging;
 using Noodle.Plugins;
 using Noodle.Scheduling;
 using Noodle.Security;
 using Noodle.Serialization;
 using Noodle.Web;
-using Noodle.TinyIoC;
 
 namespace Noodle.Engine
 {
     public static class CoreDependencyRegistrar
     {
-        public static void Register(TinyIoC.TinyIoCContainer kernel)
+        public static void Register(IKernel kernel)
         {
             var configuration = new ConfigurationManagerWrapper();
             NoodleCoreConfiguration coreConfig = null;
@@ -41,45 +38,42 @@ namespace Noodle.Engine
             }
             if (WebConfigurationManager.ConnectionStrings != null)
             {
-                kernel.Register(WebConfigurationManager.ConnectionStrings);
-                kernel.Register(new AppSettings(WebConfigurationManager.AppSettings));
+                kernel.Bind<ConnectionStringSettingsCollection>().ToConstant(WebConfigurationManager.ConnectionStrings);
+                kernel.Bind<AppSettings>().ToConstant(new AppSettings(WebConfigurationManager.AppSettings));
             }
             else
             {
-                kernel.Register(ConfigurationManager.ConnectionStrings);
-                kernel.Register(new AppSettings(ConfigurationManager.AppSettings));
+                kernel.Bind<ConnectionStringSettingsCollection>().ToConstant(ConfigurationManager.ConnectionStrings);
+                kernel.Bind<AppSettings>().ToConstant(new AppSettings(ConfigurationManager.AppSettings));
             }
-            kernel.Register<IEmbeddedSchemaPlanner, EmbeddedSchemaPlanner>().AsSingleton();
-            kernel.Register(coreConfig);
-            kernel.Register(configuration);
-            kernel.Register<ServiceRegistrator>().AsSingleton();
-            kernel.Register<ITypeFinder,AppDomainTypeFinder>().AsSingleton();
-            kernel.Register<ISerializer, BinaryStringSerializer>().AsSingleton();
-            kernel.Register<IEncryptionService, EncryptionService>();
+            kernel.Bind<NoodleCoreConfiguration>().ToConstant(coreConfig);
+            kernel.Bind<ConfigurationManagerWrapper>().ToConstant(configuration);
+            kernel.Bind<ServiceRegistrator>().ToSelf().InSingletonScope();
+            kernel.Bind<ITypeFinder>().To<AppDomainTypeFinder>().InSingletonScope();
+            kernel.Bind<ISerializer>().To<BinaryStringSerializer>().InSingletonScope();
+            kernel.Bind<IEncryptionService>().To<EncryptionService>().InSingletonScope();
             // Adaptive cache will auto switch between http and in-memory cache
-            kernel.Register<ICacheManager, AdaptiveCache>().AsSingleton();
-            kernel.Register<IImageManipulator, ImageManipulator>().AsSingleton();
-            kernel.Register<IRequestContext, AdaptiveContext>().AsMultiInstance();
-            kernel.Register<IDateTimeHelper, DateTimeHelper>().AsSingleton();
-            kernel.Register<IDatabaseService, DatabaseService>().AsMultiInstance();
-            kernel.Register<IEmailSender, EmailSender>().AsSingleton();
-            kernel.Register<IPageTitleBuilder, PageTitleBuilder>().AsPerRequestSingleton();
-            kernel.Register<ISecurityManager, DefaultSecurityManager>().AsSingleton();
-            kernel.Register<IWorker, AsyncWorker>().AsSingleton();
-            kernel.Register<IPluginBootstrapper, PluginBootstrapper>().AsSingleton();
-            kernel.Register<IPluginFinder, PluginFinder>().AsSingleton();
-            kernel.Register<IHeart, Heart>().AsSingleton();
-            kernel.Register<IErrorNotifier, ErrorNotifier>().AsSingleton();
-            kernel.Register<IDeployService, DeployService>().AsSingleton();
-            kernel.Register<IConnectionProvider, ConnectionProvider>().AsSingleton();
-            kernel.Register((context, namedParams)=>
+            kernel.Bind<ICacheManager>().To<AdaptiveCache>().InSingletonScope();
+            kernel.Bind<IRequestContext>().To<AdaptiveContext>();//.InRequestScrope(); TODO
+            kernel.Bind<IDateTimeHelper>().To<DateTimeHelper>().InSingletonScope();
+            kernel.Bind<IDatabaseService>().To<DatabaseService>().InSingletonScope();
+            kernel.Bind<IEmailSender>().To<EmailSender>().InSingletonScope();
+            kernel.Bind<IPageTitleBuilder>().To<PageTitleBuilder>();//.InRequestScope TODO
+            kernel.Bind<ISecurityManager>().To<DefaultSecurityManager>().InSingletonScope();
+            kernel.Bind<IWorker>().To<AsyncWorker>().InSingletonScope();
+            kernel.Bind<IPluginBootstrapper>().To<PluginBootstrapper>().InSingletonScope();
+            kernel.Bind<IPluginFinder>().To<PluginFinder>().InSingletonScope();
+            kernel.Bind<IHeart>().To<Heart>().InSingletonScope();
+            kernel.Bind<IErrorNotifier>().To<ErrorNotifier>().InSingletonScope();
+            kernel.Bind<IConnectionProvider>().To<ConnectionProvider>().InSingletonScope();
+            kernel.Bind<IWebHelper>().ToMethod(context =>
             {
                 if (HttpContext.Current == null)
                     throw new InvalidOperationException(
                         "IWebHelper is attempting to be activated by there is no web context (HttpContext.Current == null).");
-                return new WebHelper(context.Resolve<IRequestContext>()) as IWebHelper;
+                return new WebHelper(context.Kernel.Get<IRequestContext>());
             });
-            kernel.Register((context, namedParams) =>
+            kernel.Bind<HttpContextWrapper>().ToMethod(context =>
             {
                 if (HttpContext.Current == null)
                     throw new InvalidOperationException(

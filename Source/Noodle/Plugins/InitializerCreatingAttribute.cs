@@ -1,4 +1,5 @@
 using System;
+using Ninject;
 
 namespace Noodle.Plugins
 {
@@ -15,7 +16,7 @@ namespace Noodle.Plugins
 
 	    public Type InitializerType { get; set; }
 
-	    public virtual void Initialize(TinyIoC.TinyIoCContainer kernel)
+	    public virtual void Initialize(IKernel kernel)
 		{
 			if (InitializerType == null) throw new ArgumentNullException("InitializerType");
 

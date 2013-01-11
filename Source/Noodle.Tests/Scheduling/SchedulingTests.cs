@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Ninject;
 using Noodle.Configuration;
 using Noodle.Engine;
 using Noodle.Plugins;
@@ -76,9 +77,15 @@ namespace Noodle.Tests.Scheduling
             var prev = CommonHelper.CurrentTime;
             try
             {
+                var lastExecuted = repeat.LastExecuted;
                 _heart.Raise(x => x.Beat += null, new EventArgs());
-                CommonHelper.CurrentTime = () => DateTime.UtcNow.AddSeconds(50);
+                lastExecuted = repeat.LastExecuted;
+
+                CommonHelper.CurrentTime = () => DateTime.UtcNow.AddSeconds(50).ToUniversalTime();
+
+                lastExecuted = repeat.LastExecuted;
                 _heart.Raise(x => x.Beat += null, new EventArgs());
+                lastExecuted = repeat.LastExecuted;
             }
             finally
             {
@@ -115,7 +122,7 @@ namespace Noodle.Tests.Scheduling
             var once = SelectThe<OnceAction>();
             var repeat = SelectThe<RepeatAction>();
 
-            Singleton<TinyIoC.TinyIoCContainer>.Instance = new TinyIoC.TinyIoCContainer();
+            Singleton<IKernel>.Instance = new StandardKernel();
 
             _heart.Raise(x => x.Beat += null, new EventArgs());
 

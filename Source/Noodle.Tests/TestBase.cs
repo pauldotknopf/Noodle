@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ninject;
 using Noodle.Caching;
 using Noodle.Configuration;
 using Noodle.Engine;
-using Noodle.TinyIoC;
 
 namespace Noodle.Tests
 {
@@ -20,19 +20,19 @@ namespace Noodle.Tests
         {
         }
 
-        public virtual TinyIoC.TinyIoCContainer GetTestKernel(params IDependencyRegistrar[] dependencyRegistrars)
+        public virtual IKernel GetTestKernel(params IDependencyRegistrar[] dependencyRegistrars)
         {
-            var kernel = new TinyIoCContainer();
+            var kernel = new StandardKernel();
             CoreDependencyRegistrar.Register(kernel);
-            var configuration = kernel.Resolve<ConfigurationManagerWrapper>();
-            var typeFinder = kernel.Resolve<ITypeFinder>();
+            var configuration = kernel.Get<ConfigurationManagerWrapper>();
+            var typeFinder = kernel.Get<ITypeFinder>();
 
             foreach (var dependencyRegistrar in dependencyRegistrars.OrderBy(x => x.Importance))
             {
                 dependencyRegistrar.Register(kernel, typeFinder, configuration);
             }
 
-            kernel.Register<ICacheManager, NullCache>();
+            kernel.Bind<ICacheManager>().To<NullCache>();
             return kernel;
         }
     }

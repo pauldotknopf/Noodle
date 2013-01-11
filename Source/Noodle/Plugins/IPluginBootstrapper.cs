@@ -1,4 +1,6 @@
 
+using Ninject;
+
 namespace Noodle.Plugins
 {
 	/// <summary>
@@ -6,6 +8,6 @@ namespace Noodle.Plugins
 	/// </summary>
 	public interface IPluginBootstrapper
 	{
-		void InitializePlugins(TinyIoC.TinyIoCContainer kernel);
+        void InitializePlugins(IKernel kernel);
 	}
 }

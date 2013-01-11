@@ -1,4 +1,5 @@
-﻿using Noodle.Configuration;
+﻿using Ninject;
+using Noodle.Configuration;
 
 namespace Noodle.Engine
 {
@@ -10,7 +11,7 @@ namespace Noodle.Engine
         /// <summary>
         /// Register your services with the kernel. You are given a type finder to help you find anything you need.
         /// </summary>
-        void Register(TinyIoC.TinyIoCContainer kernel, ITypeFinder typeFinder, ConfigurationManagerWrapper configuration);
+        void Register(IKernel kernel, ITypeFinder typeFinder, ConfigurationManagerWrapper configuration);
 
         /// <summary>
         /// The lower numbers will be registered first. Higher numbers the latest.

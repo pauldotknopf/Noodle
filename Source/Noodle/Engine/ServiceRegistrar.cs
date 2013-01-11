@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Noodle.TinyIoC;
+using Ninject;
+using Ninject.Syntax;
 
 namespace Noodle.Engine
 {
@@ -30,7 +31,7 @@ namespace Noodle.Engine
             }
         }
 
-        public virtual void RegisterServices(TinyIoC.TinyIoCContainer kernel)
+        public virtual void RegisterServices(IKernel kernel)
         {
             var allServices = FindServices().ToList();
             var replacementServices = allServices.Where(s => s.Attribute.Replaces != null).Select(s => s.Attribute.Replaces).ToList();
@@ -38,9 +39,10 @@ namespace Noodle.Engine
             {
                 Type serviceType = info.Attribute.ServiceType ?? info.DecoratedType;
                 string key = info.Attribute.Key ?? info.DecoratedType.FullName;
+                IBindingWhenInNamedWithOrOnSyntax<object> binding;
                 if (string.IsNullOrEmpty(info.Attribute.StaticAccessor))
                 {
-                    ConfigureScope(kernel.Register(serviceType, info.DecoratedType, key), info.Attribute.ContainerScope);
+                    binding = kernel.Bind(serviceType).To(info.DecoratedType);
                 }
                 else
                 {
@@ -49,28 +51,29 @@ namespace Noodle.Engine
                     var instance = pi.GetValue(null, null);
                     if (instance == null) new InvalidOperationException("[Service(StaticAccessor = \"" + info.Attribute.StaticAccessor + "\")] on " + info.DecoratedType + " defines a property that returned null. Make sure this static property returns a value.");
                     if (!serviceType.IsInstanceOfType(instance)) new InvalidOperationException("[Service(StaticAccessor = \"" + info.Attribute.StaticAccessor + "\")] on " + info.DecoratedType + " defines a property that returned an invalid type. The returned object must be assignable to " + serviceType);
-                    kernel.Register(serviceType, instance, key);
+                    binding = kernel.Bind(serviceType).ToConstant(instance);
                 }
-                
+                ConfigureScope(binding, info.Attribute.ContainerScope);
             }
         }
 
-        private void ConfigureScope(TinyIoCContainer.RegisterOptions binding, ContainerScopeEnum scope)
+        private void ConfigureScope(IBindingWhenInNamedWithOrOnSyntax<object> binding, ContainerScopeEnum scope)
         {
             switch(scope)
             {
                 case ContainerScopeEnum.PerRequest:
-                    binding.AsPerRequestSingleton();
+                    // TODO
+                    //binding.InRequestScope();
                     break;
                 case ContainerScopeEnum.Singleton:
-                    binding.AsSingleton();
+                    binding.InSingletonScope();
                     break;
                 case ContainerScopeEnum.Thread:
                     // todo
-                    //binding.AsPerThreadSingleton();
+                    binding.InThreadScope();
                     break;
                 case ContainerScopeEnum.Transient:
-                    binding.AsMultiInstance();
+                    binding.InTransientScope();
                     break;
             }
         }

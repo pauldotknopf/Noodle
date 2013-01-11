@@ -1,3 +1,4 @@
+using Ninject;
 
 namespace Noodle.Plugins
 {
@@ -7,6 +8,6 @@ namespace Noodle.Plugins
 	{
 		/// <summary>Invoked after the factory has been initialized.</summary>
 		/// <param name="kernel">The kernel that has been initialized.</param>
-		void Initialize(TinyIoC.TinyIoCContainer kernel);
+		void Initialize(IKernel kernel);
 	}
 }
