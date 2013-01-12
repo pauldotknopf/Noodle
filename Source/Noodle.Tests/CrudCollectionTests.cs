@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Noodle.Collections;
 
 namespace Noodle.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class CrudCollectionTests
     {
-        [TestMethod]
+        [Test]
         public void Can_delete()
         {
             var existingItems = new List<string> {"Value1", "Value2"};
@@ -31,7 +31,7 @@ namespace Noodle.Tests
             Assert.AreEqual("Value2", delete[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_update()
         {
             var existingItems = new List<string> { "Value1" };
@@ -54,7 +54,7 @@ namespace Noodle.Tests
             Assert.AreEqual("Value1", update[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_create()
         {
             var existingItems = new List<string> { "Value1" };

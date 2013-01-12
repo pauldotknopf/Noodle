@@ -5,19 +5,19 @@ namespace Noodle
     /// <summary>
     /// Base class for entities
     /// </summary>
-    public abstract partial class BaseEntity
+    public abstract partial class BaseEntity<T>
     {
         /// <summary>
         /// Gets or sets the entity identifier
         /// </summary>
-        public virtual int Id { get; set; }
+        public virtual T Id { get; set; }
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as BaseEntity);
+            return Equals(obj as BaseEntity<T>);
         }
 
-        private static bool IsTransient(BaseEntity obj)
+        private static bool IsTransient(BaseEntity<T> obj)
         {
             return obj != null && Equals(obj.Id, default(int));
         }
@@ -27,7 +27,7 @@ namespace Noodle
             return GetType();
         }
 
-        public virtual bool Equals(BaseEntity other)
+        public virtual bool Equals(BaseEntity<T> other)
         {
             if (other == null)
                 return false;
@@ -54,6 +54,10 @@ namespace Noodle
                 return base.GetHashCode();
             return Id.GetHashCode();
         }
+    }
 
+    public abstract partial class BaseEntity : BaseEntity<int>
+    {
+        
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Ninject;
 using Noodle.Caching;
 using Noodle.Configuration;
@@ -7,15 +7,15 @@ using Noodle.Engine;
 
 namespace Noodle.Tests
 {
-    [TestClass]
+    [TestFixture]
     public abstract class TestBase
     {
-        [TestInitialize]
+        [SetUp]
         public virtual void SetUp()
         {
         }
 
-        [TestCleanup]
+        [SetUp]
         public virtual void TearDown()
         {
         }
@@ -32,7 +32,7 @@ namespace Noodle.Tests
                 dependencyRegistrar.Register(kernel, typeFinder, configuration);
             }
 
-            kernel.Bind<ICacheManager>().To<NullCache>();
+            kernel.Rebind<ICacheManager>().To<NullCache>();
             return kernel;
         }
     }

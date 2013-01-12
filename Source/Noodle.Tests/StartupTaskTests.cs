@@ -1,12 +1,12 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Ninject;
 using Ninject.Planning.Bindings.Resolvers;
 using Noodle.Engine;
 
 namespace Noodle.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class StartupTaskTests
     {
         public class StartupTask1 : IStartupTask
@@ -26,7 +26,7 @@ namespace Noodle.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Can_startup()
         {
             var prev = CommonHelper.CurrentTime;

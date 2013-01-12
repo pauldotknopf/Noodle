@@ -38,25 +38,16 @@ namespace Noodle.Data
             try
             {
                 var command = connection.CreateCommand();
-
-                if (_connectionProvider.CanOpenClose)
-                    connection.Open();
-
+                connection.Open();
                 result = query(command);
-
-                if (_connectionProvider.CanOpenClose)
-                    connection.Close();
-
+                connection.Close();
             }
             finally
             {
-                if(_connectionProvider.CanOpenClose)
+                if(connection != null)
                 {
-                    if(connection != null)
-                    {
-                        connection.Close();
-                        connection.Dispose();
-                    }
+                    connection.Close();
+                    connection.Dispose();
                 }
             }
 

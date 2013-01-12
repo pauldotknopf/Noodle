@@ -1,10 +1,10 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Noodle.Serialization;
 
 namespace Noodle.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class SerializationTests
     {
         ISerializer _serializer = null;
@@ -14,7 +14,7 @@ namespace Noodle.Tests
             _serializer = new BinaryStringSerializer();
         }
 
-        [TestMethod]
+        [Test]
         public void Can_serialize()
         {
             var testDate = DateTime.Now;

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿
+using NUnit.Framework;
 
 namespace Noodle.Tests
 {
@@ -24,7 +25,7 @@ namespace Noodle.Tests
 
         public static void ShouldBe<T>(this object actual)
         {
-            Assert.IsInstanceOfType(actual, typeof(T));
+            Assert.IsInstanceOf<T>(actual);
         }
 
         public static void ShouldBeNull(this object actual)

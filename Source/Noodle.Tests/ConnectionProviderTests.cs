@@ -1,20 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using NUnit.Framework;
 using Ninject;
 using Noodle.Configuration;
 using Noodle.Data;
 
 namespace Noodle.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class ConnectionProviderTests : TestBase
     {
-        private List<ConnectionStringElement> _connectionStringPointers = new List<ConnectionStringElement>();
-        private ConnectionStringSettingsCollection _connectionStrings = new ConnectionStringSettingsCollection();
+        private List<ConnectionStringElement> _connectionStringPointers;
+        private ConnectionStringSettingsCollection _connectionStrings;
 
-        [TestMethod]
+        
+        public override void SetUp()
+        {
+            base.SetUp();
+
+            _connectionStringPointers = new List<ConnectionStringElement>();
+            _connectionStrings = new ConnectionStringSettingsCollection();
+        }
+
+        [Test]
         public void Connection_providers_throws_error_for_named_connections()
         {
             // setup
@@ -41,7 +50,7 @@ namespace Noodle.Tests
             connectionProvider.GetDbConnection("testName", true).ShouldNotBeNull();
         }
 
-        [TestMethod]
+        [Test]
         public void Can_resolve_default_connection()
         {
             // setup
@@ -62,7 +71,7 @@ namespace Noodle.Tests
             connectionProvider.GetDbConnection().ConnectionString.ShouldEqual("server=overhere");
         }
 
-        [TestMethod]
+        [Test]
         public void Can_resolve_connections()
         {
             // setup

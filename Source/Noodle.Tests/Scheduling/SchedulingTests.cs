@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using NUnit.Framework;
 using Ninject;
 using Noodle.Configuration;
 using Noodle.Engine;
@@ -12,14 +12,14 @@ using Noodle.Web;
 
 namespace Noodle.Tests.Scheduling
 {
-    [TestClass]
+    [TestFixture]
     public class SchedulingTests : TestBase
     {
         Scheduler _scheduler;
         IErrorNotifier _errorHandler;
         Mock<IHeart> _heart;
 
-        [TestInitialize]
+        [SetUp]
         public override void SetUp()
         {
             base.SetUp();
@@ -46,7 +46,7 @@ namespace Noodle.Tests.Scheduling
             _scheduler.Execute();
         }
 
-        [TestMethod]
+        [Test]
         public void CanRunOnce()
         {
             var once = SelectThe<OnceAction>();
@@ -58,7 +58,7 @@ namespace Noodle.Tests.Scheduling
             repeat.executions.ShouldEqual(1);
         }
 
-        [TestMethod]
+        [Test]
         public void OnceActionIsRemovedAfterRunningOnce()
         {
             var once = SelectThe<OnceAction>();
@@ -69,7 +69,7 @@ namespace Noodle.Tests.Scheduling
             _scheduler.Actions.Contains(once).ShouldEqual(false);
         }
 
-        [TestMethod]
+        [Test]
         public void RepeatActionIsNotExecutedBeforeTimeElapsed()
         {
             var repeat = SelectThe<RepeatAction>();
@@ -94,7 +94,7 @@ namespace Noodle.Tests.Scheduling
             repeat.executions.ShouldEqual(1);
         }
 
-        [TestMethod]
+        [Test]
         public void RepeatActionIsExecutedAfterTimeElapsed()
         {
             var repeat = SelectThe<RepeatAction>();
@@ -114,7 +114,7 @@ namespace Noodle.Tests.Scheduling
             }
         }
 
-        [TestMethod]
+        [Test]
         public void WillCatchErrorsAndContinueExecutionOfOtherActions()
         {
             var ex = new NullReferenceException("Bad bad");
@@ -130,7 +130,7 @@ namespace Noodle.Tests.Scheduling
             repeat.executions.ShouldEqual(1);
         }
 
-        [TestMethod]
+        [Test]
         public void Action_withIClosable_interface_are_disposed()
         {
             var action = new ClosableAction();

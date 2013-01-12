@@ -5,6 +5,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Tests", "Source\Nood
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle", "Source\Noodle\Noodle.csproj", "{944FEC3D-A47F-4C92-92AC-81B3420C1CAA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{A91A0276-893B-4F56-964D-B3DA6D2CCC15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Settings", "Source\Modules\Noodle.Settings\Noodle.Settings.csproj", "{87D9517A-5C51-4FFB-A7B5-04CE388788D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Settings.Tests", "Source\Modules\Noodle.Settings.Tests\Noodle.Settings.Tests.csproj", "{DBD71993-70E3-4B67-9D53-D1F221D13A7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.MongoDB", "Source\Noodle.MongoDB\Noodle.MongoDB.csproj", "{7B5EA470-E66D-4CE5-8D48-6D4AD89EC62D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,8 +27,24 @@ Global
 		{944FEC3D-A47F-4C92-92AC-81B3420C1CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{944FEC3D-A47F-4C92-92AC-81B3420C1CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{944FEC3D-A47F-4C92-92AC-81B3420C1CAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87D9517A-5C51-4FFB-A7B5-04CE388788D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87D9517A-5C51-4FFB-A7B5-04CE388788D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87D9517A-5C51-4FFB-A7B5-04CE388788D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87D9517A-5C51-4FFB-A7B5-04CE388788D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBD71993-70E3-4B67-9D53-D1F221D13A7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBD71993-70E3-4B67-9D53-D1F221D13A7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBD71993-70E3-4B67-9D53-D1F221D13A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBD71993-70E3-4B67-9D53-D1F221D13A7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B5EA470-E66D-4CE5-8D48-6D4AD89EC62D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B5EA470-E66D-4CE5-8D48-6D4AD89EC62D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B5EA470-E66D-4CE5-8D48-6D4AD89EC62D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B5EA470-E66D-4CE5-8D48-6D4AD89EC62D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{87D9517A-5C51-4FFB-A7B5-04CE388788D9} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
+		{DBD71993-70E3-4B67-9D53-D1F221D13A7A} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
 	EndGlobalSection
 EndGlobal

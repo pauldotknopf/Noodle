@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Noodle.Tests
 {
@@ -44,7 +44,7 @@ namespace Noodle.Tests
             }
             catch (TargetInvocationException ex)
             {
-                Assert.IsInstanceOfType(ex, typeof (T));
+                Assert.IsInstanceOf<T>(ex);
             }
             catch (T ex)
             {
@@ -72,17 +72,17 @@ namespace Noodle.Tests
             }
             catch (Exception ex)
             {
-                Assert.IsInstanceOfType(ex.InnerException, typeof (T));
+                Assert.IsInstanceOf<T>(ex);
                 return;
             }
             Assert.Fail("Expected exception '" + typeof(T).FullName + "' wasn't thrown.");
         }
     }
 
-    [TestClass]
+    [TestFixture]
     public class ExceptionAssertTests
     {
-        [TestMethod]
+        [Test]
         public void Passes_on_exception_thrown()
         {
             ExceptionAssert.Throws(
@@ -92,7 +92,7 @@ namespace Noodle.Tests
                 throw new ArgumentException("catch me");
             });
         }
-        [TestMethod]
+        [Test]
         public void Returns_the_exception()
         {
             Exception ex = ExceptionAssert.Throws(
@@ -104,7 +104,7 @@ namespace Noodle.Tests
             Assert.AreEqual("return me", ex.Message);
         }
 
-        [TestMethod]
+        [Test]
         public void Passes_on_exception_thrown_generic()
         {
             ExceptionAssert.Throws<ArgumentException>(
@@ -113,7 +113,7 @@ namespace Noodle.Tests
                 throw new ArgumentException("catch me");
             });
         }
-        [TestMethod]
+        [Test]
         public void Returns_the_exception_generic()
         {
             ArgumentException ex = ExceptionAssert.Throws<ArgumentException>(

@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace Noodle.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class StringTests
     {
-        [TestMethod]
+        [Test]
         public void IsNullOrWhiteSpace()
         {
             " ".IsNullOrWhiteSpace().ShouldBeTrue();

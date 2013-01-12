@@ -57,6 +57,9 @@
     <Reference Include="Ninject">
       <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -70,15 +73,12 @@
         <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
       </ItemGroup>
     </When>
-    <Otherwise>
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
-      </ItemGroup>
-    </Otherwise>
+    <Otherwise />
   </Choose>
   <ItemGroup>
     <Compile Include="ConnectionProviderTests.cs" />
     <Compile Include="CrudCollectionTests.cs" />
+    <Compile Include="DataTestBase.cs" />
     <Compile Include="DateTimeAssert.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="FakeIdentity.cs" />
@@ -107,6 +107,10 @@
     <Compile Include="Web\UrlTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Noodle.MongoDB\Noodle.MongoDB.csproj">
+      <Project>{7b5ea470-e66d-4ce5-8d48-6d4ad89ec62d}</Project>
+      <Name>Noodle.MongoDB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Noodle\Noodle.csproj">
       <Project>{944fec3d-a47f-4c92-92ac-81b3420c1caa}</Project>
       <Name>Noodle</Name>

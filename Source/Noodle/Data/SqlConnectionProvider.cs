@@ -34,17 +34,13 @@ namespace Noodle.Data
         {
             return GetDbConnection();
         }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance can open close.
-        /// </summary>
-        /// <remarks></remarks>
-        public bool CanOpenClose
+        public string GetConnectionString()
         {
-            get
-            {
-                return true;
-            }
+            return _connectionString;
+        }
+        public string GetConnectionString(string name, bool throwErrorIfMissing = false)
+        {
+            return _connectionString;
         }
     }
 }

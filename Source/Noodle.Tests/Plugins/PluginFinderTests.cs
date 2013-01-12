@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Ninject;
 using Noodle.Configuration;
 using Noodle.Engine;
@@ -49,7 +49,7 @@ namespace Noodle.Tests.Plugins
     {
     }
 
-    [TestClass]
+    [TestFixture]
     public class PluginFinderTests
     {
         readonly PluginFinder _finder;
@@ -62,14 +62,14 @@ namespace Noodle.Tests.Plugins
             _finder = new PluginFinder(new AppDomainTypeFinder(), edit, kernel);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_plugins()
         {
             var plugins = _finder.GetPlugins<TestPluginAttribute>();
             plugins.Count().ShouldEqual(4);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_sort_plugins()
         {
             var plugins = _finder.GetPlugins<TestPluginAttribute>().ToList();
@@ -81,7 +81,7 @@ namespace Noodle.Tests.Plugins
             plugins[3].Name.ShouldEqual("Plugin 4");
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_securable_plugins_hidden_for_anonymous()
         {
             var plugins = _finder.GetPlugins<TestPluginAttribute>(new FakePrincipal(false)).ToList();
@@ -91,7 +91,7 @@ namespace Noodle.Tests.Plugins
             plugins[1].Name.ShouldEqual("Plugin 1");
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_securable_plugins_hidden_for_registered()
         {
             var plugins = _finder.GetPlugins<TestPluginAttribute>(new FakePrincipal(true)).ToList();
@@ -101,7 +101,7 @@ namespace Noodle.Tests.Plugins
             plugins[1].Name.ShouldEqual("Plugin 1");
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_securable_plugins_hidden_for_registered_with_permission()
         {
             var plugins = _finder.GetPlugins<TestPluginAttribute>(new FakePrincipal(true, permissions: new[] { "Edit" })).ToList();
@@ -113,7 +113,7 @@ namespace Noodle.Tests.Plugins
             plugins[2].Name.ShouldEqual("Plugin 4");
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_securable_plugins_hidden_for_registered_with_role()
         {
             var plugins = _finder.GetPlugins<TestPluginAttribute>(new FakePrincipal(true, roles: new[] { "Admin" })).ToList();
@@ -126,7 +126,7 @@ namespace Noodle.Tests.Plugins
         }
 
 
-        [TestMethod]
+        [Test]
         public void Can_remove_plugins_through_configuration()
         {
             int initialCount = _finder.GetPlugins<TestPluginAttribute>().Count();

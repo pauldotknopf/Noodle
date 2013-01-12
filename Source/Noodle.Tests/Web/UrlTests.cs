@@ -1,12 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Noodle.Web;
 
 namespace Noodle.Tests.Web
 {
-    [TestClass]
+    [TestFixture]
     public class UrlTests
     {
-        [TestMethod]
+        [Test]
         public void CanConstruct_HomePath()
         {
             Url u = new Url("/");
@@ -14,7 +14,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void EmptyUrl()
         {
             Url u = new Url("");
@@ -22,7 +22,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void NullUrl()
         {
             Url u = new Url((string)null);
@@ -30,7 +30,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanConstruct_AbsoluteLocalPath()
         {
             Url u = new Url("/hello.aspx");
@@ -38,7 +38,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanConstruct_AbsoluteLocalPath_WithQuery()
         {
             Url u = new Url("/hello.aspx?something=someotherthing");
@@ -47,7 +47,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.aspx?something=someotherthing", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanConstruct_AbsoluteLocalPath_WithFragment()
         {
             Url u = new Url("/hello.aspx#somebookmark");
@@ -56,7 +56,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.aspx#somebookmark", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanConstruct_AbsoluteLocalPath_WithQuery_AndFragment()
         {
             Url u = new Url("/hello.aspx?something=someotherthing#somebookmark");
@@ -66,7 +66,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.aspx?something=someotherthing#somebookmark", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanConstruct_FromHostName()
         {
             Url u = new Url("http://somesite/");
@@ -75,7 +75,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://somesite/", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanConstruct_FromHostName_WithoutTrailingSlash()
         {
             Url u = new Url("http://somesite");
@@ -85,7 +85,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://somesite/", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanConstruct_FromHostName_WithPort()
         {
             Url u = new Url("http://somesite:8080/");
@@ -94,7 +94,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://somesite:8080/", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanConstruct_FromHostName_WithPath()
         {
             Url u = new Url("http://somesite/some/path");
@@ -104,7 +104,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://somesite/some/path", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanConstruct_FromHostName_WithPath_AndQuery()
         {
             Url u = new Url("http://somesite/some/path?key=value");
@@ -115,7 +115,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://somesite/some/path?key=value", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanConstruct_FromHostName_WithPath_AndFragment()
         {
             Url u = new Url("http://somesite/some/path#somebookmark");
@@ -126,7 +126,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://somesite/some/path#somebookmark", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanConstruct_FromHostName_WithPath_AndQuery_AndFragment()
         {
             Url u = new Url("http://somesite/some/path?key=value#bookmark");
@@ -138,7 +138,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://somesite/some/path?key=value#bookmark", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanImplicitlyConvert_FromString()
         {
             Url u = "http://somesite/some/path?key=value#bookmark";
@@ -149,7 +149,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("bookmark", u.Fragment);
         }
 
-        [TestMethod]
+        [Test]
         public void CanImplicitlyConvert_ToString()
         {
             Url u = "http://somesite/some/path?key=value#bookmark";
@@ -157,7 +157,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://somesite/some/path?key=value#bookmark", url);
         }
 
-        [TestMethod]
+        [Test]
         public void CanConstruct_RelativePath()
         {
             Url u = "../Default.aspx?key=value#bookmark";
@@ -166,14 +166,14 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("bookmark", u.Fragment);
         }
 
-        [TestMethod]
+        [Test]
         public void CanAppend_KeyAndValue_ToEmpyQueryString()
         {
             Url u = "/";
             u = u.AppendQuery("key", "value");
             Assert.AreEqual("key=value", u.Query);
         }
-        [TestMethod]
+        [Test]
         public void CanAppend_KeyValuePair_ToEmptyQueryString()
         {
             Url u = "/";
@@ -181,14 +181,14 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("key=value", u.Query);
         }
 
-        [TestMethod]
+        [Test]
         public void CanAppend_KeyAndValue_ToExistingQueryString()
         {
             Url u = "/?somekey=somevalue";
             u = u.AppendQuery("key", "value");
             Assert.AreEqual("somekey=somevalue&key=value", u.Query);
         }
-        [TestMethod]
+        [Test]
         public void CanAppend_KeyValuePair_ToExistingQueryString()
         {
             Url u = "/?somekey=somevalue";
@@ -196,7 +196,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("somekey=somevalue&key=value", u.Query);
         }
 
-        [TestMethod]
+        [Test]
         public void CanSet_KeyAndValue_ToEmptyQueryString()
         {
             Url u = "/";
@@ -204,7 +204,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("key=value", u.Query);
         }
 
-        [TestMethod]
+        [Test]
         public void CanSet_KeyValuePair_ToEmptyQueryString()
         {
             Url u = "/";
@@ -212,14 +212,14 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("key=value", u.Query);
         }
 
-        [TestMethod]
+        [Test]
         public void CanSet_KeyAndValue_ToExistingQueryString()
         {
             Url u = "/?somekey=somevalue";
             u = u.SetQueryParameter("key", "value");
             Assert.AreEqual("somekey=somevalue&key=value", u.Query);
         }
-        [TestMethod]
+        [Test]
         public void CanSet_KeyValuePair_ToExistingQueryString()
         {
             Url u = "/?somekey=somevalue";
@@ -227,14 +227,14 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("somekey=somevalue&key=value", u.Query);
         }
 
-        [TestMethod]
+        [Test]
         public void CanReplaceValue_OnExistingQueryString_UsingKeyAndValue()
         {
             Url u = "/?key=somevalue";
             u = u.SetQueryParameter("key", "someothervalue");
             Assert.AreEqual("key=someothervalue", u.Query);
         }
-        [TestMethod]
+        [Test]
         public void CanReplaceValue_OnExistingQueryString_UsingKeyValuePair()
         {
             Url u = "/?key=somevalue";
@@ -242,7 +242,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("key=someothervalue", u.Query);
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemoveValue_UsingKeyAndValue()
         {
             Url u = "/";
@@ -250,7 +250,7 @@ namespace Noodle.Tests.Web
             Assert.IsNull(u.Query);
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemoveQuery()
         {
             Url u = "/?key=value&key2=value2";
@@ -258,7 +258,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/?key2=value2", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemoveQuery2()
         {
             Url u = "/?key=value&key2=value2";
@@ -266,7 +266,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/?key=value", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemoveValue_OnExistingQueryString_UsingKeyAndValue()
         {
             Url u = "/?key=somevalue";
@@ -274,7 +274,7 @@ namespace Noodle.Tests.Web
             Assert.IsNull(u.Query);
         }
 
-        [TestMethod]
+        [Test]
         public void AppendedValue_IsUrlEncoded()
         {
             Url u = "/";
@@ -282,7 +282,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("key=cristian+%26+maria", u.Query);
         }
 
-        [TestMethod]
+        [Test]
         public void SetValue_IsUrlEncoded()
         {
             Url u = "/key=sometihng";
@@ -290,7 +290,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("key=cristian+%26+maria", u.Query);
         }
 
-        [TestMethod]
+        [Test]
         public void CanSetScheme()
         {
             Url u = "http://n2cms.com/test.aspx?key=value";
@@ -298,7 +298,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("https://n2cms.com/test.aspx?key=value", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanSetAuthority()
         {
             Url u = "http://n2cms.com/test.aspx?key=value";
@@ -306,7 +306,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com:8080/test.aspx?key=value", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanSetPath()
         {
             Url u = "http://n2cms.com/test.aspx?key=value";
@@ -314,7 +314,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test2.aspx?key=value", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanSetQuery()
         {
             Url u = "http://n2cms.com/test.aspx?key=value";
@@ -322,7 +322,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test.aspx?key2=value2", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanSetFragment()
         {
             Url u = "http://n2cms.com/test.aspx?key=value#fragment";
@@ -330,7 +330,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test.aspx?key=value#fragment2", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanAppendSegment()
         {
             Url u = "http://n2cms.com/test.aspx?key=value";
@@ -338,7 +338,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test/test2.aspx?key=value", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanAppendSegment_ToEmptyPath()
         {
             Url u = "http://n2cms.com";
@@ -346,7 +346,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test2.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanAppendSegment_UsingDefaultExtension_ToPathWithNoExtension()
         {
             Url u = "http://n2cms.com/path";
@@ -354,7 +354,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/path/test2.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanAppendSegment_UsingDefaultExtension_ToPathWithTrailingSlash()
         {
             Url u = "http://n2cms.com/path/";
@@ -362,21 +362,21 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/path/test2.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void Extension_WillNotCrossSegments()
         {
             Url u = "/hello.world/universe";
             Assert.IsNull(u.Extension);
         }
 
-        [TestMethod]
+        [Test]
         public void PathWithoutExtension_WillNotCrossSegments()
         {
             Url u = "/hello.world/universe";
             Assert.AreEqual("/hello.world/universe", u.PathWithoutExtension);
         }
 
-        [TestMethod]
+        [Test]
         public void CanAppendSegment_UsingDefaultExtension_ToEmptyPath()
         {
             Url u = "http://n2cms.com";
@@ -384,7 +384,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test2.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanAppendSegment_ToPathWithoutExtension()
         {
             Url u = "http://n2cms.com/wiki";
@@ -392,7 +392,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/wiki/test", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanAppendSegment_ToPathWithTrailingSlash()
         {
             Url u = "http://n2cms.com/wiki/";
@@ -400,7 +400,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/wiki/test", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanPrependSegment_ToEmptyPath()
         {
             Url u = "http://n2cms.com";
@@ -408,7 +408,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test2.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanPrependSegment_ToSimplePath()
         {
             Url u = "http://n2cms.com/test.aspx";
@@ -416,7 +416,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test2/test.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanControlExtension_WhilePrependingPath_ToEmptyPath()
         {
             Url u = "http://n2cms.com/";
@@ -424,7 +424,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test.html", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanControlExtension_WhilePrependingPath()
         {
             Url u = "http://n2cms.com/test.aspx";
@@ -432,7 +432,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test2/test.html", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void WillNotUse_DefaultExtension_WhenAppendingSegment_ToPathWithNoExtension()
         {
             Url u = "http://n2cms.com/test";
@@ -440,7 +440,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test/test2", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void WillUse_UrlExtension_WhenAppendingSegment()
         {
             Url u = "http://n2cms.com/test.html";
@@ -448,7 +448,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test/test2.html", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanAppendSegment_WithoutUsingDefaultExtension()
         {
             Url u = "http://n2cms.com/hello";
@@ -456,7 +456,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/hello/test2", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_TrailingSegment()
         {
             Url u = "/hello/world";
@@ -466,7 +466,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_TrailingSegment_WhenTrailingSlash()
         {
             Url u = "/hello/world/";
@@ -476,7 +476,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_TrailingSegment_WhenFileExtension()
         {
             Url u = "/hello/world.aspx";
@@ -486,7 +486,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_TrailingSegment_WhenSingleSegment()
         {
             Url u = "/hello";
@@ -496,7 +496,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_TrailingSegment_WhenSingleSegment_AndTrailingSlash()
         {
             Url u = "/hello/";
@@ -506,7 +506,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_TrailingSegment_WhenSingleSegment_AndExtension()
         {
             Url u = "/hello.aspx";
@@ -542,7 +542,7 @@ namespace Noodle.Tests.Web
         //    Assert.That(result, Is.EqualTo(expected));
         //}
 
-        [TestMethod]
+        [Test]
         public void CanRemove_SegmentIndex0()
         {
             Url u = "/hello/whole/world";
@@ -552,7 +552,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/whole/world", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_SegmentIndex0_WhenTrailingSlash()
         {
             Url u = "/hello/whole/world/";
@@ -562,7 +562,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/whole/world/", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_SegmentIndex0_WhenFileExtension()
         {
             Url u = "/hello/whole/world.aspx";
@@ -572,7 +572,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/whole/world.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_SegmentIndex1()
         {
             Url u = "/hello/whole/world";
@@ -582,7 +582,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello/world", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_SegmentIndex1_WhenTrailingSlash()
         {
             Url u = "/hello/whole/world/";
@@ -592,7 +592,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello/world", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_SegmentIndex1_WhenFileExtension()
         {
             Url u = "/hello/whole/world.aspx";
@@ -602,7 +602,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello/world.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_LastSegmentIndex()
         {
             Url u = "/hello/whole/world";
@@ -612,7 +612,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello/whole", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_LastSegmentIndex_WhenTrailingSlash()
         {
             Url u = "/hello/whole/world/";
@@ -622,7 +622,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello/whole", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanRemove_LastSegmentIndex_WhenFileExtension()
         {
             Url u = "/hello/whole/world.aspx";
@@ -632,7 +632,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello/whole.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void RemoveSegment_GracefullyExcepts_ArgumentsBeyondBounds()
         {
             Url u = "/hello.aspx";
@@ -642,7 +642,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void RemoveSegment_GracefullyExcepts_BeforeBounds()
         {
             Url u = "/hello.aspx";
@@ -652,7 +652,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanAppendSegment_WithoutUsingDefaultExtension_ToEmptyPath()
         {
             Url u = "http://n2cms.com";
@@ -660,7 +660,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test2", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanAppendSegment_ToEmptyPath_WithTrailingSlash()
         {
             Url u = "http://n2cms.com/";
@@ -668,7 +668,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/test2.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanSetPath_WithQueryString()
         {
             Url u = "http://n2cms.com/some/path.aspx?existing=query";
@@ -676,14 +676,14 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com/new/path?existing=query", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanCombine_PathAndQuery()
         {
             Url u = "http://n2cms.com/some/path.aspx?existing=query";
             Assert.AreEqual("/some/path.aspx?existing=query", u.PathAndQuery);
         }
 
-        [TestMethod]
+        [Test]
         public void CanParsePath_WithSlashInQuery()
         {
             Url u = "/UI/500.aspx?aspxerrorpath=/Default.aspx";
@@ -691,42 +691,42 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("aspxerrorpath=/Default.aspx", u.Query);
         }
 
-        [TestMethod]
+        [Test]
         public void CanDetermine_DefaultExtension()
         {
             Url u = "/path/to/page.aspx";
             Assert.AreEqual(".aspx", u.Extension);
         }
 
-        [TestMethod]
+        [Test]
         public void CanDetermine_HtmlExtension()
         {
             Url u = "/path/to/page.html";
             Assert.AreEqual(".html", u.Extension);
         }
 
-        [TestMethod]
+        [Test]
         public void CanDetermine_NoExtension()
         {
             Url u = "/path/to/page";
             Assert.IsNull(u.Extension);
         }
 
-        [TestMethod]
+        [Test]
         public void CanDetermine_NoExtension_WhenTrailingSlash()
         {
             Url u = "/path/to/page/";
             Assert.IsNull(u.Extension);
         }
 
-        [TestMethod]
+        [Test]
         public void CanSplitPath_IntoPathWithoutExtension()
         {
             Url u = new Url("/hello.aspx?something=someotherthing");
             Assert.AreEqual("/hello", u.PathWithoutExtension);
         }
 
-        [TestMethod]
+        [Test]
         public void CanGet_QueryDictionary()
         {
             Url u = new Url("/hello.aspx?something=someotherthing");
@@ -735,7 +735,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("someotherthing", q["something"]);
         }
 
-        [TestMethod]
+        [Test]
         public void CanGet_EmptyQueryDictionary()
         {
             Url u = new Url("/hello.aspx");
@@ -743,7 +743,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual(0, q.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void CanGet_Query()
         {
             Url u = new Url("/hello.aspx?something=someotherthing");
@@ -751,7 +751,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("someotherthing", q);
         }
 
-        [TestMethod]
+        [Test]
         public void Getting_NonExistantQuery_GivesNull()
         {
             Url u = new Url("/hello.aspx?something=someotherthing");
@@ -759,7 +759,7 @@ namespace Noodle.Tests.Web
             Assert.IsNull(q);
         }
 
-        [TestMethod]
+        [Test]
         public void Getting_Query_WhenNoQueries_GivesNull()
         {
             Url u = new Url("/hello.aspx");
@@ -767,7 +767,7 @@ namespace Noodle.Tests.Web
             Assert.IsNull(q);
         }
 
-        [TestMethod]
+        [Test]
         public void UpdatingQueryToNull_WhenSingleParameter_RemovesItFromUrl()
         {
             Url u = new Url("/hello.aspx?something=someotherthing");
@@ -775,7 +775,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.aspx", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void UpdatingQueryToNull_ReturnsOtherParameter_WhenUpdatingFirst()
         {
             Url u = new Url("/hello.aspx?something=someotherthing&query=value");
@@ -783,7 +783,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.aspx?query=value", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void UpdatingQueryToNull_ReturnsOtherParameter_WhenUpdatingSecond()
         {
             Url u = new Url("/hello.aspx?something=someotherthing&query=value");
@@ -791,7 +791,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.aspx?something=someotherthing", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void UpdatingQueryToNull_ReturnsOtherParameters_WhenUpdatingFirst()
         {
             Url u = new Url("/hello.aspx?something=someotherthing&query=value&query3=value3");
@@ -799,7 +799,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.aspx?query=value&query3=value3", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void UpdatingQueryToNull_ReturnsOtherParameters_WhenUpdatingInMiddle()
         {
             Url u = new Url("/hello.aspx?something=someotherthing&query=value&query3=value3");
@@ -807,7 +807,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.aspx?something=someotherthing&query3=value3", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void UpdatingQueryToNull_ReturnsOtherParameters_WhenUpdatingLast()
         {
             Url u = new Url("/hello.aspx?something=someotherthing&query=value&query3=value3");
@@ -815,7 +815,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.aspx?something=someotherthing&query=value", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanChangeExtension()
         {
             Url u = new Url("/hello.aspx?something=someotherthing");
@@ -823,7 +823,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello.html?something=someotherthing", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanClearExtension()
         {
             Url u = new Url("/hello.aspx?something=someotherthing");
@@ -831,7 +831,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello?something=someotherthing", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanSplitOut_HostPart()
         {
             Url u = "http://n2cms.com/some/path.aspx?existing=query";
@@ -839,7 +839,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("http://n2cms.com", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanSplitOut_HostPart_AndGetExtension()
         {
             Url u = "http://n2cms.com/some/path.aspx?existing=query";
@@ -847,7 +847,7 @@ namespace Noodle.Tests.Web
             Assert.IsNull(extension);
         }
 
-        [TestMethod]
+        [Test]
         public void CanSplitOut_LocalPart()
         {
             Url u = "http://n2cms.com/some/path.aspx?existing=query";
@@ -855,7 +855,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/some/path.aspx?existing=query", u.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void CanConstruct_WithBaseSchemeAndRawUrl()
         {
             Url u = new Url("http", "www.n2cms.com", "/Default.aspx?");
@@ -864,14 +864,14 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/Default.aspx", u.PathAndQuery);
         }
 
-        [TestMethod]
+        [Test]
         public void CanRecognize_AbsoluteUrl()
         {
             Url u = "http://www.n2cms.com";
             Assert.IsTrue(u.IsAbsolute);
         }
 
-        [TestMethod]
+        [Test]
         public void CanRecognize_LocalUrl()
         {
             Url u = "/";
@@ -900,7 +900,7 @@ namespace Noodle.Tests.Web
         //    Assert.That(result, Is.EqualTo(expected), "'" + url1 + "' + '" + url2 + "' != '" + expected + "'");
         //}
 
-        [TestMethod]
+        [Test]
         public void CanParse_RelativePath_WithUrl_AsQuery()
         {
             Url u = "/path?dns=host.com&url=http://www.hello.net/howdy";
@@ -908,7 +908,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("dns=host.com&url=http://www.hello.net/howdy", u.Query);
         }
 
-        //[TestMethod]
+        //[Test]
         //public void ServerUrl_Returns_FallbackValue_InThreadContext()
         //{
         //    var oldEngine = Singleton<IEngine>.Instance;
@@ -933,7 +933,7 @@ namespace Noodle.Tests.Web
         //    }
         //}
 
-        //[TestMethod]
+        //[Test]
         //public void ServerUrl_Returns_DifferentValues_InRequestForDifferentSites()
         //{
         //    var oldEngine = Singleton<IEngine>.Instance;
@@ -956,7 +956,7 @@ namespace Noodle.Tests.Web
         //    }
         //}
 
-        [TestMethod]
+        [Test]
         public void Resolve_CanChange_DefaultReplacements()
         {
             string backup = Url.GetToken("{ManagementUrl}");
@@ -975,7 +975,7 @@ namespace Noodle.Tests.Web
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Resolve_CanAdd_Replcement()
         {
             string backup = Url.GetToken("{HelloUrl}");
@@ -994,7 +994,7 @@ namespace Noodle.Tests.Web
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Resolve_CanClear_Replcement()
         {
             string backup = Url.GetToken("{ManagementUrl}");
@@ -1013,7 +1013,7 @@ namespace Noodle.Tests.Web
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Resolve_DoesntReplace_UnknownTokens()
         {
             string result = Url.ResolveTokens("{HelloUrl}/Resources/Icons/add.png");
@@ -1021,7 +1021,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("{HelloUrl}/Resources/Icons/add.png", result);
         }
 
-        [TestMethod]
+        [Test]
         public void Resolve_MakesPath_ToAbsolute()
         {
             Url.ApplicationPath = "/hello/";
@@ -1037,7 +1037,7 @@ namespace Noodle.Tests.Web
             }
         }
 
-        [TestMethod]
+        [Test]
         public void RemoveExtension_RemovesAnyExtension()
         {
             Url url = "/hello.aspx";
@@ -1046,7 +1046,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello", result);
         }
 
-        [TestMethod]
+        [Test]
         public void RemoveExtension_RemovesValidExtension()
         {
             Url url = "/hello.aspx";
@@ -1055,7 +1055,7 @@ namespace Noodle.Tests.Web
             Assert.AreEqual("/hello", result);
         }
 
-        [TestMethod]
+        [Test]
         public void RemoveExtension_DesontRemove_InvalidExtension()
         {
             Url url = "/hello.gif";
