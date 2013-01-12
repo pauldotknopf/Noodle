@@ -1,29 +1,37 @@
-﻿namespace Noodle.Localization.Tests
+﻿using System.Diagnostics;
+using NUnit.Framework;
+using Noodle.Settings;
+using Noodle.Tests;
+
+namespace Noodle.Localization.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class LanguageServiceTests : LocalizationTestsBase
     {
-        [TestMethod]
+        [Test]
         public void Can_update_default_language_id_when_deleting_a_language()
         {
             // setup
-            var language1 = CreateLanguage(1);
-            var language2 = CreateLanguage(2);
-            LanguageService.InsertLanguage(language1);
-            LanguageService.InsertLanguage(language2);
-            var localizationSettings = Kernel.Resolve<LocalizationSettings>();
-            localizationSettings.DefaultLanguageId = language1.Id;
-            Kernel.Resolve<ISettingService>().SaveSetting(localizationSettings);
+            var language1 = new Language {Name = "language 1", Published = true};
+            var language2 = new Language { Name = "language 2", Published = true };
 
             // act
-            LanguageService.DeleteLanguage(language1.Id);
+            _languageService.InsertLanguage(language1);
+            _languageService.InsertLanguage(language2);
+            Trace.WriteLine("Langauge 1:" + language1.Id.ToString());
+            Trace.WriteLine("Language 2:" + language2.Id.ToString());
 
             // assert
-            localizationSettings = Kernel.Resolve<LocalizationSettings>();
-            localizationSettings.DefaultLanguageId.ShouldEqual(language2.Id);
+            Assert.AreEqual(language1.Id.ToString(),_kernel.Resolve<LocalizationSettings>().DefaultLanguageId);
+
+            // act
+            _languageService.DeleteLanguage(language1.Id);
+
+            // assert
+            Assert.AreEqual(language2.Id.ToString(), _kernel.Resolve<LocalizationSettings>().DefaultLanguageId);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_all_published_languages()
         {
             // setup
@@ -31,18 +39,18 @@
             language1.Published = false;
             var language2 = CreateLanguage(2);
             language2.Published = true;
-            LanguageService.InsertLanguage(language1);
-            LanguageService.InsertLanguage(language2);
+            _languageService.InsertLanguage(language1);
+            _languageService.InsertLanguage(language2);
 
             // act
-            var languages = LanguageService.GetAllLanguages();
+            var languages = _languageService.GetAllLanguages();
 
             // assert
             languages.Count.ShouldEqual(1);
             GetLanguageComparer().Equals(languages[0], language2).ShouldBeTrue();
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_all_languages()
         {
             // setup
@@ -50,30 +58,14 @@
             language1.Published = true;
             var language2 = CreateLanguage(2);
             language2.Published = true;
-            LanguageService.InsertLanguage(language1);
-            LanguageService.InsertLanguage(language2);
+            _languageService.InsertLanguage(language1);
+            _languageService.InsertLanguage(language2);
 
             // act
-            var languages = LanguageService.GetAllLanguages();
+            var languages = _languageService.GetAllLanguages();
 
             // assert
             languages.Count.ShouldEqual(2);
         }
-
-        #region Database
-
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            DataTestBaseHelper.DropCreateDatabase<LanguageServiceTests>();
-        }
-
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            DataTestBaseHelper.DropDatabase<LanguageServiceTests>();
-        }
-
-        #endregion
     }
 }

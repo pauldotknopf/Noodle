@@ -1,7 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using Noodle.Caching;
+using Noodle.Collections;
 using Noodle.Data;
 using Noodle.Localization.CodeFirst;
+using Noodle.Settings;
 
 namespace Noodle.Localization.Services
 {
@@ -12,16 +19,17 @@ namespace Noodle.Localization.Services
     public partial class LocalizationService : ILocalizationService
     {
         #region Constants
-        private const string LOCALSTRINGRESOURCES_ALL_KEY = "Nop.lsr.all-{0}";
-        private const string LOCALSTRINGRESOURCES_BY_RESOURCENAME_KEY = "Nop.lsr.{0}-{1}";
-        private const string LOCALSTRINGRESOURCES_PATTERN_KEY = "Nop.lsr.";
+        private const string LOCALSTRINGRESOURCES_ALL_KEY = "Noodle.lsr.all-{0}";
+        private const string LOCALSTRINGRESOURCES_BY_RESOURCENAME_KEY = "Noodle.lsr.{0}-{1}";
+        private const string LOCALSTRINGRESOURCES_PATTERN_KEY = "Noodle.lsr.";
         #endregion
 
         #region Fields
 
-        private readonly IRepository<LocaleStringResource> _lsrRepository;
         private readonly ICacheManager _cacheManager;
-        private readonly LocalizationSettings _localizationSettings;
+        private readonly MongoCollection<LocaleStringResource> _localeStringResourceCollection;
+        private readonly IConfigurationProvider<LocalizationSettings> _localizationSettings;
+        private readonly ILanguageService _languageService;
 
         #endregion
 
@@ -31,15 +39,19 @@ namespace Noodle.Localization.Services
         /// Ctor
         /// </summary>
         /// <param name="cacheManager">The cache manager.</param>
-        /// <param name="lsrRepository">The LSR repository.</param>
+        /// <param name="localeStringResourceCollection"></param>
         /// <param name="localizationSettings">The localization settings.</param>
+        /// <param name="languageService"></param>
         /// <remarks></remarks>
         public LocalizationService(ICacheManager cacheManager,
-            IRepository<LocaleStringResource> lsrRepository, LocalizationSettings localizationSettings)
+            MongoCollection<LocaleStringResource> localeStringResourceCollection,
+            IConfigurationProvider<LocalizationSettings> localizationSettings,
+            ILanguageService languageService)
         {
             _cacheManager = cacheManager;
-            _lsrRepository = lsrRepository;
+            _localeStringResourceCollection = localeStringResourceCollection;
             _localizationSettings = localizationSettings;
+            _languageService = languageService;
         }
 
         #endregion
@@ -51,12 +63,12 @@ namespace Noodle.Localization.Services
         /// </summary>
         /// <param name="localeStringResourceId">Locale string resource</param>
         /// <remarks></remarks>
-        public virtual void DeleteLocaleStringResource(int localeStringResourceId)
+        public virtual void DeleteLocaleStringResource(ObjectId localeStringResourceId)
         {
-            if (localeStringResourceId == 0)
+            if (localeStringResourceId == ObjectId.Empty)
                 return;
 
-            _lsrRepository.ExecuteMethod<LocalizationDataContext>(context => context.DeleteLocaleStringResourceById(localeStringResourceId));
+            _localeStringResourceCollection.Remove(Query.EQ("_id", localeStringResourceId));
 
             //cache
             _cacheManager.RemoveByPattern(LOCALSTRINGRESOURCES_PATTERN_KEY);
@@ -68,14 +80,11 @@ namespace Noodle.Localization.Services
         /// <param name="localeStringResourceId">Locale string resource identifier</param>
         /// <returns>Locale string resource</returns>
         /// <remarks></remarks>
-        public virtual LocaleStringResource GetLocaleStringResourceById(int localeStringResourceId)
+        public virtual LocaleStringResource GetLocaleStringResourceById(ObjectId localeStringResourceId)
         {
-            if (localeStringResourceId == 0)
-                return null;
-
-            var localeStringResource = _lsrRepository.GetById(localeStringResourceId);
-
-            return localeStringResource;
+            return localeStringResourceId == ObjectId.Empty 
+                ? null 
+                : _localeStringResourceCollection.FindOneById(localeStringResourceId);
         }
 
 
@@ -87,43 +96,39 @@ namespace Noodle.Localization.Services
         /// <param name="logIfNotFound">A value indicating whether to log error if locale string resource is not found</param>
         /// <returns>Locale string resource</returns>
         /// <remarks></remarks>
-        public virtual LocaleStringResource GetLocaleStringResourceByName(string resourceName, int languageId,
+        public virtual LocaleStringResource GetLocaleStringResourceByName(string resourceName, ObjectId languageId,
             bool? logIfNotFound = null)
         {
+            //var localeStringResource = 
+
             LocaleStringResource localeStringResource = null;
 
             if (logIfNotFound == null)
-                logIfNotFound = _localizationSettings.LogResourcesNotFound;
+                logIfNotFound = _localizationSettings.Settings.LogResourcesNotFound;
 
-            if (_localizationSettings.LoadAllLocaleRecordsOnStartup)
+            if (_localizationSettings.Settings.LoadAllLocaleRecordsOnStartup)
             {
                 //load all records
-
-                // using an empty string so the request can still be logged
-                if (string.IsNullOrEmpty(resourceName))
-                    resourceName = string.Empty;
-                resourceName = resourceName.Trim().ToLowerInvariant();
-
                 var resources = GetAllResourcesByLanguageId(languageId);
                 if (resources.ContainsKey(resourceName))
                 {
-                    var localeStringResourceId = resources[resourceName].Id;
-                    localeStringResource = _lsrRepository.GetById(localeStringResourceId);
+                    localeStringResource = resources[resourceName];
                 }
             }
             else
             {
                 //gradual loading
-                var query = from lsr in _lsrRepository.Table
-                            orderby lsr.ResourceName
-                            where lsr.LanguageId == languageId && lsr.ResourceName == resourceName
-                            select lsr;
-                localeStringResource = query.FirstOrDefault();
+                var key = string.Format(LOCALSTRINGRESOURCES_BY_RESOURCENAME_KEY, languageId, resourceName);
+                localeStringResource = _cacheManager.Get(key, () => _localeStringResourceCollection.Find(
+                    Query.And(Query.EQ("LanguageId", languageId),
+                              Query.EQ("ResourceName", resourceName)))
+                    .SetLimit(1)
+                    .FirstOrDefault());
             }
 
             // TODO: Notifier
             //if (localeStringResource == null && logIfNotFound.Value)
-                //_logger.Warning(string.Format("Resource string ({0}) not found. Language ID = {1}", resourceName, languageId));
+            //_logger.Warning(string.Format("Resource string ({0}) not found. Language ID = {1}", resourceName, languageId));
 
             return localeStringResource;
         }
@@ -133,18 +138,11 @@ namespace Noodle.Localization.Services
         /// </summary>
         /// <param name="languageId">Language identifier</param>
         /// <returns>Locale string resource collection</returns>
-        public virtual NamedCollection<LocaleStringResource> GetAllResourcesByLanguageId(int languageId)
+        public virtual NamedCollection<LocaleStringResource> GetAllResourcesByLanguageId(ObjectId languageId)
         {
-            string key = string.Format(LOCALSTRINGRESOURCES_ALL_KEY, languageId);
-            return _cacheManager.Get(key, () =>
-            {
-                var query = from l in _lsrRepository.Table
-                            orderby l.ResourceName
-                            where l.LanguageId == languageId
-                            select l;
-                var collection = new NamedCollection<LocaleStringResource>(query.ToList());
-                return collection;
-            });
+            var key = string.Format(LOCALSTRINGRESOURCES_ALL_KEY, languageId);
+            return _cacheManager.Get(key, () => new NamedCollection<LocaleStringResource>(
+                _localeStringResourceCollection.Find(Query.EQ("LanguageId", languageId)).SetSortOrder(SortBy.Ascending("ResourceName"))));
         }
 
         /// <summary>
@@ -152,18 +150,17 @@ namespace Noodle.Localization.Services
         /// </summary>
         /// <param name="localeStringResource">Locale string resource</param>
         /// <remarks></remarks>
-        public virtual void InsertLocaleStringResource(LocaleStringResource localeStringResource)
+        public virtual LocaleStringResource InsertLocaleStringResource(LocaleStringResource localeStringResource)
         {
             if (localeStringResource == null)
                 throw new ArgumentNullException("localeStringResource");
 
-            _lsrRepository.Insert(localeStringResource);
+            _localeStringResourceCollection.Insert(localeStringResource);
 
             //cache
             _cacheManager.RemoveByPattern(LOCALSTRINGRESOURCES_PATTERN_KEY);
 
-            //event notification
-            _eventPublisher.EntityInserted(localeStringResource);
+            return localeStringResource;
         }
 
         /// <summary>
@@ -171,20 +168,18 @@ namespace Noodle.Localization.Services
         /// </summary>
         /// <param name="localeStringResource">Locale string resource</param>
         /// <remarks></remarks>
-        public virtual void UpdateLocaleStringResource(LocaleStringResource localeStringResource)
+        public virtual LocaleStringResource UpdateLocaleStringResource(LocaleStringResource localeStringResource)
         {
             if (localeStringResource == null)
                 throw new ArgumentNullException("localeStringResource");
 
-            _lsrRepository.Update(localeStringResource);
+            _localeStringResourceCollection.Update(Query.EQ("_id", localeStringResource.Id), Update<LocaleStringResource>.Replace(localeStringResource));
 
             //cache
             _cacheManager.RemoveByPattern(LOCALSTRINGRESOURCES_PATTERN_KEY);
 
-            //event notification
-            _eventPublisher.EntityUpdated(localeStringResource);
+            return localeStringResource;
         }
-
 
         /// <summary>
         /// Gets a resource string based on the specified ResourceKey property.
@@ -197,57 +192,49 @@ namespace Noodle.Localization.Services
         /// <returns>A string representing the requested resource string.</returns>
         /// <remarks></remarks>
         public virtual string GetResource(string resourceKey, 
-            int? languageId = null, 
+            ObjectId? languageId = null, 
             bool? logIfNotFound = null, 
             string defaultValue = "", 
             bool returnEmptyIfNotFound = false)
         {
             if (!languageId.HasValue)
-                languageId = _localizationSettings.DefaultLanguageId;
+                languageId = _languageService.GetDefaultLanguageId();
 
-            string result = string.Empty;
-            var resourceKeyValue = resourceKey;
-            if (resourceKeyValue == null)
-                resourceKeyValue = string.Empty;
-            resourceKeyValue = resourceKeyValue.Trim().ToLowerInvariant();
+            var result = string.Empty;
 
             if (logIfNotFound == null)
-                logIfNotFound = _localizationSettings.LogResourcesNotFound;
+                logIfNotFound = _localizationSettings.Settings.LogResourcesNotFound;
 
-            if (_localizationSettings.LoadAllLocaleRecordsOnStartup)
+            if (_localizationSettings.Settings.LoadAllLocaleRecordsOnStartup)
             {
                 //load all records
                 var resources = GetAllResourcesByLanguageId(languageId.Value);
 
-                if (resources.ContainsKey(resourceKeyValue))
+                if (resources.ContainsKey(resourceKey))
                 {
-                    var lsr = resources[resourceKeyValue];
+                    var lsr = resources[resourceKey];
                     if (lsr != null)
                         result = lsr.ResourceValue;
+                }else
+                {
+                    // TODO: Error notifier
+                    //if (logIfNotFound.Value)
+                    //    _logger.Warning(string.Format("Resource string ({0}) is not found. Language ID = {1}", resourceKey, languageId.Value));
                 }
             }
             else
             {
                 //gradual loading
-                string key = string.Format(LOCALSTRINGRESOURCES_BY_RESOURCENAME_KEY, languageId.Value, resourceKeyValue);
-                string lsr = _cacheManager.Get(key, () =>
-                {
-                    var query = from l in _lsrRepository.Table
-                                where l.ResourceName == resourceKeyValue
-                                && l.LanguageId == languageId.Value
-                                select l.ResourceValue;
-                    return query.FirstOrDefault();
-                });
+                var lsr = GetLocaleStringResourceByName(resourceKey, languageId.Value, logIfNotFound);
+
+                // note that we don't 'log if not found' as we do with 'load all records' because the method directly above already logged if the resource wasn't found
 
                 if (lsr != null)
-                    result = lsr;
+                    result = lsr.ResourceValue;
             }
+
             if (string.IsNullOrEmpty(result))
             {
-                // TODO: Error notifier
-                //if (logIfNotFound.Value)
-                //    _logger.Warning(string.Format("Resource string ({0}) is not found. Language ID = {1}", resourceKey, languageId.Value));
-
                 if (!String.IsNullOrEmpty(defaultValue))
                 {
                     result = defaultValue;
@@ -272,7 +259,7 @@ namespace Noodle.Localization.Services
         /// <returns>A string representing the requested resource string.</returns>
         /// <remarks></remarks>
         public string GetResource(System.Linq.Expressions.Expression<Func<string>> expression, 
-            int? languageId = null, 
+            ObjectId? languageId = null, 
             bool? logIfNotFound = null, 
             string defaultValue = "", 
             bool returnEmptyIfNotFound = false)

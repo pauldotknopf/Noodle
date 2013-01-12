@@ -57,6 +57,8 @@ namespace Noodle.MongoDB
             {
                 Monitor.Exit(_lockObject);
             }
+
+            Thread.Sleep(5000);
         }
     }
 }

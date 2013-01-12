@@ -1,5 +1,7 @@
 ﻿
 
+using MongoDB.Bson;
+
 namespace Noodle.Localization
 {
     public class LocalizationSettings : ISettings
@@ -7,12 +9,14 @@ namespace Noodle.Localization
         public LocalizationSettings()
         {
             LogResourcesNotFound = false;
+            LoadAllLocaleRecordsOnStartup = true;
+            DefaultLanguageId = ObjectId.Empty.ToString();
         }
 
         /// <summary>
-        /// Default admin area language identifier
+        /// Default admin area language identifier.
         /// </summary>
-        public int DefaultLanguageId { get; set; }
+        public string DefaultLanguageId { get; set; }
 
         /// <summary>
         /// A value indicating whether to load all records on application startup

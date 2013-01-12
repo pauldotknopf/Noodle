@@ -1,11 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
+using Noodle.Localization.CodeFirst;
+using Noodle.Tests;
 
 namespace Noodle.Localization.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class CodeFirstTests
     {
-        [TestMethod]
+        [Test]
         public void Can_resolve_resource()
         {
             var expressionVisitor = new LocalizationNodeExpressionVisitor(() => Products.Value);

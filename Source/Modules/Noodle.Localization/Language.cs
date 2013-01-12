@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using MongoDB.Bson;
 
 namespace Noodle.Localization
 {
     /// <summary>
     /// Represents a language
     /// </summary>
-    public partial class Language : BaseEntity
+    public partial class Language : BaseEntity<ObjectId>
     {
         private ICollection<LocaleStringResource> _localeStringResources;
 
@@ -51,15 +52,6 @@ namespace Noodle.Localization
         {
             get { return _localeStringResources ?? (_localeStringResources = new List<LocaleStringResource>()); }
             protected set { _localeStringResources = value; }
-        }
-
-        /// <summary>
-        /// Small hack for linq to sql
-        /// </summary>
-        public new int Id
-        {
-            get { return base.Id; }
-            set { base.Id = value; }
         }
     }
 }

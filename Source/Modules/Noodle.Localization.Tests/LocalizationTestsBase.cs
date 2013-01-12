@@ -2,41 +2,60 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using NUnit.Framework;
+using Ninject;
+using Noodle.Collections;
+using Noodle.Data;
+using Noodle.Localization.Services;
+using Noodle.Settings;
+using Noodle.Tests;
 
 namespace Noodle.Localization.Tests
 {
     public class LocalizationTestsBase : DataTestBase
     {
-        #region Fields
+        protected IKernel _kernel;
+        protected ILanguageService _languageService;
+        protected ILocalizationService _localizationService;
+        protected ILocalizedEntityService _localizedEntityService;
+        protected IDisposable _serverScope;
 
-        protected IKernel Kernel;
-        protected IRepository<LocaleStringResource> LocalStringResourceRepository;
-        protected IRepository<LocalizedProperty> LocalizedPropertyRepostiory;
-        protected IRepository<Language> LanguageRepository;
-        protected ILanguageService LanguageService;
-        protected ILocalizationService LocalizationService;
-        protected ILocalizedEntityService LocalizedEntityService;
-
-        #endregion
-
-        public override List<AbstraceEmbeddedSchemaProvider> GetSchemaProviders()
+        [SetUp]
+        public void Setup()
         {
-            return new List<AbstraceEmbeddedSchemaProvider>
-                       {
-                           new Data.LocalizationEmbeddedSchema()
-                       };
+            _kernel = GetTestKernel();
+            _kernel.Resolve<MongoCollection<Language>>().RemoveAll();
+            _kernel.Resolve<MongoCollection<LocaleStringResource>>().RemoveAll();
+            _kernel.Resolve<MongoCollection<LocalizedProperty>>().RemoveAll();
+            _kernel.Resolve<MongoCollection<Setting>>().RemoveAll();
+            _languageService = _kernel.Resolve<ILanguageService>();
+            _localizationService = _kernel.Resolve<ILocalizationService>();
+            _localizedEntityService = _kernel.Resolve<ILocalizedEntityService>();
+        }
+
+        [TestFixtureSetUp]
+        public void SetupFixture()
+        {
+            _serverScope = ServerScope();
+        }
+
+        [TestFixtureTearDown]
+        public void TearDownFixture()
+        {
+            _serverScope.Dispose();
         }
 
         public override IKernel GetTestKernel(params Engine.IDependencyRegistrar[] dependencyRegistrars)
         {
             var registrars = dependencyRegistrars.ToList();
+            registrars.Insert(0, new MongoDB.DependencyRegistrar());
             registrars.Insert(0, new DependencyRegistrar());
             registrars.Insert(0, new Settings.DependencyRegistrar());
             var kernel = base.GetTestKernel(registrars.ToArray());
             return kernel;
         }
-
-        #region Helpers
 
         public IEqualityComparer<Language> GetLanguageComparer()
         {
@@ -65,7 +84,7 @@ namespace Noodle.Localization.Tests
                        };
         }
 
-        public LocaleStringResource CreateResource(int index, int languageId)
+        public LocaleStringResource CreateResource(int index, ObjectId languageId)
         {
             return new LocaleStringResource
                 {
@@ -75,29 +94,12 @@ namespace Noodle.Localization.Tests
                 };
         }
 
-        public void CreateSampleResources(int languageId)
+        public void CreateSampleResources(ObjectId languageId)
         {
             for(var x = 1; x <= 23; x++)
             {
-                LocalStringResourceRepository.Insert(CreateResource(x, languageId));
+                _localizationService.InsertLocaleStringResource(CreateResource(x, languageId));
             }
         }
-
-        [TestInitialize]
-        public void Setup()
-        {
-            Kernel = GetTestKernel();
-            LocalStringResourceRepository = Kernel.Resolve<IRepository<LocaleStringResource>>();
-            LocalizedPropertyRepostiory = Kernel.Resolve<IRepository<LocalizedProperty>>();
-            LanguageRepository = Kernel.Resolve<IRepository<Language>>();
-            LocalStringResourceRepository.DeleteAll();
-            LocalizedPropertyRepostiory.DeleteAll();
-            LanguageRepository.DeleteAll();
-            LanguageService = Kernel.Resolve<ILanguageService>();
-            LocalizationService = Kernel.Resolve<ILocalizationService>();
-            LocalizedEntityService = Kernel.Resolve<ILocalizedEntityService>();
-        }
-
-        #endregion
     }
 }

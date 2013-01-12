@@ -20,6 +20,7 @@ namespace Noodle.Tests
         {
             var kernel = base.GetTestKernel(dependencyRegistrars);
             kernel.Rebind<IConnectionProvider>().ToMethod(context => new SqlConnectionProvider("mongodb://localhost:{0}/?safe=true".F(PortNumber)));
+            kernel.Resolve<IMongoService>().GetServer().Reconnect(); // this clears the connection pool
             return kernel;
         }
 

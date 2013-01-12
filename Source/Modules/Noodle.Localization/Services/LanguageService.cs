@@ -1,7 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
+using Ninject;
 using Noodle.Caching;
 using Noodle.Data;
+using Noodle.Settings;
 
 namespace Noodle.Localization.Services
 {
@@ -18,10 +25,13 @@ namespace Noodle.Localization.Services
 
         #region Fields
 
-        private readonly IRepository<Language> _languageRepository;
         private readonly ICacheManager _cacheManager;
+        private readonly MongoCollection<Language> _languageCollection;
+        private readonly MongoCollection<LocaleStringResource> _localeStringResourceCollection;
+        private readonly MongoCollection<LocalizedProperty> _localizedPropertyCollection;
         private readonly ISettingService _settingService;
-        private readonly LocalizationSettings _localizationSettings;
+        private readonly IConfigurationProvider<LocalizationSettings> _localizationSettings;
+        private readonly IKernel _kernel;
 
         #endregion
 
@@ -31,20 +41,26 @@ namespace Noodle.Localization.Services
         /// Ctor
         /// </summary>
         /// <param name="cacheManager">Cache manager</param>
-        /// <param name="languageRepository">Language repository</param>
+        /// <param name="languageCollection"></param>
+        /// <param name="localeStringResourceCollection"></param>
+        /// <param name="localizedPropertyCollection"></param>
         /// <param name="settingService">Setting service</param>
         /// <param name="localizationSettings">Localization settings</param>
-        /// <param name="eventPublisher"></param>
         public LanguageService(ICacheManager cacheManager,
-            IRepository<Language> languageRepository,
+            MongoCollection<Language> languageCollection,
+            MongoCollection<LocaleStringResource> localeStringResourceCollection,
+            MongoCollection<LocalizedProperty> localizedPropertyCollection,
             ISettingService settingService,
-            LocalizationSettings localizationSettings)
+            IConfigurationProvider<LocalizationSettings> localizationSettings,
+            IKernel kernel)
         {
             _cacheManager = cacheManager;
-            _languageRepository = languageRepository;
+            _languageCollection = languageCollection;
+            _localeStringResourceCollection = localeStringResourceCollection;
+            _localizedPropertyCollection = localizedPropertyCollection;
             _settingService = settingService;
             _localizationSettings = localizationSettings;
-            _eventPublisher = eventPublisher;
+            _kernel = kernel;
         }
 
         #endregion
@@ -55,15 +71,26 @@ namespace Noodle.Localization.Services
         /// Deletes a language
         /// </summary>
         /// <param name="languageId">Language</param>
-        public virtual void DeleteLanguage(int languageId)
+        public virtual void DeleteLanguage(ObjectId languageId)
         {
-            if (languageId == 0)
+            if (languageId == ObjectId.Empty)
                 return;
 
-            _languageRepository.ExecuteMethod<LocalizationDataContext>(context => context.DeleteLanguageById(languageId));
+            _localeStringResourceCollection.Remove(Query.EQ("LanguageId", languageId));
+            _localizedPropertyCollection.Remove(Query.EQ("LanguageId", languageId));
+            _languageCollection.Remove(Query.EQ("_id", languageId), RemoveFlags.Single);
 
-            // the delete sproc might have updated settings, lets clear the settings to be sure
-            _settingService.ClearCache();
+            // if language was default, reset the default
+            var defaultLanguageId = ObjectId.Parse(_localizationSettings.Settings.DefaultLanguageId);
+            if (defaultLanguageId == languageId)
+            {
+                SetDefaultLanguage(_languageCollection.Find(Query.EQ("Published", true))
+                    .SetSortOrder(SortBy.Ascending("Name"))
+                    .SetLimit(1).FirstOrDefault());
+
+                // clear settings cache
+                _settingService.ClearCache();
+            }
 
             //cache
             _cacheManager.RemoveByPattern(LANGUAGES_PATTERN_KEY);
@@ -79,12 +106,15 @@ namespace Noodle.Localization.Services
             string key = string.Format(LANGUAGES_ALL_KEY, showHidden);
             return _cacheManager.Get(key, () =>
             {
-                using(var response = _languageRepository
-                    .ExecuteMethodQuery<LocalizationDataContext, ISingleResult<Language>>(context 
-                        => context.GetAllLanguages(showHidden)))
-                {
-                    return response.ToList();
-                }
+
+                var sortBy = SortBy.Ascending("DisplayOrder");
+                return showHidden
+                            ? _languageCollection.FindAll()
+                                                    .SetSortOrder(sortBy)
+                                                    .ToList()
+                            : _languageCollection.Find(Query.EQ("Published", true))
+                                                .SetSortOrder(sortBy)
+                                                .ToList();
             });
         }
 
@@ -93,58 +123,87 @@ namespace Noodle.Localization.Services
         /// </summary>
         /// <param name="languageId">Language identifier</param>
         /// <returns>Language</returns>
-        public virtual Language GetLanguageById(int languageId)
+        public virtual Language GetLanguageById(ObjectId languageId)
         {
-            if (languageId == 0)
+            if (languageId == ObjectId.Empty)
                 return null;
 
             var key = string.Format(LANGUAGES_BY_ID_KEY, languageId);
-            return _cacheManager.Get(key, () =>
-            {
-                using(var response = _languageRepository
-                    .ExecuteMethodQuery<LocalizationDataContext, ISingleResult<Language>>(context 
-                        => context.GetLanguageById(languageId)))
-                {
-                    return response.SingleOrDefault();
-                }               
-            });
+            return _cacheManager.Get(key, () => _languageCollection.FindOneById(languageId));
         }
 
         /// <summary>
         /// Inserts a language
         /// </summary>
         /// <param name="language">Language</param>
-        public virtual void InsertLanguage(Language language)
+        public virtual Language InsertLanguage(Language language)
         {
             if (language == null)
                 throw new ArgumentNullException("language");
 
-            _languageRepository.Insert(language);
+            _languageCollection.Insert(language);
+
+            // if there is no default language, set it now
+            if (ObjectId.Parse(_localizationSettings.Settings.DefaultLanguageId) == ObjectId.Empty)
+            {
+                SetDefaultLanguage(_languageCollection.Find(Query.EQ("Published", true))
+                    .SetSortOrder(SortBy.Ascending("Name"))
+                    .SetLimit(1).FirstOrDefault());
+
+                // clear settings cache
+                _settingService.ClearCache();
+            }
 
             //cache
             _cacheManager.RemoveByPattern(LANGUAGES_PATTERN_KEY);
 
-            //event notification
-            _eventPublisher.EntityInserted(language);
+            return language;
         }
 
         /// <summary>
         /// Updates a language
         /// </summary>
         /// <param name="language">Language</param>
-        public virtual void UpdateLanguage(Language language)
+        public virtual Language UpdateLanguage(Language language)
         {
             if (language == null)
                 throw new ArgumentNullException("language");
 
             //update language
-            _languageRepository.Update(language);
+            _languageCollection.Update(Query.EQ("_id", language.Id), Update<Language>.Replace(language));
 
             //cache
             _cacheManager.RemoveByPattern(LANGUAGES_PATTERN_KEY);
 
-            //event notification
-            _eventPublisher.EntityUpdated(language);
+            return language;
+        }
+
+        /// <summary>
+        /// Sets the default language to the given id
+        /// </summary>
+        /// <param name="languageId"></param>
+        public virtual void SetDefaultLanguage(ObjectId languageId)
+        {
+            _localizationSettings.Settings.DefaultLanguageId = languageId.ToString();
+            _localizationSettings.SaveSettings(_localizationSettings.Settings);
+        }
+
+        /// <summary>
+        /// Sets the defaults language to the given language
+        /// </summary>
+        /// <param name="language"></param>
+        public virtual void SetDefaultLanguage(Language language)
+        {
+            SetDefaultLanguage(language == null ? ObjectId.Empty : language.Id);
+        }
+
+        /// <summary>
+        /// Gets the current default language id
+        /// </summary>
+        /// <returns></returns>
+        public virtual ObjectId GetDefaultLanguageId()
+        {
+            return ObjectId.Parse(_localizationSettings.Settings.DefaultLanguageId);
         }
 
         #endregion

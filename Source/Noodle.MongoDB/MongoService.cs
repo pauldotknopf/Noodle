@@ -13,7 +13,10 @@ namespace Noodle.MongoDB
     public class MongoService : IMongoService
     {
         private readonly IConnectionProvider _connectionProvider;
-      
+        private Dictionary<string, MongoClient> _cachedClients = new Dictionary<string, MongoClient>();
+        private Dictionary<string, MongoServer> _cachedServers = new Dictionary<string, MongoServer>();
+        private Dictionary<string, MongoDatabase> _cachedDatabase = new Dictionary<string, MongoDatabase>(); 
+
         /// <summary>
         /// Ctor
         /// </summary>
@@ -30,9 +33,9 @@ namespace Noodle.MongoDB
         /// <returns></returns>
         public virtual MongoClient GetClient(string serverName = null)
         {
-            return !string.IsNullOrEmpty(serverName) 
-                ? new MongoClient(_connectionProvider.GetConnectionString(serverName)) 
-                : new MongoClient(_connectionProvider.GetConnectionString());
+            return !string.IsNullOrEmpty(serverName)
+                       ? new MongoClient(_connectionProvider.GetConnectionString(serverName))
+                       : new MongoClient(_connectionProvider.GetConnectionString());
         }
 
         /// <summary>

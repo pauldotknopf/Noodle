@@ -133,6 +133,7 @@
     <Compile Include="ISettings.cs" />
     <Compile Include="IStartupTask.cs" />
     <Compile Include="LinqExtensions.cs" />
+    <Compile Include="Linq\ExpressionVisitor.cs" />
     <Compile Include="NoodleEventArgs.cs" />
     <Compile Include="NoodleException.cs" />
     <Compile Include="PagedList.cs" />

@@ -1,6 +1,8 @@
-﻿namespace Noodle.Localization.Tests
+﻿using NUnit.Framework;
+
+namespace Noodle.Localization.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class ImportExportTests
     {
 

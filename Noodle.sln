@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Settings.Tests", "So
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.MongoDB", "Source\Noodle.MongoDB\Noodle.MongoDB.csproj", "{7B5EA470-E66D-4CE5-8D48-6D4AD89EC62D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Localization", "Source\Modules\Noodle.Localization\Noodle.Localization.csproj", "{99CF8D4B-2D70-4180-B7BA-CFC947C73A3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Localization.Tests", "Source\Modules\Noodle.Localization.Tests\Noodle.Localization.Tests.csproj", "{82CD0FB9-8E13-4B85-B1F4-6BE776D848D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{7B5EA470-E66D-4CE5-8D48-6D4AD89EC62D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B5EA470-E66D-4CE5-8D48-6D4AD89EC62D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B5EA470-E66D-4CE5-8D48-6D4AD89EC62D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99CF8D4B-2D70-4180-B7BA-CFC947C73A3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99CF8D4B-2D70-4180-B7BA-CFC947C73A3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99CF8D4B-2D70-4180-B7BA-CFC947C73A3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99CF8D4B-2D70-4180-B7BA-CFC947C73A3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82CD0FB9-8E13-4B85-B1F4-6BE776D848D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82CD0FB9-8E13-4B85-B1F4-6BE776D848D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82CD0FB9-8E13-4B85-B1F4-6BE776D848D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82CD0FB9-8E13-4B85-B1F4-6BE776D848D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,5 +58,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{87D9517A-5C51-4FFB-A7B5-04CE388788D9} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
 		{DBD71993-70E3-4B67-9D53-D1F221D13A7A} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
+		{99CF8D4B-2D70-4180-B7BA-CFC947C73A3F} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
+		{82CD0FB9-8E13-4B85-B1F4-6BE776D848D5} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
 	EndGlobalSection
 EndGlobal

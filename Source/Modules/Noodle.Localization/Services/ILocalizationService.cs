@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using MongoDB.Bson;
 using Noodle.Collections;
 
 namespace Noodle.Localization.Services
@@ -13,14 +14,14 @@ namespace Noodle.Localization.Services
         /// Deletes a locale string resource
         /// </summary>
         /// <param name="localeStringResourceId">Locale string resource</param>
-        void DeleteLocaleStringResource(int localeStringResourceId);
+        void DeleteLocaleStringResource(ObjectId localeStringResourceId);
 
         /// <summary>
         /// Gets a locale string resource
         /// </summary>
         /// <param name="localeStringResourceId">Locale string resource identifier</param>
         /// <returns>Locale string resource</returns>
-        LocaleStringResource GetLocaleStringResourceById(int localeStringResourceId);
+        LocaleStringResource GetLocaleStringResourceById(ObjectId localeStringResourceId);
 
         /// <summary>
         /// Gets a locale string resource
@@ -29,7 +30,7 @@ namespace Noodle.Localization.Services
         /// <param name="languageId">Language identifier</param>
         /// <param name="logIfNotFound">A value indicating whether to log error if locale string resource is not found</param>
         /// <returns>Locale string resource</returns>
-        LocaleStringResource GetLocaleStringResourceByName(string resourceName, int languageId,
+        LocaleStringResource GetLocaleStringResourceByName(string resourceName, ObjectId languageId,
             bool? logIfNotFound = null);
 
         /// <summary>
@@ -37,20 +38,19 @@ namespace Noodle.Localization.Services
         /// </summary>
         /// <param name="languageId">Language identifier</param>
         /// <returns>Locale string resource collection</returns>
-        NamedCollection<LocaleStringResource> GetAllResourcesByLanguageId(int languageId);
+        NamedCollection<LocaleStringResource> GetAllResourcesByLanguageId(ObjectId languageId);
 
         /// <summary>
         /// Inserts a locale string resource
         /// </summary>
         /// <param name="localeStringResource">Locale string resource</param>
-        void InsertLocaleStringResource(LocaleStringResource localeStringResource);
+        LocaleStringResource InsertLocaleStringResource(LocaleStringResource localeStringResource);
 
         /// <summary>
         /// Updates the locale string resource
         /// </summary>
         /// <param name="localeStringResource">Locale string resource</param>
-        void UpdateLocaleStringResource(LocaleStringResource localeStringResource);
-
+        LocaleStringResource UpdateLocaleStringResource(LocaleStringResource localeStringResource);
 
         /// <summary>
         /// Gets a resource string based on the specified ResourceKey property.
@@ -61,7 +61,7 @@ namespace Noodle.Localization.Services
         /// <param name="defaultValue">Default value</param>
         /// <param name="returnEmptyIfNotFound">A value indicating whether to empty string will be returned if a resource is not found and default value is set to empty string</param>
         /// <returns>A string representing the requested resource string.</returns>
-        string GetResource(string resourceKey, int? languageId = null,
+        string GetResource(string resourceKey, ObjectId? languageId = null,
             bool? logIfNotFound = null, string defaultValue = "", bool returnEmptyIfNotFound = false);
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Noodle.Localization.Services
         /// <param name="returnEmptyIfNotFound">A value indicating whether to empty string will be returned if a resource is not found and default value is set to empty string</param>
         /// <returns>A string representing the requested resource string.</returns>
         /// <returns></returns>
-        string GetResource(Expression<Func<string>> expression, int? languageId = null,
+        string GetResource(Expression<Func<string>> expression, ObjectId? languageId = null,
             bool? logIfNotFound = null, string defaultValue = "", bool returnEmptyIfNotFound = false);
 
         /// <summary>

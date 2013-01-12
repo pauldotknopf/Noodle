@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using MongoDB.Bson;
 using Noodle.Collections;
 
 namespace Noodle.Localization.Services
@@ -13,14 +14,14 @@ namespace Noodle.Localization.Services
         /// Deletes a localized property
         /// </summary>
         /// <param name="localizedPropertyId">Localized property id</param>
-        void DeleteLocalizedProperty(int localizedPropertyId);
+        void DeleteLocalizedProperty(ObjectId localizedPropertyId);
 
         /// <summary>
         /// Gets a localized property
         /// </summary>
         /// <param name="localizedPropertyId">Localized property identifier</param>
         /// <returns>Localized property</returns>
-        LocalizedProperty GetLocalizedPropertyById(int localizedPropertyId);
+        LocalizedProperty GetLocalizedPropertyById(ObjectId localizedPropertyId);
 
         /// <summary>
         /// Find localized value
@@ -30,7 +31,7 @@ namespace Noodle.Localization.Services
         /// <param name="localeKeyGroup">Locale key group</param>
         /// <param name="localeKey">Locale key</param>
         /// <returns>Found localized value</returns>
-        string GetLocalizedValue(int entityId, string localeKeyGroup, string localeKey, int? languageId = null);
+        string GetLocalizedValue(ObjectId entityId, string localeKeyGroup, string localeKey, ObjectId? languageId = null);
 
         /// <summary>
         /// Gets localized properties
@@ -38,21 +39,21 @@ namespace Noodle.Localization.Services
         /// <param name="entityId">Entity identifier</param>
         /// <param name="localeKeyGroup">Locale key group</param>
         /// <returns>Localized properties</returns>
-        NamedCollection<LocalizedProperty> GetLocalizedProperties(int entityId, string localeKeyGroup);
+        NamedCollection<LocalizedProperty> GetLocalizedProperties(ObjectId entityId, string localeKeyGroup);
 
         /// <summary>
         /// Gets localized properties
         /// </summary>
         /// <param name="entityId">Entity identifier</param>
         /// <returns>Localized properties</returns>
-        NamedCollection<LocalizedProperty> GetLocalizedProperties<T>(int entityId) where T:BaseEntity, ILocalizedEntity;
+        NamedCollection<LocalizedProperty> GetLocalizedProperties<T>(ObjectId entityId) where T:BaseEntity<ObjectId>, ILocalizedEntity;
 
         /// <summary>
         /// Gets localized properties
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns>Localized properties</returns>
-        NamedCollection<LocalizedProperty> GetLocalizedProperties<T>(T entity) where T : BaseEntity, ILocalizedEntity;
+        NamedCollection<LocalizedProperty> GetLocalizedProperties<T>(T entity) where T : BaseEntity<ObjectId>, ILocalizedEntity;
 
         /// <summary>
         /// Inserts a localized property
@@ -77,11 +78,11 @@ namespace Noodle.Localization.Services
         void SaveLocalizedValue<T>(T entity,
             Expression<Func<T, string>> keySelector,
             string localeValue,
-            int languageId) where T : BaseEntity, ILocalizedEntity;
+            ObjectId languageId) where T : BaseEntity<ObjectId>, ILocalizedEntity;
 
         void SaveLocalizedValue<T, TPropType>(T entity,
            Expression<Func<T, TPropType>> keySelector,
            TPropType localeValue,
-           int languageId) where T : BaseEntity, ILocalizedEntity;
+           ObjectId languageId) where T : BaseEntity<ObjectId>, ILocalizedEntity;
     }
 }

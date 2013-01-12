@@ -30,7 +30,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\..\packages\mongocsharpdriver.1.7\lib\net35\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\..\packages\mongocsharpdriver.1.7\lib\net35\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,11 +54,42 @@
     <Compile Include="CodeFirstTests.cs" />
     <Compile Include="ImportExportTests.cs" />
     <Compile Include="LanguageServiceTests.cs" />
-    <Compile Include="LocalizationRepositoryTests.cs" />
-    <Compile Include="LocalizationServiceTests.cs" />
+    <Compile Include="LocalizationServiceTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="LocalizationTestsBase.cs" />
-    <Compile Include="LocalizedEntityServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Noodle.MongoDB\Noodle.MongoDB.csproj">
+      <Project>{7b5ea470-e66d-4ce5-8d48-6d4ad89ec62d}</Project>
+      <Name>Noodle.MongoDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Noodle.Tests\Noodle.Tests.csproj">
+      <Project>{d3226938-7fe2-4f24-8a4a-c6d83f7938cb}</Project>
+      <Name>Noodle.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Noodle\Noodle.csproj">
+      <Project>{944fec3d-a47f-4c92-92ac-81b3420c1caa}</Project>
+      <Name>Noodle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Noodle.Localization\Noodle.Localization.csproj">
+      <Project>{99cf8d4b-2d70-4180-b7ba-cfc947c73a3f}</Project>
+      <Name>Noodle.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Noodle.Settings\Noodle.Settings.csproj">
+      <Project>{87d9517a-5c51-4ffb-a7b5-04ce388788d9}</Project>
+      <Name>Noodle.Settings</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\Dependencies\mongodb-win32-x86_64-2.2.2\bin\mongod.exe">
+      <Link>mongod.exe</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

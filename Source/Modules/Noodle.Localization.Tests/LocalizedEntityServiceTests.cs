@@ -1,17 +1,23 @@
-﻿namespace Noodle.Localization.Tests
+﻿using MongoDB.Bson;
+using NUnit.Framework;
+using Noodle.Localization.Services;
+using Noodle.Settings;
+using Noodle.Tests;
+
+namespace Noodle.Localization.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class LocalizedEntityServiceTests : LocalizationTestsBase
     {
-        [TestMethod]
+        [Test]
         public void Can_get_localized_properties()
         {
             // setup
             var language = LanguageRepository.Insert(CreateLanguage());
-            var entity = new LocalizedEntity{ Id = 1 };
+            var entity = new LocalizedEntity { Id = new ObjectId(CommonHelper.CurrentTime(), 1, 2, 3) };
             LocalizedEntityService.SaveLocalizedValue(entity, (x) => x.Value1, "Value 1...", language.Id);
             LocalizedEntityService.SaveLocalizedValue(entity, (x) => x.Value2, "Value 2...", language.Id);
-            entity.Id = 2;
+            entity.Id = new ObjectId(CommonHelper.CurrentTime(), 3, 2, 1);
             LocalizedEntityService.SaveLocalizedValue(entity, (x) => x.Value1, "Value 11...", language.Id);
             LocalizedEntityService.SaveLocalizedValue(entity, (x) => x.Value2, "Value 22...", language.Id);
 
@@ -24,12 +30,12 @@
             values[1].LocaleValue.ShouldEqual("Value 22...");
         }
 
-        [TestMethod]
+        [Test]
         public void Can_update_localized_properties()
         {
             // setup
             var language = LanguageRepository.Insert(CreateLanguage());
-            var entity = new LocalizedEntity { Id = 1 };
+            var entity = new LocalizedEntity { Id = new ObjectId(CommonHelper.CurrentTime(), 1, 2, 3) };
             LocalizedEntityService.SaveLocalizedValue(entity, (x) => x.Value1, "Value 1...", language.Id);
             LocalizedEntityService.SaveLocalizedValue(entity, (x) => x.Value2, "Value 2...", language.Id);
             LocalizedEntityService.SaveLocalizedValue(entity, (x) => x.Value1, "Value 1 updated...", language.Id);
@@ -44,12 +50,12 @@
             values[1].LocaleValue.ShouldEqual("Value 2 updated...");
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_localized_value()
         {
             // setup
             var language = LanguageRepository.Insert(CreateLanguage());
-            var entity = new LocalizedEntity { Id = 1 };
+            var entity = new LocalizedEntity { Id = new ObjectId(CommonHelper.CurrentTime(), 1, 2, 3) };
             LocalizedEntityService.SaveLocalizedValue(entity, (x) => x.Value1, "Value 1...", language.Id);
             LocalizedEntityService.SaveLocalizedValue(entity, (x) => x.Value2, "Value 2...", language.Id);
 
@@ -62,13 +68,13 @@
             value2.ShouldEqual("Value 2...");
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_localized_value_using_default_language()
         {
             // setup
             var language1 = LanguageRepository.Insert(CreateLanguage(1));
             var language2 = LanguageRepository.Insert(CreateLanguage(2));
-            var entity = new LocalizedEntity { Id = 1 };
+            var entity = new LocalizedEntity { Id = new ObjectId(CommonHelper.CurrentTime(), 1, 2, 3) };
             LocalizedEntityService.SaveLocalizedValue(entity, (x) => x.Value1, "language 1 value 1.", language1.Id);
             LocalizedEntityService.SaveLocalizedValue(entity, (x) => x.Value2, "language 1 value 2", language1.Id);
             LocalizedEntityService.SaveLocalizedValue(entity, (x) => x.Value1, "language 2 value 1", language2.Id);
@@ -87,25 +93,9 @@
             value2.ShouldEqual("language 2 value 2");
         }
 
-        #region Database
-
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            DataTestBaseHelper.DropCreateDatabase<LocalizedEntityServiceTests>();
-        }
-
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            DataTestBaseHelper.DropDatabase<LocalizedEntityServiceTests>();
-        }
-
-        #endregion
-
         #region Nested types
 
-        public class LocalizedEntity : BaseEntity, ILocalizedEntity
+        public class LocalizedEntity : BaseEntity<ObjectId>, ILocalizedEntity
         {
             public string Value1 { get; set; }
             public string Value2 { get; set; }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using MongoDB.Bson;
+using Noodle.Localization.Services;
 
 namespace Noodle.Localization
 {
@@ -17,7 +19,7 @@ namespace Noodle.Localization
         /// <param name="localizationService">Localization service</param>
         /// <param name="languageId">Language identifier</param>
         /// <returns>Localized value</returns>
-        public static string GetLocalizedEnum<T>(this ILocalizationService localizationService, T enumValue, int? languageId = null)
+        public static string GetLocalizedEnum<T>(this ILocalizationService localizationService, T enumValue, ObjectId? languageId = null)
             where T : struct
         {
             if (!typeof(T).IsEnum) throw new ArgumentException("T must be an enumerated type");
@@ -38,7 +40,7 @@ namespace Noodle.Localization
         /// <param name="keySelector">The key selector to get a localized value for</param>?
         /// <param name="languageId">The language to look for</param>
         /// <returns></returns>
-        public static string GetLocalizedValue<T>(this ILocalizedEntityService localizedEntityService, int entityId, Expression<Func<T, string>> keySelector, int? languageId = null)
+        public static string GetLocalizedValue<T>(this ILocalizedEntityService localizedEntityService, ObjectId entityId, Expression<Func<T, string>> keySelector, ObjectId? languageId = null)
         {
             return localizedEntityService.GetLocalizedValue<T, string>(entityId, keySelector, languageId);
         }
@@ -53,7 +55,7 @@ namespace Noodle.Localization
         /// <param name="keySelector">The key selector to get a localized value for</param>
         /// <param name="languageId">The language to look for</param>
         /// <returns></returns>
-        public static string GetLocalizedValue<T, TPropType>(this ILocalizedEntityService localizedEntityService, int entityId, Expression<Func<T, TPropType>> keySelector, int? languageId = null)
+        public static string GetLocalizedValue<T, TPropType>(this ILocalizedEntityService localizedEntityService, ObjectId entityId, Expression<Func<T, TPropType>> keySelector, ObjectId? languageId = null)
         {
             var member = keySelector.Body as MemberExpression;
             if (member == null)

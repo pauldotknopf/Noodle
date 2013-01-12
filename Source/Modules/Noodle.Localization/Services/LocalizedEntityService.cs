@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using Noodle.Caching;
 using Noodle.Collections;
 using Noodle.Data;
@@ -14,16 +18,16 @@ namespace Noodle.Localization.Services
     {
         #region Constants
 
-        private const string LOCALIZEDPROPERTY_KEY = "Nop.localizedproperty.{0}-{1}-{2}-{3}";
-        private const string LOCALIZEDPROPERTY_PATTERN_KEY = "Nop.localizedproperty.";
+        private const string LOCALIZEDPROPERTY_KEY = "Noodle.localizedproperty.{0}-{1}-{2}-{3}";
+        private const string LOCALIZEDPROPERTY_PATTERN_KEY = "Noodle.localizedproperty.";
 
         #endregion
 
         #region Fields
 
-        private readonly IRepository<LocalizedProperty> _localizedPropertyRepository;
         private readonly LocalizationSettings _localizationSettings;
         private readonly ICacheManager _cacheManager;
+        private readonly MongoCollection<LocalizedProperty> _localizedPropertyCollection;
 
         #endregion
 
@@ -33,14 +37,14 @@ namespace Noodle.Localization.Services
         /// Ctor
         /// </summary>
         /// <param name="cacheManager">Cache manager</param>
-        /// <param name="localizedPropertyRepository">Localized property repository</param>
+        /// <param name="localizedPropertyCollection">Localized property collection</param>
         /// <param name="localizationSettings">Localization settings</param>
         public LocalizedEntityService(ICacheManager cacheManager,
-            IRepository<LocalizedProperty> localizedPropertyRepository,
+            MongoCollection<LocalizedProperty> localizedPropertyCollection,
             LocalizationSettings localizationSettings)
         {
             _cacheManager = cacheManager;
-            _localizedPropertyRepository = localizedPropertyRepository;
+            _localizedPropertyCollection = localizedPropertyCollection;
             _localizationSettings = localizationSettings;
         }
 
@@ -52,12 +56,12 @@ namespace Noodle.Localization.Services
         /// Deletes a localized property
         /// </summary>
         /// <param name="localizedPropertyId">Localized property id</param>
-        public virtual void DeleteLocalizedProperty(int localizedPropertyId)
+        public virtual void DeleteLocalizedProperty(ObjectId localizedPropertyId)
         {
-            if (localizedPropertyId == 0)
+            if (localizedPropertyId == ObjectId.Empty)
                 return;
 
-            _localizedPropertyRepository.ExecuteMethod<LocalizationDataContext>(context => context.DeleteLocalizedPropertyById(localizedPropertyId));
+            _localizedPropertyCollection.Remove(Query.EQ("_id", localizedPropertyId));
 
             _cacheManager.RemoveByPattern(LOCALIZEDPROPERTY_PATTERN_KEY);
         }
@@ -67,13 +71,12 @@ namespace Noodle.Localization.Services
         /// </summary>
         /// <param name="localizedPropertyId">Localized property identifier</param>
         /// <returns>Localized property</returns>
-        public virtual LocalizedProperty GetLocalizedPropertyById(int localizedPropertyId)
+        public virtual LocalizedProperty GetLocalizedPropertyById(ObjectId localizedPropertyId)
         {
-            if (localizedPropertyId == 0)
+            if (localizedPropertyId == ObjectId.Empty)
                 return null;
 
-            var localizedProperty = _localizedPropertyRepository.GetById(localizedPropertyId);
-            return localizedProperty;
+            return _localizedPropertyCollection.Find(Query.EQ("_id", localizedPropertyId)).SingleOrDefault();
         }
 
         /// <summary>
@@ -84,22 +87,23 @@ namespace Noodle.Localization.Services
         /// <param name="localeKeyGroup">Locale key group</param>
         /// <param name="localeKey">Locale key</param>
         /// <returns>Found localized value</returns>
-        public virtual string GetLocalizedValue(int entityId, string localeKeyGroup, string localeKey, int? languageId = null)
+        public virtual string GetLocalizedValue(ObjectId entityId, string localeKeyGroup, string localeKey, ObjectId? languageId = null)
         {
             if (languageId == null)
-                languageId = _localizationSettings.DefaultLanguageId;
+                languageId = ObjectId.Parse(_localizationSettings.DefaultLanguageId);
 
-            string key = string.Format(LOCALIZEDPROPERTY_KEY, languageId, entityId, localeKeyGroup, localeKey);
+            var key = string.Format(LOCALIZEDPROPERTY_KEY, languageId, entityId, localeKeyGroup, localeKey);
             return _cacheManager.Get(key, () =>
             {
-                var query = from lp in _localizedPropertyRepository.Table
-                            where lp.LanguageId == languageId &&
-                            lp.EntityId == entityId &&
-                            lp.LocaleKeyGroup == localeKeyGroup &&
-                            lp.LocaleKey == localeKey
-                            select lp.LocaleValue;
-                var localeValue = query.FirstOrDefault() ?? "";
-                return localeValue;
+                var result = _localizedPropertyCollection.Find(
+                    Query.And(
+                        Query.EQ("LanguageId", languageId),
+                        Query.EQ("EntityId", entityId),
+                        Query.EQ("LocaleKeyGroup", localeKeyGroup),
+                        Query.EQ("LocaleKey", localeKey))).FirstOrDefault();
+                return result != null
+                            ? result.LocaleValue
+                            : "";
             });
         }
 
@@ -109,18 +113,15 @@ namespace Noodle.Localization.Services
         /// <param name="entityId">Entity identifier</param>
         /// <param name="localeKeyGroup">Locale key group</param>
         /// <returns>Localized properties</returns>
-        public virtual NamedCollection<LocalizedProperty> GetLocalizedProperties(int entityId, string localeKeyGroup)
+        public virtual NamedCollection<LocalizedProperty> GetLocalizedProperties(ObjectId entityId, string localeKeyGroup)
         {
-            if (entityId == 0 || string.IsNullOrEmpty(localeKeyGroup))
+            if (entityId == ObjectId.Empty || string.IsNullOrEmpty(localeKeyGroup))
                 return new NamedCollection<LocalizedProperty>();
 
-            var query = from lp in _localizedPropertyRepository.Table
-                        orderby lp.Id
-                        where lp.EntityId == entityId &&
-                              lp.LocaleKeyGroup == localeKeyGroup
-                        select lp;
-
-            return new NamedCollection<LocalizedProperty>(query.ToList());
+            return new NamedCollection<LocalizedProperty>(_localizedPropertyCollection
+                .Find(Query.And(
+                        Query.EQ("EntityId", entityId),
+                        Query.EQ("LocaleKeyGroup", localeKeyGroup))).ToList());
         }
 
         /// <summary>
@@ -128,7 +129,7 @@ namespace Noodle.Localization.Services
         /// </summary>
         /// <param name="entityId">Entity identifier</param>
         /// <returns>Localized properties</returns>
-        public virtual NamedCollection<LocalizedProperty> GetLocalizedProperties<T>(int entityId) where T : BaseEntity, ILocalizedEntity
+        public virtual NamedCollection<LocalizedProperty> GetLocalizedProperties<T>(ObjectId entityId) where T : BaseEntity<ObjectId>, ILocalizedEntity
         {
             return GetLocalizedProperties(entityId, typeof(T).Name);
         }
@@ -138,7 +139,7 @@ namespace Noodle.Localization.Services
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns>Localized properties</returns>
-        public virtual NamedCollection<LocalizedProperty> GetLocalizedProperties<T>(T entity) where T : BaseEntity, ILocalizedEntity
+        public virtual NamedCollection<LocalizedProperty> GetLocalizedProperties<T>(T entity) where T : BaseEntity<ObjectId>, ILocalizedEntity
         {
             return GetLocalizedProperties(entity.Id, typeof(T).Name);
         }
@@ -152,7 +153,7 @@ namespace Noodle.Localization.Services
             if (localizedProperty == null)
                 throw new ArgumentNullException("localizedProperty");
 
-            _localizedPropertyRepository.Insert(localizedProperty);
+            _localizedPropertyCollection.Insert(localizedProperty);
 
             //cache
             _cacheManager.RemoveByPattern(LOCALIZEDPROPERTY_PATTERN_KEY);
@@ -167,7 +168,8 @@ namespace Noodle.Localization.Services
             if (localizedProperty == null)
                 throw new ArgumentNullException("localizedProperty");
 
-            _localizedPropertyRepository.Update(localizedProperty);
+            _localizedPropertyCollection.Update(Query.EQ("_id", localizedProperty.Id),
+                                                Update<LocalizedProperty>.Replace(localizedProperty));
 
             //cache
             _cacheManager.RemoveByPattern(LOCALIZEDPROPERTY_PATTERN_KEY);
@@ -184,7 +186,7 @@ namespace Noodle.Localization.Services
         public virtual void SaveLocalizedValue<T>(T entity,
             Expression<Func<T, string>> keySelector,
             string localeValue,
-            int languageId) where T : BaseEntity, ILocalizedEntity
+            ObjectId languageId) where T : BaseEntity<ObjectId>, ILocalizedEntity
         {
             SaveLocalizedValue<T, string>(entity, keySelector, localeValue, languageId);
         }
@@ -192,12 +194,12 @@ namespace Noodle.Localization.Services
         public virtual void SaveLocalizedValue<T, TPropType>(T entity,
             Expression<Func<T, TPropType>> keySelector,
             TPropType localeValue,
-            int languageId) where T : BaseEntity, ILocalizedEntity
+            ObjectId languageId) where T : BaseEntity<ObjectId>, ILocalizedEntity
         {
             if (entity == null)
                 throw new ArgumentNullException("entity");
 
-            if (languageId == 0)
+            if (languageId == ObjectId.Empty)
                 throw new ArgumentOutOfRangeException("languageId", "Language ID should not be 0");
 
             var member = keySelector.Body as MemberExpression;
@@ -223,14 +225,15 @@ namespace Noodle.Localization.Services
             var prop = props.FirstOrDefault(lp => lp.LanguageId == languageId &&
                 lp.LocaleKey.Equals(localeKey, StringComparison.InvariantCultureIgnoreCase)); //should be culture invariant
 
-            string localeValueStr = CommonHelper.To<string>(localeValue);
+            var localeValueStr = CommonHelper.To<string>(localeValue);
 
             if (prop != null)
             {
                 if (string.IsNullOrEmpty(localeValueStr))
                 {
                     //delete
-                    DeleteLocalizedProperty(prop.Id);
+                    // TODO
+                    //DeleteLocalizedProperty(prop.Id);
                 }
                 else
                 {

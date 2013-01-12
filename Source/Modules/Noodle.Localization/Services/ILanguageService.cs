@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MongoDB.Bson;
 
 namespace Noodle.Localization.Services
 {
@@ -11,7 +12,7 @@ namespace Noodle.Localization.Services
         /// Deletes a language
         /// </summary>
         /// <param name="languageId">Language</param>
-        void DeleteLanguage(int languageId);
+        void DeleteLanguage(ObjectId languageId);
 
         /// <summary>
         /// Gets all languages
@@ -25,18 +26,36 @@ namespace Noodle.Localization.Services
         /// </summary>
         /// <param name="languageId">Language identifier</param>
         /// <returns>Language</returns>
-        Language GetLanguageById(int languageId);
+        Language GetLanguageById(ObjectId languageId);
 
         /// <summary>
         /// Inserts a language
         /// </summary>
         /// <param name="language">Language</param>
-        void InsertLanguage(Language language);
+        Language InsertLanguage(Language language);
 
         /// <summary>
         /// Updates a language
         /// </summary>
         /// <param name="language">Language</param>
-        void UpdateLanguage(Language language);
+        Language UpdateLanguage(Language language);
+
+        /// <summary>
+        /// Sets the default language to the given id
+        /// </summary>
+        /// <param name="languageId"></param>
+        void SetDefaultLanguage(ObjectId languageId);
+
+        /// <summary>
+        /// Sets the defaults language to the given language
+        /// </summary>
+        /// <param name="language"></param>
+        void SetDefaultLanguage(Language language);
+
+        /// <summary>
+        /// Gets the current default language id
+        /// </summary>
+        /// <returns></returns>
+        ObjectId GetDefaultLanguageId();
     }
 }

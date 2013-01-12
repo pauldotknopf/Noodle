@@ -1,16 +1,17 @@
-﻿using Noodle.Collections;
+﻿using MongoDB.Bson;
+using Noodle.Collections;
 
 namespace Noodle.Localization
 {
     /// <summary>
     /// Represents a locale string resource
     /// </summary>
-    public partial class LocaleStringResource : BaseEntity, INameable
+    public partial class LocaleStringResource : BaseEntity<ObjectId>, INameable
     {
         /// <summary>
         /// Gets or sets the language identifier
         /// </summary>
-        public virtual int? LanguageId { get; set; }
+        public virtual ObjectId LanguageId { get; set; }
 
         /// <summary>
         /// Gets or sets the resource name
@@ -23,23 +24,9 @@ namespace Noodle.Localization
         public virtual string ResourceValue { get; set; }
 
         /// <summary>
-        /// Gets or sets the language
-        /// </summary>
-        public virtual Language Language { get; set; }
-
-        /// <summary>
-        /// Small hack for linq to sql
-        /// </summary>
-        public new int Id
-        {
-            get { return base.Id; }
-            set { base.Id = value; }
-        }
-
-        /// <summary>
         /// This is for a named collection
         /// </summary>
-        string Collections.INameable.Name
+        string INameable.Name
         {
             get { return ResourceName; }
         }
