@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Packages>
+  <PreActions>
+    <Command>$(buildDirectory)/Build.bat $(version)</Command>
+  </PreActions>
+  <Package name="Noodle">
+    <NuSpecPath>$(buildDirectory)/Noodle.nuspec</NuSpecPath>
+    <OutputDirectory>$(buildDirectory)</OutputDirectory>
+    <BasePath>$(buildDirectory)/Output/</BasePath>
+    <Deployments>
+      <Deployment name="Internal Deployment" path="E:\NuGetPackages\" />
+    </Deployments>
+  </Package>
+</Packages>
