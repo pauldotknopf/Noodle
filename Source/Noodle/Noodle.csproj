@@ -128,6 +128,11 @@
     <Compile Include="FluentDateTime\TimeSpanExtensions.cs" />
     <Compile Include="IBaseEntityWithDetails.cs" />
     <Compile Include="IDateTimeHelper.cs" />
+    <Compile Include="Imaging\IImageManipulator.cs" />
+    <Compile Include="Imaging\ImageManipulationParameters.cs" />
+    <Compile Include="Imaging\ImageResizeMode.cs" />
+    <Compile Include="Imaging\ImageResizeParameters.cs" />
+    <Compile Include="Imaging\NoodleImageManipulator.cs" />
     <Compile Include="IMultipleValue.cs" />
     <Compile Include="IPagedList.cs" />
     <Compile Include="ISettings.cs" />
