@@ -86,7 +86,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\Dependencies\mongodb-win32-x86_64-2.2.2\mongod.exe">
+    <Content Include="..\..\..\Dependencies\mongodb-win32-x86_64-2.0.8\mongod.exe">
       <Link>mongod.exe</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

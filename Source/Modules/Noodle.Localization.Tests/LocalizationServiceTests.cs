@@ -47,7 +47,7 @@ namespace Noodle.Localization.Tests
             var resource = _localizationService.InsertLocaleStringResource(CreateResource(1, _languageService.InsertLanguage(CreateLanguage()).Id));
 
             // act
-            var dbResource = _localizationService.GetLocaleStringResourceByName(resource.ResourceName.ToUpper(), resource.LanguageId);
+            var dbResource = _localizationService.GetLocaleStringResourceByName(resource.ResourceName, resource.LanguageId);
 
             // assert
             dbResource.ShouldNotBeNull();

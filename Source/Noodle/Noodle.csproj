@@ -142,6 +142,7 @@
     <Compile Include="NoodleEventArgs.cs" />
     <Compile Include="NoodleException.cs" />
     <Compile Include="PagedList.cs" />
+    <Compile Include="Pair.cs" />
     <Compile Include="Plugins\AutoInitializeAttribute.cs" />
     <Compile Include="Plugins\BasePluginAttribute.cs" />
     <Compile Include="Plugins\InitializerCreatingAttribute.cs" />

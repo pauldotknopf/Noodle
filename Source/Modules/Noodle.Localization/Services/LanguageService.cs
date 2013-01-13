@@ -18,9 +18,9 @@ namespace Noodle.Localization.Services
     public partial class LanguageService : ILanguageService
     {
         #region Constants
-        private const string LANGUAGES_ALL_KEY = "Nop.language.all-{0}";
-        private const string LANGUAGES_BY_ID_KEY = "Nop.language.id-{0}";
-        private const string LANGUAGES_PATTERN_KEY = "Nop.language.";
+        private const string LANGUAGES_ALL_KEY = "Noodle.language.all-{0}";
+        private const string LANGUAGES_BY_ID_KEY = "Noodle.language.id-{0}";
+        private const string LANGUAGES_PATTERN_KEY = "Noodle.language.";
         #endregion
 
         #region Fields

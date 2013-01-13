@@ -16,16 +16,12 @@ namespace Noodle.Localization.Tests
 {
     public class LocalizationTestsBase : DataTestBase
     {
-        protected IKernel _kernel;
         protected ILanguageService _languageService;
         protected ILocalizationService _localizationService;
         protected ILocalizedEntityService _localizedEntityService;
-        protected IDisposable _serverScope;
 
-        [SetUp]
-        public void Setup()
+        public override void SetUp()
         {
-            _kernel = GetTestKernel();
             _kernel.Resolve<MongoCollection<Language>>().RemoveAll();
             _kernel.Resolve<MongoCollection<LocaleStringResource>>().RemoveAll();
             _kernel.Resolve<MongoCollection<LocalizedProperty>>().RemoveAll();
@@ -33,28 +29,17 @@ namespace Noodle.Localization.Tests
             _languageService = _kernel.Resolve<ILanguageService>();
             _localizationService = _kernel.Resolve<ILocalizationService>();
             _localizedEntityService = _kernel.Resolve<ILocalizedEntityService>();
+
+            base.SetUp();
         }
 
-        [TestFixtureSetUp]
-        public void SetupFixture()
+        public override IEnumerable<Engine.IDependencyRegistrar> GetDependencyRegistrars()
         {
-            _serverScope = ServerScope();
-        }
-
-        [TestFixtureTearDown]
-        public void TearDownFixture()
-        {
-            _serverScope.Dispose();
-        }
-
-        public override IKernel GetTestKernel(params Engine.IDependencyRegistrar[] dependencyRegistrars)
-        {
-            var registrars = dependencyRegistrars.ToList();
-            registrars.Insert(0, new MongoDB.DependencyRegistrar());
-            registrars.Insert(0, new DependencyRegistrar());
-            registrars.Insert(0, new Settings.DependencyRegistrar());
-            var kernel = base.GetTestKernel(registrars.ToArray());
-            return kernel;
+            var registrars = base.GetDependencyRegistrars().ToList();
+            registrars.Add(new MongoDB.DependencyRegistrar());
+            registrars.Add(new DependencyRegistrar());
+            registrars.Add(new Settings.DependencyRegistrar());
+            return registrars;
         }
 
         public IEqualityComparer<Language> GetLanguageComparer()

@@ -11,6 +11,9 @@ using Noodle.Web;
 
 namespace Noodle.Localization.Services
 {
+    /// <summary>
+    /// Class LanguageInstaller
+    /// </summary>
     public class LanguageInstaller : ILanguageInstaller
     {
         private readonly ILanguageService _languageService;
@@ -26,6 +29,10 @@ namespace Noodle.Localization.Services
             _errorNotifier = errorNotifier;
         }
 
+        /// <summary>
+        /// Install languages from the given xml file
+        /// </summary>
+        /// <param name="languagesXmlFileLocation">The languages XML file location.</param>
         public void Install(string languagesXmlFileLocation)
         {
             // Let's first delete everything
@@ -35,15 +42,17 @@ namespace Noodle.Localization.Services
 
             try
             {
-
-                foreach (var languageResourcesKeyValue in languages)
+                foreach (var language in languages)
                 {
-                    _languageService.InsertLanguage(languageResourcesKeyValue.Key);
-                    foreach (var resource in languageResourcesKeyValue.Value)
-                    {
-                        resource.LanguageId = languageResourcesKeyValue.Key.Id;
-                        _localizationService.InsertLocaleStringResource(resource);
-                    }
+                    // insert the language
+                    _languageService.InsertLanguage(language.First);
+
+                    // update all the resources with the new id of the language
+                    Array.ForEach(language.Second.ToArray(),
+                        (resource) => resource.LanguageId = language.First.Id);
+
+                    // batch insert them!
+                    _localizationService.InsertLocaleStringResources(language.Second.ToArray());
                 }
             }
             catch (Exception ex)
@@ -53,18 +62,19 @@ namespace Noodle.Localization.Services
             }
         }
 
-        public Dictionary<Language, List<LocaleStringResource>> DeserializeLanguagesFile(string languagesXmlFileLocation)
+        public List<Pair<Language, List<LocaleStringResource>>> DeserializeLanguagesFile(string languagesXmlFileLocation)
         {
-            var result = new Dictionary<Language, List<LocaleStringResource>>();
+            var result = new List<Pair<Language, List<LocaleStringResource>>>();
             var originalXmlDocument = new XmlDocument();
 
             originalXmlDocument.Load(languagesXmlFileLocation);
 
             foreach (XmlNode languageNode in originalXmlDocument.SelectNodes(@"//Languages/Language"))
             {
-                var language = GetLanguage(languageNode);
-                var resultResources = new List<LocaleStringResource>();
-                result.Add(language, resultResources);
+                var pair = new Pair<Language, List<LocaleStringResource>>();
+                pair.First = GetLanguage(languageNode);
+                pair.Second = new List<LocaleStringResource>();
+                result.Add(pair);
 
                 var resources = new List<LocaleStringResourceParent>();
 
@@ -107,8 +117,8 @@ namespace Noodle.Localization.Services
                         if (!String.IsNullOrEmpty(resName))
                         {
                             //ensure it's not duplicate
-                            bool duplicate =
-                                resultResources.Any(
+                            var duplicate =
+                                pair.Second.Any(
                                     res1 =>
                                     resName.Equals(res1.ResourceName, StringComparison.InvariantCultureIgnoreCase));
 
@@ -121,7 +131,7 @@ namespace Noodle.Localization.Services
                                 ResourceName = resName,
                                 ResourceValue = resValue
                             };
-                            resultResources.Add(lsr);
+                            pair.Second.Add(lsr);
                         }
                     }
                 }

@@ -6,7 +6,7 @@ using System.Text;
 namespace Noodle.Localization.Services
 {
     /// <summary>
-    /// Install languages from an xml filel
+    /// Install languages from an xml file
     /// </summary>
     public interface ILanguageInstaller
     {
@@ -17,10 +17,10 @@ namespace Noodle.Localization.Services
         void Install(string languagesXmlFileLocation);
 
         /// <summary>
-        /// Deserialize the xml language file to an inmemoy collection for modification (and maybe inserting?)
+        /// Deserialize the xml language file to an in memory collection for modification (and maybe inserting?)
         /// </summary>
         /// <param name="languagesXmlFileLocation"></param>
         /// <returns></returns>
-        Dictionary<Language, List<LocaleStringResource>> DeserializeLanguagesFile(string languagesXmlFileLocation);
+        List<Pair<Language, List<LocaleStringResource>>> DeserializeLanguagesFile(string languagesXmlFileLocation);
     }
 }

@@ -47,6 +47,12 @@ namespace Noodle.Localization.Services
         LocaleStringResource InsertLocaleStringResource(LocaleStringResource localeStringResource);
 
         /// <summary>
+        /// Inserts a locale string resources in a batch-like manner (for performance). The language installer uses this.
+        /// </summary>
+        /// <param name="localeStringResources">Locale string resources</param>
+        void InsertLocaleStringResources(params LocaleStringResource[] localeStringResources);
+
+        /// <summary>
         /// Updates the locale string resource
         /// </summary>
         /// <param name="localeStringResource">Locale string resource</param>

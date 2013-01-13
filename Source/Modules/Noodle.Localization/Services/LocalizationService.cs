@@ -15,7 +15,6 @@ namespace Noodle.Localization.Services
     /// <summary>
     /// Provides information about localization
     /// </summary>
-    /// <remarks></remarks>
     public partial class LocalizationService : ILocalizationService
     {
         #region Constants
@@ -161,6 +160,21 @@ namespace Noodle.Localization.Services
             _cacheManager.RemoveByPattern(LOCALSTRINGRESOURCES_PATTERN_KEY);
 
             return localeStringResource;
+        }
+
+        /// <summary>
+        /// Inserts a locale string resources in a batch-like manner (for performance). The language installer uses this.
+        /// </summary>
+        /// <param name="localeStringResources">Locale string resourcea</param>
+        public virtual void InsertLocaleStringResources(params LocaleStringResource[] localeStringResources)
+        {
+            if(localeStringResources == null || localeStringResources.Length == 0)
+                return;
+
+            _localeStringResourceCollection.InsertBatch(localeStringResources.ToList());
+
+            // cache
+            _cacheManager.RemoveByPattern(LOCALSTRINGRESOURCES_PATTERN_KEY);
         }
 
         /// <summary>

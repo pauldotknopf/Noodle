@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using MongoDB.Driver;
 using NUnit.Framework;
 using Ninject;
+using Ninject.Syntax;
 using Noodle.Tests;
 using Noodle.Web;
 
@@ -11,27 +14,13 @@ namespace Noodle.Settings.Tests
     public class SettingServiceTests : DataTestBase
     {
         private Setting _testsetting;
-        private IKernel _kernel;
         private ISettingService _settingService;
-        private IDisposable _disposable;
 
-        [TestFixtureSetUp]
-        public void FixtureSetup()
+        public override void SetUp()
         {
-            _disposable = ServerScope();
-        }
-
-        [TestFixtureTearDown]
-        public void FixtureTearDown()
-        {
-            _disposable.Dispose();
-        }
-
-        [SetUp]
-        public void Setup()
-        {
-            _kernel = GetTestKernel(new MongoDB.DependencyRegistrar(), new DependencyRegistrar());
+            _kernel.Resolve<MongoCollection<Setting>>().RemoveAll();
             _settingService = _kernel.Resolve<ISettingService>();
+            base.SetUp();
         }
 
         [Test]
@@ -95,6 +84,14 @@ namespace Noodle.Settings.Tests
             public long Long { get; set; }
             public decimal Decimal { get; set; }
             public TestEnumType Enum { get; set; }
+        }
+
+        public override IEnumerable<Engine.IDependencyRegistrar> GetDependencyRegistrars()
+        {
+            var registrars = base.GetDependencyRegistrars().ToList();
+            registrars.Add(new MongoDB.DependencyRegistrar());
+            registrars.Add(new DependencyRegistrar());
+            return registrars;
         }
     }
 }

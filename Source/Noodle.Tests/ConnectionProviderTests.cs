@@ -11,16 +11,16 @@ namespace Noodle.Tests
     [TestFixture]
     public class ConnectionProviderTests : TestBase
     {
-        private List<ConnectionStringElement> _connectionStringPointers;
-        private ConnectionStringSettingsCollection _connectionStrings;
+        private List<ConnectionStringElement> _connectionStringPointers = new List<ConnectionStringElement>();
+        private ConnectionStringSettingsCollection _connectionStrings = new ConnectionStringSettingsCollection();
 
         
         public override void SetUp()
         {
             base.SetUp();
 
-            _connectionStringPointers = new List<ConnectionStringElement>();
-            _connectionStrings = new ConnectionStringSettingsCollection();
+            _connectionStringPointers.Clear();
+            _connectionStrings.Clear();
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Noodle.Tests
                 ConnectionString = "server=somewhere",
                 Name = "connection1"
             });
-            var connectionProvider = GetTestKernel().Get<IConnectionProvider>();
+            var connectionProvider = _kernel.Get<IConnectionProvider>();
 
             // assert
             ExceptionAssert.Throws<NoodleException>(() => connectionProvider.GetDbConnection("testName2", true));
@@ -64,7 +64,7 @@ namespace Noodle.Tests
                                                              Name = "Noodle",
                                                              ConnectionString = "server=overhere"
                                                          });
-            var connectionProvider = GetTestKernel().Get<IConnectionProvider>();
+            var connectionProvider = _kernel.Get<IConnectionProvider>();
 
             // assert
             connectionProvider.GetDbConnection("testName").ConnectionString.ShouldEqual("server=overhere");
@@ -90,30 +90,29 @@ namespace Noodle.Tests
                 Name = "NoodleCustom",
                 ConnectionString = "server=overthere"
             });
-            var connectionProvider = GetTestKernel().Get<IConnectionProvider>();
+            var connectionProvider = _kernel.Get<IConnectionProvider>();
 
             // assert
             connectionProvider.GetDbConnection("testName").ConnectionString.ShouldEqual("server=overthere");
             connectionProvider.GetDbConnection().ConnectionString.ShouldEqual("server=overhere");
         }
 
-        public override IKernel GetTestKernel(params Engine.IDependencyRegistrar[] dependencyRegistrars)
+        public override void FixtureSetUp()
         {
-            var kernel = base.GetTestKernel(dependencyRegistrars);
+            base.FixtureSetUp();
 
             var configuration = new Mock<NoodleCoreConfiguration>();
             configuration.Setup(x => x.ConnectionStrings).Returns(() =>
             {
                 var connectionStrings = new ConnectionStringCollection();
-                foreach(var pointer in _connectionStringPointers)
+                foreach (var pointer in _connectionStringPointers)
                 {
                     connectionStrings.Add(pointer);
                 }
                 return connectionStrings;
             });
-            kernel.Rebind<NoodleCoreConfiguration>().ToConstant(configuration.Object);
-            kernel.Rebind<ConnectionStringSettingsCollection>().ToConstant(_connectionStrings);
-            return kernel;
+            _kernel.Rebind<NoodleCoreConfiguration>().ToConstant(configuration.Object);
+            _kernel.Rebind<ConnectionStringSettingsCollection>().ToConstant(_connectionStrings);
         }
     }
 }
