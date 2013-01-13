@@ -41,6 +41,11 @@ namespace Noodle.Localization.Services
         Language UpdateLanguage(Language language);
 
         /// <summary>
+        /// Delete all the languages. It also deletes all referenced localized values, so be careful!
+        /// </summary>
+        void DeleteAll();
+
+        /// <summary>
         /// Sets the default language to the given id
         /// </summary>
         /// <param name="languageId"></param>

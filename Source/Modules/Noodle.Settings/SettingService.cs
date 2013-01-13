@@ -17,7 +17,7 @@ namespace Noodle.Settings
     public partial class SettingService : ISettingService
     {
         #region Constants
-        private const string SETTINGS_ALL_KEY = "Method.setting.all";
+        private const string SETTINGS_ALL_KEY = "Noodle.setting.all";
         #endregion
 
         #region Fields

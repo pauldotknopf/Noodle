@@ -18,9 +18,9 @@ namespace Noodle.Localization.Services
     public partial class LanguageService : ILanguageService
     {
         #region Constants
-        private const string LANGUAGES_ALL_KEY = "Method.language.all-{0}";
-        private const string LANGUAGES_BY_ID_KEY = "Method.language.id-{0}";
-        private const string LANGUAGES_PATTERN_KEY = "Method.language.";
+        private const string LANGUAGES_ALL_KEY = "Nop.language.all-{0}";
+        private const string LANGUAGES_BY_ID_KEY = "Nop.language.id-{0}";
+        private const string LANGUAGES_PATTERN_KEY = "Nop.language.";
         #endregion
 
         #region Fields
@@ -176,6 +176,16 @@ namespace Noodle.Localization.Services
             _cacheManager.RemoveByPattern(LANGUAGES_PATTERN_KEY);
 
             return language;
+        }
+
+        /// <summary>
+        /// Delete all the languages. It also deletes all referenced localized values, so be careful!
+        /// </summary>
+        public virtual void DeleteAll()
+        {
+            _localizedPropertyCollection.RemoveAll();
+            _localeStringResourceCollection.RemoveAll();
+            _localeStringResourceCollection.RemoveAll();
         }
 
         /// <summary>

@@ -15,6 +15,7 @@ namespace Noodle.Localization
             kernel.Bind<ILanguageService>().To<LanguageService>().InRequestScope();
             kernel.Bind<ILocalizationService>().To<LocalizationService>().InRequestScope();
             kernel.Bind<ILocalizedEntityService>().To<LocalizedEntityService>().InRequestScope();
+            kernel.Bind<ILanguageInstaller>().To<LanguageInstaller>().InRequestScope();
             kernel.Bind<MongoDatabase>()
                   .ToMethod(context => context.Kernel.Resolve<IMongoService>().GetDatabase("Localization"))
                   .InSingletonScope()
