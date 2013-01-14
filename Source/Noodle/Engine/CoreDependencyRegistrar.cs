@@ -68,6 +68,7 @@ namespace Noodle.Engine
             kernel.Bind<IHeart>().To<Heart>().InSingletonScope();
             kernel.Bind<IErrorNotifier>().To<ErrorNotifier>().InSingletonScope();
             kernel.Bind<IConnectionProvider>().To<ConnectionProvider>().InSingletonScope();
+            kernel.RegisterLazy();
             kernel.Bind<IWebHelper>().ToMethod(context =>
             {
                 if (HttpContext.Current == null)

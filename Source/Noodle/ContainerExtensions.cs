@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using Ninject;
 using Ninject.Activation;
@@ -10,6 +11,7 @@ using Ninject.Parameters;
 using Ninject.Planning;
 using Ninject.Planning.Bindings;
 using Ninject.Syntax;
+using Noodle.Engine;
 
 namespace Noodle
 {
@@ -47,6 +49,21 @@ namespace Noodle
             
             // Create the context and resolve the request.
             return kernelBase.CreateContext(request, binding).Resolve();
+        }
+
+        public static void RegisterLazy(this IKernel kernel)
+        {
+            kernel.Rebind(typeof(Lazy<>)).ToMethod(ctx => typeof (ContainerExtensions)
+                                                               .GetMethod("GetLazyProvider",
+                                                                          BindingFlags.Instance |
+                                                                          BindingFlags.NonPublic | BindingFlags.Static)
+                                                               .MakeGenericMethod(ctx.GenericArguments[0])
+                                                               .Invoke(null, new object[] {ctx.Kernel}));
+        }
+
+        private static Lazy<T> GetLazyProvider<T>(IKernel kernel)
+        {
+            return new Lazy<T>(() => kernel.Get<T>());
         }
 
         [DebuggerStepThrough]
