@@ -50,35 +50,65 @@ namespace Noodle.Engine
         IList<Type> Find<T>(bool concreteTypesOnly = true);
 
         /// <summary>
-        /// Gets tne assemblies related to the current implementation.
+        /// Gets the assemblies related to the current implementation.
         /// </summary>
         /// <returns>A list of assemblies that should be loaded by the N2 factory.</returns>
         /// <remarks></remarks>
         IList<Assembly> GetAssemblies();
+
+        /// <summary>
+        /// Specify the assemblies to exclude
+        /// </summary>
+        IExcludedAssemblies Excluding { get; }
+
+        /// <summary>
+        /// Specify the assemblies to include
+        /// </summary>
+        IIncludedAssemblies Including { get; }
+
+        /// <summary>
+        /// Specifiy the ONLY assemblies to include
+        /// </summary>
+        IIncludedOnlyAssemblies IncludingOnly { get; }
     }
 
-    ///// <summary>
-    ///// Classes implementing this interface provide information about types 
-    ///// to various services in the engine.
-    ///// </summary>
-    //public interface ITypeFinder
-    //{
-    //    IList<Assembly> GetAssemblies();
+    /// <summary>
+    /// A list of the only assemblies to include
+    /// </summary>
+    public interface IIncludedOnlyAssemblies
+    {
+        List<Assembly> Assemblies { get; set; }
+        IIncludedOnlyAssemblies Assembly(Assembly assembly);
+        IIncludedOnlyAssemblies AssemblyRange(IEnumerable<Assembly> assemblies);
+        IIncludedOnlyAssemblies AndAssembly(Assembly assembly);
+        IIncludedOnlyAssemblies AndAssemblyRange(IEnumerable<Assembly> assemblies);
+        IIncludedAssemblies Including { get; }
+        IExcludedAssemblies Excluding { get; }
+    }
 
-    //    IEnumerable<Type> FindClassesOfType(Type assignTypeFrom, bool onlyConcreteClasses = true);
+    /// <summary>
+    /// A list of assemblies to include
+    /// </summary>
+    public interface IIncludedAssemblies
+    {
+        List<Assembly> Assemblies { get; set; }
+        IIncludedAssemblies Assembly(Assembly assembly);
+        IIncludedAssemblies AssemblyRange(IEnumerable<Assembly> assemblies);
+        IIncludedAssemblies AndAssembly(Assembly assembly);
+        IIncludedAssemblies AndAssemblyRange(IEnumerable<Assembly> assemblies);
+        IIncludedOnlyAssemblies IncludingOnly { get; }
+        IExcludedAssemblies Excluding { get; }
+    }
 
-    //    IEnumerable<Type> FindClassesOfType(Type assignTypeFrom, IEnumerable<Assembly> assemblies, bool onlyConcreteClasses = true);
-
-    //    IEnumerable<Type> FindClassesOfType<T>(bool onlyConcreteClasses = true);
-
-    //    IEnumerable<Type> FindClassesOfType<T>(IEnumerable<Assembly> assemblies, bool onlyConcreteClasses = true);
-
-    //    IEnumerable<Type> FindClassesOfType<T, TAssemblyAttribute>(bool onlyConcreteClasses = true) where TAssemblyAttribute : Attribute;
-
-    //    IEnumerable<Assembly> FindAssembliesWithAttribute<T>();
-
-    //    IEnumerable<Assembly> FindAssembliesWithAttribute<T>(IEnumerable<Assembly> assemblies);
-
-    //    IEnumerable<Assembly> FindAssembliesWithAttribute<T>(DirectoryInfo assemblyPath);
-    //}
+    /// <summary>
+    /// A list of the assemblies to exclude
+    /// </summary>
+    public interface IExcludedAssemblies
+    {
+        List<string> Assemblies { get; set; }
+        IExcludedAssemblies Assembly(string assembly);
+        IExcludedAssemblies AndAssembly(string assembly);
+        IIncludedAssemblies Including { get; }
+        IIncludedOnlyAssemblies IncludingOnly { get; }
+    }
 }

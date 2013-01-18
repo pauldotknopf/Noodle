@@ -375,6 +375,22 @@ namespace Noodle.Engine
                 : searchPath.Split(new[] { Path.PathSeparator }, StringSplitOptions.RemoveEmptyEntries)
                     .Select(path => Path.Combine(baseDirectory, path));
         }
+
+
+        public IExcludedAssemblies Excluding
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IIncludedAssemblies Including
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IIncludedOnlyAssemblies IncludingOnly
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 
     /// <summary>
