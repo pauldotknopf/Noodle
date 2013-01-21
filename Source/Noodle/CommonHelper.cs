@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -18,6 +19,13 @@ namespace Noodle
     public static class CommonHelper
     {
         #region Type converting
+
+        /// <summary>
+        /// This is here for unit tests.
+        /// GetEntryAssembly returns null in unit tests
+        /// </summary>
+        /// <returns></returns>
+        public static Func<Assembly> GetEntryAssembly = () => Assembly.GetEntryAssembly();
 
         /// <summary>
         /// Converts a value to a destination type.

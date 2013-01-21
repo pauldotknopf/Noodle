@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseDetailsEntity.cs" />
     <Compile Include="BaseEntity.cs" />
     <Compile Include="Caching\AdaptiveCache.cs" />
     <Compile Include="Caching\CacheAttribute.cs" />
@@ -106,19 +105,26 @@
     <Compile Include="Email\IEmailSender.cs" />
     <Compile Include="EngineContext.cs" />
     <Compile Include="Engine\AppDomainTypeFinder.cs" />
+    <Compile Include="Engine\AssemblyFinder.cs" />
     <Compile Include="Engine\AsyncWorker.cs" />
     <Compile Include="Engine\AttributeInfo.cs" />
     <Compile Include="Engine\ContainerScopeEnum.cs" />
     <Compile Include="Engine\CoreDependencyRegistrar.cs" />
+    <Compile Include="Engine\ExcludedAssemblies.cs" />
+    <Compile Include="Engine\IAssemblyFinder.cs" />
     <Compile Include="Engine\IAutoStartBindingResolver.cs" />
     <Compile Include="Engine\IDependencyRegistrar.cs" />
+    <Compile Include="Engine\IExcludedAssemblies.cs" />
+    <Compile Include="Engine\IIncludedAssemblies.cs" />
+    <Compile Include="Engine\IIncludedOnlyAssemblies.cs" />
+    <Compile Include="Engine\IncludedAssemblies.cs" />
+    <Compile Include="Engine\IncludedOnlyAssemblies.cs" />
     <Compile Include="Engine\ITypeFinder.cs" />
     <Compile Include="Engine\IWorker.cs" />
     <Compile Include="Engine\Logger.cs" />
     <Compile Include="Engine\ServiceAttribute.cs" />
     <Compile Include="Engine\ServiceRegistrar.cs" />
     <Compile Include="Engine\Singleton.cs" />
-    <Compile Include="EntityDetail.cs" />
     <Compile Include="ErrorEventArgs.cs" />
     <Compile Include="Extensions\CodeMirrorEnums.cs" />
     <Compile Include="FluentDateTime\DateTimeExtensions.cs" />
@@ -126,14 +132,12 @@
     <Compile Include="FluentDateTime\NumberExtensions.cs" />
     <Compile Include="FluentDateTime\RoundTo.cs" />
     <Compile Include="FluentDateTime\TimeSpanExtensions.cs" />
-    <Compile Include="IBaseEntityWithDetails.cs" />
     <Compile Include="IDateTimeHelper.cs" />
     <Compile Include="Imaging\IImageManipulator.cs" />
     <Compile Include="Imaging\ImageManipulationParameters.cs" />
     <Compile Include="Imaging\ImageResizeMode.cs" />
     <Compile Include="Imaging\ImageResizeParameters.cs" />
     <Compile Include="Imaging\NoodleImageManipulator.cs" />
-    <Compile Include="IMultipleValue.cs" />
     <Compile Include="IO\Overwrite.cs" />
     <Compile Include="IO\Path.cs" />
     <Compile Include="IO\PathConverter.cs" />

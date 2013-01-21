@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 using Ninject;
 using Noodle.Configuration;
@@ -52,14 +53,24 @@ namespace Noodle.Tests.Plugins
     [TestFixture]
     public class PluginFinderTests
     {
-        readonly PluginFinder _finder;
+        PluginFinder _finder;
+        Func<Assembly> _prev; 
 
-        public PluginFinderTests()
+        [TestFixtureSetUp]
+        public void FixtureSetup()
         {
+            _prev = CommonHelper.GetEntryAssembly;
+            CommonHelper.GetEntryAssembly = () => typeof (TestBase).Assembly;
             var edit = new NoodleCoreConfiguration();
             var kernel = new StandardKernel();
             kernel.Bind<ISecurityManager>().To<FakeSecurityManager>();
-            _finder = new PluginFinder(new AppDomainTypeFinder(), edit, kernel);
+            _finder = new PluginFinder(new AppDomainTypeFinder(new AssemblyFinder()), edit, kernel);
+        }
+
+        [TestFixtureTearDown]
+        public void FixtureTearDown()
+        {
+            CommonHelper.GetEntryAssembly = _prev;
         }
 
         [Test]
@@ -132,7 +143,7 @@ namespace Noodle.Tests.Plugins
             int initialCount = _finder.GetPlugins<TestPluginAttribute>().Count();
             var configuration = new NoodleCoreConfiguration() { Plugins = new PluginCollection() };
             configuration.Plugins.Remove(new PluginElement { Name = "Plugin 2" });
-            var newfinder = new PluginFinder(new AppDomainTypeFinder(), configuration, null);
+            var newfinder = new PluginFinder(new AppDomainTypeFinder(new AssemblyFinder()), configuration, null);
             
             var plugins = newfinder.GetPlugins<TestPluginAttribute>().ToList();
 

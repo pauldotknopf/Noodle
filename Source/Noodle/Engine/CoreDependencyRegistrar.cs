@@ -52,6 +52,7 @@ namespace Noodle.Engine
             kernel.Bind<ConfigurationManagerWrapper>().ToConstant(configuration);
             kernel.Bind<ServiceRegistrator>().ToSelf().InSingletonScope();
             kernel.Bind<ITypeFinder>().To<AppDomainTypeFinder>().InSingletonScope();
+            kernel.Bind<IAssemblyFinder>().To<AssemblyFinder>().InSingletonScope();
             kernel.Bind<ISerializer>().To<BinaryStringSerializer>().InSingletonScope();
             kernel.Bind<IEncryptionService>().To<EncryptionService>().InSingletonScope();
             // Adaptive cache will auto switch between http and in-memory cache

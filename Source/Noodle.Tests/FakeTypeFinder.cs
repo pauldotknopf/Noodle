@@ -17,7 +17,7 @@ namespace Noodle.Tests
 
         public IList<Type> Find(Type requestedType, IList<Assembly> assemeblies, bool concreteTypesOnly = true)
         {
-            return new AppDomainTypeFinder().Find(requestedType, assemeblies, concreteTypesOnly);
+            return new AppDomainTypeFinder(null).Find(requestedType, assemeblies, concreteTypesOnly);
         }
 
         public IList<Type> Find<T>(IList<Assembly> assemeblies, bool concreteTypesOnly = true)

@@ -9,13 +9,19 @@ using Noodle.Engine;
 
 namespace Noodle
 {
+    /// <summary>
+    /// This manages the kernel globally across an application.
+    /// It runs startup tasks.
+    /// It registers IDependencyRegistrars.
+    /// </summary>
     public class EngineContext
     {
         private static readonly object ContainerCreationLockObject = new object();
 
         #region Current
+
         /// <summary>
-        /// Return the singleton kernel element
+        /// Return the singleton kernel
         /// </summary>
         public static IKernel Current
         {
@@ -25,9 +31,16 @@ namespace Noodle
                 return Singleton<IKernel>.Instance;
             }
         }
+
         #endregion
 
         #region Configure
+
+        /// <summary>
+        /// Ensure the container is configured. 
+        /// Optionally force it to be re-configured.
+        /// </summary>
+        /// <param name="force"></param>
         public static void Configure(bool force)
         {
             // If the kernel hasn't been created or the call is forcing a new one do something, otherwise, just exit
@@ -57,6 +70,7 @@ namespace Noodle
                 }
             }
         }
+
         #endregion
 
         #region Shortcuts
@@ -83,7 +97,22 @@ namespace Noodle
 
         #endregion
 
-        #region Private helpers
+        #region AssemblyExclude/Includes
+
+        public static IExcludedAssemblies Excluding { get; private set; }
+        public static IIncludedAssemblies Including { get; private set; }
+        public static IIncludedOnlyAssemblies IncludingOnly { get; private set; }
+
+        private static void InitializeExcludedAndIncludedAssemblies()
+        {
+            Excluding = new ExcludedAssemblies();
+            Including = new IncludedAssemblies();
+            IncludingOnly = new IncludedOnlyAssemblies();
+        }
+
+        #endregion
+
+        #region Methods
 
         private static void RegisterDependencyRegistrar(ITypeFinder typeFinder, IKernel kernel, ConfigurationManagerWrapper configuration)
         {
@@ -116,7 +145,7 @@ namespace Noodle
 
         public static void RunStartupTasks(IKernel kernel)
         {
-            var all = kernel.GetBindings(typeof (AutoStartBindingResolver.AutoStartBindingService));
+            var all = kernel.GetBindings(typeof(AutoStartBindingResolver.AutoStartBindingService));
             var startupServices = all.Select(x => kernel.Get(x.Service)).Cast<IStartupTask>().OrderBy(x => x.Order);
             foreach (var service in startupServices)
             {
@@ -128,6 +157,11 @@ namespace Noodle
         {
             var serviceRegistrar = kernel.Get<ServiceRegistrator>();
             serviceRegistrar.RegisterServices(kernel);
+        }
+
+        static EngineContext()
+        {
+            InitializeExcludedAndIncludedAssemblies();
         }
 
         #endregion

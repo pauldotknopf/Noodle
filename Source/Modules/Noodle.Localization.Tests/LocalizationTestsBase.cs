@@ -4,17 +4,14 @@ using System.Globalization;
 using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using NUnit.Framework;
-using Ninject;
 using Noodle.Collections;
-using Noodle.Data;
 using Noodle.Localization.Services;
 using Noodle.Settings;
 using Noodle.Tests;
 
 namespace Noodle.Localization.Tests
 {
-    public class LocalizationTestsBase : DataTestBase
+    public abstract class LocalizationTestsBase : DataTestBase
     {
         protected ILanguageService _languageService;
         protected ILocalizationService _localizationService;
