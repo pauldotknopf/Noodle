@@ -56,20 +56,20 @@ namespace Noodle.Engine
         /// <remarks></remarks>
         IList<Assembly> GetAssemblies();
 
-        /// <summary>
-        /// Specify the assemblies to exclude
-        /// </summary>
-        IExcludedAssemblies Excluding { get; }
+        ///// <summary>
+        ///// Specify the assemblies to exclude
+        ///// </summary>
+        //IExcludedAssemblies Excluding { get; }
 
-        /// <summary>
-        /// Specify the assemblies to include
-        /// </summary>
-        IIncludedAssemblies Including { get; }
+        ///// <summary>
+        ///// Specify the assemblies to include
+        ///// </summary>
+        //IIncludedAssemblies Including { get; }
 
-        /// <summary>
-        /// Specifiy the ONLY assemblies to include
-        /// </summary>
-        IIncludedOnlyAssemblies IncludingOnly { get; }
+        ///// <summary>
+        ///// Specifiy the ONLY assemblies to include
+        ///// </summary>
+        //IIncludedOnlyAssemblies IncludingOnly { get; }
     }
 
     /// <summary>

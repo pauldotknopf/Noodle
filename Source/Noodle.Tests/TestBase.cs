@@ -27,6 +27,8 @@ namespace Noodle.Tests
         public virtual void FixtureSetUp()
         {
             _kernel = BuildTestKernel();
+            // placing the kernel here allows it to be used when doing EngineContext.Current
+            Singleton<IKernel>.Instance = _kernel;
         }
 
         [TestFixtureTearDown]
