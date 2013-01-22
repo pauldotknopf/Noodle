@@ -52,15 +52,13 @@ namespace Noodle.MongoDB
             try
             {
                 _process.Kill();
-                Thread.Sleep((int)TimeSpan.FromSeconds(1).TotalMilliseconds);
+                System.Threading.Thread.Sleep((int)TimeSpan.FromSeconds(1).TotalMilliseconds);
                 Directory.Delete(_directory, true);
             }
             finally
             {
                 Monitor.Exit(_lockObject);
             }
-
-            Thread.Sleep(5000);
         }
     }
 }

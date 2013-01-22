@@ -19,6 +19,8 @@ namespace Noodle.Localization.Tests
 
         public override void SetUp()
         {
+            base.SetUp();
+
             _kernel.Resolve<MongoCollection<Language>>().RemoveAll();
             _kernel.Resolve<MongoCollection<LocaleStringResource>>().RemoveAll();
             _kernel.Resolve<MongoCollection<LocalizedProperty>>().RemoveAll();
@@ -26,8 +28,6 @@ namespace Noodle.Localization.Tests
             _languageService = _kernel.Resolve<ILanguageService>();
             _localizationService = _kernel.Resolve<ILocalizationService>();
             _localizedEntityService = _kernel.Resolve<ILocalizedEntityService>();
-
-            base.SetUp();
         }
 
         public override IEnumerable<Engine.IDependencyRegistrar> GetDependencyRegistrars()

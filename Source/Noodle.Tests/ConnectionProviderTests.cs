@@ -21,6 +21,19 @@ namespace Noodle.Tests
 
             _connectionStringPointers.Clear();
             _connectionStrings.Clear();
+
+            var configuration = new Mock<NoodleCoreConfiguration>();
+            configuration.Setup(x => x.ConnectionStrings).Returns(() =>
+            {
+                var connectionStrings = new ConnectionStringCollection();
+                foreach (var pointer in _connectionStringPointers)
+                {
+                    connectionStrings.Add(pointer);
+                }
+                return connectionStrings;
+            });
+            _kernel.Rebind<NoodleCoreConfiguration>().ToConstant(configuration.Object);
+            _kernel.Rebind<ConnectionStringSettingsCollection>().ToConstant(_connectionStrings);
         }
 
         [Test]
@@ -95,24 +108,6 @@ namespace Noodle.Tests
             // assert
             connectionProvider.GetDbConnection("testName").ConnectionString.ShouldEqual("server=overthere");
             connectionProvider.GetDbConnection().ConnectionString.ShouldEqual("server=overhere");
-        }
-
-        public override void FixtureSetUp()
-        {
-            base.FixtureSetUp();
-
-            var configuration = new Mock<NoodleCoreConfiguration>();
-            configuration.Setup(x => x.ConnectionStrings).Returns(() =>
-            {
-                var connectionStrings = new ConnectionStringCollection();
-                foreach (var pointer in _connectionStringPointers)
-                {
-                    connectionStrings.Add(pointer);
-                }
-                return connectionStrings;
-            });
-            _kernel.Rebind<NoodleCoreConfiguration>().ToConstant(configuration.Object);
-            _kernel.Rebind<ConnectionStringSettingsCollection>().ToConstant(_connectionStrings);
         }
     }
 }

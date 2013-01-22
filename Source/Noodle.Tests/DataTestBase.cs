@@ -14,12 +14,12 @@ namespace Noodle.Tests
     {
         private IDisposable _serverScope;
 
-        public override void FixtureSetUp()
+        public override void SetUp()
         {
             // start the server for each class
             _serverScope = ServerScope();
 
-            base.FixtureSetUp();
+            base.SetUp();
 
             // and set the kernel up to point to it
             _kernel.Rebind<IConnectionProvider>().ToMethod(context => new SqlConnectionProvider("mongodb://localhost:{0}/?safe=true".F(PortNumber)));
@@ -27,9 +27,9 @@ namespace Noodle.Tests
             _kernel.Resolve<IMongoService>().GetServer().Reconnect(); // this clears the connection pool
         }
 
-        public override void FixtureTearDown()
+        public override void TearDown()
         {
-            base.FixtureTearDown();
+            base.TearDown();
 
             // and then close the server after each class is finished
             _serverScope.Dispose();

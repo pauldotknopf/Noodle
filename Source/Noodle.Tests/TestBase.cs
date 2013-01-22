@@ -16,26 +16,28 @@ namespace Noodle.Tests
         [SetUp]
         public virtual void SetUp()
         {
-        }
-
-        [TearDown]
-        public virtual void TearDown()
-        {
-        }
-
-        [TestFixtureSetUp]
-        public virtual void FixtureSetUp()
-        {
             _kernel = BuildTestKernel();
             // placing the kernel here allows it to be used when doing EngineContext.Current
             Singleton<IKernel>.Instance = _kernel;
         }
 
+        [TearDown]
+        public virtual void TearDown()
+        {
+            if (!_kernel.IsDisposed)
+                _kernel.Dispose();
+        }
+
+        [TestFixtureSetUp]
+        public virtual void FixtureSetUp()
+        {
+            
+        }
+
         [TestFixtureTearDown]
         public virtual void FixtureTearDown()
         {
-            if(!_kernel.IsDisposed)
-                _kernel.Dispose();
+            
         }
 
         public virtual IKernel BuildTestKernel()
