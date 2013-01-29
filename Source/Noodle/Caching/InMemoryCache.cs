@@ -5,19 +5,14 @@ namespace Noodle.Caching
 {
     public class InMemoryCache : HttpRuntimeCache
     {
-        private Cache _cache;
-
         public InMemoryCache()
         {
-            _cache = new Cache();
+            RemoveByPattern("");
         }
 
         public override Cache Cache
         {
-            get
-            {
-                return HttpRuntime.Cache;
-            }
+            get { return HttpRuntime.Cache; }
         }
     }
 }

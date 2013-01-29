@@ -5,10 +5,9 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-using Ninject;
 using Noodle.Caching;
-using Noodle.Data;
 using Noodle.Settings;
+using SimpleInjector;
 
 namespace Noodle.Localization.Services
 {
@@ -31,7 +30,6 @@ namespace Noodle.Localization.Services
         private readonly MongoCollection<LocalizedProperty> _localizedPropertyCollection;
         private readonly ISettingService _settingService;
         private readonly IConfigurationProvider<LocalizationSettings> _localizationSettings;
-        private readonly IKernel _kernel;
 
         #endregion
 
@@ -51,8 +49,7 @@ namespace Noodle.Localization.Services
             MongoCollection<LocaleStringResource> localeStringResourceCollection,
             MongoCollection<LocalizedProperty> localizedPropertyCollection,
             ISettingService settingService,
-            IConfigurationProvider<LocalizationSettings> localizationSettings,
-            IKernel kernel)
+            IConfigurationProvider<LocalizationSettings> localizationSettings)
         {
             _cacheManager = cacheManager;
             _languageCollection = languageCollection;
@@ -60,7 +57,6 @@ namespace Noodle.Localization.Services
             _localizedPropertyCollection = localizedPropertyCollection;
             _settingService = settingService;
             _localizationSettings = localizationSettings;
-            _kernel = kernel;
         }
 
         #endregion

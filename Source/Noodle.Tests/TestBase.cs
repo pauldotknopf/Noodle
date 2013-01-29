@@ -42,11 +42,9 @@ namespace Noodle.Tests
         {
             var container = new Container();
             CoreDependencyRegistrar.Register(container);
-            var configuration = container.GetInstance<ConfigurationManagerWrapper>();
-            var typeFinder = container.GetInstance<ITypeFinder>();
             foreach (var dependencyRegistrar in GetDependencyRegistrars().OrderBy(x => x.Importance))
             {
-                dependencyRegistrar.Register(container, typeFinder, configuration);
+                dependencyRegistrar.Register(container);
             }
             return container;
         }

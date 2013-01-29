@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
-using Ninject;
 using Noodle.Configuration;
 using Noodle.Engine;
 using Noodle.Plugins;
 using Noodle.Security;
+using SimpleInjector;
 
 namespace Noodle.Tests.Plugins
 {
@@ -62,9 +62,9 @@ namespace Noodle.Tests.Plugins
             _prev = CommonHelper.GetEntryAssembly;
             CommonHelper.GetEntryAssembly = () => typeof (TestBase).Assembly;
             var edit = new NoodleCoreConfiguration();
-            var kernel = new StandardKernel();
-            kernel.Bind<ISecurityManager>().To<FakeSecurityManager>();
-            _finder = new PluginFinder(new AppDomainTypeFinder(new AssemblyFinder()), edit, kernel);
+            var container = new Container();
+            container.Register<ISecurityManager, FakeSecurityManager>();
+            _finder = new PluginFinder(new AppDomainTypeFinder(new AssemblyFinder()), edit, container);
         }
 
         [TestFixtureTearDown]

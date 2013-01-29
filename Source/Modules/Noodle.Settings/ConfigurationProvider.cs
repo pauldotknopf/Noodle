@@ -4,30 +4,39 @@ using Noodle.Web;
 
 namespace Noodle.Settings
 {
-    public class ConfigurationProvider<TSettings> : IConfigurationProvider<TSettings> where TSettings : ISettings, new()
+    public class ConfigurationProvider<TSettings> : IConfigurationProvider<TSettings>, IDisposable where TSettings : ISettings, new()
     {
         readonly ISettingService _settingService;
         private readonly IErrorNotifier _errorNotifier;
 
-        public ConfigurationProvider(ISettingService settingService, IErrorNotifier errorNotifier)
+        public ConfigurationProvider(ISettingService settingService, 
+            IErrorNotifier errorNotifier)
         {
-            this._settingService = settingService;
+            _settingService = settingService;
             _errorNotifier = errorNotifier;
-            this.BuildConfiguration();
+
+            // assigned events so we can update our object if needed
+            _settingService.CachedCleared += SettingServiceOnCachedCleared;
+
+            BuildConfiguration();
         }
 
         public TSettings Settings { get; protected set; }
 
         private void BuildConfiguration()
         {
-            Settings = Activator.CreateInstance<TSettings>();
+            UpdateSettings();
+        }
 
+        private void UpdateSettings()
+        {
+            Settings = Activator.CreateInstance<TSettings>();
             foreach (var property in typeof(TSettings).GetProperties()
-                .Where(x => x.CanWrite 
-                && x.CanRead 
+                .Where(x => x.CanWrite
+                && x.CanRead
                 && CommonHelper.GetCustomTypeConverter(x.PropertyType).CanConvertFrom(typeof(string))))
             {
-                var key = string.Join(".", new[] {typeof (TSettings).Name, property.Name});
+                var key = string.Join(".", new[] { typeof(TSettings).Name, property.Name });
                 var setting = _settingService.GetSettingByKey<string>(key);
                 if (setting != null)
                 {
@@ -68,7 +77,17 @@ namespace Noodle.Settings
             //and now clear cache
             _settingService.ClearCache();
 
-            this.Settings = settings;
+            Settings = settings;
+        }
+
+        private void SettingServiceOnCachedCleared(object sender, EventArgs eventArgs)
+        {
+            UpdateSettings();
+        }
+
+        public void Dispose()
+        {
+            _settingService.CachedCleared -= SettingServiceOnCachedCleared;
         }
     }
 }

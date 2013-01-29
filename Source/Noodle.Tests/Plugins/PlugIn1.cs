@@ -1,6 +1,6 @@
-using Ninject;
 using Noodle.Plugins;
 using Noodle.Tests.Plugins;
+using SimpleInjector;
 
 [assembly:Plugin("Testplugin", "testplugin", typeof(PlugIn1))]
 
@@ -10,7 +10,7 @@ namespace Noodle.Tests.Plugins
 	{
         public static bool WasInitialized { get; set; }
 
-        public void Initialize(IKernel kernel)
+        public void Initialize(Container kernel)
 		{
             WasInitialized = true;
 		}

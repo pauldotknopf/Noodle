@@ -8,7 +8,7 @@ namespace Noodle.MongoDB
     /// </summary>
     public class DependencyRegistrar : IDependencyRegistrar
     {
-        public void Register(Container container, ITypeFinder typeFinder, Configuration.ConfigurationManagerWrapper configuration)
+        public void Register(Container container)
         {
             container.RegisterSingle<IMongoService, MongoService>();
         }

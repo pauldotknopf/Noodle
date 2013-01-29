@@ -50,7 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyRegistrar.cs" />
+    <Compile Include="IMongoDatabaseFactory.cs" />
     <Compile Include="IMongoService.cs" />
+    <Compile Include="MongoDatabaseFactory.cs" />
     <Compile Include="MongoServerScope.cs" />
     <Compile Include="MongoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

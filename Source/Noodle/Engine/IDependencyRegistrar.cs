@@ -11,7 +11,7 @@ namespace Noodle.Engine
         /// <summary>
         /// Register your services with the container. You are given a type finder to help you find anything you need.
         /// </summary>
-        void Register(Container container, ITypeFinder typeFinder, ConfigurationManagerWrapper configuration);
+        void Register(Container container);
 
         /// <summary>
         /// The lower numbers will be registered first. Higher numbers the latest.

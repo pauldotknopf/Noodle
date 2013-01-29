@@ -4,16 +4,14 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-using Ninject;
 using Noodle.Caching;
-using Noodle.Data;
+using SimpleInjector;
 
 namespace Noodle.Settings
 {
     /// <summary>
     /// Setting manager
     /// </summary>
-    /// <remarks></remarks>
     public partial class SettingService : ISettingService
     {
         #region Constants
@@ -22,7 +20,7 @@ namespace Noodle.Settings
 
         #region Fields
 
-        private readonly IKernel _kernel;
+        private readonly Container _container;
         private readonly MongoCollection<Setting> _settingsCollection;
         private readonly ICacheManager _cacheManager;
 
@@ -34,15 +32,15 @@ namespace Noodle.Settings
         /// Ctor
         /// </summary>
         /// <param name="cacheManager">The cache manager.</param>
-        /// <param name="kernel">The kernel.</param>
+        /// <param name="container">The container.</param>
         /// <param name="settingsCollection">The mongo settings collection</param>
         /// <remarks></remarks>
         public SettingService(ICacheManager cacheManager, 
-            IKernel kernel,
+            Container container,
             MongoCollection<Setting> settingsCollection)
         {
             _cacheManager = cacheManager;
-            _kernel = kernel;
+            _container = container;
             _settingsCollection = settingsCollection;
         }
 
@@ -141,8 +139,7 @@ namespace Noodle.Settings
         /// <remarks></remarks>
         public virtual void SaveSetting<T>(T settingInstance) where T : ISettings, new()
         {
-            //We should be sure that an appropriate ISettings object will not be cached in IoC tool after updating (by default cached per HTTP request)
-            _kernel.Resolve<IConfigurationProvider<T>>().SaveSettings(settingInstance);
+            _container.GetInstance<IConfigurationProvider<T>>().SaveSettings(settingInstance);
         }
 
         /// <summary>
@@ -152,8 +149,18 @@ namespace Noodle.Settings
         public virtual void ClearCache()
         {
             _cacheManager.RemoveByPattern(SETTINGS_ALL_KEY);
+            if (CachedCleared != null)
+                CachedCleared(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// This event gets fire when the cache has been cleared so that the IConfigurationProvider can update there instances
+        /// </summary>
+        public event EventHandler<EventArgs> CachedCleared;
+
         #endregion
+
+
+        
     }
 }

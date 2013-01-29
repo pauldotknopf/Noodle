@@ -17,13 +17,9 @@ namespace Noodle.Plugins
         public IEnumerable<PluginElement> AddedInitializers = new PluginElement[0];
         public IEnumerable<PluginElement> RemovedInitializers = new PluginElement[0];
 
-		public PluginBootstrapper(ITypeFinder typeFinder)
-		{
-			this._typeFinder = typeFinder;
-		}
         public PluginBootstrapper(ITypeFinder typeFinder, NoodleCoreConfiguration config)
-			: this(typeFinder)
-		{
+        {
+            _typeFinder = typeFinder;
 			AddedInitializers = config.PluginInitializers.AllElements;
 			RemovedInitializers = config.PluginInitializers.RemovedElements;
 		}

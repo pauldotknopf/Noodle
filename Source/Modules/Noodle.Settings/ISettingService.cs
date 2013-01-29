@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Noodle.Settings
 {
     /// <summary>
     /// Setting service interface
     /// </summary>
-    public partial interface ISettingService
+    public interface ISettingService
     {
         /// <summary>
         /// Get setting value by key
@@ -49,5 +50,10 @@ namespace Noodle.Settings
         /// Clear cache
         /// </summary>
         void ClearCache();
+
+        /// <summary>
+        /// This event gets fire when the cache has been cleared so that the IConfigurationProvider can update there instances
+        /// </summary>
+        event EventHandler<EventArgs> CachedCleared;
     }
 }

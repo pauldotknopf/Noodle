@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver;
 using NUnit.Framework;
-using Ninject;
-using Ninject.Syntax;
 using Noodle.Tests;
 using Noodle.Web;
 
@@ -13,14 +11,13 @@ namespace Noodle.Settings.Tests
     [TestFixture]
     public class SettingServiceTests : DataTestBase
     {
-        private Setting _testsetting;
         private ISettingService _settingService;
 
         public override void SetUp()
         {
             base.SetUp();
-            _kernel.Resolve<MongoCollection<Setting>>().RemoveAll();
-            _settingService = _kernel.Resolve<ISettingService>();
+            _container.GetInstance<MongoCollection<Setting>>().RemoveAll();
+            _settingService = _container.GetInstance<ISettingService>();
         }
 
         [Test]
@@ -43,13 +40,10 @@ namespace Noodle.Settings.Tests
         public void Can_get_all_settings()
         {
             _settingService.GetAllSettings().Count.ShouldEqual(0);
-
             _settingService.SetSetting("CanGetAllSettings1", "1");
             _settingService.SetSetting("CanGetAllSettings2", "2");
-
             _settingService.GetAllSettings().Count.ShouldEqual(2);
         }
-
 
         [Test]
         public void Can_save_a_settings_object()
@@ -69,6 +63,19 @@ namespace Noodle.Settings.Tests
             testSetting.Integer.ShouldEqual((int) 4);
             testSetting.Long.ShouldEqual((long) 5);
             testSetting.String.ShouldEqual("String...");
+        }
+
+        [Test]
+        public void Can_clear_cache()
+        {
+            var allSettings = _settingService.GetAllSettings();
+            _container.GetInstance<MongoCollection<Setting>>().Insert(new Setting {Name = "cached1", Value = "cached2"});
+            var cachedSettings = _settingService.GetAllSettings();
+            allSettings.SequenceEqual(cachedSettings).ShouldBeTrue();
+            _settingService.ClearCache();
+            cachedSettings = _settingService.GetAllSettings();
+            allSettings.SequenceEqual(cachedSettings).ShouldBeFalse();
+            cachedSettings.ContainsKey("cached1").ShouldBeTrue();
         }
 
         public class TestSetting : ISettings

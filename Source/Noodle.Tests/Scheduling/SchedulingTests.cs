@@ -3,12 +3,12 @@ using System.Linq;
 using System.Threading;
 using Moq;
 using NUnit.Framework;
-using Ninject;
 using Noodle.Configuration;
 using Noodle.Engine;
 using Noodle.Plugins;
 using Noodle.Scheduling;
 using Noodle.Web;
+using SimpleInjector;
 
 namespace Noodle.Tests.Scheduling
 {
@@ -77,15 +77,9 @@ namespace Noodle.Tests.Scheduling
             var prev = CommonHelper.CurrentTime;
             try
             {
-                var lastExecuted = repeat.LastExecuted;
                 _heart.Raise(x => x.Beat += null, new EventArgs());
-                lastExecuted = repeat.LastExecuted;
-
                 CommonHelper.CurrentTime = () => DateTime.UtcNow.AddSeconds(50).ToUniversalTime();
-
-                lastExecuted = repeat.LastExecuted;
                 _heart.Raise(x => x.Beat += null, new EventArgs());
-                lastExecuted = repeat.LastExecuted;
             }
             finally
             {
@@ -122,7 +116,7 @@ namespace Noodle.Tests.Scheduling
             var once = SelectThe<OnceAction>();
             var repeat = SelectThe<RepeatAction>();
 
-            Singleton<IKernel>.Instance = new StandardKernel();
+            Singleton<Container>.Instance = new Container();
 
             _heart.Raise(x => x.Beat += null, new EventArgs());
 

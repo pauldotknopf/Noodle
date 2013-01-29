@@ -1,34 +1,32 @@
 ﻿using MongoDB.Driver;
-using Ninject;
-using Noodle.Configuration;
 using Noodle.Engine;
 using Noodle.Localization.Services;
 using Noodle.MongoDB;
-using Noodle.Settings;
+using SimpleInjector;
 
 namespace Noodle.Localization
 {
     public class DependencyRegistrar : IDependencyRegistrar
     {
-        public void Register(Ninject.IKernel kernel, ITypeFinder typeFinder, ConfigurationManagerWrapper configuration)
+        public void Register(Container container)
         {
-            kernel.Bind<ILanguageService>().To<LanguageService>().InRequestScope();
-            kernel.Bind<ILocalizationService>().To<LocalizationService>().InRequestScope();
-            kernel.Bind<ILocalizedEntityService>().To<LocalizedEntityService>().InRequestScope();
-            kernel.Bind<ILanguageInstaller>().To<LanguageInstaller>().InRequestScope();
-            kernel.Bind<MongoDatabase>()
-                  .ToMethod(context => context.Kernel.Resolve<IMongoService>().GetDatabase("Localization"))
-                  .InSingletonScope()
-                  .Named("Localization");
-            kernel.Bind<MongoCollection<Language>>().ToMethod(context => context.Kernel.Get<MongoDatabase>("Localization").GetCollection<Language>("Languages")).InSingletonScope();
-            kernel.Bind<MongoCollection<LocaleStringResource>>().ToMethod(context => context.Kernel.Get<MongoDatabase>("Localization").GetCollection<LocaleStringResource>("LocaleStringResources")).InSingletonScope();
-            kernel.Bind<MongoCollection<LocalizedProperty>>().ToMethod(context => context.Kernel.Get<MongoDatabase>("Localization").GetCollection<LocalizedProperty>("LocalizedProperties")).InSingletonScope();
-            kernel.MakeKernelResolveSettings();
+            container.RegisterSingle<ILanguageService, LanguageService>(); // TODO: in request scope?
+            container.RegisterSingle<ILocalizationService, LocalizationService>(); // TODO: in request scope?
+            container.RegisterSingle<ILocalizedEntityService, LocalizedEntityService>(); // TODO: in request scope?
+            container.RegisterSingle<ILanguageInstaller, LanguageInstaller>(); // TODO: in request scope?
+            container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<Language>("Languages"));
+            container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<LocaleStringResource>("LocaleStringResources"));
+            container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<LocalizedProperty>("LocalizedProperties"));
         }
 
         public int Importance
         {
             get { return 0; }
+        }
+
+        public static MongoDatabase GetLocalizationDatabase(Container container)
+        {
+            return container.GetInstance<IMongoService>().GetDatabase("Localization");
         }
     }
 }

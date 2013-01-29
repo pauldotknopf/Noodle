@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using Noodle.Configuration;
 using Noodle.Engine;
 using SimpleInjector;
@@ -17,6 +19,9 @@ namespace Noodle
     public class EngineContext
     {
         private static readonly object ContainerCreationLockObject = new object();
+        private static readonly FieldInfo RegistrationsFieldInfo = typeof(Container).GetField("registrations",
+                                                                     BindingFlags.Public | BindingFlags.NonPublic |
+                                                                     BindingFlags.Instance);
 
         #region Current
 
@@ -32,6 +37,18 @@ namespace Noodle
             }
         }
 
+        /// <summary>
+        /// Gets the type finder used throughout the system
+        /// </summary>
+        public static ITypeFinder TypeFinder
+        {
+            get 
+            {
+                return Singleton<ITypeFinder>.Instance 
+                    ?? (Singleton<ITypeFinder>.Instance = new AppDomainTypeFinder(new AssemblyFinder()));
+            }
+        }
+
         #endregion
 
         #region Configure
@@ -43,8 +60,6 @@ namespace Noodle
         /// <param name="force"></param>
         public static void Configure(bool force)
         {
-            
-
             // If the kernel hasn't been created or the call is forcing a new one do something, otherwise, just exit
             if (Singleton<Container>.Instance == null || force)
             {
@@ -56,12 +71,10 @@ namespace Noodle
                         var container = new Container();
 
                         CoreDependencyRegistrar.Register(container);
-                        var configuration = container.GetInstance<ConfigurationManagerWrapper>();
-                        var typeFinder = container.GetInstance<ITypeFinder>();
 
                         // register everything!
                         RegisterAttributedServices(container);
-                        RegisterDependencyRegistrar(typeFinder, container, configuration);
+                        RegisterDependencyRegistrar(TypeFinder, container);
 
                         // set the kernel to the static accessor
                         Singleton<Container>.Instance = container;
@@ -116,7 +129,7 @@ namespace Noodle
 
         #region Methods
 
-        private static void RegisterDependencyRegistrar(ITypeFinder typeFinder, Container container, ConfigurationManagerWrapper configuration)
+        private static void RegisterDependencyRegistrar(ITypeFinder typeFinder, Container container)
         {
             var dependencyRegistrarTypes = new List<IDependencyRegistrar>();
             foreach (var dependencyRegistrarType in typeFinder.Find<IDependencyRegistrar>())
@@ -140,20 +153,19 @@ namespace Noodle
             // Register them in order, where higher importance overwrites lover
             foreach (var dependencyRegistrarType in dependencyRegistrarTypes)
             {
-                //Debug.WriteLine("Ioc registering: " + dependencyRegistrarType.GetType().FullName);
-                dependencyRegistrarType.Register(container, typeFinder, configuration);
+                dependencyRegistrarType.Register(container);
             }
         }
 
         public static void RunStartupTasks(Container container)
         {
-            // TODO
-            //var all = kernel.GetBindings(typeof(AutoStartBindingResolver.AutoStartBindingService));
-            //var startupServices = all.Select(x => kernel.Get(x.Service)).Cast<IStartupTask>().OrderBy(x => x.Order);
-            //foreach (var service in startupServices)
-            //{
-            //    service.Execute();
-            //}
+            container.RegisterInitializer<IStartupTask>(task => task.Execute());
+            var registrations = RegistrationsFieldInfo.GetValue(container) as IDictionary;
+            if (registrations == null) return;
+            foreach (Type key in registrations.Keys)
+            {
+                container.GetInstance(key);
+            }
         }
 
         private static void RegisterAttributedServices(Container container)

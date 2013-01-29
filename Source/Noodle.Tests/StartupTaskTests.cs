@@ -1,8 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
-using Ninject;
-using Ninject.Planning.Bindings.Resolvers;
 using Noodle.Engine;
+using SimpleInjector;
 
 namespace Noodle.Tests
 {
@@ -37,12 +36,13 @@ namespace Noodle.Tests
                 StartupTask1.Executed.ShouldBeNull();
                 StartupTask1.NumberOfTimesRan.ShouldEqual(0);
 
-                var kernel = new StandardKernel(new NinjectSettings{});
-                kernel.Components.Add<IBindingResolver, AutoStartBindingResolver>();
-                kernel.Get<StartupTask1>();
-                EngineContext.RunStartupTasks(kernel);
+                var container = new Container();
+                container.Register<IStartupTask, StartupTask1>();
 
-                kernel.Get<StartupTask1>();
+                StartupTask1.NumberOfTimesRan.ShouldEqual(0);
+                StartupTask1.Executed.ShouldBeNull();
+
+                EngineContext.RunStartupTasks(container);
 
                 StartupTask1.Executed.ShouldEqual(now);
                 StartupTask1.NumberOfTimesRan.ShouldEqual(1);
