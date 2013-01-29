@@ -1,4 +1,5 @@
-using Ninject;
+
+using SimpleInjector;
 
 namespace Noodle.Plugins
 {
@@ -7,7 +8,7 @@ namespace Noodle.Plugins
 	public interface IPluginInitializer
 	{
 		/// <summary>Invoked after the factory has been initialized.</summary>
-		/// <param name="kernel">The kernel that has been initialized.</param>
-		void Initialize(IKernel kernel);
+        /// <param name="container">The container that has been initialized.</param>
+		void Initialize(Container container);
 	}
 }

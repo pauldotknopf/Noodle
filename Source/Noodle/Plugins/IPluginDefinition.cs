@@ -1,4 +1,4 @@
-using Ninject;
+using SimpleInjector;
 
 namespace Noodle.Plugins
 {
@@ -9,7 +9,7 @@ namespace Noodle.Plugins
 	public interface IPluginDefinition
 	{
 		/// <summary>Executes the plugin initializer.</summary>
-        /// <param name="kernel">A reference to the kernel.</param>
-        void Initialize(IKernel kernel);
+        /// <param name="container">A reference to the container.</param>
+        void Initialize(Container container);
 	}
 }

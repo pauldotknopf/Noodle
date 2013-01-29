@@ -1,5 +1,5 @@
-﻿using Ninject;
-using Noodle.Configuration;
+﻿using Noodle.Configuration;
+using SimpleInjector;
 
 namespace Noodle.Engine
 {
@@ -9,9 +9,9 @@ namespace Noodle.Engine
     public interface IDependencyRegistrar
     {
         /// <summary>
-        /// Register your services with the kernel. You are given a type finder to help you find anything you need.
+        /// Register your services with the container. You are given a type finder to help you find anything you need.
         /// </summary>
-        void Register(IKernel kernel, ITypeFinder typeFinder, ConfigurationManagerWrapper configuration);
+        void Register(Container container, ITypeFinder typeFinder, ConfigurationManagerWrapper configuration);
 
         /// <summary>
         /// The lower numbers will be registered first. Higher numbers the latest.

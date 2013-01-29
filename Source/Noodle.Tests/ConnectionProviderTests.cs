@@ -2,7 +2,6 @@
 using System.Configuration;
 using Moq;
 using NUnit.Framework;
-using Ninject;
 using Noodle.Configuration;
 using Noodle.Data;
 
@@ -23,17 +22,18 @@ namespace Noodle.Tests
             _connectionStrings.Clear();
 
             var configuration = new Mock<NoodleCoreConfiguration>();
-            configuration.Setup(x => x.ConnectionStrings).Returns(() =>
-            {
-                var connectionStrings = new ConnectionStringCollection();
-                foreach (var pointer in _connectionStringPointers)
-                {
-                    connectionStrings.Add(pointer);
-                }
-                return connectionStrings;
-            });
-            _kernel.Rebind<NoodleCoreConfiguration>().ToConstant(configuration.Object);
-            _kernel.Rebind<ConnectionStringSettingsCollection>().ToConstant(_connectionStrings);
+            // TODO
+            //configuration.Setup(x => x.ConnectionStrings).Returns(() =>
+            //{
+            //    var connectionStrings = new ConnectionStringCollection();
+            //    foreach (var pointer in _connectionStringPointers)
+            //    {
+            //        connectionStrings.Add(pointer);
+            //    }
+            //    return connectionStrings;
+            //});
+            //_kernel.Rebind<NoodleCoreConfiguration>().ToConstant(configuration.Object);
+            //_kernel.Rebind<ConnectionStringSettingsCollection>().ToConstant(_connectionStrings);
         }
 
         [Test]

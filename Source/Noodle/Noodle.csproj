@@ -30,8 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ninject">
-      <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\..\packages\SimpleInjector.1.6.0.12319\lib\net35\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Extensions">
+      <HintPath>..\..\packages\SimpleInjector.Extensions.1.6.0.12319\lib\net35\SimpleInjector.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web">
+      <HintPath>..\..\packages\SimpleInjector.Integration.Web.1.6.1.12347\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -112,7 +118,6 @@
     <Compile Include="Engine\CoreDependencyRegistrar.cs" />
     <Compile Include="Engine\ExcludedAssemblies.cs" />
     <Compile Include="Engine\IAssemblyFinder.cs" />
-    <Compile Include="Engine\IAutoStartBindingResolver.cs" />
     <Compile Include="Engine\IDependencyRegistrar.cs" />
     <Compile Include="Engine\IExcludedAssemblies.cs" />
     <Compile Include="Engine\IIncludedAssemblies.cs" />
@@ -223,15 +228,15 @@
     <Compile Include="WriteLockDisposable.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Extensions\README.txt" />
     <EmbeddedResource Include="Resources\Content\bootstrap.css" />
     <EmbeddedResource Include="Resources\Content\bootstrap.js" />
     <EmbeddedResource Include="Resources\Content\jquery.js" />
     <EmbeddedResource Include="Resources\Content\knockout.js" />
     <EmbeddedResource Include="Resources\Content\knockoutmapping.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

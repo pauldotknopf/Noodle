@@ -1,5 +1,5 @@
 using System;
-using Ninject;
+using SimpleInjector;
 
 namespace Noodle.Plugins
 {
@@ -16,11 +16,11 @@ namespace Noodle.Plugins
 
 	    public Type InitializerType { get; set; }
 
-	    public virtual void Initialize(IKernel kernel)
+	    public virtual void Initialize(Container container)
 		{
 			if (InitializerType == null) throw new ArgumentNullException("InitializerType");
 
-            CreateInitializer().Initialize(kernel);
+            CreateInitializer().Initialize(container);
 		}
 
 		/// <summary>Creates an instance of the initializer defined by this attribute.</summary>

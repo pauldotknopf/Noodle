@@ -1,31 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Ninject;
 using Noodle.Caching;
 using Noodle.Configuration;
 using Noodle.Engine;
+using SimpleInjector;
 
 namespace Noodle.Tests
 {
     [TestFixture]
     public abstract class TestBase
     {
-        protected IKernel _kernel;
+        protected Container _container;
 
         [SetUp]
         public virtual void SetUp()
         {
-            _kernel = BuildTestKernel();
+            _container = BuildTestContainer();
             // placing the kernel here allows it to be used when doing EngineContext.Current
-            Singleton<IKernel>.Instance = _kernel;
+            Singleton<Container>.Instance = _container;
         }
 
         [TearDown]
         public virtual void TearDown()
         {
-            if (!_kernel.IsDisposed)
-                _kernel.Dispose();
         }
 
         [TestFixtureSetUp]
@@ -40,18 +38,17 @@ namespace Noodle.Tests
             
         }
 
-        public virtual IKernel BuildTestKernel()
+        public virtual Container BuildTestContainer()
         {
-            var kernel = new StandardKernel();
-            CoreDependencyRegistrar.Register(kernel);
-            var configuration = kernel.Get<ConfigurationManagerWrapper>();
-            var typeFinder = kernel.Get<ITypeFinder>();
+            var container = new Container();
+            CoreDependencyRegistrar.Register(container);
+            var configuration = container.GetInstance<ConfigurationManagerWrapper>();
+            var typeFinder = container.GetInstance<ITypeFinder>();
             foreach (var dependencyRegistrar in GetDependencyRegistrars().OrderBy(x => x.Importance))
             {
-                dependencyRegistrar.Register(kernel, typeFinder, configuration);
+                dependencyRegistrar.Register(container, typeFinder, configuration);
             }
-            kernel.Rebind<ICacheManager>().To<NullCache>();
-            return kernel;
+            return container;
         }
 
         /// <summary>

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
-using Ninject;
 using Noodle.Configuration;
 using Noodle.Engine;
 using Noodle.Security;
+using SimpleInjector;
 
 namespace Noodle.Plugins
 {
@@ -17,14 +17,14 @@ namespace Noodle.Plugins
     {
         private readonly IList<IPlugin> _plugins;
         private readonly ITypeFinder _typeFinder;
-        private readonly IKernel _kernel;
+        private readonly Container _container;
 	    private readonly IEnumerable<PluginElement> _removedPlugins = new PluginElement[0];
 
-        public PluginFinder(ITypeFinder typeFinder, NoodleCoreConfiguration config, IKernel kernel)
+        public PluginFinder(ITypeFinder typeFinder, NoodleCoreConfiguration config, Container container)
         {
             _removedPlugins = config.Plugins.RemovedElements;
 			_typeFinder = typeFinder;
-            _kernel = kernel;
+            _container = container;
             _plugins = FindPlugins();
 		}
 
@@ -34,7 +34,7 @@ namespace Noodle.Plugins
     	/// <returns>An enumeration of plugins.</returns>
     	public IEnumerable<T> GetPlugins<T>(IPrincipal user) where T : class, IPlugin
 		{
-		    return GetPlugins<T>().Where(plugin => _kernel.Get<ISecurityManager>().IsAuthorized(plugin as ISecurableBase, user));
+            return GetPlugins<T>().Where(plugin => _container.GetInstance<ISecurityManager>().IsAuthorized(plugin as ISecurableBase, user));
 		}
 
 	    public IEnumerable<T> GetPlugins<T>() where T : class, IPlugin
@@ -51,7 +51,7 @@ namespace Noodle.Plugins
             where T : class, IPlugin
             where TO : class
         {
-            return _plugins.OfType<T>().Where(plugin => _kernel.Get<ISecurityManager>().IsAuthorized(plugin as ISecurableBase, user)).Select(CreatePluginTo<TO>);
+            return _plugins.OfType<T>().Where(plugin => _container.GetInstance<ISecurityManager>().IsAuthorized(plugin as ISecurableBase, user)).Select(CreatePluginTo<TO>);
         }
 
         /// <summary>Gets plugins found in the environment sorted and filtered by the given user.</summary>

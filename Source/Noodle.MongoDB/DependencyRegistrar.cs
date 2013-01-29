@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Noodle.Engine;
+﻿using Noodle.Engine;
+using SimpleInjector;
 
 namespace Noodle.MongoDB
 {
@@ -11,9 +8,9 @@ namespace Noodle.MongoDB
     /// </summary>
     public class DependencyRegistrar : IDependencyRegistrar
     {
-        public void Register(Ninject.IKernel kernel, ITypeFinder typeFinder, Configuration.ConfigurationManagerWrapper configuration)
+        public void Register(Container container, ITypeFinder typeFinder, Configuration.ConfigurationManagerWrapper configuration)
         {
-            kernel.Bind<IMongoService>().To<MongoService>().InSingletonScope();
+            container.RegisterSingle<IMongoService, MongoService>();
         }
 
         public int Importance

@@ -1,5 +1,4 @@
-
-using Ninject;
+using SimpleInjector;
 
 namespace Noodle.Plugins
 {
@@ -8,6 +7,6 @@ namespace Noodle.Plugins
 	/// </summary>
 	public interface IPluginBootstrapper
 	{
-        void InitializePlugins(IKernel kernel);
+        void InitializePlugins(Container container);
 	}
 }

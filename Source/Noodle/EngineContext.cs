@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
-using Ninject;
 using Noodle.Configuration;
 using Noodle.Engine;
+using SimpleInjector;
 
 namespace Noodle
 {
@@ -23,12 +23,12 @@ namespace Noodle
         /// <summary>
         /// Return the singleton kernel
         /// </summary>
-        public static IKernel Current
+        public static Container Current
         {
             get
             {
                 Configure(false);
-                return Singleton<IKernel>.Instance;
+                return Singleton<Container>.Instance;
             }
         }
 
@@ -43,29 +43,31 @@ namespace Noodle
         /// <param name="force"></param>
         public static void Configure(bool force)
         {
+            
+
             // If the kernel hasn't been created or the call is forcing a new one do something, otherwise, just exit
-            if (Singleton<IKernel>.Instance == null || force)
+            if (Singleton<Container>.Instance == null || force)
             {
                 lock (ContainerCreationLockObject)
                 {
                     // someone may have waited for the lock, but it has been built for them, check one more time.
-                    if (Singleton<IKernel>.Instance == null || force)
+                    if (Singleton<Container>.Instance == null || force)
                     {
-                        var kernel = new StandardKernel();
+                        var container = new Container();
 
-                        CoreDependencyRegistrar.Register(kernel);
-                        var configuration = kernel.Get<ConfigurationManagerWrapper>();
-                        var typeFinder = kernel.Get<ITypeFinder>();
+                        CoreDependencyRegistrar.Register(container);
+                        var configuration = container.GetInstance<ConfigurationManagerWrapper>();
+                        var typeFinder = container.GetInstance<ITypeFinder>();
 
                         // register everything!
-                        RegisterAttributedServices(kernel);
-                        RegisterDependencyRegistrar(typeFinder, kernel, configuration);
+                        RegisterAttributedServices(container);
+                        RegisterDependencyRegistrar(typeFinder, container, configuration);
 
                         // set the kernel to the static accessor
-                        Singleton<IKernel>.Instance = kernel;
-;
+                        Singleton<Container>.Instance = container;
+
                         // run all startup tasks
-                        RunStartupTasks(kernel);
+                        RunStartupTasks(container);
                     }
                 }
             }
@@ -77,12 +79,12 @@ namespace Noodle
 
         public static T Resolve<T>() where T : class
         {
-            return Current.Get<T>();
+            return Current.GetInstance<T>();
         }
 
         public static IEnumerable<T> ResolveAll<T>() where T : class
         {
-            return Current.GetAll<T>();
+            return Current.GetAllInstances<T>();
         }
 
         public static object ResolveUnregistered(Type type)
@@ -114,7 +116,7 @@ namespace Noodle
 
         #region Methods
 
-        private static void RegisterDependencyRegistrar(ITypeFinder typeFinder, IKernel kernel, ConfigurationManagerWrapper configuration)
+        private static void RegisterDependencyRegistrar(ITypeFinder typeFinder, Container container, ConfigurationManagerWrapper configuration)
         {
             var dependencyRegistrarTypes = new List<IDependencyRegistrar>();
             foreach (var dependencyRegistrarType in typeFinder.Find<IDependencyRegistrar>())
@@ -139,24 +141,25 @@ namespace Noodle
             foreach (var dependencyRegistrarType in dependencyRegistrarTypes)
             {
                 //Debug.WriteLine("Ioc registering: " + dependencyRegistrarType.GetType().FullName);
-                dependencyRegistrarType.Register(kernel, typeFinder, configuration);
+                dependencyRegistrarType.Register(container, typeFinder, configuration);
             }
         }
 
-        public static void RunStartupTasks(IKernel kernel)
+        public static void RunStartupTasks(Container container)
         {
-            var all = kernel.GetBindings(typeof(AutoStartBindingResolver.AutoStartBindingService));
-            var startupServices = all.Select(x => kernel.Get(x.Service)).Cast<IStartupTask>().OrderBy(x => x.Order);
-            foreach (var service in startupServices)
-            {
-                service.Execute();
-            }
+            // TODO
+            //var all = kernel.GetBindings(typeof(AutoStartBindingResolver.AutoStartBindingService));
+            //var startupServices = all.Select(x => kernel.Get(x.Service)).Cast<IStartupTask>().OrderBy(x => x.Order);
+            //foreach (var service in startupServices)
+            //{
+            //    service.Execute();
+            //}
         }
 
-        private static void RegisterAttributedServices(IKernel kernel)
+        private static void RegisterAttributedServices(Container container)
         {
-            var serviceRegistrar = kernel.Get<ServiceRegistrator>();
-            serviceRegistrar.RegisterServices(kernel);
+            var serviceRegistrar = container.GetInstance<ServiceRegistrator>();
+            serviceRegistrar.RegisterServices(container);
         }
 
         static EngineContext()

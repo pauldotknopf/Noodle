@@ -1,5 +1,5 @@
-﻿using Ninject;
-using Noodle.Plugins;
+﻿using Noodle.Plugins;
+using SimpleInjector;
 
 namespace Noodle.Tests.Plugins
 {
@@ -8,7 +8,7 @@ namespace Noodle.Tests.Plugins
     {
 		public static bool WasInitialized { get; set; }
 		public static bool Throw { get; set; }
-        public void Initialize(IKernel kernel)
+        public void Initialize(Container container)
         {
         	WasInitialized = true;
             if (Throw)
