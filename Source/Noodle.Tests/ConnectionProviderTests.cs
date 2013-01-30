@@ -13,16 +13,15 @@ namespace Noodle.Tests
         private List<ConnectionStringElement> _connectionStringPointers = new List<ConnectionStringElement>();
         private ConnectionStringSettingsCollection _connectionStrings = new ConnectionStringSettingsCollection();
 
-        
-        public override void SetUp()
+
+        public override void ConfigureContainer()
         {
-            base.SetUp();
+            base.ConfigureContainer();
 
             _connectionStringPointers.Clear();
             _connectionStrings.Clear();
 
             var configuration = new Mock<NoodleCoreConfiguration>();
-            // TODO
             configuration.Setup(x => x.ConnectionStrings).Returns(() =>
             {
                 var connectionStrings = new ConnectionStringCollection();

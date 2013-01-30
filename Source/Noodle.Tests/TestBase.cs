@@ -19,6 +19,7 @@ namespace Noodle.Tests
             _container = BuildTestContainer();
             // placing the kernel here allows it to be used when doing EngineContext.Current
             Singleton<Container>.Instance = _container;
+            ConfigureContainer();
         }
 
         [TearDown]
@@ -56,6 +57,14 @@ namespace Noodle.Tests
         public virtual IEnumerable<IDependencyRegistrar> GetDependencyRegistrars()
         {
             return Enumerable.Empty<IDependencyRegistrar>();
+        }
+
+        /// <summary>
+        /// Override this method to modify the container directly after creation
+        /// </summary>
+        public virtual void ConfigureContainer()
+        {
+            
         }
     }
 }

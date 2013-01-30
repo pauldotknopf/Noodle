@@ -13,7 +13,7 @@ namespace Noodle.Settings
         public void Register(Container container)
         {
             container.RegisterSingle<ISettingService, SettingService>();
-            container.RegisterOpenGeneric(typeof (IConfigurationProvider<>), typeof (ConfigurationProvider<>));
+            container.RegisterSingleOpenGeneric(typeof (IConfigurationProvider<>), typeof (ConfigurationProvider<>));
             container.RegisterSingle(() => GetSettingsDatabase(container).GetCollection<Setting>("Settings"));
             container.ResolveUnregisteredType += (sender, e) =>
             {

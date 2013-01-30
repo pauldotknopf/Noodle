@@ -62,7 +62,6 @@ namespace Noodle.Tests.Scheduling
         public void OnceActionIsRemovedAfterRunningOnce()
         {
             var once = SelectThe<OnceAction>();
-            var repeat = SelectThe<RepeatAction>();
 
             _heart.Raise(x => x.Beat += null, new EventArgs());
 
