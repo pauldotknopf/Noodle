@@ -127,8 +127,6 @@
     <Compile Include="Engine\ITypeFinder.cs" />
     <Compile Include="Engine\IWorker.cs" />
     <Compile Include="Engine\Logger.cs" />
-    <Compile Include="Engine\ServiceAttribute.cs" />
-    <Compile Include="Engine\ServiceRegistrar.cs" />
     <Compile Include="Engine\Singleton.cs" />
     <Compile Include="ErrorEventArgs.cs" />
     <Compile Include="Extensions\CodeMirrorEnums.cs" />

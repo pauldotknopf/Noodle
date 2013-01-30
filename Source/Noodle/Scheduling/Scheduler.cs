@@ -12,7 +12,6 @@ namespace Noodle.Scheduling
     /// Maintains a list of scheduler actions and checks wether it's time to 
     /// execute them.
     /// </summary>
-    [Service(ContainerScope=ContainerScopeEnum.Singleton)]
     public class Scheduler : IStartupTask
     {
         readonly IList<ScheduledAction> _actions;

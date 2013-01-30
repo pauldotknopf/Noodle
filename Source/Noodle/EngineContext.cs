@@ -73,7 +73,6 @@ namespace Noodle
                         CoreDependencyRegistrar.Register(container);
 
                         // register everything!
-                        RegisterAttributedServices(container);
                         RegisterDependencyRegistrar(TypeFinder, container);
 
                         // set the kernel to the static accessor
@@ -159,19 +158,12 @@ namespace Noodle
 
         public static void RunStartupTasks(Container container)
         {
-            container.RegisterInitializer<IStartupTask>(task => task.Execute());
             var registrations = RegistrationsFieldInfo.GetValue(container) as IDictionary;
             if (registrations == null) return;
-            foreach (Type key in registrations.Keys)
+            foreach (var key in registrations.Keys.Cast<Type>().Where(x => typeof(IStartupTask).IsAssignableFrom(x)))
             {
                 container.GetInstance(key);
             }
-        }
-
-        private static void RegisterAttributedServices(Container container)
-        {
-            var serviceRegistrar = container.GetInstance<ServiceRegistrator>();
-            serviceRegistrar.RegisterServices(container);
         }
 
         static EngineContext()

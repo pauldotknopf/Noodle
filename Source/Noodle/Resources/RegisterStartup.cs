@@ -7,7 +7,6 @@ using Noodle.Engine;
 
 namespace Noodle.Resources
 {
-    [Service]
     public class RegisterStartup : IStartupTask
     {
         public void Execute()

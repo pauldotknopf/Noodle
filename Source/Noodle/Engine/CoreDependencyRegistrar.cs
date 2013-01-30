@@ -48,13 +48,12 @@ namespace Noodle.Engine
             }
             container.RegisterSingle(coreConfig);
             container.RegisterSingle(configuration);
-            container.RegisterSingle<ServiceRegistrator>();
             container.RegisterSingle<ITypeFinder, AppDomainTypeFinder>();
             container.RegisterSingle<IAssemblyFinder, AssemblyFinder>();
             container.RegisterSingle<ISerializer, BinaryStringSerializer>();
             container.RegisterSingle<IEncryptionService, EncryptionService>();
             container.RegisterSingle<ICacheManager, AdaptiveCache>();
-            container.RegisterPerWebRequest<IRequestContext, AdaptiveContext>();
+            container.RegisterSingle<IRequestContext, AdaptiveContext>();
             container.RegisterSingle<IDateTimeHelper, DateTimeHelper>();
             container.RegisterSingle<IDatabaseService, DatabaseService>();
             container.RegisterSingle<IEmailSender, EmailSender>();
@@ -66,6 +65,11 @@ namespace Noodle.Engine
             container.RegisterSingle<IHeart, Heart>();
             container.RegisterSingle<IErrorNotifier, ErrorNotifier>();
             container.RegisterSingle<IConnectionProvider, ConnectionProvider>();
+            container.RegisterSingle<Resources.EmbeddedResourceHandler>();
+            container.RegisterSingle<Resources.RegisterStartup>();
+            container.Register(() => EventBroker.Instance);
+            container.RegisterSingle<Scheduler>();
+            container.RegisterInitializer<IStartupTask>(task => task.Execute());
             container.RegisterPerWebRequest(() =>
             {
                 if (HttpContext.Current == null)

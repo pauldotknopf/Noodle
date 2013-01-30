@@ -67,6 +67,9 @@ namespace Noodle.Engine
                 if(!IsNotExcluded(referenced))
                     continue;
 
+                if(assemblies.Any(x => x.FullName.Equals(referenced.FullName)))
+                    continue;
+
                 RecursivelyLoadReferencedAssemblies(assemblies, Assembly.Load(referenced));
             }
         }

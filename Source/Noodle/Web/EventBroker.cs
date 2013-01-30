@@ -8,7 +8,6 @@ namespace Noodle.Web
     /// <summary>
     /// A broker for events from the http application.
     /// </summary>
-    [Service(ContainerScope=ContainerScopeEnum.Singleton, StaticAccessor = "Instance")]
     public class EventBroker
     {
         static EventBroker()

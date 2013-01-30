@@ -10,11 +10,9 @@ using Noodle;
 using Noodle.Engine;
 using Noodle.Routing;
 using Noodle.Web;
-using Url = System.Security.Policy.Url;
 
 namespace Noodle.Resources
 {
-    [Service]
     public class EmbeddedResourceHandler : IStartupTask
     {
         static EmbeddedResourceHandler()
@@ -36,7 +34,7 @@ namespace Noodle.Resources
                 if (httpApplication == null)
                     return;
 
-                var url = new Web.Url(httpApplication.Context.Request.RawUrl);
+                var url = new Url(httpApplication.Context.Request.RawUrl);
 
                 if (!string.IsNullOrEmpty(url.Path) && url.Path.StartsWith("/noodle/embedded", StringComparison.InvariantCultureIgnoreCase))
                 {
