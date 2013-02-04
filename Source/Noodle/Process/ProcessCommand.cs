@@ -68,8 +68,6 @@ namespace Noodle.Process
                 };
                 proc.StartInfo = process;
                 proc.Start();
-                proc.BeginErrorReadLine();
-                proc.BeginOutputReadLine();
 
                 if (Timeout > 0)
                 {
