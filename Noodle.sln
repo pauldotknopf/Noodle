@@ -22,6 +22,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{234122
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Imaging", "Source\Modules\Noodle.Imaging\Noodle.Imaging.csproj", "{87613F18-96CC-41C4-A295-BC6A386C1659}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Imaging.Tests", "Noodle.Imaging.Tests\Noodle.Imaging.Tests.csproj", "{3BA34AEE-839B-445A-ACFE-0151A4527FB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +60,14 @@ Global
 		{82CD0FB9-8E13-4B85-B1F4-6BE776D848D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82CD0FB9-8E13-4B85-B1F4-6BE776D848D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82CD0FB9-8E13-4B85-B1F4-6BE776D848D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87613F18-96CC-41C4-A295-BC6A386C1659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87613F18-96CC-41C4-A295-BC6A386C1659}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87613F18-96CC-41C4-A295-BC6A386C1659}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87613F18-96CC-41C4-A295-BC6A386C1659}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BA34AEE-839B-445A-ACFE-0151A4527FB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BA34AEE-839B-445A-ACFE-0151A4527FB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BA34AEE-839B-445A-ACFE-0151A4527FB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BA34AEE-839B-445A-ACFE-0151A4527FB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,5 +77,7 @@ Global
 		{DBD71993-70E3-4B67-9D53-D1F221D13A7A} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
 		{99CF8D4B-2D70-4180-B7BA-CFC947C73A3F} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
 		{82CD0FB9-8E13-4B85-B1F4-6BE776D848D5} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
+		{87613F18-96CC-41C4-A295-BC6A386C1659} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
+		{3BA34AEE-839B-445A-ACFE-0151A4527FB5} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
 	EndGlobalSection
 EndGlobal
