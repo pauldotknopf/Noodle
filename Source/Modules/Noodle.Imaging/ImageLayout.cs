@@ -16,7 +16,7 @@ namespace Noodle.Imaging
         /// </summary>
         /// <param name="canvasSize"></param>
         /// <param name="drawTo"></param>
-        public ImageLayout(Size canvasSize, RectangleF drawTo)
+        public ImageLayout(SizeF canvasSize, RectangleF drawTo)
         {
             CanvasSize = canvasSize;
             DrawTo = drawTo;
@@ -25,7 +25,7 @@ namespace Noodle.Imaging
         /// <summary>
         /// The size of the canvas that the source image will be drawn on
         /// </summary>
-        public Size CanvasSize { get; protected set; }
+        public SizeF CanvasSize { get; protected set; }
 
         /// <summary>
         /// The X/Y/width/height that the source image will be drawn to 

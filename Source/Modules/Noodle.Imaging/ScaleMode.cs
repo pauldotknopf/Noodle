@@ -13,10 +13,12 @@ namespace Noodle.Imaging
         /// <summary>
         /// The default. Only downsamples images - never enlarges. If an image is smaller than 'width' and 'height', the image coordinates are used instead.
         /// </summary>
+        [EnumString("down")]
         DownscaleOnly,
         /// <summary>
-        /// Only upscales (zooms) images - never downsamples. If an image is larger than 'width' and 'height', the image coordinates are used instead.
+        /// Only upscales (zooms) images - never downsamples except to meet web.config restrictions. If an image is larger than 'width' and 'height', the image coordinates are used instead.
         /// </summary>
+        [EnumString("up")]
         UpscaleOnly,
         /// <summary>
         /// Upscales and downscales images according to 'width' and 'height', within web.config restrictions.
@@ -25,6 +27,7 @@ namespace Noodle.Imaging
         /// <summary>
         /// When the image is smaller than the requested size, padding is added instead of stretching the image
         /// </summary>
+        [EnumString("canvas")]
         UpscaleCanvas
     }
 }

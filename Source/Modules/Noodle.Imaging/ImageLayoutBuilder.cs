@@ -14,114 +14,164 @@ namespace Noodle.Imaging
         /// <summary>
         /// Build a layout for the source image given the resize settings
         /// </summary>
-        /// <param name="sourceSize"></param>
+        /// <param name="imageSourceSize"></param>
         /// <param name="resizeSettings"></param>
-        public ImageLayout BuildLayout(Size sourceSize, ResizeSettings resizeSettings)
+        public ImageLayout BuildLayout(Size imageSourceSize, ResizeSettings resizeSettings)
         {
+            // we, by default, are taking the entire image (x=0,y=0,h=source.Height,w=source.Width
+            var cropRectangle = new RectangleF(new PointF(0, 0), imageSourceSize);
 
-            ////Find container 
-            //RectangleF cont;
-            //if (s.layout.ContainsRing(RelativeTo))
-            //    cont = PolygonMath.GetBoundingBox(s.layout[RelativeTo]);
-            //else if ("canvas".Equals(RelativeTo, StringComparison.OrdinalIgnoreCase))
-            //    cont = new RectangleF(new PointF(), s.destSize);
-            //else
-            //    cont = PolygonMath.GetBoundingBox(s.layout["image"]);
+            // use the crop size if present.
+            if (NameValueCollectionExtensions.GetList<double>(resizeSettings, "crop", 0, 4) != null)
+            {
+                cropRectangle = PolygonMath.ToRectangle(resizeSettings.getCustomCropSourceRect(imageSourceSize)); //Round the custom crop rectangle coordinates
+                if (cropRectangle.Size.IsEmpty) throw new Exception("You must specify a custom crop rectange if crop=custom");
+            }
 
-            ////Calculate layer coords
-            //RectangleF rect = new RectangleF();
+            var fit = resizeSettings.Mode;
+            // determine fit mode to use if both vertical and horizontal limits are used.
+            if (fit == FitMode.None)
+            {
+                if (resizeSettings.Width != -1 || resizeSettings.Height != -1)
+                {
+                    if ("fill".Equals(resizeSettings["stretch"], StringComparison.OrdinalIgnoreCase)) 
+                        fit = FitMode.Stretch;
+                    else if ("auto".Equals(resizeSettings["crop"], StringComparison.OrdinalIgnoreCase)) 
+                        fit = FitMode.Crop;
+                    else 
+                        fit = FitMode.Pad;
+                }
+                else
+                {
+                    fit = FitMode.Max;
+                }
+            }
 
-            ////Resolve all values to the same coordinate plane, null values will be transformed to NaN
-            //double left = Resolve(Left, cont.X, cont.Width, false);
-            //double top = Resolve(Top, cont.Y, cont.Height, false);
-            //double right = Resolve(Right, cont.Right, cont.Width, true);
-            //double bottom = Resolve(Bottom, cont.Bottom, cont.Height, true);
-            //double width = Resolve(Width, 0, cont.Width, false);
-            //double height = Resolve(Height, 0, cont.Height, false);
+            // Aspect ratio of the image
+            var imageRatio = cropRectangle.Size.Width / cropRectangle.Size.Height;
 
-            ////Force all values to be within the canvas area.
-            //if (forceInsideCanvas)
-            //{
-            //    SizeF canvas = s.destSize;
-            //    if (!double.IsNaN(left)) left = Math.Min(Math.Max(0, left), canvas.Width);
-            //    if (!double.IsNaN(right)) right = Math.Min(Math.Max(0, right), canvas.Width);
-            //    if (!double.IsNaN(width)) width = Math.Min(Math.Max(0, width), canvas.Width);
-            //    if (!double.IsNaN(bottom)) bottom = Math.Min(Math.Max(0, bottom), canvas.Height);
-            //    if (!double.IsNaN(top)) top = Math.Min(Math.Max(0, top), canvas.Height);
-            //    if (!double.IsNaN(height)) height = Math.Min(Math.Max(0, height), canvas.Height);
-            //}
+            // zoom factor
+            var zoom = resizeSettings.Get<double>("zoom", 1);
+            //The target size for the image 
+            var targetSize = new SizeF(-1, -1);
+            //Target area for the image
+            var areaSize = new SizeF(-1, -1);
+            //If any dimensions are specified, calculate. Otherwise, use original image dimensions
+            if (resizeSettings.Width != -1 || resizeSettings.Height != -1 || resizeSettings.MaxHeight != -1 || resizeSettings.MaxWidth != -1)
+            {
+                // a dimension was specified. 
+                // we first calculate the largest size the image can be under the width/height/maxwidth/maxheight restrictions.
+                // pretending stretch=fill and scale=both
 
-            ////If right and left (or top and bottom) are inverted, avg them and set them equal.
-            //if (!double.IsNaN(left) && !double.IsNaN(right) && right < left) left = right = ((left + right) / 2);
-            //if (!double.IsNaN(top) && !double.IsNaN(bottom) && bottom < top) bottom = top = ((bottom + top) / 2);
+                // temp vars - results stored in targetSize and areaSize
+                double width = resizeSettings.Width;
+                double height = resizeSettings.Height;
+                double maxwidth = resizeSettings.MaxWidth;
+                double maxheight = resizeSettings.MaxHeight;
 
+                // eliminate cases where both a value and a max value are specified: use the smaller value for the width/height 
+                if (maxwidth > 0 && width > 0) { width = Math.Min(maxwidth, width); maxwidth = -1; }
+                if (maxheight > 0 && height > 0) { height = Math.Min(maxheight, height); maxheight = -1; }
 
-            ////Fill in width/height if enough stuff is specified
-            //if (!double.IsNaN(left) && !double.IsNaN(right) && double.IsNaN(width)) width = Math.Max(right - left, 0);
-            //if (!double.IsNaN(top) && !double.IsNaN(bottom) && double.IsNaN(height)) height = Math.Max(bottom - top, 0);
-
-
-            ////Execute the callback to get the actual size. Update the width and height values if the actual size is smaller. 
-            //SizeF normalSize = actualSizeCalculator((double.IsNaN(width) && Fill) ? cont.Width : width, (double.IsNaN(height) && Fill) ? cont.Height : height);
-            //if (double.IsNaN(width) || width > normalSize.Width) width = normalSize.Width;
-            //if (double.IsNaN(height) || height > normalSize.Height) height = normalSize.Height;
-
-
-
-            ////If only width and height are specified, set the other values to match the container, and let alignment sort it out.
-            //if (double.IsNaN(left) && double.IsNaN(right)) { left = cont.X; right = cont.Right; }//Handle situations where neither left nor right is specified, pretend left=0
-            //if (double.IsNaN(top) && double.IsNaN(bottom)) { top = cont.X; bottom = cont.Bottom; } //Handle situations where neither top nor bottom is specified, pretend top=0
-
-
-            ////When all 3 values are specified in either direction, we must use the alignment setting to determine which direction to snap to.
-            //if (!double.IsNaN(left) && !double.IsNaN(right) && !double.IsNaN(width))
-            //{
-            //    if (width > right - left) width = right - left; //Use the smaller value in this case, no need to align.
-            //    else
-            //    {
-            //        if (Align == ContentAlignment.BottomLeft || Align == ContentAlignment.MiddleLeft || Align == ContentAlignment.TopLeft)
-            //            right = left + width;
-            //        if (Align == ContentAlignment.BottomCenter || Align == ContentAlignment.MiddleCenter || Align == ContentAlignment.TopCenter)
-            //        {
-            //            left += (right - left - width) / 2;
-            //            right = left + width;
-            //        }
-            //        if (Align == ContentAlignment.BottomRight || Align == ContentAlignment.MiddleRight || Align == ContentAlignment.TopRight)
-            //            left = right - width;
-            //    }
-            //}
-
-            ////When all 3 values are specified in either direction, we must use the alignment setting to determine which direction to snap to.
-            //if (!double.IsNaN(top) && !double.IsNaN(bottom) && !double.IsNaN(height))
-            //{
-            //    if (height > bottom - top) height = bottom - top; //Use the smaller value in this case, no need to align.
-            //    else
-            //    {
-            //        if (Align == ContentAlignment.TopLeft || Align == ContentAlignment.TopCenter || Align == ContentAlignment.TopRight)
-            //            bottom = top + height;
-            //        if (Align == ContentAlignment.MiddleLeft || Align == ContentAlignment.MiddleCenter || Align == ContentAlignment.MiddleRight)
-            //        {
-            //            top += (bottom - top - height) / 2;
-            //            bottom = top + height;
-            //        }
-            //        if (Align == ContentAlignment.BottomLeft || Align == ContentAlignment.BottomCenter || Align == ContentAlignment.BottomRight)
-            //            top = bottom - height;
-            //    }
-            //}
+                // handle cases of width/maxheight and height/maxwidth. 
+                if (width != -1 && maxheight != -1) maxheight = Math.Min(maxheight, (width / imageRatio));
+                if (height != -1 && maxwidth != -1) maxwidth = Math.Min(maxwidth, (height * imageRatio));
 
 
-            ////Calculate values for top and left based off bottom and right
-            //if (double.IsNaN(left)) left = right - width;
-            //if (double.IsNaN(top)) top = bottom - height;
+                //Move max values to width/height. FitMode should already reflect the mode we are using, and we've already resolved mixed modes above.
+                width = Math.Max(width, maxwidth);
+                height = Math.Max(height, maxheight);
 
-            ////Calculate values for bottom and right based off top and left
-            //if (double.IsNaN(right)) right = left + width;
-            //if (double.IsNaN(bottom)) bottom = top + height;
+                // calculate missing value (a missing value is handled the same everywhere). 
+                if (width > 0 && height <= 0) 
+                    height = width / imageRatio;
+                else if (height > 0 && width <= 0) 
+                    width = height * imageRatio;
+
+                // we now have width & height, our target size. It will only be a different aspect ratio from the image if both 'width' and 'height' are specified.
+
+                if (fit == FitMode.Max)
+                {
+                    areaSize = targetSize = PolygonMath.ScaleInside(cropRectangle.Size, new SizeF((float)width, (float)height));
+                }
+                else if (fit == FitMode.Pad)
+                {
+                    areaSize = new SizeF((float)width, (float)height);
+                    targetSize = PolygonMath.ScaleInside(cropRectangle.Size, areaSize);
+                }
+                else if (fit == FitMode.Crop)
+                {
+                    // we autocrop - so both target and area match the requested size
+                    areaSize = targetSize = new SizeF((float)width, (float)height);
+                    // determine the size of the area we are copying
+                    var sourceSize = PolygonMath.RoundPoints(PolygonMath.ScaleInside(areaSize, cropRectangle.Size));
+                    // center the portion we are copying within the manualCropSize
+                    cropRectangle = PolygonMath.ToRectangle(PolygonMath.AlignWith(new RectangleF(0, 0, sourceSize.Width, sourceSize.Height), cropRectangle, resizeSettings.Anchor));
+                }
+                else
+                { 
+                    //Stretch and carve both act like stretching, so do that:
+                    areaSize = targetSize = new SizeF((float)width, (float)height);
+                }
+            }
+            else
+            {
+                // no dimensions specified, no fit mode needed. Use manual crop dimensions
+                areaSize = targetSize = cropRectangle.Size;
+            }
+
+            //Multiply both areaSize and targetSize by zoom. 
+            areaSize.Width *= (float)zoom;
+            areaSize.Height *= (float)zoom;
+            targetSize.Width *= (float)zoom;
+            targetSize.Height *= (float)zoom;
+
+            // NOTE: automatic crop is permitted to break the scaling rules.
+
+            //Now do upscale/downscale checks. If they take effect, set targetSize to imageSize
+            if (resizeSettings.Scale == ScaleMode.DownscaleOnly)
+            {
+                if (PolygonMath.FitsInside(cropRectangle.Size, targetSize))
+                {
+                    // the image is smaller or equal to its target polygon. Use original image coordinates instead.
+                    areaSize = targetSize = cropRectangle.Size;
+                }
+            }
+            else if (resizeSettings.Scale == ScaleMode.UpscaleOnly)
+            {
+                if (!PolygonMath.FitsInside(cropRectangle.Size, targetSize))
+                {
+                    // the image is larger than its target. Use original image coordintes instead
+                    areaSize = targetSize = cropRectangle.Size;
+                }
+            }
+            else if (resizeSettings.Scale == ScaleMode.UpscaleCanvas)
+            {
+                // same as downscaleonly, except areaSize isn't changed.
+                if (PolygonMath.FitsInside(cropRectangle.Size, targetSize))
+                {
+                    //The image is smaller or equal to its target polygon. 
+                    targetSize = cropRectangle.Size;
+                }
+            }
+
+            // require max dimension and round values to minimize rounding differences.
+            areaSize.Width = Math.Max(1, (float)Math.Round(areaSize.Width));
+            areaSize.Height = Math.Max(1, (float)Math.Round(areaSize.Height));
+            targetSize.Width = Math.Max(1, (float)Math.Round(targetSize.Width));
+            targetSize.Height = Math.Max(1, (float)Math.Round(targetSize.Height));
 
 
-            //return new RectangleF((float)left, (float)top, (float)width, (float)height);
+            //Translate and scale all existing rings
+        
+            var image = PolygonMath.ToPoly(new RectangleF(new PointF(0, 0), targetSize));
 
-            return null;
+            var imageArea = PolygonMath.ToPoly(new RectangleF(new PointF(0, 0), areaSize));
+
+            //Center imageArea around 'image'
+            imageArea = PolygonMath.AlignWith(imageArea, image, resizeSettings.Anchor);
+
+            return new ImageLayout(PolygonMath.GetBoundingBox(image), PolygonMath.GetCroppingRectangle(imageArea));
         }
     }
 }

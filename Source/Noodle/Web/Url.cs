@@ -870,6 +870,21 @@ namespace Noodle.Web
             return dictionary;
         }
 
+        /// <summary>
+        /// Parses a query string as a name value collection
+        /// </summary>
+        /// <param name="query">The query string</param>
+        /// <returns>A namevaluecollection of the query parts.</returns>
+        public static NameValueCollection ParseQueryStringAsNameValueCollection(string query)
+        {
+            var nameValueColleciton = new NameValueCollection();
+            foreach (var keyValue in ParseQueryString(query))
+            {
+                nameValueColleciton[keyValue.Key] = keyValue.Value;
+            }
+            return nameValueColleciton;
+        }
+
         /// <summary>Changes the application base of an url.</summary>
         /// <param name="currentPath">Replaces an absolute url in one app, to the absolute path of another app.</param>
         /// <param name="fromAppPath">The origin application path.</param>

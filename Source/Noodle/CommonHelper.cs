@@ -84,9 +84,10 @@ namespace Noodle
         /// </summary>
         /// <typeparam name="T">The type to convert the value to.</typeparam>
         /// <param name="value">The value to convert.</param>
+        /// <param name="defaultValue">The value to return if no conversion exists</param>
         /// <returns>The converted value.</returns>
         /// <remarks></remarks>
-        public static T To<T>(object value)
+        public static T To<T>(object value, T defaultValue = default(T))
         {
             try
             {
@@ -114,7 +115,6 @@ namespace Noodle
                 return new GenericListTypeConverter<string>();
             if (type == typeof(bool))
                 return new BooleanTypCeonverter();
-
 
             return TypeDescriptor.GetConverter(type);
         }

@@ -51,6 +51,14 @@
       <Project>{87613f18-96cc-41c4-a295-bc6a386c1659}</Project>
       <Name>Noodle.Imaging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Source\Noodle.Tests\Noodle.Tests.csproj">
+      <Project>{d3226938-7fe2-4f24-8a4a-c6d83f7938cb}</Project>
+      <Name>Noodle.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Source\Noodle\Noodle.csproj">
+      <Project>{944fec3d-a47f-4c92-92ac-81b3420c1caa}</Project>
+      <Name>Noodle</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -17,14 +17,17 @@ namespace Noodle.Imaging
         /// <summary>
         /// Flip horizontally
         /// </summary>
+        [EnumString("h")]
         X = 4,
         /// <summary>
         /// Flip vertically (identical to 180 degree rotation)
         /// </summary>
+        [EnumString("v")]
         Y = 6,
         /// <summary>
         /// Flip horizontally and vertically
         /// </summary>
+        [EnumString("both")]
         XY = 2
     }
 }
