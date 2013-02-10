@@ -26,6 +26,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Imaging", "Source\Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Imaging.Tests", "Noodle.Imaging.Tests\Noodle.Imaging.Tests.csproj", "{3BA34AEE-839B-445A-ACFE-0151A4527FB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Logging", "Source\Modules\Noodle.Logging\Noodle.Logging.csproj", "{D11961E6-8056-4B31-B77A-AA6BCA315867}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Logging.Tests", "Source\Modules\Noodle.Logging.Tests\Noodle.Logging.Tests.csproj", "{08B2DC42-E190-4321-A270-3D289A42DB07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +72,14 @@ Global
 		{3BA34AEE-839B-445A-ACFE-0151A4527FB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BA34AEE-839B-445A-ACFE-0151A4527FB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BA34AEE-839B-445A-ACFE-0151A4527FB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D11961E6-8056-4B31-B77A-AA6BCA315867}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D11961E6-8056-4B31-B77A-AA6BCA315867}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D11961E6-8056-4B31-B77A-AA6BCA315867}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D11961E6-8056-4B31-B77A-AA6BCA315867}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08B2DC42-E190-4321-A270-3D289A42DB07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08B2DC42-E190-4321-A270-3D289A42DB07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08B2DC42-E190-4321-A270-3D289A42DB07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08B2DC42-E190-4321-A270-3D289A42DB07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,5 +91,7 @@ Global
 		{82CD0FB9-8E13-4B85-B1F4-6BE776D848D5} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
 		{87613F18-96CC-41C4-A295-BC6A386C1659} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
 		{3BA34AEE-839B-445A-ACFE-0151A4527FB5} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
+		{D11961E6-8056-4B31-B77A-AA6BCA315867} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
+		{08B2DC42-E190-4321-A270-3D289A42DB07} = {A91A0276-893B-4F56-964D-B3DA6D2CCC15}
 	EndGlobalSection
 EndGlobal
