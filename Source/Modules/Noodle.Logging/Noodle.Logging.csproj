@@ -51,8 +51,10 @@
   <ItemGroup>
     <Compile Include="DefaultLogger.cs" />
     <Compile Include="DependencyRegistrar.cs" />
+    <Compile Include="ErrorNotifierLogger.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="LogContext.cs" />
     <Compile Include="LogException.cs" />
     <Compile Include="LoggingExtensions.cs" />
     <Compile Include="LogLevel.cs" />

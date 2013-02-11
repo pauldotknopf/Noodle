@@ -10,7 +10,8 @@ namespace Noodle.Logging
         public void Register(Container container)
         {
             container.RegisterSingle<ILogger, DefaultLogger>();
-            container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<Log>("Log"));;
+            container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<Log>("Log"));
+            container.RegisterSingle<ErrorNotifierLogger>();
         }
 
         public int Importance
