@@ -1,0 +1,43 @@
+﻿<Window x:Class="Noodle.Localization.XmlEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xmlEditor="clr-namespace:Noodle.Localization.XmlEditor"
+        Title="MainWindow" Height="350" Width="525"
+        DataContext="{StaticResource LanguageManagerViewModel}">
+    <Window.Resources>
+        <xmlEditor:IsMissingToColorConverter x:Key="IsMissingColorConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="_Import" Command="{Binding ImportCommand}" />
+            <MenuItem Header="_Export" Command="{Binding ExportCommand}" />
+            <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
+        </Menu>
+        <TabControl ItemsSource="{Binding Languages}" Grid.Row="1">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding First.Name}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="{x:Type xmlEditor:LocaleStringResourceModel}">
+                    <DataGrid ItemsSource="{Binding Second}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding ResourceName}" Width="Auto" />
+                            <DataGridTextColumn Header="Value" Binding="{Binding ResourceValue}" Width="1*" />
+                        </DataGrid.Columns>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Background" Value="{Binding IsMissing, Converter={StaticResource IsMissingColorConverter}}" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </Grid>
+</Window>

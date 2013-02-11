@@ -11,25 +11,13 @@ namespace Noodle.Imaging
     /// </summary>
     public class ImageLayout
     {
-        /// <summary>
-        /// Create an image layout with a canvas size and the destination location of the source image
-        /// </summary>
-        /// <param name="canvasSize"></param>
-        /// <param name="drawTo"></param>
-        public ImageLayout(SizeF canvasSize, RectangleF drawTo)
+        public RectangleF Image { get; set; }
+        public RectangleF ImageArea { get; set; }
+
+        public ImageLayout(RectangleF image, RectangleF imageArea)
         {
-            CanvasSize = canvasSize;
-            DrawTo = drawTo;
+            Image = image;
+            ImageArea = imageArea;
         }
-
-        /// <summary>
-        /// The size of the canvas that the source image will be drawn on
-        /// </summary>
-        public SizeF CanvasSize { get; protected set; }
-
-        /// <summary>
-        /// The X/Y/width/height that the source image will be drawn to 
-        /// </summary>
-        public RectangleF DrawTo { get; protected set; }
     }
 }
