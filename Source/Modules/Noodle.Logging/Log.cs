@@ -17,6 +17,7 @@ namespace Noodle.Logging
             QueryString = new Dictionary<string, string>();
             Form = new Dictionary<string, string>();
             Cookies = new Dictionary<string, string>();
+            LogLevel = LogLevel.Information;
         }
 
         private string _customDataSerialized = string.Empty;
@@ -25,11 +26,6 @@ namespace Noodle.Logging
         private string _formSerialized = string.Empty;
         private string _cookiesSerialized = string.Empty;
         private IDictionary<string, string> _customData = new Dictionary<string, string>();
-
-        /// <summary>
-        /// Gets or sets the log level identifier
-        /// </summary>
-        public virtual int LogLevelId { get; set; }
 
         /// <summary>
         /// Gets or sets the short message
@@ -69,7 +65,7 @@ namespace Noodle.Logging
         /// <summary>
         /// Gets or sets the log level
         /// </summary>
-        public virtual LogLevel LogLevel { get { return (LogLevel)this.LogLevelId; } set { LogLevelId = (int)value; } }
+        public virtual LogLevel LogLevel { get; set; }
 
         /// <summary>
         /// Custom data associated to this log

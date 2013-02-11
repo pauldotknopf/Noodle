@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -71,57 +74,34 @@ namespace Noodle.Logging
         public virtual IPagedList<Log> GetAllLogs(DateTime? fromUtc = null, DateTime? toUtc = null,
             string message = null, LogLevel? logLevel = null, int pageIndex = 0, int pageSize = int.MaxValue)
         {
-            //using (var response = _logRepository
-            //    .ExecuteMethodQuery<LogDataContext, IMultipleResults>(context
-            //        => context.GetAllLogs(fromUtc, toUtc, message, (int?)logLevel, pageIndex, pageSize)))
-            //{
-            //    var logs = response.GetResult<Log>().ToList();
-            //    var total = response.GetResult<Single<int>>().First().Value;
+            var filters = new List<IMongoQuery>();
 
-            //    return new PagedList<Log>(logs, pageIndex, pageSize, total);
-            //}
+            if(fromUtc.HasValue)
+                filters.Add(Query.GTE("CreatedOnUtc", fromUtc.Value));
 
-            //CREATE PROCEDURE [dbo].[Log_GetAllLogs]
-            //    @fromUtc	DATETIME = NULL,
-            //    @toUtc		DATETIME = NULL,
-            //    @message	NVARCHAR(MAX) = NULL,
-            //    @logLevelId INT = NULL,
-            //    @pageIndex	INT = 0,
-            //    @pageSize	INT
-            //AS
+            if(toUtc.HasValue)
+                filters.Add(Query.LTE("CreatedOnUtc", toUtc.Value));
 
-            //-- ensure valid page index
-            //IF(@pageIndex = NULL OR @pageIndex < 0)
-            //BEGIN
-            //    SET @pageIndex = 0
-            //END
+            if(logLevel.HasValue)
+                filters.Add(Query.EQ("LogLevel", logLevel.Value));
 
-            //SET @message = LTRIM(RTRIM(@message))
+            if(!string.IsNullOrEmpty(message))
+            {
+                var regex = new Regex(message, RegexOptions.IgnoreCase);
+                filters.Add(Query.Or(Query.EQ("ShortMessage", BsonRegularExpression.Create(regex)),
+                    Query.EQ("FullMessage", BsonRegularExpression.Create(regex))));
+            }
+            
+            var query = filters.Any() ? Query.And(filters) : null;
 
-            //DECLARE @tmpTable TABLE (
-            //    PK INT NOT NULL PRIMARY KEY,
-            //    RowNum INT NOT NULL
-            //)
+            var total = query != null ? _logCollection.Count(query) : _logCollection.Count();
 
-            //INSERT INTO @tmpTable
-            //SELECT l.Id, ROW_NUMBER() OVER(ORDER BY l.CreatedOnUtc DESC) AS RowNum
-            //    FROM [dbo].[Log] AS l
-            //    WHERE (@fromUtc IS NULL OR l.[CreatedOnUtc] >= @fromUtc)
-            //        AND (@toUtc IS NULL OR l.[CreatedOnUtc] <= @toUtc)
-            //        AND (@logLevelId IS NULL OR l.[LogLevelId] = @logLevelId)
-            //        AND (@message IS NULL OR @message = '' OR l.[FullMessage] LIKE '%' + @message + '%' OR l.[ShortMessage] LIKE '%' + @message + '%')
-            //    ORDER BY l.CreatedOnUtc
+            var logs = (query != null ? _logCollection.Find(query) : _logCollection.FindAll())
+                .SetSkip(pageIndex * pageSize)
+                .SetLimit(pageSize)
+                .ToList();
 
-            //SELECT *
-            //    FROM @tmpTable AS temp
-            //    INNER JOIN [dbo].[Log] AS qe ON qe.Id = temp.PK
-            //    WHERE RowNum > (@pageIndex * @pageSize) AND RowNum <= ((@pageIndex + 1) * @pageSize)
-            //    ORDER BY RowNum
-
-            //SELECT COUNT(*) as TotalCount FROM @tmpTable
-
-
-            return null;
+            return new PagedList<Log>(logs, pageIndex, pageSize, (int)total);
         }
 
         /// <summary>

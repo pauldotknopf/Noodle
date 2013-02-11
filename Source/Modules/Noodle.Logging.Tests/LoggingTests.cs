@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
+using System.Web;
 using MongoDB.Driver;
 using Moq;
 using NUnit.Framework;
@@ -27,6 +28,15 @@ namespace Noodle.Logging.Tests
             base.SetUp();
             _container.GetInstance<MongoCollection<Log>>().RemoveAll();
             _logger = _container.GetInstance<ILogger>();
+
+            _requestContext = new Mock<IRequestContext>();
+            _requestContext.Setup(x => x.Url).Returns(() => _currentUrl);
+            _requestContext.Setup(x => x.GetCurrentIpAddress()).Returns(() => _ipAddress);
+            _requestContext.Setup(x => x.GetReferrerUrl()).Returns(() => _referrerUrl);
+            _requestContext.Setup(x => x.Cookies).Returns(new List<HttpCookie>());
+            _requestContext.Setup(x => x.QueryString).Returns(new NameValueCollection());
+            _requestContext.Setup(x => x.Form).Returns(new NameValueCollection());
+            _requestContext.Setup(x => x.ServerVariables).Returns(new NameValueCollection());
         }
 
         [Test]
@@ -38,7 +48,7 @@ namespace Noodle.Logging.Tests
             _currentUrl = "http://domain.com/?query=something";
 
             // act
-            _testLog = _logger.InsertLog(LogLevel.Information, "short", "full", null, "user");
+            _testLog = _logger.InsertLog(LogLevel.Information, "short", "full", null, "user", _requestContext.Object);
 
             // assert
             var logs = _logger.GetAllLogs();
@@ -233,7 +243,7 @@ namespace Noodle.Logging.Tests
                 _referrerUrl = "referrer" + x;
                 _currentUrl = "http://www.domain{0}.com".F(x);
                 var logLevel = int.Parse(((x % 5) + 1).ToString(CultureInfo.InvariantCulture) + "0");
-                _logger.InsertLog((LogLevel)logLevel, "short" + x, "full" + x, null, "user" + x);
+                _logger.InsertLog((LogLevel)logLevel, "short" + x, "full" + x, null, "user" + x, _requestContext.Object);
             }
         }
 
