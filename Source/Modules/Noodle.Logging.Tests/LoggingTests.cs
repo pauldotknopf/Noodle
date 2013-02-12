@@ -156,35 +156,50 @@ namespace Noodle.Logging.Tests
         [Test]
         public void Can_get_all_logs_starting_from()
         {
-            // setup
-            var time = DateTime.UtcNow;
-            CommonHelper.CurrentTime = () => time;
-            CreateSampleLogs();
-            var from = time.Subtract(TimeSpan.FromDays(50));
+            var prev = CommonHelper.CurrentTime;
+            try
+            {
+                // setup
+                var time = DateTime.UtcNow;
+                CommonHelper.CurrentTime = () => time;
+                CreateSampleLogs();
+                var from = time.Subtract(TimeSpan.FromDays(50));
 
-            // act
-            var logs = _logger.GetAllLogs(fromUtc: from);
+                // act
+                var logs = _logger.GetAllLogs(fromUtc: from);
 
-            // assert
-            logs.Count.ShouldEqual(50);
-            logs.All(x => x.CreatedOnUtc.Tollerable() >= from.Tollerable()).ShouldBeTrue();
+                // assert
+                logs.Count.ShouldEqual(50);
+                logs.All(x => x.CreatedOnUtc.Tollerable() >= from.Tollerable()).ShouldBeTrue();
+            }finally
+            {
+                CommonHelper.CurrentTime = prev;
+            }
         }
 
         [Test]
         public void Can_get_all_logs_ending_at()
         {
-            // setup
-            var time = DateTime.UtcNow;
-            CommonHelper.CurrentTime = () => time;
-            CreateSampleLogs();
-            var to = time.Subtract(TimeSpan.FromDays(30));
+            var prev = CommonHelper.CurrentTime;
 
-            // act
-            var logs = _logger.GetAllLogs(toUtc: to);
+            try
+            {
+                // setup
+                var time = DateTime.UtcNow;
+                CommonHelper.CurrentTime = () => time;
+                CreateSampleLogs();
+                var to = time.Subtract(TimeSpan.FromDays(30));
 
-            // assert
-            logs.Count.ShouldEqual(83);
-            logs.All(x => x.CreatedOnUtc.Tollerable() <= to.Tollerable()).ShouldBeTrue();
+                // act
+                var logs = _logger.GetAllLogs(toUtc: to);
+
+                // assert
+                logs.Count.ShouldEqual(83);
+                logs.All(x => x.CreatedOnUtc.Tollerable() <= to.Tollerable()).ShouldBeTrue();
+            }finally
+            {
+                CommonHelper.CurrentTime = prev;
+            }
         }
 
         [Test]
@@ -232,18 +247,25 @@ namespace Noodle.Logging.Tests
 
         private void CreateSampleLogs()
         {
-            var time = CommonHelper.CurrentTime();
-
-            for (var x = 0; x < 112; x++)
+            var prev = CommonHelper.CurrentTime;
+            try
             {
-                var logTime = time.Subtract(TimeSpan.FromDays(x + 1));
-                CommonHelper.CurrentTime = () => logTime;
+                var time = CommonHelper.CurrentTime();
 
-                _ipAddress = "ip" + x;
-                _referrerUrl = "referrer" + x;
-                _currentUrl = "http://www.domain{0}.com".F(x);
-                var logLevel = int.Parse(((x % 5) + 1).ToString(CultureInfo.InvariantCulture) + "0");
-                _logger.InsertLog((LogLevel)logLevel, "short" + x, "full" + x, null, "user" + x, _requestContext.Object);
+                for (var x = 0; x < 112; x++)
+                {
+                    var logTime = time.Subtract(TimeSpan.FromDays(x + 1));
+                    CommonHelper.CurrentTime = () => logTime;
+
+                    _ipAddress = "ip" + x;
+                    _referrerUrl = "referrer" + x;
+                    _currentUrl = "http://www.domain{0}.com".F(x);
+                    var logLevel = int.Parse(((x % 5) + 1).ToString(CultureInfo.InvariantCulture) + "0");
+                    _logger.InsertLog((LogLevel)logLevel, "short" + x, "full" + x, null, "user" + x, _requestContext.Object);
+                }
+            }finally
+            {
+                CommonHelper.CurrentTime = prev;
             }
         }
 

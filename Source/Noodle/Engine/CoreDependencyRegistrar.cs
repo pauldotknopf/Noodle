@@ -69,7 +69,6 @@ namespace Noodle.Engine
             container.RegisterSingle<Resources.RegisterStartup>();
             container.Register(() => EventBroker.Instance);
             container.RegisterSingle<Scheduler>();
-            container.RegisterInitializer<IStartupTask>(task => task.Execute());
             container.RegisterPerWebRequest(() =>
             {
                 if (HttpContext.Current == null)
