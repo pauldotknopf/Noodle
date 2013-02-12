@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Noodle.Imaging
 {
-    class PolygonMath
+    public class PolygonMath
     {
         /// <summary>
         /// Used for converting custom crop rectangle coordinates into a valid cropping rectangle. Positive values are relative to 0,0, negative values relative to width, height.
@@ -102,6 +102,30 @@ namespace Noodle.Imaging
             {
                 //Height is higher, or aspect ratios are identical.
                 return new SizeF((float)(bounding.Width), (float)(bounding.Width / innerRatio));
+            }
+        }
+
+        /// <summary>
+        /// Scales 'outer' to be equal or larger than 'innerBounds' while maintaining aspect ratio. Upscales and downscales.
+        /// </summary>
+        /// <param name="innerBounds"></param>
+        /// <param name="outer"></param>
+        /// <returns></returns>
+        public static SizeF ScaleOutside(SizeF innerBounds, SizeF outer)
+        {
+
+            double innerRatio = innerBounds.Width / innerBounds.Height;
+            double outerRatio = outer.Width / outer.Height;
+
+            if (outerRatio > innerRatio)
+            {
+                //Width is wider - so bound by height.
+                return new SizeF((float)(outerRatio * innerBounds.Height), (float)(innerBounds.Height));
+            }
+            else
+            {
+                //Height is higher, or aspect ratios are identical.
+                return new SizeF((float)(innerBounds.Width), (float)(innerBounds.Width / outerRatio));
             }
         }
 

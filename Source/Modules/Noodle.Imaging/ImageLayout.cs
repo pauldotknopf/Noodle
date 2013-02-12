@@ -11,13 +11,26 @@ namespace Noodle.Imaging
     /// </summary>
     public class ImageLayout
     {
-        public RectangleF Image { get; set; }
-        public RectangleF ImageArea { get; set; }
-
-        public ImageLayout(RectangleF image, RectangleF imageArea)
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="canvasSize"></param>
+        public ImageLayout(RectangleF image, SizeF canvasSize)
         {
             Image = image;
-            ImageArea = imageArea;
+            CanvasSize = canvasSize;
         }
+
+        /// <summary>
+        /// Relative to the canvas, this is where the image will be drawn
+        /// </summary>
+        public RectangleF Image { get; set; }
+
+        /// <summary>
+        /// This is the size of the canvas (width/height).
+        /// Origin (0,0) is implied.
+        /// </summary>
+        public SizeF CanvasSize { get; set; }
     }
 }

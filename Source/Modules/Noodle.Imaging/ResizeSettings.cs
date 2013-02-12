@@ -154,16 +154,6 @@ namespace Noodle.Imaging
         }
 
         /// <summary>
-        /// Returns true if any of the specified keys are present in this NameValueCollection
-        /// </summary>
-        /// <param name="keys"></param>
-        /// <returns></returns>
-        public bool WasOneSpecified(params string[] keys)
-        {
-            return NameValueCollectionExtensions.IsOneSpecified(this, keys);
-        }
-
-        /// <summary>
         /// How to anchor the image when cropping or adding whitespace to meet sizing requirements.
         /// </summary>
         public ContentAlignment Anchor
@@ -224,80 +214,6 @@ namespace Noodle.Imaging
             {
                 this.Set<ScaleMode>("scale", value);
             }
-        }
-
-        /// <summary>
-        /// 4 values specify x1,y1,x2,y2 values for the crop rectangle.
-        /// Negative values are relative to the bottom right - on a 100x100 picture, (10,10,90,90) is equivalent to (10,10,-10,-10). And (0,0,0,0) is equivalent to (0,0,100,100).
-        /// </summary>
-        protected double[] CropValues
-        {
-            get
-            {
-                //Return (0,0,0,0) when null.
-                double[] vals = NameValueCollectionExtensions.GetList<double>(this, "crop", 0, 4);
-                return vals ?? new double[] { 0, 0, 0, 0 };
-            }
-            set
-            {
-                NameValueCollectionExtensions.SetList(this, "crop", value, true, 4);
-            }
-        }
-
-        /// <summary>
-        /// ["crop"]=([x1],[y1],x2,y2). Sets x1 and y21, the top-right corner of the crop rectangle. If 0 or greater, the coordinate is relative to the top-left corner of the image.
-        /// If less than 0, the value is relative to the bottom-right corner. This allows for easy trimming: crop=(10,10,-10,-10).
-        /// Set ["cropxunits"] and ["cropyunits"] to the width/height of the rectangle your coordinates are relative to, if different from the original image size.
-        /// </summary>
-        public PointF CropTopLeft
-        {
-            get
-            {
-                return new PointF((float)CropValues[0], (float)CropValues[1]);
-            }
-            set
-            {
-                CropValues = new[] { value.X, value.Y, CropValues[2], CropValues[3] };
-            }
-        }
-
-        /// <summary>
-        /// ["crop"]=(x1,y1,[x2],[y2]). Sets x2 and y2, the bottom-right corner of the crop rectangle. If 1 or greater, the coordinate is relative to the top-left corner of the image.
-        /// If 0 or less, the value is relative to the bottom-right corner. This allows for easy trimming: crop=(10,10,-10,-10).
-        /// Set ["cropxunits"] and ["cropyunits"] to the width/height of the rectangle your coordinates are relative to, if different from the original image size.
-        /// </summary>
-        public PointF CropBottomRight
-        {
-            get
-            {
-                return new PointF((float)CropValues[2], (float)CropValues[3]);
-            }
-            set
-            {
-                CropValues = new[] { CropValues[0], CropValues[1], value.X, value.Y };
-            }
-        }
-
-        /// <summary>
-        /// The width which the X and X2 crop values should be applied. For example, a value of '100' makes X and X2 percentages of the original image width.
-        /// This can be set to any non-negative value. Very useful for performing cropping when the original image size is unknown.
-        /// 0 indicates that the crop values are relative to the original size of the image.
-        /// </summary>
-        public double CropXUnits { get { return this.Get<double>("cropxunits", 0); } set { this.Set<double>("cropxunits", value <= 0 ? null : (double?)value); } }
-        /// <summary>
-        /// The width which the Y and Y2 crop values should be applied. For example, a value of '100' makes Y and Y2 percentages of the original image height.
-        /// This can be set to any non-negative  value. Very useful for performing cropping when the original image size is unknown.
-        /// 0 indicates that the crop values are relative to the original size of the image.
-        /// </summary>        
-        public double CropYUnits { get { return this.Get<double>("cropyunits", 0); } set { this.Set<double>("cropyunits", value <= 0 ? null : (double?)value); } }
-
-
-        public RectangleF getCustomCropSourceRect(SizeF imageSize)
-        {
-            double xunits = this.Get<double>("cropxunits", 0);
-            double yunits = this.Get<double>("cropyunits", 0);
-
-            return PolygonMath.GetCroppingRectangle(CropValues, xunits, yunits, imageSize);
         }
 
         /// <summary>

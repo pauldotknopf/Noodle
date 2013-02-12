@@ -18,15 +18,8 @@ namespace Noodle.Imaging
         /// <param name="resizeSettings"></param>
         public ImageLayout BuildLayout(Size imageSourceSize, ResizeSettings resizeSettings)
         {
-            // we, by default, are taking the entire image (x=0,y=0,h=source.Height,w=source.Width
-            var cropRectangle = new RectangleF(new PointF(0, 0), imageSourceSize);
-
-            // use the crop size if present.
-            if (NameValueCollectionExtensions.GetList<double>(resizeSettings, "crop", 0, 4) != null)
-            {
-                cropRectangle = PolygonMath.ToRectangle(resizeSettings.getCustomCropSourceRect(imageSourceSize)); //Round the custom crop rectangle coordinates
-                if (cropRectangle.Size.IsEmpty) throw new Exception("You must specify a custom crop rectange if crop=custom");
-            }
+            // by default, we are taking the entire image
+            var sourceRectangle = new RectangleF(new PointF(0, 0), imageSourceSize);
 
             var fit = resizeSettings.Mode;
             // determine fit mode to use if both vertical and horizontal limits are used.
@@ -34,12 +27,11 @@ namespace Noodle.Imaging
             {
                 if (resizeSettings.Width != -1 || resizeSettings.Height != -1)
                 {
-                    if ("fill".Equals(resizeSettings["stretch"], StringComparison.OrdinalIgnoreCase)) 
-                        fit = FitMode.Stretch;
-                    else if ("auto".Equals(resizeSettings["crop"], StringComparison.OrdinalIgnoreCase)) 
-                        fit = FitMode.Crop;
-                    else 
-                        fit = FitMode.Pad;
+                    // we specified both width and height
+                    // we are looking for exact width and height then
+                    // use pad to ensure height and width but ensure aspect ratio
+                    // by adding padding where needed
+                    fit = FitMode.Pad;
                 }
                 else
                 {
@@ -47,15 +39,18 @@ namespace Noodle.Imaging
                 }
             }
 
-            // Aspect ratio of the image
-            var imageRatio = cropRectangle.Size.Width / cropRectangle.Size.Height;
+            // Aspect source ratio of the image
+            var imageRatio = sourceRectangle.Size.Width / sourceRectangle.Size.Height;
 
             // zoom factor
             var zoom = resizeSettings.Get<double>("zoom", 1);
-            //The target size for the image 
-            var targetSize = new SizeF(-1, -1);
-            //Target area for the image
-            var areaSize = new SizeF(-1, -1);
+
+            // The target size for the image 
+            var imageSize = new SizeF(-1, -1);
+
+            // Target canvas size for the image
+            var canvasSize = new SizeF(-1, -1);
+
             //If any dimensions are specified, calculate. Otherwise, use original image dimensions
             if (resizeSettings.Width != -1 || resizeSettings.Height != -1 || resizeSettings.MaxHeight != -1 || resizeSettings.MaxWidth != -1)
             {
@@ -92,86 +87,83 @@ namespace Noodle.Imaging
 
                 if (fit == FitMode.Max)
                 {
-                    areaSize = targetSize = PolygonMath.ScaleInside(cropRectangle.Size, new SizeF((float)width, (float)height));
+                    canvasSize = imageSize = PolygonMath.ScaleInside(sourceRectangle.Size, new SizeF((float)width, (float)height));
                 }
                 else if (fit == FitMode.Pad)
                 {
-                    areaSize = new SizeF((float)width, (float)height);
-                    targetSize = PolygonMath.ScaleInside(cropRectangle.Size, areaSize);
+                    canvasSize = new SizeF((float)width, (float)height);
+                    imageSize = PolygonMath.ScaleInside(sourceRectangle.Size, canvasSize);
                 }
                 else if (fit == FitMode.Crop)
                 {
-                    // we autocrop - so both target and area match the requested size
-                    areaSize = targetSize = new SizeF((float)width, (float)height);
-                    // determine the size of the area we are copying
-                    var sourceSize = PolygonMath.RoundPoints(PolygonMath.ScaleInside(areaSize, cropRectangle.Size));
-                    // center the portion we are copying within the manualCropSize
-                    cropRectangle = PolygonMath.ToRectangle(PolygonMath.AlignWith(new RectangleF(0, 0, sourceSize.Width, sourceSize.Height), cropRectangle, resizeSettings.Anchor));
+                    canvasSize = new SizeF((float)width, (float)height);
+                    imageSize = PolygonMath.RoundPoints(PolygonMath.ScaleOutside(canvasSize, sourceRectangle.Size));
+
                 }
                 else
                 { 
-                    //Stretch and carve both act like stretching, so do that:
-                    areaSize = targetSize = new SizeF((float)width, (float)height);
+                    // stretch
+                    canvasSize = imageSize = new SizeF((float)width, (float)height);
                 }
             }
             else
             {
-                // no dimensions specified, no fit mode needed. Use manual crop dimensions
-                areaSize = targetSize = cropRectangle.Size;
+                // no dimensions specified, no fit mode needed.
+                canvasSize = imageSize = sourceRectangle.Size;
             }
 
             //Multiply both areaSize and targetSize by zoom. 
-            areaSize.Width *= (float)zoom;
-            areaSize.Height *= (float)zoom;
-            targetSize.Width *= (float)zoom;
-            targetSize.Height *= (float)zoom;
+            canvasSize.Width *= (float)zoom;
+            canvasSize.Height *= (float)zoom;
+            imageSize.Width *= (float)zoom;
+            imageSize.Height *= (float)zoom;
 
             // NOTE: automatic crop is permitted to break the scaling rules.
 
             //Now do upscale/downscale checks. If they take effect, set targetSize to imageSize
             if (resizeSettings.Scale == ScaleMode.DownscaleOnly)
             {
-                if (PolygonMath.FitsInside(cropRectangle.Size, targetSize))
+                if (PolygonMath.FitsInside(sourceRectangle.Size, imageSize))
                 {
                     // the image is smaller or equal to its target polygon. Use original image coordinates instead.
-                    areaSize = targetSize = cropRectangle.Size;
+                    canvasSize = imageSize = sourceRectangle.Size;
                 }
             }
             else if (resizeSettings.Scale == ScaleMode.UpscaleOnly)
             {
-                if (!PolygonMath.FitsInside(cropRectangle.Size, targetSize))
+                if (!PolygonMath.FitsInside(sourceRectangle.Size, imageSize))
                 {
                     // the image is larger than its target. Use original image coordintes instead
-                    areaSize = targetSize = cropRectangle.Size;
+                    canvasSize = imageSize = sourceRectangle.Size;
                 }
             }
             else if (resizeSettings.Scale == ScaleMode.UpscaleCanvas)
             {
                 // same as downscaleonly, except areaSize isn't changed.
-                if (PolygonMath.FitsInside(cropRectangle.Size, targetSize))
+                if (PolygonMath.FitsInside(sourceRectangle.Size, imageSize))
                 {
                     //The image is smaller or equal to its target polygon. 
-                    targetSize = cropRectangle.Size;
+                    imageSize = sourceRectangle.Size;
                 }
             }
 
             // require max dimension and round values to minimize rounding differences.
-            areaSize.Width = Math.Max(1, (float)Math.Round(areaSize.Width));
-            areaSize.Height = Math.Max(1, (float)Math.Round(areaSize.Height));
-            targetSize.Width = Math.Max(1, (float)Math.Round(targetSize.Width));
-            targetSize.Height = Math.Max(1, (float)Math.Round(targetSize.Height));
+            canvasSize.Width = Math.Max(1, (float)Math.Round(canvasSize.Width));
+            canvasSize.Height = Math.Max(1, (float)Math.Round(canvasSize.Height));
+            imageSize.Width = Math.Max(1, (float)Math.Round(imageSize.Width));
+            imageSize.Height = Math.Max(1, (float)Math.Round(imageSize.Height));
 
 
             //Translate and scale all existing rings
         
-            var image = PolygonMath.ToPoly(new RectangleF(new PointF(0, 0), targetSize));
+            var image = PolygonMath.ToPoly(new RectangleF(new PointF(0, 0), imageSize));
 
-            var imageArea = PolygonMath.ToPoly(new RectangleF(new PointF(0, 0), areaSize));
+            var imageArea = PolygonMath.ToPoly(new RectangleF(new PointF(0, 0), canvasSize));
 
-            //Center imageArea around 'image'
-            imageArea = PolygonMath.AlignWith(imageArea, image, resizeSettings.Anchor);
+            // center canvas around the image
+            image = PolygonMath.AlignWith(image, imageArea, resizeSettings.Anchor);
 
-            return new ImageLayout(PolygonMath.GetBoundingBox(image), PolygonMath.GetCroppingRectangle(imageArea));
+            return new ImageLayout(PolygonMath.GetBoundingBox(image), canvasSize);
         }
     }
 }
