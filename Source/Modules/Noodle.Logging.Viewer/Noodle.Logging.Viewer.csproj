@@ -43,6 +43,16 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\..\packages\MvvmLight.4.1.26.1\lib\net40\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\..\..\MedXChangeWPF\Src\packages\mongocsharpdriver.1.7\lib\net35\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\..\..\MedXChangeWPF\Src\packages\mongocsharpdriver.1.7\lib\net35\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=1.6.0.12319, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\SimpleInjector.1.6.0.12319\lib\net35\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -65,8 +75,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -99,6 +107,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -106,7 +115,18 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="MVVMLight.Nuget.Readme.txt" />
+    <ProjectReference Include="..\..\Noodle.MongoDB\Noodle.MongoDB.csproj">
+      <Project>{7b5ea470-e66d-4ce5-8d48-6d4ad89ec62d}</Project>
+      <Name>Noodle.MongoDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Noodle\Noodle.csproj">
+      <Project>{944fec3d-a47f-4c92-92ac-81b3420c1caa}</Project>
+      <Name>Noodle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Noodle.Logging\Noodle.Logging.csproj">
+      <Project>{d11961e6-8056-4b31-b77a-aa6bca315867}</Project>
+      <Name>Noodle.Logging</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

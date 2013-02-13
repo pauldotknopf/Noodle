@@ -1,8 +1,57 @@
 ﻿<Window x:Class="Noodle.Logging.Viewer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" DataContext="{StaticResource LoggingViewModel}">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Server: " Grid.Column="0" />
+            <TextBox Text="{Binding ConnectionString}" Grid.Column="2" />
+            <TextBlock Text="Database: " Grid.Column="4" />
+            <TextBox Text="{Binding DatabaseName}" Grid.Column="6" />
+            <Button Command="{Binding ConnectCommand}" Grid.Column="8">
+                <TextBlock Text="Connect" />
+            </Button>
+        </Grid>
+        <ScrollViewer Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.Row="0">
+                    <Button>
+                        <TextBlock Text="Back" />
+                    </Button>
+                    <TextBlock Text="Page " />
+                    <TextBox Text="{Binding CurrentPage}" />
+                    <TextBlock Text=" of " />
+                    <TextBlock Text="{Binding TotalPages}" />
+                    <Button>
+                        <TextBlock Text="Forward" />
+                    </Button>
+                </StackPanel>
+                <DataGrid ItemsSource="{Binding Logs}" Grid.Row="1">
+
+                </DataGrid>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Window>
