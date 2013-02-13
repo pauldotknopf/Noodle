@@ -17,7 +17,7 @@
             <MenuItem Header="_Export" Command="{Binding ExportCommand}" />
             <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
         </Menu>
-        <TabControl ItemsSource="{Binding Languages}" Grid.Row="1">
+        <TabControl Name="LanguagesTab" ItemsSource="{Binding Languages}" Grid.Row="1">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding First.Name}" />
@@ -25,7 +25,12 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type xmlEditor:LocaleStringResourceModel}">
-                    <DataGrid ItemsSource="{Binding Second}" AutoGenerateColumns="False">
+                    <xmlEditor:CustomDataGrid ItemsSource="{Binding Second}" AutoGenerateColumns="False" PreparingCellForEdit="DataGrid_PreparingCellForEdit">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu >
+                                <MenuItem Header="_Paste"   />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Name" Binding="{Binding ResourceName}" Width="Auto" />
                             <DataGridTextColumn Header="Value" Binding="{Binding ResourceValue}" Width="1*" />
@@ -35,7 +40,7 @@
                                 <Setter Property="Background" Value="{Binding IsMissing, Converter={StaticResource IsMissingColorConverter}}" />
                             </Style>
                         </DataGrid.CellStyle>
-                    </DataGrid>
+                    </xmlEditor:CustomDataGrid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>

@@ -73,6 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomDataGrid.cs" />
     <Compile Include="IsMissingToColorConverter.cs" />
     <Compile Include="LocaleStringResourceModel.cs" />
     <Page Include="MainWindow.xaml">
