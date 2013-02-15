@@ -148,9 +148,18 @@ namespace Noodle.Logging
                 CreatedOnUtc = CommonHelper.CurrentTime()
             };
 
-            if (exception != null)
+            if (ex != null)
             {
-                log.FullMessage += Environment.NewLine + "Full Trace:" + Environment.NewLine + exception.StackTrace;
+                if (string.IsNullOrEmpty(shortMessage))
+                {
+                    log.ShortMessage = ex.Message;
+                }
+                else
+                {
+                    log.ShortMessage += Environment.NewLine + ex.Message;
+                }
+                
+                log.FullMessage += Environment.NewLine + "Full Trace:" + Environment.NewLine + ex.StackTrace;
             }
 
             foreach (var customData in LogStore.GetCustomData(ex ?? new LogException(logLevel, shortMessage, fullMessage), _container))
