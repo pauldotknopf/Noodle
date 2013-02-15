@@ -1,0 +1,483 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Telerik.Windows.Controls.FixedDocumentViewers</name>
+    </assembly>
+    <members>
+        <member name="M:Telerik.Windows.Documents.Commands.FindCommandBase.HandleSearchResult(Telerik.Windows.Documents.Fixed.Search.SearchResult)">
+            <summary>
+            Handles the given search result.
+            </summary>
+            <param name="result">The search result.</param>
+        </member>
+        <member name="T:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands">
+            <summary>
+            Represents commands for a given <see cref="P:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands.FixedDocumentViewer"/> instance.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands.#ctor(Telerik.Windows.Controls.FixedDocumentViewerBase)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands"/> class.
+            </summary>
+            <param name="fixedDocumentViewerBase">The fixed document viewer base.</param>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands.FixedDocumentViewer">
+            <summary>
+            Gets the fixed document viewer.
+            </summary>
+            <value>The fixed document viewer.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands.OpenPdfDocumentCommand">
+            <summary>
+            Gets the open PDF document command.
+            </summary>
+            <value>The open PDF document command.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands.PrintPdfDocumentCommand">
+            <summary>
+            Gets the print PDF document command.
+            </summary>
+            <value>The print PDF document command.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands.PageUpCommand">
+            <summary>
+            Gets the page up command.
+            </summary>
+            <value>The page up command.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands.PageDownCommand">
+            <summary>
+            Gets the page down command.
+            </summary>
+            <value>The page down command.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands.ZoomInCommand">
+            <summary>
+            Gets the zoom in command.
+            </summary>
+            <value>The zoom in command.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands.ZoomOutCommand">
+            <summary>
+            Gets the zoom out command.
+            </summary>
+            <value>The zoom out command.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands.MoveCaretCommand">
+            <summary>
+            Gets the move caret command.
+            </summary>
+            <value>The move caret command.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands.FindCommand">
+            <summary>
+            Gets the find command.
+            </summary>
+            <value>The find command.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands.FindPreviousCommand">
+            <summary>
+            Gets the find previous command.
+            </summary>
+            <value>The find previous command.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Commands.FixedDocumentViewerCommands.CopyCommand">
+            <summary>
+            Gets the copy command.
+            </summary>
+            <value>The copy command.</value>
+        </member>
+        <member name="T:Telerik.Windows.Documents.Fixed.FixedDocumentStreamSource">
+            <summary>
+            Represents a fixed document source, which can load a document from URI or stream.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Documents.Fixed.FixedDocumentStreamSource.#ctor(System.Uri,Telerik.Windows.Documents.Fixed.FormatProviders.FormatProviderSettings)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Documents.Fixed.FixedDocumentStreamSource"/> class.
+            </summary>
+            <param name="uri">The URI from which to load the fixed document.</param>
+        </member>
+        <member name="M:Telerik.Windows.Documents.Fixed.FixedDocumentStreamSource.#ctor(System.IO.Stream,Telerik.Windows.Documents.Fixed.FormatProviders.FormatProviderSettings)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Documents.Fixed.FixedDocumentStreamSource"/> class.
+            </summary>
+            <param name="stream">The stream from which to load the fixed document.</param>
+        </member>
+        <member name="M:Telerik.Windows.Documents.Fixed.FixedDocumentStreamSource.OnDocumentLoaded(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:DocumentLoaded"/> event.
+            </summary>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Telerik.Windows.Documents.Fixed.FixedDocumentStreamSource.OnLoaded(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:Loaded"/> event.
+            </summary>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Telerik.Windows.Documents.Fixed.FixedDocumentStreamSource.CreateDocumentFromStreamOverride(System.IO.Stream,Telerik.Windows.Documents.Fixed.FormatProviders.FormatProviderSettings)">
+            <summary>
+            Creates the document from a stream.
+            </summary>
+            <param name="stream">The stream from which to create the document.</param>
+        </member>
+        <member name="E:Telerik.Windows.Documents.Fixed.FixedDocumentStreamSource.Loaded">
+            <summary>
+            Occurs when document is loaded. It can be loaded asynchronously in case the provided URI is absolute.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Fixed.FixedDocumentStreamSource.Document">
+            <summary>
+            Gets the fixed document loaded from this instance.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Documents.Fixed.FixedDocumentStreamSourceConverter">
+            <summary>
+            Converts an <see cref="T:System.Uri"/> to <see cref="T:Telerik.Windows.Documents.Fixed.FixedDocumentStreamSource"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Documents.Fixed.PdfDocumentSource">
+            <summary>
+            Represents a PDF document source, which can load a document from URI or stream.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Documents.Fixed.PdfDocumentSource.#ctor(System.Uri)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Documents.Fixed.PdfDocumentSource"/> class.
+            </summary>
+            <param name="uri">The URI from which to load the PDF document.</param>
+        </member>
+        <member name="M:Telerik.Windows.Documents.Fixed.PdfDocumentSource.#ctor(System.Uri,Telerik.Windows.Documents.Fixed.FormatProviders.FormatProviderSettings)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Documents.Fixed.PdfDocumentSource"/> class.
+            </summary>
+            <param name="uri">The URI from which to load the PDF document.</param>
+            <param name="settings">The settings that will be used to load the PDF document.</param>
+        </member>
+        <member name="M:Telerik.Windows.Documents.Fixed.PdfDocumentSource.#ctor(System.IO.Stream)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Documents.Fixed.PdfDocumentSource"/> class.
+            </summary>
+            <param name="stream">The stream from which to load the PDF document.</param>
+        </member>
+        <member name="M:Telerik.Windows.Documents.Fixed.PdfDocumentSource.#ctor(System.IO.Stream,Telerik.Windows.Documents.Fixed.FormatProviders.FormatProviderSettings)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Documents.Fixed.PdfDocumentSource"/> class.
+            </summary>
+            <param name="stream">The stream from which to load the PDF document.</param>
+            <param name="settings">The settings that will be used to load the PDF document.</param>
+        </member>
+        <member name="M:Telerik.Windows.Documents.Fixed.PdfDocumentSource.CreateDocumentFromStreamOverride(System.IO.Stream,Telerik.Windows.Documents.Fixed.FormatProviders.FormatProviderSettings)">
+            <summary>
+            Creates the document from a stream.
+            </summary>
+            <param name="stream">The stream from which to create the document.</param>
+        </member>
+        <member name="T:Telerik.Windows.Documents.Fixed.PdfDocumentSourceConverter">
+            <summary>
+            Converts an <see cref="T:System.Uri"/> to <see cref="T:Telerik.Windows.Documents.Fixed.PdfDocumentSource"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Documents.Fixed.PdfDocumentSourceValueConverter">
+            <summary>
+            Represents value converter that can be used for data binding <see cref="T:Telerik.Windows.Controls.RadPdfViewer"/>. 
+            Supports conversion from string representing URI, Uri and stream.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Documents.Fixed.Print.PrintSettings">
+            <summary>
+            Represents print settings. 
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Documents.Fixed.UI.Layers.DefaultUILayers">
+            <summary>
+            Contains all default UILayers names.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Documents.Fixed.UI.Layers.UILayerInitializeContext">
+            <summary>
+            Represents UI layer initialize context
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Fixed.UI.Layers.UILayerInitializeContext.Presenter">
+            <summary>
+            Gets the presenter.
+            </summary>
+            <value>The presenter.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Fixed.UI.Layers.UILayerInitializeContext.Page">
+            <summary>
+            Gets the page.
+            </summary>
+            <value>The page.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Fixed.UI.Layers.UILayerInitializeContext.Document">
+            <summary>
+            Gets the document.
+            </summary>
+            <value>The document.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Fixed.UI.Layers.UILayerInitializeContext.Owner">
+            <summary>
+            Gets the owner.
+            </summary>
+            <value>The owner.</value>
+        </member>
+        <member name="T:Telerik.Windows.Documents.Fixed.UI.Layers.UILayerUpdateContext">
+            <summary>
+            Represents UI layer update context.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Documents.Fixed.UI.Layers.UILayerUpdateContext.Viewport">
+            <summary>
+            Gets the viewport.
+            </summary>
+            <value>The viewport.</value>
+        </member>
+        <member name="T:Telerik.Windows.Documents.Fixed.UI.Page">
+            <summary>
+            Represents a Fixed Page UI.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Documents.Fixed.UI.Page.OnInitialized(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.FrameworkElement.Initialized" /> event.
+            This method is invoked whenever <see cref="P:System.Windows.FrameworkElement.IsInitialized" />
+            is set to true internally.
+            </summary>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs" /> that contains the event data.</param>
+        </member>
+        <member name="T:Telerik.Windows.Documents.UI.FixedDocumentPagesPresenter">
+            <summary>
+            Represents fixed document with pages.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Documents.UI.FixedDocumentPresenterBase">
+            <summary>
+            Represents base document presenter class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Documents.UI.FixedDocumentPagesPresenter.OnInitialized(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.FrameworkElement.Initialized" /> event.
+            This method is invoked whenever <see cref="P:System.Windows.FrameworkElement.IsInitialized" />
+            is set to true internally.
+            </summary>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs" /> that contains the event data.</param>
+        </member>
+        <member name="T:Telerik.Windows.Documents.UI.IFixedDocumentViewerSettingsHolder">
+            <summary>
+            Represents FixedDocumentViewerSettings holder.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Documents.UI.FixedDocumentSinglePagePresenter.Settings">
+            <summary>
+            Gets or sets the settings.
+            </summary>
+            <value>The settings.</value>
+        </member>
+        <member name="E:Telerik.Windows.Documents.UI.FixedDocumentSinglePagePresenter.ContentCreated">
+            <summary>
+            Occurs when the content is created.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FixedDocumentViewerBase">
+            <summary>
+            Base document viewing control that can host <see cref="T:Telerik.Windows.Documents.Fixed.Model.RadFixedDocument"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.OnInitialized(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.FrameworkElement.Initialized" /> event.
+            This method is invoked whenever <see cref="P:System.Windows.FrameworkElement.IsInitialized" />
+            is set to true internally.
+            </summary>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs" /> that contains the event data.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.Copy">
+            <summary>
+            Copies the selected text in the Clipboard.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.Select(Telerik.Windows.Documents.Fixed.Text.TextPosition,Telerik.Windows.Documents.Fixed.Text.TextPosition)">
+            <summary>
+            Creates selection from start position to end position.
+            </summary>
+            <param name="startPosition">The start position.</param>
+            <param name="endPosition">The end position.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.GetSelectedText">
+            <summary>
+            Gets the selected text.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.GetSelectedTextAsync(System.Action{System.String})">
+            <summary>
+            Gets the selected text asynchroniously.
+            </summary>
+            <param name="callback">The callback that will be called when the text extraction completes.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.Find(System.String)">
+            <summary>
+            Finds the specified text in the current document.
+            </summary>
+            <param name="text">The text.</param>
+            <returns>The result.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.Find(System.String,Telerik.Windows.Documents.Fixed.Search.TextSearchOptions)">
+            <summary>
+            Finds the specified text in the current document using specified options.
+            </summary>
+            <param name="text">The text.</param>
+            <param name="options">The options.</param>
+            <returns>The result.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.FindPrevious(System.String)">
+            <summary>
+            Finds the previous text in the current document.
+            </summary>
+            <param name="text">The text.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.FindPrevious(System.String,Telerik.Windows.Documents.Fixed.Search.TextSearchOptions)">
+            <summary>
+            Finds the previous text in the current document using specified options.
+            </summary>
+            <param name="text">The text.</param>
+            <param name="options">The options.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.Print">
+            <summary>
+            Prints the current document using the default print settings.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.Print(Telerik.Windows.Documents.Fixed.Print.PrintSettings)">
+            <summary>
+            Prints the current document.
+            </summary>
+            <param name="settings">The print settings.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.GoToPage(System.Int32)">
+            <summary>
+            Goes to specified page.
+            </summary>
+            <param name="pageNo">The page number.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.PageUp">
+            <summary>
+            Goes a page up.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.PageDown">
+            <summary>
+            Goes a page down.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FixedDocumentViewerBase.GoToDestination(Telerik.Windows.Documents.Fixed.Model.Navigation.Destination)">
+            <summary>
+            Goes to given destination.
+            </summary>
+            <param name="destination">The destination.</param>
+        </member>
+        <member name="E:Telerik.Windows.Controls.FixedDocumentViewerBase.DocumentChanged">
+            <summary>
+            Occurs when the PDF document is changed.
+            </summary>
+        </member>
+        <member name="E:Telerik.Windows.Controls.FixedDocumentViewerBase.CurrentPageChanged">
+            <summary>
+            Occurs when the current page is changed.
+            </summary>
+        </member>
+        <member name="E:Telerik.Windows.Controls.FixedDocumentViewerBase.AnnotationClicked">
+            <summary>
+            Occurs when annotation is clicked.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FixedDocumentViewerBase.Mode">
+            <summary>
+            Gets or sets the mode that the FixedDocumentViewerBase class works.
+            </summary>
+            <value>The mode.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FixedDocumentViewerBase.Document">
+            <summary>
+            Gets or sets the document for the viewer.
+            </summary>
+            <value>The document.</value>
+            <remarks>Instance of RadFixedDocument can be created from PdfFormatProvider class. Otherwise the DocumentSource property should be used.</remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FixedDocumentViewerBase.Settings">
+            <summary>
+            Gets or sets the settings for the RadPdfViewerBase class.
+            </summary>
+            <value>The settings.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FixedDocumentViewerBase.DefaultFormatProviderSettings">
+            <summary>
+            Gets or sets the default format provider settings for the current FixedDocumentViewerBase. This property is used in the OpenPdfDocumentCommand.
+            </summary>
+            <value>The default format provider settings.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FixedDocumentViewerBase.CurrentPage">
+            <summary>
+            Gets the current page.
+            </summary>
+            <value>The current page.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FixedDocumentViewerBase.DocumentSource">
+            <summary>
+            Gets or sets the document source for the viewer.
+            </summary>
+            <value>The document source.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FixedDocumentViewerBase.ScaleFactor">
+            <summary>
+            Gets or sets the scale factor for the viewer.
+            </summary>
+            <value>The scale factor.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FixedDocumentViewerBase.CurrentPageNumber">
+            <summary>
+            Gets or sets the current page number.
+            </summary>
+            <value>The current page number.</value>
+        </member>
+        <member name="P:Telerik.Windows.Documents.UI.FixedDocumentViewerSettings.UseOnlyStandardFonts">
+            <summary>
+            Gets or sets the setting if the RadPdfViewer should use only standard fonts.
+            </summary>
+            <value>The use only standard fonts.</value>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadPdfViewer">
+            <summary>
+            Represents a control for visualization of PDF documents.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadPdfViewer.OnInitialized(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.FrameworkElement.Initialized" /> event.
+            This method is invoked whenever <see cref="P:System.Windows.FrameworkElement.IsInitialized" />
+            is set to true internally.
+            </summary>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs" /> that contains the event data.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadPdfViewer.KeyBindings">
+            <summary>
+            Gets or sets the key bindings.
+            </summary>
+            <value>The key bindings.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadPdfViewer.DocumentSource">
+            <summary>
+            A <see cref="T:Telerik.Windows.Documents.Fixed.PdfDocumentSource"/> instance representing a PDF file.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadPdfViewer.Commands">
+            <summary>
+            Gets or sets the commands.
+            </summary>
+            <value>The commands.</value>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,1963 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Telerik.Windows.Controls.PivotFieldList</name>
+    </assembly>
+    <members>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.TypeToBooleanConverter">
+            <summary>
+            Represents a converter that compares a value to a type and returns a Boolean.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.TypeToBooleanConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a <see cref="P:Telerik.Windows.Controls.FieldList.Editing.TypeToBooleanConverter.ComparisonType"/> to Boolean.
+            </summary>
+            <param name="value">The type to convert.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns>True if <paramref name="value"/> inherits <see cref="P:Telerik.Windows.Controls.FieldList.Editing.TypeToBooleanConverter.ComparisonType"/>; otherwise, false.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.TypeToBooleanConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            This method is not implemented.
+            </summary>
+            <param name="value">This parameter is not used.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns>This method is not implemented.</returns>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.TypeToBooleanConverter.ComparisonType">
+            <summary>
+            Gets or sets the <see cref="P:Telerik.Windows.Controls.FieldList.Editing.TypeToBooleanConverter.ComparisonType"/> to compare.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.FilterCommands">
+            <summary>
+            Provides a standard set of <see cref="T:Telerik.Windows.Controls.FieldList.Label"/> related commands.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.FilterCommands.ItemsSetFilter">
+            <summary>
+            Gets the value that represents the Items Set Filter command.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.FilterDialogViewModel">
+            <summary>
+            A base class for the view models of all dialogs that edit a <see cref="P:Telerik.Windows.Controls.FieldList.Editing.FilterDialogViewModel.Filter"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.DialogViewModel">
+            <summary>
+            A base class for the various pivot field list editing dialogs view models.
+            </summary>
+        </member>
+        <member name="E:Telerik.Windows.Controls.FieldList.Editing.DialogViewModel.Completed">
+            <summary>
+            Invoked when the used completed and confirmed the changes on this dialog.
+            </summary>
+        </member>
+        <member name="E:Telerik.Windows.Controls.FieldList.Editing.DialogViewModel.Canceled">
+            <summary>
+            Invoked when the used canceled any changes done through this dialog.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.DialogViewModel.Ok">
+            <summary>
+            Gets the Ok <see cref="T:System.Windows.Input.ICommand"/> for this dialog.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.DialogViewModel.Cancel">
+            <summary>
+            Gets the Cancel <see cref="T:System.Windows.Input.ICommand"/> for this dialog.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.FilterDialogViewModel.Filter">
+            <summary>
+            Gets the Filter this view model edits.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ISelectable">
+            <summary>
+            An interface for the selection of an item.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ISelectable.IsSelected">
+            <summary>
+            Gets the item this <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ISelectable"/> is responsible for.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ISelectable.Item">
+            <summary>
+            Gets or sets a value that indicates if the <see cref="P:Telerik.Windows.Controls.FieldList.Editing.ISelectable.Item"/> is selected or not.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ItemsSetFilterDialog">
+            <summary>
+            A view on <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ItemsSetFilterViewModel"/> that encapsulates the editing of a set filter for a <see cref="T:Telerik.Windows.Controls.FieldList.Filter"/>'s Description.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ItemsSetFilterViewModel">
+            <summary>
+            A view-model that encapsulates the editing of a <see cref="T:Telerik.Pivot.Core.SetCondition"/> for a <see cref="T:Telerik.Windows.Controls.FieldList.Filter"/>'s Description.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.ItemsSetFilterViewModel.#ctor(Telerik.Windows.Controls.FieldList.Filter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ItemsSetFilterViewModel"/> class.
+            </summary>
+            <param name="filter">The <see cref="T:Telerik.Windows.Controls.FieldList.Filter"/> this view model edits.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ItemsSetFilterViewModel.Selection">
+            <summary>
+            Gets the Selection used to create a <see cref="T:Telerik.Pivot.Core.SetCondition"/> for the <see cref="T:Telerik.Windows.Controls.FieldList.Filter"/>'s Description.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.Selectable">
+            <summary>
+            A wrapper over an object that exposes properties for selection of that item.
+            </summary>
+            <seealso cref="T:Telerik.Windows.Controls.FieldList.Editing.ISelectable"/>
+            <see cref="T:Telerik.Windows.Controls.FieldList.Editing.SelectionCollection"/>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.Selectable.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.Selectable.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.Selectable.ToString">
+            <inheritdoc />
+        </member>
+        <member name="E:Telerik.Windows.Controls.FieldList.Editing.Selectable.PropertyChanged">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.Selectable.Item">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.Selectable.IsSelected">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.SelectAll">
+            <summary>
+            A special case of <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ISelectable"/> that is used to select or deselect all other items in a <see cref="T:Telerik.Windows.Controls.FieldList.Editing.SelectionCollection"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.SelectAll.ToString">
+            <inheritdoc />
+        </member>
+        <member name="E:Telerik.Windows.Controls.FieldList.Editing.SelectAll.PropertyChanged">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.SelectAll.Item">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.SelectAll.IsSelected">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.SelectionCollection">
+            <summary>
+            A class that implements the logic for item selection and creation of a <see cref="T:Telerik.Pivot.Core.Condition"/> for filtering.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.SelectionCollection.#ctor(System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.Editing.SelectionCollection"/> class.
+            All items are selected by default.
+            </summary>
+            <param name="source">The items available for selection.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.SelectionCollection.#ctor(System.Collections.Generic.IEnumerable{System.Object},Telerik.Pivot.Core.Condition,Telerik.Pivot.Core.SetComparison)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.Editing.SelectionCollection"/> class.
+            Wraps all items in a list in selectable objects and marks some of them based on a previous <see cref="T:Telerik.Pivot.Core.Condition"/> and <see cref="T:Telerik.Pivot.Core.SetComparison"/>.
+            </summary>
+            <param name="source">The items available for selection.</param>
+            <param name="condition">The condition the current selection is retrieved from.</param>
+            <param name="setComparison">The initial <see cref="T:Telerik.Pivot.Core.SetComparison"/>.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.SelectionCollection.CreateCondition">
+            <summary>
+            Creates a frozen copy of the Selection in the form of a <see cref="T:Telerik.Pivot.Core.Condition"/> usable in filters.
+            </summary>
+            <returns>An instance of <see cref="T:Telerik.Pivot.Core.SetCondition"/>.</returns>
+        </member>
+        <member name="E:Telerik.Windows.Controls.FieldList.Editing.SelectionCollection.PropertyChanged">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.SelectionCollection.IsAllSelected">
+            <summary>
+            Gets or sets whether all items should be selected and pass the produced SetCondition filter or unselected and filtered.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.AttachedBehavior">
+            <summary>
+            Encapsulates mechanisms to build behaviors that are attached to object using attached properties.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.AttachedBehavior.Reattach(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Detaches the previous behavior of the <paramref name="element"/> and attaches the next one. The signature is suitable for dependency property changed callback.
+            </summary>
+            <param name="element"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.AttachedBehavior.Detach(System.Windows.DependencyObject)">
+            <summary>
+            Removes this behavior from the <paramref name="element"/>.
+            </summary>
+            <param name="element"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.AttachedBehavior.Attach(System.Windows.DependencyObject)">
+            <summary>
+            Attaches this behavior to the <paramref name="element"/>.
+            </summary>
+            <param name="element"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.AttachedBehavior.RequestElementType``1(System.Object)">
+            <summary>
+            Gets the <paramref name="element"/> converted to <typeparamref name="THost"/>.
+            Throws appropriate exception if the element is not of the right type.
+            Use this method in the Attach and Detach methods instead of safe casts.
+            </summary>
+            <typeparam name="THost">The target type the <paramref name="element"/> should be converted to.</typeparam>
+            <param name="element">The element to convert.</param>
+            <returns>The element of type <typeparamref name="THost"/>.</returns>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.LocalSourceMenuBehavior">
+            <summary>
+            Offers a context menu for the <see cref="T:Telerik.Windows.Controls.FieldList.IField"/>s generated for a <see cref="T:Telerik.Pivot.DataProviders.LocalDataSourceProvider"/> within a <see cref="T:Telerik.Windows.Controls.RadPivotFieldList"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.LocalSourceMenuBehavior.BehaviorProperty">
+            <summary>
+            Identifies the Behavior attached dependency property.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.LocalSourceMenuBehavior.GetBehavior(System.Windows.DependencyObject)">
+            <summary>
+            Gets the value of the Behavior attached property for the <paramref name="obj"/>.
+            </summary>
+            <param name="obj">The object.</param>
+            <returns>The value.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.LocalSourceMenuBehavior.SetBehavior(System.Windows.DependencyObject,Telerik.Windows.Controls.FieldList.LocalSourceMenuBehavior)">
+            <summary>
+            Sets the Behavior attached property for the <paramref name="obj"/> to <paramref name="value"/>.
+            </summary>
+            <param name="obj">The object.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.LocalSourceMenuBehavior.Detach(System.Windows.DependencyObject)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.LocalSourceMenuBehavior.Attach(System.Windows.DependencyObject)">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.LocalSourceMenuBehavior.LabelContextMenu">
+            <summary>
+            Gets or sets the menu for <see cref="T:Telerik.Windows.Controls.FieldList.Label"/> fields of <see cref="T:Telerik.Pivot.DataProviders.LocalDataSourceProvider"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.LocalSourceMenuBehavior.ValueContextMenu">
+            <summary>
+            Gets or sets the menu for <see cref="T:Telerik.Windows.Controls.FieldList.Value"/> fields of <see cref="T:Telerik.Pivot.DataProviders.LocalDataSourceProvider"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.LocalSourceMenuBehavior.ReportFilterContextMenu">
+            <summary>
+            Gets or sets the menu for <see cref="T:Telerik.Windows.Controls.FieldList.Filter"/> fields of <see cref="T:Telerik.Pivot.DataProviders.LocalDataSourceProvider"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.RoutedContextMenuBehavior">
+            <summary>
+            <see cref="T:Telerik.Windows.Controls.FieldList.AttachedBehavior"/> that delegates assignment of the context menu for the host element to one of its parents.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.RoutedContextMenuBehavior.BehaviorProperty">
+            <summary>
+            Identifies the Behavior attached dependency property.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.RoutedContextMenuBehavior.GetBehavior(System.Windows.DependencyObject)">
+            <summary>
+            Gets the value of the Behavior attached property for the <paramref name="obj"/>.
+            </summary>
+            <param name="obj">The object.</param>
+            <returns>The value.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.RoutedContextMenuBehavior.SetBehavior(System.Windows.DependencyObject,Telerik.Windows.Controls.FieldList.RoutedContextMenuBehavior)">
+            <summary>
+            Sets the Behavior attached property for the <paramref name="obj"/> to <paramref name="value"/>.
+            </summary>
+            <param name="obj">The object.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.RoutedContextMenuBehavior.Detach(System.Windows.DependencyObject)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.RoutedContextMenuBehavior.Attach(System.Windows.DependencyObject)">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.ContextMenuRequestEventArgs">
+            <summary>
+            Provides data for the <see cref="F:Telerik.Windows.Controls.FieldList.RoutedContextMenuEvents.RequestContextMenu"/> routed event.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.ContextMenuRequestEventArgs.#ctor(System.Windows.RoutedEvent,System.Windows.FrameworkElement)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.ContextMenuRequestEventArgs"/> class.
+            </summary>
+            <param name="routedEvent">The routed event identifier for this instance of the <see cref="T:System.Windows.RoutedEventArgs"/> class.</param>
+            <param name="contextMenuHost">The element that will use the context menu.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.ContextMenuRequestEventArgs.#ctor(System.Windows.RoutedEvent,System.Object,System.Windows.FrameworkElement)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.ContextMenuRequestEventArgs"/> class.
+            </summary>
+            <param name="routedEvent">The routed event identifier for this instance of the <see cref="T:System.Windows.RoutedEventArgs"/> class.</param>
+            <param name="source">An alternate source that will be reported when the event is handled. This pre-populates the System.Windows.RoutedEventArgs.Source property.</param>
+            <param name="contextMenuHost">The element that will use the context menu.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.ContextMenuRequestEventArgs.#ctor(System.Windows.FrameworkElement)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.ContextMenuRequestEventArgs"/> class for the <see cref="F:Telerik.Windows.Controls.FieldList.RoutedContextMenuEvents.RequestContextMenu"/> routed event.
+            </summary>
+            <param name="contextMenuHost">The element that will use the context menu.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.ContextMenuRequestEventArgs.ContextMenuHost">
+            <summary>
+            Gets the element that will use the context menu.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.ContextMenuRequestEventArgs.ContextMenu">
+            <summary>
+            Gets or sets the assigned context menu.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.RoutedContextMenuEvents">
+            <summary>
+            Routed events used to delegate the assignment of a context menu to parent elements.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.RoutedContextMenuEvents.RequestContextMenu">
+            <summary>
+            A routed event that is thrown by items that offer to display context menu but delegate the menu assignment to its parents.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.DragDropBehavior">
+            <summary>
+            Base class for drag and drop attached behaviors.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.DragDropBehavior.BehaviorProperty">
+            <summary>
+            Identifies the Behavior attached dependency property.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.DragDropBehavior.GetBehavior(System.Windows.DependencyObject)">
+            <summary>
+            Gets the value of the Behavior attached property for the <paramref name="obj"/>.
+            </summary>
+            <param name="obj">The object.</param>
+            <returns>The value.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.DragDropBehavior.SetBehavior(System.Windows.DependencyObject,Telerik.Windows.Controls.FieldList.DragDropBehavior)">
+            <summary>
+            Sets the Behavior attached property for the <paramref name="obj"/> to <paramref name="value"/>.
+            </summary>
+            <param name="obj">The object.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldBoxDragDropBehavior">
+            <summary>
+            Encapsulates the drag and drop handling for all 4 <see cref="T:Telerik.Windows.Controls.FieldList.FieldBox"/> controls in the <see cref="T:Telerik.Windows.Controls.RadPivotFieldList"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldBoxDragDropBehavior.Attach(System.Windows.DependencyObject)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldBoxDragDropBehavior.Detach(System.Windows.DependencyObject)">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldsTreeDragDropBehavior">
+            <summary>
+            Encapsulates the drag and drop handling for the <see cref="T:Telerik.Windows.Controls.RadPivotFieldList"/>'s tree with available fields.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldsTreeDragDropBehavior.Attach(System.Windows.DependencyObject)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldsTreeDragDropBehavior.Detach(System.Windows.DependencyObject)">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ConfirmationFrame">
+            <summary>
+            A <see cref="T:System.Windows.Controls.ContentControl"/> used to render common OK and Cancel buttons around its content.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.BooleanToAscendingSortOrderConverter">
+            <summary>
+            Represents a converter that converts <see cref="T:System.Boolean"/> values to and from <see cref="T:Telerik.Pivot.Core.SortOrder"/> enumeration values.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.BooleanToAscendingSortOrderConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a <see cref="T:System.Boolean"/> value to a <see cref="T:Telerik.Pivot.Core.SortOrder"/> enumeration value.
+            </summary>
+            <param name="value">The <see cref="T:System.Boolean"/> value to convert.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns><see cref="F:Telerik.Pivot.Core.SortOrder.Ascending"/> if value is true; otherwise, <see cref="F:Telerik.Pivot.Core.SortOrder.Descending"/>.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.BooleanToAscendingSortOrderConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a <see cref="T:Telerik.Pivot.Core.SortOrder"/> enumeration value to a <see cref="T:System.Boolean"/> value.
+            </summary>
+            <param name="value">A <see cref="T:Telerik.Pivot.Core.SortOrder"/> enumeration value.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns>true if value is <see cref="F:Telerik.Pivot.Core.SortOrder.Ascending"/>; otherwise, false.</returns>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.BooleanToDescendingSortOrderConverter">
+            <summary>
+            Represents a converter that converts <see cref="T:System.Boolean"/> values to and from <see cref="T:Telerik.Pivot.Core.SortOrder"/> enumeration values.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.BooleanToDescendingSortOrderConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a <see cref="T:System.Boolean"/> value to a <see cref="T:Telerik.Pivot.Core.SortOrder"/> enumeration value.
+            </summary>
+            <param name="value">The <see cref="T:System.Boolean"/> value to convert.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns><see cref="F:Telerik.Pivot.Core.SortOrder.Descending"/> if value is true; otherwise, <see cref="F:Telerik.Pivot.Core.SortOrder.Ascending"/>.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.BooleanToDescendingSortOrderConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a <see cref="T:Telerik.Pivot.Core.SortOrder"/> enumeration value to a <see cref="T:System.Boolean"/> value.
+            </summary>
+            <param name="value">A <see cref="T:Telerik.Pivot.Core.SortOrder"/> enumeration value.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns>true if value is <see cref="F:Telerik.Pivot.Core.SortOrder.Descending"/>; otherwise, false.</returns>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ComparisonToVisibleConverter">
+            <summary>
+            Represents a converter that converts <see cref="T:Telerik.Pivot.Core.Comparison"/> values to <see cref="T:System.Windows.Visibility"/> enumeration values.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.ComparisonToVisibleConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a <see cref="T:Telerik.Pivot.Core.Comparison"/> value to a <see cref="T:System.Windows.Visibility"/> enumeration value.
+            </summary>
+            <param name="value">The <see cref="T:Telerik.Pivot.Core.Comparison"/> value to convert.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns><see cref="F:System.Windows.Visibility.Visible"/> if value is <see cref="T:Telerik.Pivot.Core.Comparison"/> or <see cref="T:Telerik.Pivot.Core.TextComparison"/>; if <paramref name="value"/> is null or other type, <see cref="F:System.Windows.Visibility.Collapsed"/>.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.ComparisonToVisibleConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            This method is not implemented.
+            </summary>
+            <param name="value">This parameter is not used.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns>This parameter is not used.</returns>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.IntervalComparisonToVisibilityConverter">
+            <summary>
+            Represents a converter that converts <see cref="T:Telerik.Pivot.Core.IntervalComparison"/> values to <see cref="T:System.Windows.Visibility"/> enumeration values.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.IntervalComparisonToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a <see cref="T:Telerik.Pivot.Core.Comparison"/> value to a <see cref="T:System.Windows.Visibility"/> enumeration value.
+            </summary>
+            <param name="value">The <see cref="T:Telerik.Pivot.Core.IntervalComparison"/> value to convert.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns><see cref="F:System.Windows.Visibility.Visible"/> if value is <see cref="T:Telerik.Pivot.Core.IntervalComparison"/>; if <paramref name="value"/> is null or other type, <see cref="F:System.Windows.Visibility.Collapsed"/>.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.IntervalComparisonToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Not implemented.
+            </summary>
+            <param name="value">This parameter is not used.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns>This parameter is not used.</returns>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.NullToVisibilityConverter">
+            <summary>
+            Represents a converter that converts <see cref="T:System.Object"/> values to <see cref="T:System.Windows.Visibility"/> enumeration values.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.NullToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts an <see cref="T:System.Object"/> value to a <see cref="T:System.Windows.Visibility"/> enumeration value.
+            </summary>
+            <param name="value">The <see cref="T:System.Object"/> value to convert.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns><see cref="F:System.Windows.Visibility.Visible"/> if <paramref name="value"/> is not null; If <paramref name="value"/> is null, <see cref="F:System.Windows.Visibility.Collapsed"/>.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.NullToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            This method is not implemented.
+            </summary>
+            <param name="value">This parameter is not used.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns>This parameter is not used.</returns>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.StringToBooleanConverter">
+            <summary>
+            Represents a converter that compares the string presentation of an object to the converter parameter and returns a Boolean.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.StringToBooleanConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts an <see cref="T:System.Object"/> to string and compares it value to the <paramref name="parameter"/> value. Returns to a <see cref="T:System.Windows.Visibility"/> enumeration value.
+            </summary>
+            <param name="value">The <see cref="T:System.Object"/> value to convert.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">The string the value must equals.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns><see cref="F:System.Windows.Visibility.Visible"/> if <paramref name="value"/> to string equals <paramref name="parameter"/>; otherwise, <see cref="F:System.Windows.Visibility.Collapsed"/>.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.StringToBooleanConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            This method is not implemented.
+            </summary>
+            <param name="value">This parameter is not used.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns>This method is not implemented.</returns>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.TypeToVisibilityConverter">
+            <summary>
+            Represents a converter that compares a value to a type and returns a <see cref="P:Telerik.Windows.Controls.FieldList.Editing.TypeToVisibilityConverter.Visibility"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.TypeToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a <see cref="P:Telerik.Windows.Controls.FieldList.Editing.TypeToVisibilityConverter.ComparisonType"/> to <see cref="P:Telerik.Windows.Controls.FieldList.Editing.TypeToVisibilityConverter.Visibility"/>.
+            </summary>
+            <param name="value">The type to convert.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns><see cref="F:System.Windows.Visibility.Visible"/> if <paramref name="value"/> inherits <see cref="P:Telerik.Windows.Controls.FieldList.Editing.TypeToVisibilityConverter.ComparisonType"/> and <see cref="P:Telerik.Windows.Controls.FieldList.Editing.TypeToVisibilityConverter.Visibility"/> is <see cref="P:Telerik.Windows.Controls.FieldList.Editing.TypeToVisibilityConverter.Visibility"/>; otherwise, <see cref="F:System.Windows.Visibility.Collapsed"/>.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.TypeToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            This method is not implemented.
+            </summary>
+            <param name="value">This parameter is not used.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">This parameter is not used.</param>
+            <param name="culture">This parameter is not used.</param>
+            <returns>This method is not implemented.</returns>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.TypeToVisibilityConverter.ComparisonType">
+            <summary>
+            Gets or sets the <see cref="P:Telerik.Windows.Controls.FieldList.Editing.TypeToVisibilityConverter.ComparisonType"/> to compare.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.TypeToVisibilityConverter.Visibility">
+            <summary>
+            Gets or sets the visibility option.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.TypeVisibility">
+            <summary>
+            Gets visibility options for <see cref="T:Telerik.Windows.Controls.FieldList.Editing.TypeToVisibilityConverter"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.TypeVisibility.VisibleIfOfType">
+            <summary>
+            The converter return <see cref="F:System.Windows.Visibility.Visible"/> if value inherits the comparison type.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.TypeVisibility.CollapsedIfOfType">
+            <summary>
+            The converter return <see cref="F:System.Windows.Visibility.Collapsed"/> if value inherits the comparison type.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.EnumToBooleanConverter">
+            <summary>
+            Represents converter, which converts <see cref="T:System.Enum"/> types to and from a
+            boolean value using the given parameter.
+            </summary>
+            <remarks>
+            The <see cref="T:System.Enum"/> can be with <see cref="T:System.FlagsAttribute"/>. Characters: ',' or ';' 
+            can be used to split multiple values passed in the given parameter.
+            </remarks>
+        </member>
+        <member name="M:Telerik.Windows.Controls.EnumToBooleanConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a <see cref="T:System.Enum"/> value to a Boolean one if it is one from the 
+            specified in the <paramref name="parameter"/> values.
+            </summary>
+            <param name="value">The <see cref="T:System.Enum"/> value .</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">
+            One or more values, which will be check for equality 
+            against the passed <paramref name="value"/>.Characters: ',' or ';' can be used to split 
+            multiple values.
+            </param>
+            <param name="culture">This parameter is not used.</param>
+            <returns>
+            A boolean value indicating whether the given <paramref name="value"/> is one from the specified in 
+            the <paramref name="parameter"/>. Returns null if the <paramref name="value"/> or 
+            <paramref name="parameter"/> are <c>null</c>.
+            </returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.EnumToBooleanConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts the Boolean value back to the first <see cref="T:System.Enum"/> value passed in the 
+            <paramref name="parameter"/>.
+            </summary>
+            <param name="value">The Boolean value.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">
+            One or more <see cref="T:System.Enum"/> values. The first one will be return if the <paramref name="value"/> 
+            is <c>true</c>.
+            </param>
+            <param name="culture">This parameter is not used.</param>
+            <returns>
+            First <see cref="T:System.Enum"/> value from the <paramref name="parameter"/> if the <paramref name="value"/> is <c>true</c>,
+            otherwise <see cref="F:System.Windows.Data.Binding.DoNothing"/>.
+            </returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.EnumToBooleanConverter.ParseObjectToEnum(System.Type,System.Object)">
+            <summary>
+            Parses the object to enumeration.
+            </summary>
+            <param name="enumType">Type of the enumeration.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">Parameter.</exception>
+        </member>
+        <member name="T:Telerik.Windows.Controls.EnumToVisibilityConverter">
+            <summary>
+            Represents converter, which converts <see cref="T:System.Enum"/> types to and from a
+            boolean value using the given parameter.
+            </summary>
+            <remarks>
+            The <see cref="T:System.Enum"/> can be with <see cref="T:System.FlagsAttribute"/>. Characters: ',' or ';' 
+            can be used to split multiple values passed in the given parameter.
+            </remarks>
+        </member>
+        <member name="M:Telerik.Windows.Controls.EnumToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a <see cref="T:System.Enum"/> value to a Boolean one if it is one from the 
+            specified in the <paramref name="parameter"/> values.
+            </summary>
+            <param name="value">The <see cref="T:System.Enum"/> value .</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">
+            One or more values, which will be check for equality 
+            against the passed <paramref name="value"/>.Characters: ',' or ';' can be used to split 
+            multiple values.
+            </param>
+            <param name="culture">This parameter is not used.</param>
+            <returns>
+            A boolean value indicating whether the given <paramref name="value"/> is one from the specified in 
+            the <paramref name="parameter"/>. Returns null if the <paramref name="value"/> or 
+            <paramref name="parameter"/> are <c>null</c>.
+            </returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.EnumToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts the Boolean value back to the first <see cref="T:System.Enum"/> value passed in the 
+            <paramref name="parameter"/>.
+            </summary>
+            <param name="value">The Boolean value.</param>
+            <param name="targetType">This parameter is not used.</param>
+            <param name="parameter">
+            One or more <see cref="T:System.Enum"/> values. The first one will be return if the <paramref name="value"/> 
+            is <c>true</c>.
+            </param>
+            <param name="culture">This parameter is not used.</param>
+            <returns>
+            First <see cref="T:System.Enum"/> value from the <paramref name="parameter"/> if the <paramref name="value"/> is <c>true</c>,
+            otherwise <see cref="F:System.Windows.Data.Binding.DoNothing"/>.
+            </returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.EnumToVisibilityConverter.ParseObjectToEnum(System.Type,System.Object)">
+            <summary>
+            Parses the object to enumeration.
+            </summary>
+            <param name="enumType">Type of the enum.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">Parameter.</exception>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.LabelCommands">
+            <summary>
+            Provides a standard set of <see cref="T:Telerik.Windows.Controls.FieldList.Label"/> related commands.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.LabelCommands.MoreSortingOptions">
+            <summary>
+            Gets the value that represents the More Sorting Options command.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.LabelCommands.ValueFilter">
+            <summary>
+            Gets the value that represents the Value Filter command.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.LabelCommands.LabelFilter">
+            <summary>
+            Gets the value that represents the Label Filter command.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.LabelCommands.Top10Filter">
+            <summary>
+            Gets the value that represents the Top10 Filter command.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.LabelCommands.ClearFilter">
+            <summary>
+            Gets the value that represents the Clear Filter command.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ConditionOption">
+            <summary>
+            Represents an available condition option.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ConditionOption.DisplayName">
+            <summary>
+            Gets the display friendly name of the condition option.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ConditionOption.Condition">
+            <summary>
+            Gets the condition used for this <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ConditionOption"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.GroupComparerOption">
+            <summary>
+            Represents an available option for a group comparer.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.GroupComparerOption.DisplayName">
+            <summary>
+            Gets the display friendly name for this <see cref="T:Telerik.Windows.Controls.FieldList.Editing.GroupComparerOption"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.GroupComparerOption.GroupComparer">
+            <summary>
+            Gets the <see cref="P:Telerik.Windows.Controls.FieldList.Editing.GroupComparerOption.GroupComparer"/> for this <see cref="T:Telerik.Windows.Controls.FieldList.Editing.GroupComparerOption"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.LabelDialogViewModel">
+            <summary>
+            A base class for the view models of all dialogs that edit a <see cref="P:Telerik.Windows.Controls.FieldList.Editing.LabelDialogViewModel.Label"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.LabelDialogViewModel.Label">
+            <summary>
+            Gets the Label this view model edits.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.LabelFilterDialog">
+            <summary>
+            A view on <see cref="T:Telerik.Windows.Controls.FieldList.Editing.LabelFilterViewModel"/> that encapsulates the editing of a <see cref="T:Telerik.Pivot.Core.LabelGroupFilter"/> for a <see cref="T:Telerik.Windows.Controls.FieldList.Label"/>'s Description.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.LabelFilterViewModel">
+            <summary>
+            A view-model that encapsulates the editing of a <see cref="T:Telerik.Pivot.Core.LabelGroupFilter"/> for a <see cref="T:Telerik.Windows.Controls.FieldList.Label"/>'s Description.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.LabelFilterViewModel.AvailableConditions">
+            <summary>
+            Gets the <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ConditionOption"/>s available for selection in <see cref="P:Telerik.Windows.Controls.FieldList.Editing.LabelFilterViewModel.SelectedCondition"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.LabelFilterViewModel.SelectedCondition">
+            <summary>
+            Gets or sets the selected <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ConditionOption"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.LabelFilterViewModel.From">
+            <summary>
+            Gets or sets a lower bound for various conditions.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.LabelFilterViewModel.To">
+            <summary>
+            Gets or sets an upper bound for various conditions.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.LabelFilterViewModel.Than">
+            <summary>
+            Gets or sets a base point for various conditions.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.LabelFilterViewModel.IgnoreCase">
+            <summary>
+            Gets or sets a value that indicates if string case should be ignored in the produced filter.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.SortingOptionsDialog">
+            <summary>
+            A view on <see cref="T:Telerik.Windows.Controls.FieldList.Editing.SortingOptionsViewModel"/> that encapsulates the editing of a <see cref="T:Telerik.Pivot.Core.SortOrder"/> and <see cref="T:Telerik.Pivot.Core.GroupComparer"/> for a <see cref="T:Telerik.Windows.Controls.FieldList.Label"/>'s Description.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.SortingOptionsViewModel">
+            <summary>
+            A view-model that encapsulates the editing of a <see cref="P:Telerik.Windows.Controls.FieldList.Editing.SortingOptionsViewModel.SortOrder"/> and <see cref="T:Telerik.Pivot.Core.GroupComparer"/> for a <see cref="T:Telerik.Windows.Controls.FieldList.Label"/>'s Description.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.SortingOptionsViewModel.AvailableComparers">
+            <summary>
+            Gets the <see cref="T:Telerik.Windows.Controls.FieldList.Editing.GroupComparerOption"/> available for selection in <see cref="P:Telerik.Windows.Controls.FieldList.Editing.SortingOptionsViewModel.SelectedAscendingComparer"/> and <see cref="P:Telerik.Windows.Controls.FieldList.Editing.SortingOptionsViewModel.SelectedDescendingComparer"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.SortingOptionsViewModel.SelectedAscendingComparer">
+            <summary>
+            Gets or sets the selected ascending <see cref="T:Telerik.Windows.Controls.FieldList.Editing.GroupComparerOption"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.SortingOptionsViewModel.SelectedDescendingComparer">
+            <summary>
+            Gets or sets the selected descending <see cref="T:Telerik.Windows.Controls.FieldList.Editing.GroupComparerOption"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.SortingOptionsViewModel.SortOrder">
+            <summary>
+            Gets or sets the selected <see cref="P:Telerik.Windows.Controls.FieldList.Editing.SortingOptionsViewModel.SortOrder"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.Top10FilterDialog">
+            <summary>
+            A view on <see cref="T:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel"/> that encapsulates the editing of Top10 typed filters for a <see cref="T:Telerik.Windows.Controls.FieldList.Label"/>'s Description.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.Top10FilterOption">
+            <summary>
+            Represents an available condition option.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterOption.DisplayName">
+            <summary>
+            Gets a display friendly name for this <see cref="T:Telerik.Windows.Controls.FieldList.Editing.Top10FilterOption"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterOption.FilterType">
+            <summary>
+            Gets the <see cref="T:Telerik.Windows.Controls.FieldList.Editing.Top10FilterType"/> for this <see cref="T:Telerik.Windows.Controls.FieldList.Editing.Top10FilterOption"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.Top10FilterType">
+            <summary>
+            Lists the types for Top10 filter.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.Top10FilterType.Items">
+            <summary>
+            Indicates a <see cref="T:Telerik.Pivot.Core.GroupsCountFilter"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.Top10FilterType.Percent">
+            <summary>
+            Indicates a <see cref="T:Telerik.Pivot.Core.GroupsPercentFilter"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.Top10FilterType.Sum">
+            <summary>
+            Indicates a <see cref="T:Telerik.Pivot.Core.GroupsSumFilter"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel">
+            <summary>
+            A view-model that encapsulates the editing of Top10 typed filters for a <see cref="T:Telerik.Windows.Controls.FieldList.Label"/>'s Description.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel.AvailableSelections">
+            <summary>
+            Gets the <see cref="T:Telerik.Pivot.Core.SortedListSelection"/>s available for selection in <see cref="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel.SelectedSelection"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel.SelectedSelection">
+            <summary>
+            Gets or sets the selected <see cref="T:Telerik.Pivot.Core.SortedListSelection"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel.AvailableFilterTypes">
+            <summary>
+            Gets the <see cref="T:Telerik.Windows.Controls.FieldList.Editing.Top10FilterType"/>s available for selection in <see cref="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel.SelectedFilterType"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel.SelectedFilterType">
+            <summary>
+            Gets or sets the available <see cref="T:Telerik.Windows.Controls.FieldList.Editing.Top10FilterType"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel.AvailableValueSources">
+            <summary>
+            Gets the <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ValueSourceOption"/> available for selection in <see cref="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel.SelectedValueSource"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel.SelectedValueSource">
+            <summary>
+            Gets or sets the selected <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ValueSourceOption"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel.Items">
+            <summary>
+            Gets or sets the number of items to pass in a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.Top10FilterType.Items"/> filter.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel.Percent">
+            <summary>
+            Gets or sets the percent of total value to be aggregated by the passing groups in <see cref="F:Telerik.Windows.Controls.FieldList.Editing.Top10FilterType.Percent"/> filter.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.Top10FilterViewModel.Sum">
+            <summary>
+            Gets or sets the percent of total value to be aggregated by the passing groups in <see cref="F:Telerik.Windows.Controls.FieldList.Editing.Top10FilterType.Percent"/> filter.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ValueFilterDialog">
+            <summary>
+            A view on <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ValueFilterViewModel"/> that encapsulates the editing of a <see cref="T:Telerik.Pivot.Core.ValueGroupFilter"/> for a <see cref="T:Telerik.Windows.Controls.FieldList.Label"/>'s Description.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ValueFilterViewModel">
+            <summary>
+            A view-model that encapsulates the editing of a <see cref="T:Telerik.Pivot.Core.ValueGroupFilter"/> for a <see cref="T:Telerik.Windows.Controls.FieldList.Label"/>'s Description.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueFilterViewModel.AvailableValueSources">
+            <summary>
+            Gets a list with <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ValueSourceOption"/>s available for selection in <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ValueSourceOption"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueFilterViewModel.SelectedValueSource">
+            <summary>
+            Gets the selected <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ValueSourceOption"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueFilterViewModel.AvailableConditions">
+            <summary>
+            Gets a list with <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ConditionOption"/>s available for selection in <see cref="P:Telerik.Windows.Controls.FieldList.Editing.ValueFilterViewModel.SelectedCondition"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueFilterViewModel.SelectedCondition">
+            <summary>
+            Gets or sets the selected <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ConditionOption"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueFilterViewModel.From">
+            <summary>
+            Gets or sets a lower bound for various conditions.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueFilterViewModel.To">
+            <summary>
+            Gets or sets an upper bound for various conditions.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueFilterViewModel.Than">
+            <summary>
+            Gets or sets a base point for various conditions.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ValueSourceOption">
+            <summary>
+            Represents an available option for a value source.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueSourceOption.DisplayName">
+            <summary>
+            Gets a display friendly name for this <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ValueSourceOption"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueSourceOption.AggregateIndex">
+            <summary>
+            Gets the aggregate index associated with this <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ValueSourceOption"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ValueCommands">
+            <summary>
+            Provides a standard set of <see cref="T:Telerik.Windows.Controls.FieldList.Value"/> related commands.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.ValueCommands.MoreSummarizationOptions">
+            <summary>
+            Gets the value that represents the More Summarization Options command.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.ValueCommands.MoreTotalFormatOptions">
+            <summary>
+            Gets the value that represents the More TotalFormat Options command.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.ValueCommands.StringFormats">
+            <summary>
+            Gets the value that represents the String Formats command.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.ValueCommands.SetSumAggregate">
+            <summary>
+            Gets the value that represents the Set Sum Aggregate command.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.ValueCommands.SetCountAggregate">
+            <summary>
+            Gets the value that represents the Set Count Aggregate command.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.ValueCommands.SetAverageAggregate">
+            <summary>
+            Gets the value that represents the Set Average Aggregate command.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.ValueCommands.SetIndexTotalFormat">
+            <summary>
+            Gets the value that represents the Set Index TotalFormat command.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.ValueCommands.SetPercentOfGrandTotalFormat">
+            <summary>
+            Gets the value that represents the Set Percent Of Grand Total Format command.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.ValueCommands.ClearTotalFormat">
+            <summary>
+            Gets the value that represents the Clear Total Format command.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.CalculationOption">
+            <summary>
+            An available calculation option.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.CalculationOption.DisplayName">
+            <summary>
+            Gets the display friendly name for the option.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.CalculationOption.CalculationType">
+            <summary>
+            Gets the <see cref="P:Telerik.Windows.Controls.FieldList.Editing.CalculationOption.CalculationType"/> for this <see cref="T:Telerik.Windows.Controls.FieldList.Editing.CalculationOption"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.CalculationOption.RequiresBaseLabel">
+            <summary>
+            Gets a value that indicates if this calculation option requires a base label selection.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.CalculationOption.RequiresBaseItem">
+            <summary>
+            Gets a value that indicates if this calculation option requires a base item selection.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.CalculationType">
+            <summary>
+            Enumerates possible additional calculations applied as <see cref="T:Telerik.Pivot.Core.Totals.TotalFormat"/>s.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.NoCalculation">
+            <summary>
+            Represents no <see cref="T:Telerik.Pivot.Core.Totals.TotalFormat"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOfGrandTotal">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOfGrandTotal"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOfColumnTotal">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOfColumnTotal"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOfRowTotal">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOfRowTotal"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOf">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOf"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOfParentRowTotal">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOfParentRowTotal"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOfParentColumnTotal">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOfParentColumnTotal"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOfParentTotal">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentOfParentTotal"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.DifferenceFrom">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.DifferenceFrom"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentDifferenceFrom">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentDifferenceFrom"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.RunningTotalIn">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.RunningTotalIn"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentRunningTotalIn">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.PercentRunningTotalIn"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.RankSmallestToLargest">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.RankSmallestToLargest"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.RankLargestToSmallest">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.RankLargestToSmallest"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.Index">
+            <summary>
+            Represents a <see cref="F:Telerik.Windows.Controls.FieldList.Editing.CalculationType.Index"/> TotalFormat.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.StringFormatOption">
+            <summary>
+            Identifies an option for string format selection.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.StringFormatOption.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Editing.StringFormatOption.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.StringFormatOption.StringFormat">
+            <summary>
+            Gets the string format represented by this option.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.StringFormatOption.Description">
+            <summary>
+            Gets the string description for this option.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.StringFormatsDialog">
+            <summary>
+            A view on <see cref="T:Telerik.Windows.Controls.FieldList.Editing.StringFormatsViewModel"/> that encapsulates the editing of a string format for a <see cref="T:Telerik.Windows.Controls.FieldList.Value"/>'s Description.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.StringFormatsViewModel">
+            <summary>
+            A view-model that encapsulates the editing of a string format for a <see cref="T:Telerik.Windows.Controls.FieldList.Value"/>'s Description.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ValueDialogViewModel">
+            <summary>
+            A base class for the view models of all dialogs that edit a <see cref="P:Telerik.Windows.Controls.FieldList.Editing.ValueDialogViewModel.Value"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueDialogViewModel.Value">
+            <summary>
+            Gets the Value this view model edits.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.StringFormatsViewModel.AvailableFormatOptions">
+            <summary>
+            Gets a list with <see cref="T:Telerik.Windows.Controls.FieldList.Editing.StringFormatOption"/> available for <see cref="P:Telerik.Windows.Controls.FieldList.Editing.StringFormatsViewModel.SelectedFormat"/> selection.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.StringFormatsViewModel.SelectedFormat">
+            <summary>
+            Gets or sets the selected string format.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsDialog">
+            <summary>
+            A view on <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel"/> that encapsulates the editing of a <see cref="T:Telerik.Pivot.Core.Totals.TotalFormat"/> for a <see cref="T:Telerik.Windows.Controls.FieldList.Value"/>'s Description.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel">
+            <summary>
+            A view-model that encapsulates the editing of a <see cref="T:Telerik.Pivot.Core.Totals.TotalFormat"/> for a <see cref="T:Telerik.Windows.Controls.FieldList.Value"/>'s Description.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.Previous">
+            <summary>
+            Gets an object that represents a special base item for selection in <see cref="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.SelectedBaseItem"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.Next">
+            <summary>
+            Gets an object that represents a special base item for selection in <see cref="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.SelectedBaseItem"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.AvailableCalculationOptions">
+            <summary>
+            Gets a list of <see cref="T:Telerik.Windows.Controls.FieldList.Editing.CalculationOption"/>s available for selection.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.SelectedCalculationOption">
+            <summary>
+            Gets or sets the selected <see cref="T:Telerik.Windows.Controls.FieldList.Editing.CalculationOption"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.RequiresBaseLabel">
+            <summary>
+            Gets a value that indicates if the <see cref="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.SelectedCalculationOption"/> requires selection of base label.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.RequiresBaseItem">
+            <summary>
+            Gets a value that indicates if the <see cref="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.SelectedCalculationOption"/> requires selection of base item.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.AvailableBaseLabels">
+            <summary>
+            Gets a list of the <see cref="T:Telerik.Windows.Controls.FieldList.Label"/> items available for selection in <see cref="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.SelectedBaseLabel"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.SelectedBaseLabel">
+            <summary>
+            Gets or sets the selected <see cref="T:Telerik.Windows.Controls.FieldList.Label"/> used in the setup of some group filters.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.AvailableBaseItems">
+            <summary>
+            Gets a lists of <see cref="T:System.Object"/> items available for selection in <see cref="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.SelectedBaseItem"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueCalculationsViewModel.SelectedBaseItem">
+            <summary>
+            Gets or sets the available base item used in the setup of some group filters.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ValueSummarizationDialog">
+            <summary>
+            A view on <see cref="T:Telerik.Windows.Controls.FieldList.Editing.ValueSummarizationViewModel"/> that encapsulates the editing of an aggregate function for a <see cref="T:Telerik.Windows.Controls.FieldList.Value"/>'s Description.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Editing.ValueSummarizationViewModel">
+            <summary>
+            A view-model that encapsulates the editing of an aggregate function for a <see cref="T:Telerik.Windows.Controls.FieldList.Value"/>'s Description.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueSummarizationViewModel.AvailableAggregateFunctions">
+            <summary>
+            Gets a list of objects with available items to select for <see cref="P:Telerik.Windows.Controls.FieldList.Editing.ValueSummarizationViewModel.SelectedAggregateFunction"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Editing.ValueSummarizationViewModel.SelectedAggregateFunction">
+            <summary>
+            Gets or sets an object used to identify an aggregate function. Available options in <see cref="P:Telerik.Windows.Controls.FieldList.Editing.ValueSummarizationViewModel.AvailableAggregateFunctions"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs">
+            <summary>
+            Provides data for the <see cref="F:Telerik.Windows.Controls.FieldList.DropIndicationEvents.DisplayDropIndication"/> and <see cref="F:Telerik.Windows.Controls.FieldList.DropIndicationEvents.ClearDropIndication"/> routed events.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs.#ctor(System.Windows.RoutedEvent,System.Windows.FrameworkElement,Telerik.Windows.Controls.FieldList.DropPosition)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs"/> class.
+            </summary>
+            <param name="routedEvent">The routed event identifier for this instance of the <see cref="T:System.Windows.RoutedEventArgs"/> class.</param>
+            <param name="element">The Element an indication is requested for.</param>
+            <param name="position">The position relative to the <paramref name="element"/>.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs.#ctor(System.Windows.RoutedEvent,System.Object,System.Windows.FrameworkElement,Telerik.Windows.Controls.FieldList.DropPosition)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs"/> class.
+            </summary>
+            <param name="routedEvent">The routed event identifier for this instance of the <see cref="T:System.Windows.RoutedEventArgs"/> class.</param>
+            <param name="source">An alternate source that will be reported when the event is handled. This pre-populates the System.Windows.RoutedEventArgs.Source property.</param>
+            <param name="element">The Element an indication is requested for.</param>
+            <param name="position">The position relative to the <paramref name="element"/>.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs.ClearIndication(System.Windows.FrameworkElement)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs"/> that encloses a <see cref="F:Telerik.Windows.Controls.FieldList.DropIndicationEvents.ClearDropIndication"/> event.
+            </summary>
+            <param name="element">The element on which indication is no longer required.</param>
+            <returns>An instance of <see cref="T:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs"/> object.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs.DropIndication(System.Windows.FrameworkElement,Telerik.Windows.Controls.FieldList.DropPosition)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs"/> that encloses a <see cref="F:Telerik.Windows.Controls.FieldList.DropIndicationEvents.DisplayDropIndication"/> event.
+            </summary>
+            <param name="element">The element on which indication is requested.</param>
+            <param name="position">The drop position relative to the <paramref name="element"/>.</param>
+            <returns>An instance of <see cref="T:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs"/> object.</returns>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs.Element">
+            <summary>
+            Gets the element on which a drop occurred and indicator is requested for or removed for.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs.Position">
+            <summary>
+            Gets the <see cref="T:Telerik.Windows.Controls.FieldList.DropPosition"/> of the drag and drop operation relative to the <see cref="P:Telerik.Windows.Controls.FieldList.DropIndicationEventArgs.Element"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.DropIndicationEvents">
+            <summary>
+            Routed events used to delegate the drawing of a drop indication to parent elements.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.DropIndicationEvents.DisplayDropIndication">
+            <summary>
+            A routed event that is thrown by drag and drop behaviors or manual handling when a visual indication for a drop location is required but should be delegated to parents up the visual tree.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.DropIndicationEvents.ClearDropIndication">
+            <summary>
+            A routed event that is thrown by drag and drop behaviors or manual handling when a visual indication for a drop location is no longer required but was previously delegated to parents up the visual tree.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.DropIndicator">
+            <summary>
+            A Control that provides a basic visual indication for the drop location of a drag and drop operation.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.DropIndicator.OnApplyTemplate">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.DropPosition">
+            <summary>
+            Enumerates the possible drop positions relative to an item.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.DropPosition.Over">
+            <summary>
+            Drop over or 'in' the item.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.DropPosition.Left">
+            <summary>
+            Drop to the left of the item.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.DropPosition.Top">
+            <summary>
+            Drop to the top of the item.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.DropPosition.Right">
+            <summary>
+            Drop to the right of the item.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.DropPosition.Bottom">
+            <summary>
+            Drop to the bottom of the item.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldContentTemplateSelector">
+            <summary>
+            A <see cref="T:System.Windows.Controls.DataTemplateSelector"/> that selects special <see cref="T:System.Windows.DataTemplate"/> for the <see cref="T:Telerik.Windows.Controls.FieldList.ValuesPositionField"/> instance.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldContentTemplateSelector.SelectTemplate(System.Object,System.Windows.DependencyObject)">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldContentTemplateSelector.Default">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.DataTemplate"/> used by default.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldContentTemplateSelector.ValuesPosition">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.DataTemplate"/> that will be used for the <see cref="T:Telerik.Windows.Controls.FieldList.ValuesPositionField"/> item.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter">
+            <summary>
+            An <see cref="T:System.Windows.Data.IValueConverter"/> that converts a <see cref="T:Telerik.Windows.Controls.FieldList.FieldDragAction"/> to <see cref="T:System.Uri"/>. Generally used to display icons.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a <see cref="T:Telerik.Windows.Controls.FieldList.FieldDragAction"/> to <see cref="T:System.Uri"/> based on
+            <see cref="P:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.ValueSource"/>, <see cref="P:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.RowSource"/>, <see cref="P:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.ColumnSource"/>, <see cref="P:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.FilterSource"/>, <see cref="P:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.RemoveSource"/>.
+            </summary>
+            <param name="value">The value to convert. Expected <see cref="T:Telerik.Windows.Controls.FieldList.FieldDragAction"/>.</param>
+            <param name="targetType">The type of the binding target property.</param>
+            <param name="parameter">The converter parameter to use.</param>
+            <param name="culture">The culture to use in the converter.</param>
+            <returns>An <see cref="T:System.Uri"/>.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Not implemented. Throws <see cref="T:System.NotImplementedException"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.ValueSource">
+            <summary>
+            Gets or set an <see cref="T:System.Uri"/> that the <see cref="M:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)"/> would return for <see cref="F:Telerik.Windows.Controls.FieldList.FieldDragAction.MoveToValues"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.RowSource">
+            <summary>
+            Gets or set an <see cref="T:System.Uri"/> that the <see cref="M:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)"/> would return for <see cref="F:Telerik.Windows.Controls.FieldList.FieldDragAction.MoveToRows"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.ColumnSource">
+            <summary>
+            Gets or set an <see cref="T:System.Uri"/> that the <see cref="M:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)"/> would return for <see cref="F:Telerik.Windows.Controls.FieldList.FieldDragAction.MoveToColumns"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.FilterSource">
+            <summary>
+            Gets or set an <see cref="T:System.Uri"/> that the <see cref="M:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)"/> would return for <see cref="F:Telerik.Windows.Controls.FieldList.FieldDragAction.MoveToFilters"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.RemoveSource">
+            <summary>
+            Gets or set an <see cref="T:System.Uri"/> that the <see cref="M:Telerik.Windows.Controls.FieldList.FieldDragActionToSourceConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)"/> would return for <see cref="F:Telerik.Windows.Controls.FieldList.FieldDragAction.Remove"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldDragVisual">
+            <summary>
+            A <see cref="T:System.Windows.Controls.ContentControl"/> used to display a visual feedback during drag and drop of <see cref="T:Telerik.Windows.Controls.FieldList.IField"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldDragVisual.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.FieldDragVisual"/> class.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldBox">
+            <summary>
+            An <see cref="T:System.Windows.Controls.ItemsControl"/> that displays items actively participating in pivot grouping. Supports Drag and provides visual feedback on drag operations.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.FieldBox.HeaderProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.FieldList.FieldBox.Header"/> dependency property.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldBox.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.FieldBox"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldBox.IsItemItsOwnContainerOverride(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldBox.GetContainerForItemOverride">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldBox.Header">
+            <summary>
+            Gets or sets a value used as content for the header of this control. This is a DependencyProperty.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldBoxItem">
+            <summary>
+            A <see cref="T:System.Windows.Controls.ContentControl"/> used as item in the <see cref="T:Telerik.Windows.Controls.FieldList.FieldBox"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldAdapter">
+            <summary>
+            Describes the hierarchical structure of the <see cref="T:Telerik.Windows.Controls.FieldList.ICompositeField"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldAdapter.GetItems(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldAdapter.GetItemAt(System.Object,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldBoxItemRolePresenterTemplateSelector">
+            <summary>
+            A <see cref="T:System.Windows.Controls.DataTemplateSelector"/> that selects a DataTemplate based on a <see cref="T:Telerik.Windows.Controls.FieldList.IField"/>'s <see cref="P:Telerik.Windows.Controls.FieldList.IField.FieldInfo"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldBoxItemRolePresenterTemplateSelector.SelectTemplate(System.Object,System.Windows.DependencyObject)">
+            <summary>
+            Selects a DataTemplate based on a <see cref="T:Telerik.Windows.Controls.FieldList.IField"/>'s <see cref="P:Telerik.Windows.Controls.FieldList.IField.FieldInfo"/>.
+            </summary>
+            <param name="item">The item for which a template is selected. Expected to be <see cref="T:Telerik.Windows.Controls.FieldList.IField"/>.</param>
+            <param name="container">The container.</param>
+            <returns>The selected <see cref="T:System.Windows.DataTemplate"/>.</returns>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldBoxItemRolePresenterTemplateSelector.DimensionRoleTemplate">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.DataTemplate"/> used for the <see cref="F:Telerik.Pivot.Core.Fields.ContainerNodeRole.Dimension"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldBoxItemRolePresenterTemplateSelector.FolderRoleTemplate">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.DataTemplate"/> used for the <see cref="F:Telerik.Pivot.Core.Fields.ContainerNodeRole.Folder"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldBoxItemRolePresenterTemplateSelector.ValuesRoleTemplate">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.DataTemplate"/> used for the <see cref="F:Telerik.Pivot.Core.Fields.ContainerNodeRole.Measure"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldBoxItemRolePresenterTemplateSelector.KpiRoleTemplate">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.DataTemplate"/> used for the <see cref="F:Telerik.Pivot.Core.Fields.ContainerNodeRole.Kpi"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldBoxItemRolePresenterTemplateSelector.OtherRoleTemplate">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.DataTemplate"/> used for the <see cref="F:Telerik.Pivot.Core.Fields.ContainerNodeRole.Other"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldBoxItemRolePresenterTemplateSelector.SelectableRoleTemplate">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.DataTemplate"/> used for the <see cref="F:Telerik.Pivot.Core.Fields.ContainerNodeRole.Selectable"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldBoxItemRolePresenterTemplateSelector.NoneRoleTemplate">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.DataTemplate"/> used for the <see cref="F:Telerik.Pivot.Core.Fields.ContainerNodeRole.None"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldListViewModel">
+            <summary>
+            A class used as ViewModel for setting pivot grouping.
+            </summary>
+            <summary>
+            A class used as ViewModel for setting pivot grouping.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldListViewModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.FieldListViewModel"/> class.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.UpdateCommand">
+            <summary>
+            Gets an <see cref="T:System.Windows.Input.ICommand"/> that could be executed to force an update.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.DataProvider">
+            <summary>
+            Gets or sets the underlying <see cref="T:Telerik.Pivot.Core.IDataProvider"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.DeferUpdates">
+            <summary>
+            Gets or sets a property that indicates if changes to the grouping settings would trigger computations immediately when invalidated or through the <see cref="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.UpdateCommand"/> execute. Based on the <see cref="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.DataProvider"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.AggregatesLevel">
+            <summary>
+            Gets or sets the position where groups for the aggregates should be placed based on the <see cref="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.DataProvider"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.AggregatesPosition">
+            <summary>
+            Gets or sets a value indicating where the aggregate groups should be positioned based on the <see cref="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.DataProvider"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.Fields">
+            <summary>
+            Gets a <see cref="T:Telerik.Windows.Controls.FieldList.FieldCollection"/> that holds a hierarchy of all <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> that may participate in pivot grouping.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.Filters">
+            <summary>
+            Gets a <see cref="T:Telerik.Windows.Controls.FieldList.FieldCollection"/> that holds all <see cref="T:Telerik.Windows.Controls.FieldList.IField"/>s that are used for filtering.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.ColumnLabels">
+            <summary>
+            Gets a <see cref="T:Telerik.Windows.Controls.FieldList.FieldCollection"/> that holds all <see cref="T:Telerik.Windows.Controls.FieldList.IField"/>s that are used for column labels.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.RowLabels">
+            <summary>
+            Gets a <see cref="T:Telerik.Windows.Controls.FieldList.FieldCollection"/> that holds all <see cref="T:Telerik.Windows.Controls.FieldList.IField"/>s that are used for row labels.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldListViewModel.Values">
+            <summary>
+            Gets a <see cref="T:Telerik.Windows.Controls.FieldList.FieldCollection"/> that holds all <see cref="T:Telerik.Windows.Controls.FieldList.IField"/>s that are used for aggregation.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.ValuesPositionDescription">
+            <summary>
+            An <see cref="T:Telerik.Pivot.Core.IDescriptionBase"/> that identifies the Values position.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.ValuesPositionDescription.CreateInstanceCore">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.ValuesPositionDescription.CloneCore(Telerik.Pivot.Core.Cloneable)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.ValuesPositionDescription.GetMemberName">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.ValuesPositionDescription.DisplayName">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadPivotFieldList">
+            <summary>
+            A <see cref="T:System.Windows.Controls.Control"/> that is used to setup a pivot grouping.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.RadPivotFieldList.DataProviderProperty">
+            <summary>
+            Identifies the DataProvider DependencyProperty.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.RadPivotFieldList.IsBusyProperty">
+            <summary>
+            Identifies the IsBusy read-only dependency property.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadPivotFieldList.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.RadPivotFieldList"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadPivotFieldList.OnApplyTemplate">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadPivotFieldList.ViewModel">
+            <summary>
+            Gets the <see cref="T:Telerik.Windows.Controls.FieldList.FieldListViewModel"/> associated with this control.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadPivotFieldList.DataProvider">
+            <summary>
+            Gets or sets the <see cref="P:Telerik.Windows.Controls.RadPivotFieldList.DataProvider"/> associated with this control. This is a dependency property.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadPivotFieldList.IsBusy">
+            <summary>
+            Gets a value indicating whether this instance is processing or loading data.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldDragAction">
+            <summary>
+            Enumerates the possible outcomes of an <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> drag action.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.FieldDragAction.None">
+            <summary>
+            Nothing would happen.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.FieldDragAction.Remove">
+            <summary>
+            The <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> will be removed from its holding collection.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.FieldDragAction.MoveToRows">
+            <summary>
+            The <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> will be moved to the <see cref="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.RowLabels"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.FieldDragAction.MoveToColumns">
+            <summary>
+            The <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> will be moved to the <see cref="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.ColumnLabels"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.FieldDragAction.MoveToFilters">
+            <summary>
+            The <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> will be moved to the <see cref="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.ReportFilters"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.FieldDragAction.MoveToValues">
+            <summary>
+            The <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> will be moved to the <see cref="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.Values"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldCollection">
+            <summary>
+            An read only observable collection of <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> items.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldCollection.Parent">
+            <summary>
+            Gets the <see cref="T:Telerik.Windows.Controls.FieldList.FieldListViewModel"/> this collection is part of.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldCollection.FieldCollectionType">
+            <summary>
+            Gets the <see cref="P:Telerik.Windows.Controls.FieldList.FieldCollection.FieldCollectionType"/> that describes what role has this collection in the parent <see cref="T:Telerik.Windows.Controls.FieldList.FieldListViewModel"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldCollectionType">
+            <summary>
+            Enumerates the roles <see cref="T:Telerik.Windows.Controls.FieldList.FieldCollection"/> can take in the <see cref="T:Telerik.Windows.Controls.FieldList.FieldListViewModel"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.Fields">
+            <summary>
+            Identifies a collection with all possible fields.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.ReportFilters">
+            <summary>
+            Identifies a collection with the report filter fields.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.RowLabels">
+            <summary>
+            Identifies a collection with the row label fields.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.ColumnLabels">
+            <summary>
+            Identifies a collection with the column label fields.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.Values">
+            <summary>
+            Identifies a collection with the value fields.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.FieldPayload">
+            <summary>
+            A <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> payload used in drag operations between the <see cref="T:Telerik.Windows.Controls.RadPivotFieldList"/> areas.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldPayload.#ctor(Telerik.Windows.Controls.FieldList.IField)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.FieldPayload"/> class.
+            </summary>
+            <param name="field"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldPayload.SetDestination(Telerik.Windows.Controls.FieldList.FieldCollection,System.Int32)">
+            <summary>
+            Set the potential destination for the <see cref="P:Telerik.Windows.Controls.FieldList.FieldPayload.DraggedField"/>.
+            </summary>
+            <param name="destinationCollection">The destination <see cref="T:Telerik.Windows.Controls.FieldList.FieldCollection"/>.</param>
+            <param name="index">The destination index.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldPayload.SetDestination(Telerik.Windows.Controls.FieldList.FieldCollection)">
+            <summary>
+            Set the potential destination for the <see cref="P:Telerik.Windows.Controls.FieldList.FieldPayload.DraggedField"/>.
+            </summary>
+            <param name="destinationCollection">The destination <see cref="T:Telerik.Windows.Controls.FieldList.FieldCollection"/>.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldPayload.OnDrop">
+            <summary>
+            Call to notify the drag and drop did drop. Call this method once to apply the <see cref="P:Telerik.Windows.Controls.FieldList.FieldPayload.DragAction"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.FieldPayload.OnDropComplete">
+            <summary>
+            Call to notify the drag and drop did drop complete. Call this method once to apply the <see cref="P:Telerik.Windows.Controls.FieldList.FieldPayload.DragAction"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldPayload.DraggedField">
+            <summary>
+            Gets the <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> this payload carries.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldPayload.RemoveFromSource">
+            <summary>
+            Gets or sets a value that indicates if the <see cref="P:Telerik.Windows.Controls.FieldList.FieldPayload.DraggedField"/> should be removed upon drag completion.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldPayload.DragAction">
+            <summary>
+            Gets the an <see cref="T:Telerik.Windows.Controls.FieldList.FieldDragAction"/> that identifies the expected outcome if drop occurs with the current settings.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.FieldPayload.AllowedEffects">
+            <summary>
+            Gets the allowed <see cref="T:System.Windows.DragDropEffects"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Field">
+            <summary>
+            An implementation of <see cref="T:Telerik.Windows.Controls.FieldList.ICompositeField"/>. Represents a node in <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> hierarchy.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.ICompositeField">
+            <summary>
+            An interface describing a hierarchical item that can participate in pivot grouping. It may have nested <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> or <see cref="T:Telerik.Windows.Controls.FieldList.ICompositeField"/> items.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.IField">
+            <summary>
+            An interface describing an item that can participate in pivot grouping.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.IField.FieldInfo">
+            <summary>
+            Gets the field info associated with this instance.
+            </summary>
+            <value>The field info.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.IField.ParentList">
+            <summary>
+            Gets the <see cref="T:Telerik.Windows.Controls.FieldList.FieldCollection"/> this <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> belongs to.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.ICompositeField.Children">
+            <summary>
+            Gets the nested <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> elements.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.ICompositeField.HasChildren">
+            <summary>
+            Gets a value that indicates if this <see cref="T:Telerik.Windows.Controls.FieldList.ICompositeField"/> has children.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.ICompositeField.Role">
+            <summary>
+            Gets the role of this node.
+            </summary>
+            <value>The role.</value>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Field.OnPropertyChanged(System.String)">
+            <summary>
+            Notifies that the property with name <paramref name="propertyName"/> has changed.
+            </summary>
+            <param name="propertyName">The name of the property that changed.</param>
+        </member>
+        <member name="E:Telerik.Windows.Controls.FieldList.Field.PropertyChanged">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Field.Children">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Field.HasChildren">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Field.ParentList">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Field.DisplayName">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Field.IsUsed">
+            <summary>
+            Gets or sets a value that indicates if this item participates in the pivot grouping.
+            When set to true its <see cref="P:Telerik.Windows.Controls.FieldList.Field.FieldInfo"/> will be used to create the appropriate entries in a <see cref="T:Telerik.Windows.Controls.FieldList.FieldListViewModel"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Field.FieldInfo">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Field.Role">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Label">
+            <summary>
+            A class that identifies <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> items that are used for grouping and has been added to <see cref="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.RowLabels"/> or <see cref="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.ColumnLabels"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Label.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.Label"/> class.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Label.ParentList">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Label.Description">
+            <summary>
+            Gets the underlying <see cref="T:Telerik.Pivot.Core.IGroupDescription"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Label.FieldInfo">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Filter">
+            <summary>
+            A class that identifies <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> items that are used for filtering and has been added to <see cref="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.ReportFilters"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Filter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.Filter"/> class.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Filter.ParentList">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Filter.Description">
+            <summary>
+            Gets the underlying <see cref="T:Telerik.Pivot.Core.FilterDescription"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Filter.FieldInfo">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.Value">
+            <summary>
+            A class that identifies <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> item, that is used to place groups for aggregate values, and has been added to <see cref="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.RowLabels"/> or <see cref="F:Telerik.Windows.Controls.FieldList.FieldCollectionType.ColumnLabels"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.Value.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.Value"/> class.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Value.ParentList">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Value.Description">
+            <summary>
+            Gets the underlying <see cref="T:Telerik.Pivot.Core.IAggregateDescription"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.Value.FieldInfo">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Windows.Controls.FieldList.ValuesPositionField">
+            <summary>
+            A class used to present a <see cref="T:Telerik.Windows.Controls.FieldList.IField"/> where the values from aggregates will be presented.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FieldList.ValuesPositionField.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FieldList.ValuesPositionField"/> class.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.ValuesPositionField.ParentList">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.ValuesPositionField.FieldInfo">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldList.ValuesPositionField.Description">
+            <summary>
+            Gets an IDescriptionBase for the Values position.
+            </summary>
+        </member>
+    </members>
+</doc>

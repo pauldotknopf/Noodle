@@ -1,0 +1,202 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Telerik.Pivot.DataProviders.Xmla</name>
+    </assembly>
+    <members>
+        <member name="T:Telerik.Pivot.DataProviders.Xmla.XmlaAggregateDescription">
+            <summary>
+            Used to specify aggregation parameters for <see cref="T:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaAggregateDescription.CreateInstanceCore">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings">
+            <summary>
+            Connection setting class used by <see cref="T:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings.op_Equality(Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings,Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings)">
+            <summary>
+            Compares two instances for equality.
+            </summary>
+            <param name="left">The left.</param>
+            <param name="right">The right.</param>
+            <returns>True, if instances are equal.</returns>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings.op_Inequality(Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings,Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings)">
+            <summary>
+            Compares two instances for non-equality.
+            </summary>
+            <param name="left">The left.</param>
+            <param name="right">The right.</param>
+            <returns>True, if instances are not equal.</returns>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings.DefaultEncoding">
+            <summary>
+            Gets the default encoding used for XMLA service calls.
+            </summary>
+            <value>
+            The default encoding.
+            </value>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings.Cube">
+            <summary>
+            Gets or sets the name of the cube that will be used.
+            </summary>
+            <value>Cube name.</value>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings.Database">
+            <summary>
+            Gets or sets the database to connect to.
+            </summary>
+            <value>Database name.</value>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings.ServerAddress">
+            <summary>
+            Gets or sets the server address.
+            </summary>
+            <value>The server address.</value>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings.Credentials">
+            <summary>
+            Gets or sets the client credentials used for XMLA service calls.  
+            </summary>
+            <value>The credentials.</value>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings.Encoding">
+            <summary>
+            Gets or sets the encoding that is used for XMLA service calls.
+            </summary>
+            <value>
+            The encoding.
+            </value>
+        </member>
+        <member name="T:Telerik.Pivot.DataProviders.Xmla.XmlaFieldDescriptionProvider">
+            <summary>
+            An <see cref="T:Telerik.Pivot.Core.Fields.IFieldDescriptionProvider"/> implementation for Xmla sources.
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaFieldDescriptionProvider.#ctor(Telerik.Pivot.DataProviders.Xmla.XmlaConnectionSettings)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Pivot.DataProviders.Xmla.XmlaFieldDescriptionProvider"/> class.
+            </summary>
+            <param name="connectionSettings">The connection settings.</param>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaFieldDescriptionProvider.GetLoader">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Pivot.DataProviders.Xmla.XmlaGroupDescription">
+            <summary>
+            Used to specify grouping parameters for <see cref="T:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaGroupDescription.CreateInstanceCore">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaGroupDescription.LevelCount">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider">
+            <summary>
+            Provides Cube data access and operations using Xmla.
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.RefreshOverride">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.BlockUntilRefreshCompletes">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.CreateFieldDescriptionsProvider">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.GetAggregateDescriptionForFieldDescriptionCore(Telerik.Pivot.Core.Fields.IPivotFieldInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.GetGroupDescriptionForFieldDescriptionCore(Telerik.Pivot.Core.Fields.IPivotFieldInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.GetAggregateFunctionsForAggregateDescription(Telerik.Pivot.Core.IAggregateDescription)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.SetAggregateFunctionToAggregateDescription(Telerik.Pivot.Core.IAggregateDescription,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.GetFilterDescriptionForFieldDescriptionCore(Telerik.Pivot.Core.Fields.IPivotFieldInfo)">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.FilterDescriptions">
+            <summary>
+            A list of <see cref="T:Telerik.Pivot.Core.FilterDescription"/> that specified how the pivot items should be filtered.
+            </summary>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.RowGroupDescriptions">
+            <summary>
+            A list of <see cref="T:Telerik.Pivot.DataProviders.Xmla.XmlaGroupDescription"/> that specified how the pivot should be grouped by rows.
+            </summary>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.ColumnGroupDescriptions">
+            <summary>
+            A list of <see cref="T:Telerik.Pivot.DataProviders.Xmla.XmlaGroupDescription"/> that specified how the pivot should be grouped by columns.
+            </summary>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.AggregateDescriptions">
+            <summary>
+            A list of <see cref="T:Telerik.Pivot.DataProviders.Xmla.XmlaAggregateDescription"/> that specified how the pivot should be aggregated for the groups.
+            </summary>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.ConnectionSettings">
+            <summary>
+            Gets or sets the connection settings that are used for establishing connection to the data server.
+            </summary>
+            <value>The connection settings.</value>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.Results">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Xmla.XmlaDataProvider.State">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Pivot.DataProviders.Xmla.XmlaNetworkCredential">
+            <summary>
+            Provides credentials used for XMLA service calls.  
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaNetworkCredential.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Pivot.DataProviders.Xmla.XmlaNetworkCredential"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaNetworkCredential.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Pivot.DataProviders.Xmla.XmlaNetworkCredential"/> class.
+            </summary>
+            <param name="username">The username.</param>
+            <param name="password">The password.</param>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Xmla.XmlaNetworkCredential.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Pivot.DataProviders.Xmla.XmlaNetworkCredential"/> class.
+            </summary>
+            <param name="username">The username.</param>
+            <param name="password">The password.</param>
+            <param name="domain">The domain.</param>
+        </member>
+    </members>
+</doc>

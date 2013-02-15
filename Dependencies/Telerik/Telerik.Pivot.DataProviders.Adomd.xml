@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Telerik.Pivot.DataProviders.Adomd</name>
+    </assembly>
+    <members>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdMetadataLoader.LoadData">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Pivot.DataProviders.Adomd.AdomdAggregateDescription">
+            <summary>
+            Used to specify aggregation parameters for <see cref="T:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdAggregateDescription.CreateInstanceCore">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Pivot.DataProviders.Adomd.AdomdGroupDescription">
+            <summary>
+            Used to specify grouping parameters for <see cref="T:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdGroupDescription.CreateInstanceCore">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdGroupDescription.CloneCore(Telerik.Pivot.Core.Cloneable)">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Adomd.AdomdGroupDescription.LevelCount">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider">
+            <summary>
+            Provides Cube data access and operations using Adomd.
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.RefreshOverride">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.BlockUntilRefreshCompletes">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.CreateFieldDescriptionsProvider">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.GetAggregateDescriptionForFieldDescriptionCore(Telerik.Pivot.Core.Fields.IPivotFieldInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.GetGroupDescriptionForFieldDescriptionCore(Telerik.Pivot.Core.Fields.IPivotFieldInfo)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.GetAggregateFunctionsForAggregateDescription(Telerik.Pivot.Core.IAggregateDescription)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.SetAggregateFunctionToAggregateDescription(Telerik.Pivot.Core.IAggregateDescription,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.GetFilterDescriptionForFieldDescriptionCore(Telerik.Pivot.Core.Fields.IPivotFieldInfo)">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.FilterDescriptions">
+            <summary>
+            A list of <see cref="T:Telerik.Pivot.Core.FilterDescription"/> that specified how the pivot items should be filtered.
+            </summary>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.RowGroupDescriptions">
+            <summary>
+            A list of <see cref="T:Telerik.Pivot.DataProviders.Adomd.AdomdGroupDescription"/> that specified how the pivot should be grouped by rows.
+            </summary>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.ColumnGroupDescriptions">
+            <summary>
+            A list of <see cref="T:Telerik.Pivot.DataProviders.Adomd.AdomdGroupDescription"/> that specified how the pivot should be grouped by columns.
+            </summary>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.AggregateDescriptions">
+            <summary>
+            A list of <see cref="T:Telerik.Pivot.DataProviders.Adomd.AdomdAggregateDescription"/> that specified how the pivot should be aggregated for the groups.
+            </summary>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.Results">
+            <inheritdoc />
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.ConnectionSettings">
+            <summary>
+            Gets or sets the connection settings that are used for establishing connection to the data server.
+            </summary>
+            <value>The connection settings.</value>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider.State">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Pivot.DataProviders.Adomd.AdomdFieldDescriptionProvider">
+            <summary>
+            An <see cref="T:Telerik.Pivot.Core.Fields.IFieldDescriptionProvider"/> implementation for Adomd sources.
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdFieldDescriptionProvider.#ctor(Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Pivot.DataProviders.Adomd.AdomdFieldDescriptionProvider"/> class.
+            </summary>
+            <param name="connectionSettings">The connection settings.</param>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdFieldDescriptionProvider.GetLoader">
+            <inheritdoc />
+        </member>
+        <member name="T:Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings">
+            <summary>
+            Connection setting class used by <see cref="T:Telerik.Pivot.DataProviders.Adomd.AdomdDataProvider"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings.op_Equality(Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings,Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings)">
+            <summary>
+            Compares two instances for equality.
+            </summary>
+            <param name="left">The left.</param>
+            <param name="right">The right.</param>
+            <returns>True, if instances are equal.</returns>
+        </member>
+        <member name="M:Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings.op_Inequality(Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings,Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings)">
+            <summary>
+            Compares two instances for non-equality.
+            </summary>
+            <param name="left">The left.</param>
+            <param name="right">The right.</param>
+            <returns>True, if instances are not equal.</returns>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings.Cube">
+            <summary>
+            Gets or sets the name of the cube that will be used.
+            </summary>
+            <value>Cube name.</value>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings.Database">
+            <summary>
+            Gets or sets the database to connect to.
+            </summary>
+            <value>Database name.</value>
+        </member>
+        <member name="P:Telerik.Pivot.DataProviders.Adomd.AdomdConnectionSettings.ConnectionString">
+            <summary>
+            Gets or sets the connection string (OLE DB connection string format).
+            </summary>
+            <value>The connection string.</value>
+        </member>
+    </members>
+</doc>
