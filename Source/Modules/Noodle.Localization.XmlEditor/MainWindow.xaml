@@ -14,11 +14,13 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <telerik:RadMenu Grid.Row="0">
-            <telerik:RadMenuItem Header="_Import" Command="{Binding ImportCommand}" />
-            <telerik:RadMenuItem Header="_Export" Command="{Binding ExportCommand}" />
-            <telerik:RadMenuItem Header="E_xit" Command="{Binding ExitCommand}" />
+            <telerik:RadMenuItem Header="File">
+                <telerik:RadMenuItem Header="Import" Command="{Binding ImportCommand}" />
+                <telerik:RadMenuItem Header="Export" Command="{Binding ExportCommand}" />
+                <telerik:RadMenuItem Header="Exit" Command="{Binding ExitCommand}" />
+            </telerik:RadMenuItem>
         </telerik:RadMenu>
-        <telerik:RadTabControl ItemsSource="{Binding Languages}" ScrollMode="Item" Grid.Row="1">
+        <telerik:RadTabControl ItemsSource="{Binding Languages}" ScrollMode="Item" Grid.Row="1" ScrollViewer.ScrollChanged="ScrollViewer_OnScrollChanged">
             <telerik:RadTabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding First.Name}" />
@@ -28,11 +30,16 @@
                 <DataTemplate>
                     <telerik:RadGridView ItemsSource="{Binding Second}" 
                                         ShowGroupPanel="False"
-                                        RowIndicatorVisibility="Collapsed"
                                          AutoGenerateColumns="False">
                         <telerik:RadGridView.Columns>
-                            <telerik:GridViewColumn Name="ResourceName"  Header="Resource name" />
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding ResourceName}"  Header="Resource name" />
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding ResourceValue}"  Header="Resource name" />
                         </telerik:RadGridView.Columns>
+                        <telerik:RadGridView.RowStyle>
+                            <Style TargetType="telerik:GridViewRow">
+                                <Setter Property="Background" Value="{Binding IsMissing, Converter={StaticResource IsMissingColorConverter}}"></Setter>
+                            </Style>
+                        </telerik:RadGridView.RowStyle>
                     </telerik:RadGridView>
                 </DataTemplate>
             </telerik:RadTabControl.ContentTemplate>

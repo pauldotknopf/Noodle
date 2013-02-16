@@ -10,13 +10,25 @@ using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 using Noodle.Localization.Services;
 
-namespace Noodle.Localization.XmlEditor
+namespace Noodle.Localization.XmlEditor.ViewModel
 {
+    /// <summary>
+    /// The view model for the language manager
+    /// </summary>
     public class LanguageManagerViewModel : ViewModelBase
     {
-        private readonly ObservableCollection<Pair<Language, ObservableCollection<LocaleStringResourceModel>>> _languages = new ObservableCollection<Pair<Language, ObservableCollection<LocaleStringResourceModel>>>();
-        private ObservableCollection<string> _possibleValues = new ObservableCollection<string>();
+        #region Fields
 
+        private readonly ObservableCollection<Pair<Language, ObservableCollection<LocaleStringResourceModel>>> _languages = new ObservableCollection<Pair<Language, ObservableCollection<LocaleStringResourceModel>>>();
+        private readonly ObservableCollection<string> _possibleValues = new ObservableCollection<string>();
+
+        #endregion
+
+        #region Ctor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LanguageManagerViewModel"/> class.
+        /// </summary>
         public LanguageManagerViewModel()
         {
             if (!IsInDesignMode)
@@ -32,36 +44,61 @@ namespace Noodle.Localization.XmlEditor
                     First = new Language { Name = "English" },
                     Second = new ObservableCollection<LocaleStringResourceModel>(new List<LocaleStringResourceModel>
                     {
-                        new LocaleStringResourceModel
-                        {
-                            ResourceName = "test 1",
-                            ResourceValue = "value 1"
-                        }, new LocaleStringResourceModel
-                        {
-                            ResourceName = "test 2",
-                            ResourceValue = "value 2"
-                        }
+                        new LocaleStringResourceModel("test 1", "value 1"),
+                        new LocaleStringResourceModel("test 2", "value 2"),
+                        new LocaleStringResourceModel(new LocaleStringResource{ResourceName = "test 3", ResourceValue="value 3"})
                     })
                 });
             }
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// The languages currently being edited
+        /// </summary>
         public ObservableCollection<Pair<Language, ObservableCollection<LocaleStringResourceModel>>> Languages
         {
             get { return _languages; }
         }
 
+        /// <summary>
+        /// A list of all the possibe values.
+        /// This is used to spot missing values in other languages
+        /// </summary>
         public ObservableCollection<string> PossibleValues
         {
             get { return _possibleValues; }
         }
 
+        #endregion
+
+        #region Commands
+
+        /// <summary>
+        /// Import an xml file
+        /// </summary>
         public RelayCommand ImportCommand { get; protected set; }
 
+        /// <summary>
+        /// Export an xml file
+        /// </summary>
         public RelayCommand ExportCommand { get; protected set; }
 
+        /// <summary>
+        /// Exit the application
+        /// </summary>
         public RelayCommand ExitCommand { get; protected set; }
 
+        #endregion
+
+        #region Business Logic
+
+        /// <summary>
+        /// Export an xml file
+        /// </summary>
         private void Export()
         {
             if (_languages == null || _languages.Count == 0)
@@ -70,17 +107,21 @@ namespace Noodle.Localization.XmlEditor
                 return;
             }
 
+            string fileName = string.Empty;
+            string backupFile = string.Empty;
+
             try
             {
-                var sfdXml = new SaveFileDialog();
-                var result = sfdXml.ShowDialog();
-
-                if (result.Value)
+                var sfd = new SaveFileDialog();
+                if (sfd.ShowDialog().Value)
                 {
-                    if (File.Exists(sfdXml.FileName))
-                        File.Delete(sfdXml.FileName);
-
-                    using (var writer = File.Open(sfdXml.FileName, FileMode.OpenOrCreate, FileAccess.Write))
+                    fileName = sfd.FileName;
+                    if (File.Exists(sfd.FileName))
+                    {
+                        backupFile = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + "-backup" + Path.GetExtension(fileName));
+                        File.Move(fileName, backupFile);
+                    }
+                    using (var writer = File.Open(sfd.FileName, FileMode.OpenOrCreate, FileAccess.Write))
                     {
                         using (var xmlWriter = XmlWriter.Create(writer))
                         {
@@ -109,9 +150,18 @@ namespace Noodle.Localization.XmlEditor
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error");
+                if (!string.IsNullOrEmpty(backupFile) && File.Exists(backupFile) && !string.IsNullOrEmpty(fileName))
+                {
+                    if (File.Exists(fileName))
+                        File.Delete(fileName);
+                    File.Move(backupFile, fileName);
+                }
             }
         }
 
+        /// <summary>
+        /// Import an xml file
+        /// </summary>
         private void Import()
         {
             try
@@ -152,9 +202,14 @@ namespace Noodle.Localization.XmlEditor
             }
         }
 
+        /// <summary>
+        /// Exit the application
+        /// </summary>
         private void Exit()
         {
             Application.Current.Shutdown();
         }
+
+        #endregion
     }
 }
