@@ -415,13 +415,13 @@ namespace Noodle.FluentDateTime
             return dateTime < DateTime.Now;
         }
 
-        public static DateTime Round(this DateTime dateTime, RoundTo rt)
+        public static DateTime Round(this DateTime dateTime, TimeUnit roundTo)
         {
             DateTime rounded;
 
-            switch (rt)
+            switch (roundTo)
             {
-                case RoundTo.Second:
+                case TimeUnit.Seconds:
                     {
                         rounded = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
                         if (dateTime.Millisecond >= 500)
@@ -430,7 +430,7 @@ namespace Noodle.FluentDateTime
                         }
                         break;
                     }
-                case RoundTo.Minute:
+                case TimeUnit.Minutes:
                     {
                         rounded = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, 0);
                         if (dateTime.Second >= 30)
@@ -439,7 +439,7 @@ namespace Noodle.FluentDateTime
                         }
                         break;
                     }
-                case RoundTo.Hour:
+                case TimeUnit.Hours:
                     {
                         rounded = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, 0, 0);
                         if (dateTime.Minute >= 30)
@@ -448,7 +448,7 @@ namespace Noodle.FluentDateTime
                         }
                         break;
                     }
-                case RoundTo.Day:
+                case TimeUnit.Days:
                     {
                         rounded = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
                         if (dateTime.Hour >= 12)
@@ -459,7 +459,7 @@ namespace Noodle.FluentDateTime
                     }
                 default:
                     {
-                        throw new ArgumentOutOfRangeException("rt");
+                        throw new ArgumentOutOfRangeException("roundTo");
                     }
             }
 

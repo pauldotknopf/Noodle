@@ -7,6 +7,10 @@ using System.Web.Caching;
 
 namespace Noodle.Caching
 {
+    /// <summary>
+    /// This implementation of cache manager stores data in the httpruntime (not per request).
+    /// This should be used with ASP.NET applications
+    /// </summary>
     public class HttpRuntimeCache : ICacheManager
     {
         public virtual Cache Cache

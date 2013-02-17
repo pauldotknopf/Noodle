@@ -3,7 +3,7 @@
 namespace Noodle.Caching
 {
     /// <summary>
-    /// Represents aNullCache
+    /// An Implemntation of ICacheManager that doesn't cache
     /// </summary>
     public class NullCache : ICacheManager
     {

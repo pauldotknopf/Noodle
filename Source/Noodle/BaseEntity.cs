@@ -5,7 +5,7 @@ namespace Noodle
     /// <summary>
     /// Base class for entities
     /// </summary>
-    public abstract partial class BaseEntity<T>
+    public abstract class BaseEntity<T>
     {
         /// <summary>
         /// Gets or sets the entity identifier
@@ -56,7 +56,10 @@ namespace Noodle
         }
     }
 
-    public abstract partial class BaseEntity : BaseEntity<int>
+    /// <summary>
+    /// Base class for entities
+    /// </summary>
+    public abstract class BaseEntity : BaseEntity<int>
     {
         
     }

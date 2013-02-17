@@ -6,7 +6,10 @@ using System.Net.Mail;
 
 namespace Noodle.Email
 {
-    public partial class EmailSender : IEmailSender
+    /// <summary>
+    /// Implementations of this interface can send e-mails
+    /// </summary>
+    public class EmailSender : IEmailSender
     {
         /// <summary>
         /// Sends an email

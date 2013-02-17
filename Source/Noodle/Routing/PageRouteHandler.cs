@@ -9,6 +9,9 @@ using System.Web.UI;
 
 namespace Noodle.Routing
 {
+    /// <summary>
+    /// A route handler to a specific page
+    /// </summary>
     public class PageRouteHandler : IRouteHandler
     {
         private static readonly PropertyInfo QueryStringTextPropertyInfo = typeof(HttpRequest).GetProperty("QueryStringText",
@@ -17,6 +20,7 @@ namespace Noodle.Routing
                                                                                                   BindingFlags.NonPublic);
 
         private readonly string _physicalFile;
+
         public PageRouteHandler(string physicalFile)
         {
             _physicalFile = physicalFile;
@@ -30,11 +34,10 @@ namespace Noodle.Routing
             var existingQuery = requestContext.HttpContext.Request.QueryString.AllKeys.Select(x => x + "=" + requestContext.HttpContext.Request.QueryString[x]).ToList();
             existingQuery.AddRange(requestContext.RouteData.Values.Where(x => x.Value != null).Select(x => x.Key + "=" + x.Value.ToString()));
             var newQueryText = string.Join("&", existingQuery.ToArray());
-            HttpContext.Current.Items["newQueryTest"] = newQueryText;
-
-            QueryStringTextPropertyInfo.SetValue(HttpContext.Current.Request, HttpContext.Current.Items["newQueryTest"], new List<object>().ToArray());
+            HttpContext.Current.Items["_newQueryString"] = newQueryText;
 
             var page = BuildManager.CreateInstanceFromVirtualPath(_physicalFile, typeof(Page)) as Page;
+            if (page == null) throw new InvalidOperationException("Could not load page from file " + _physicalFile);
             page.Load += OnLoad;
             page.Init += OnLoad;
             page.PreInit += OnLoad;
@@ -44,7 +47,7 @@ namespace Noodle.Routing
 
         public void OnLoad(object sender, EventArgs e)
         {
-            QueryStringTextPropertyInfo.SetValue(HttpContext.Current.Request, HttpContext.Current.Items["newQueryTest"], new List<object>().ToArray());
+            QueryStringTextPropertyInfo.SetValue(HttpContext.Current.Request, HttpContext.Current.Items["_newQueryString"], new List<object>().ToArray());
         }
 
     }

@@ -53,7 +53,7 @@ namespace Noodle.Web
         }
 
         /// <summary>
-        /// The host part of the requested url, e.g. http://method.com/path/to/a/page.aspx?some=query.
+        /// The host part of the requested url, e.g. http://noodle.com/path/to/a/page.aspx?some=query.
         /// </summary>
         /// <remarks></remarks>
         public Url Url
@@ -82,26 +82,42 @@ namespace Noodle.Web
             return CurrentContext.GetCurrentIpAddress();
         }
 
+        /// <summary>
+        /// Gets the referring url
+        /// </summary>
+        /// <returns></returns>
         public string GetReferrerUrl()
         {
             return CurrentContext.GetReferrerUrl();
         }
 
+        /// <summary>
+        /// Get all the server variables
+        /// </summary>
         public System.Collections.Specialized.NameValueCollection ServerVariables
         {
             get { return CurrentContext.ServerVariables; }
         }
 
+        /// <summary>
+        /// Get all the query string values
+        /// </summary>
         public System.Collections.Specialized.NameValueCollection QueryString
         {
             get { return CurrentContext.QueryString; }
         }
 
+        /// <summary>
+        /// Get all the form posted values
+        /// </summary>
         public System.Collections.Specialized.NameValueCollection Form
         {
             get { return CurrentContext.Form; }
         }
 
+        /// <summary>
+        /// Get all the cookies assoicated to the request
+        /// </summary>
         public IList<System.Web.HttpCookie> Cookies
         {
             get { return CurrentContext.Cookies; }

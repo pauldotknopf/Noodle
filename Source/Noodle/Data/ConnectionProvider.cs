@@ -15,7 +15,7 @@ namespace Noodle.Data
         private readonly NoodleCoreConfiguration _configuration;
         private readonly System.Configuration.ConnectionStringSettingsCollection _connectionStrings;
 
-        public ConnectionProvider(NoodleCoreConfiguration configuration, System.Configuration.ConnectionStringSettingsCollection connectionStrings)
+        public ConnectionProvider(NoodleCoreConfiguration configuration, ConnectionStringSettingsCollection connectionStrings)
         {
             _configuration = configuration;
             _connectionStrings = connectionStrings;
@@ -85,8 +85,6 @@ namespace Noodle.Data
 
         public virtual ConnectionStringSettings GetConnectionStringSetting(string name, bool throwErrorIfMissing)
         {
-            Contract.IsNotNullOrWhitespace(name, "name");
-
             var pointers = _configuration.ConnectionStrings.AllElements.Where(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
             if (pointers.Count > 1)

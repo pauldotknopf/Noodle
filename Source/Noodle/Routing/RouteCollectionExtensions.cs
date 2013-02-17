@@ -6,7 +6,7 @@ namespace Noodle.Routing
 {
     /// <summary>
     /// Ported from .Net 4
-    /// Extensions to handle route mapping
+    /// Extensions to handle route mapping.
     /// </summary>
     public static class RouteCollectionExtensions
     {
@@ -28,9 +28,7 @@ namespace Noodle.Routing
         public static Route MapPageRoute(this RouteCollection route, string routeName, string routeUrl, string physicalFile, RouteValueDictionary defaults, RouteValueDictionary constraints, RouteValueDictionary dataTokens)
         {
             if (routeUrl == null)
-            {
                 throw new ArgumentNullException("routeUrl");
-            }
             var item = new Route(routeUrl, defaults, constraints, dataTokens, new PageRouteHandler(physicalFile));
             route.Add(routeName, item);
             return item;
@@ -39,9 +37,7 @@ namespace Noodle.Routing
         public static Route MapEmbeddedResource(this RouteCollection route, string routeName, string routeUrl, Assembly assembly, string resourceName)
         {
             if (routeUrl == null)
-            {
                 throw new ArgumentNullException("routeUrl");
-            }
             var item = new Route(routeUrl, new EmbeddedResourceRouteHandler(assembly, resourceName));
             route.Add(routeName, item);
             return item;

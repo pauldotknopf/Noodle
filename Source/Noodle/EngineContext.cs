@@ -99,16 +99,6 @@ namespace Noodle
             return Current.GetAllInstances<T>();
         }
 
-        public static object ResolveUnregistered(Type type)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static T ResolveUnregistered<T>()
-        {
-            return (T)ResolveUnregistered(typeof(T));
-        }
-
         #endregion
 
         #region AssemblyExclude/Includes
@@ -123,6 +113,16 @@ namespace Noodle
             Including = new IncludedAssemblies();
             IncludingOnly = new IncludedOnlyAssemblies();
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the configuration group manager that will be used throughout the application.
+        /// This is so that unit tests may setup other configuration sections for testing
+        /// </summary>
+        public static Func<ConfigurationGroupManager> ConfigurationGroupManager = () => new ConfigurationGroupManager("noodle");
 
         #endregion
 

@@ -8,6 +8,9 @@ using Noodle.Web;
 
 namespace Noodle.Routing
 {
+    /// <summary>
+    /// Adds a route to a resource that is embedded into an assembly
+    /// </summary>
     public class EmbeddedResourceRouteHandler : IRouteHandler
     {
         private readonly Assembly _assembly;

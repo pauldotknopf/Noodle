@@ -21,18 +21,12 @@ namespace Noodle.Configuration
 
         public override string[] AllKeys
         {
-            get
-            {
-                return _appSettings.AllKeys;
-            }
+            get { return _appSettings.AllKeys; }
         }
 
         public override int Count
         {
-            get
-            {
-                return _appSettings.Count;
-            }
+            get { return _appSettings.Count; }
         }
 
         public override void Clear()
@@ -87,10 +81,7 @@ namespace Noodle.Configuration
 
         public override KeysCollection Keys
         {
-            get
-            {
-                return _appSettings.Keys;
-            }
+            get { return _appSettings.Keys; }
         }
 
         public override void OnDeserialization(object sender)

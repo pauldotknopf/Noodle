@@ -55,14 +55,12 @@
   <ItemGroup>
     <Compile Include="BaseEntity.cs" />
     <Compile Include="Caching\AdaptiveCache.cs" />
-    <Compile Include="Caching\CacheAttribute.cs" />
     <Compile Include="Caching\CacheExtensions.cs" />
     <Compile Include="Caching\HttpRuntimeCache.cs" />
     <Compile Include="Caching\ICacheManager.cs" />
     <Compile Include="Caching\InMemoryCache.cs" />
     <Compile Include="Caching\NullCache.cs" />
     <Compile Include="Caching\PerRequestCache.cs" />
-    <Compile Include="CollectionExtensions.cs" />
     <Compile Include="Collections\CrudHelper.cs" />
     <Compile Include="Collections\DelegateEqualityComparer.cs" />
     <Compile Include="Collections\ExpiringList.cs" />
@@ -72,16 +70,14 @@
     <Compile Include="Collections\IPageableListOfT.cs" />
     <Compile Include="Collections\IQueryableList.cs" />
     <Compile Include="Collections\NamedCollection.cs" />
-    <Compile Include="Collections\PropertyBag.cs" />
     <Compile Include="Collections\QuerystringBase.cs" />
     <Compile Include="CommonExtensions.cs" />
     <Compile Include="CommonHelper.cs" />
     <Compile Include="ComponentModel\BooleanTypConverter.cs" />
     <Compile Include="ComponentModel\GenericListTypeConverter.cs" />
     <Compile Include="Configuration\AppSettings.cs" />
-    <Compile Include="Configuration\ComponentParameterCollection.cs" />
-    <Compile Include="Configuration\ComponentParameterElement.cs" />
     <Compile Include="Configuration\ConfigurationManagerWrapper.cs" />
+    <Compile Include="Configuration\ConfigurationSectionBuilder.cs" />
     <Compile Include="Configuration\ConnectionStringCollection.cs" />
     <Compile Include="Configuration\ConnectionStringElement.cs" />
     <Compile Include="Configuration\IConfigurationSectionBuilder.cs" />
@@ -93,10 +89,6 @@
     <Compile Include="Configuration\PluginCollection.cs" />
     <Compile Include="Configuration\PluginElement.cs" />
     <Compile Include="Configuration\SchedulerElement.cs" />
-    <Compile Include="ContainerExtensions.cs" />
-    <Compile Include="Contract.cs" />
-    <Compile Include="Data\ConnectionInitializer.cs" />
-    <Compile Include="Data\ConnectionInitializerPluginAttribute.cs" />
     <Compile Include="Data\ConnectionProvider.cs" />
     <Compile Include="Data\DatabaseService.cs" />
     <Compile Include="Data\DatabaseTypeEnum.cs" />
@@ -104,7 +96,6 @@
     <Compile Include="Data\IDatabaseService.cs" />
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\SqlConnectionProvider.cs" />
-    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DateTimeHelper.cs" />
     <Compile Include="DebugTextWriter.cs" />
     <Compile Include="Email\EmailAccountSettings.cs" />
@@ -114,8 +105,6 @@
     <Compile Include="Engine\AppDomainTypeFinder.cs" />
     <Compile Include="Engine\AssemblyFinder.cs" />
     <Compile Include="Engine\AsyncWorker.cs" />
-    <Compile Include="Engine\AttributeInfo.cs" />
-    <Compile Include="Engine\ContainerScopeEnum.cs" />
     <Compile Include="Engine\CoreDependencyRegistrar.cs" />
     <Compile Include="Engine\ExcludedAssemblies.cs" />
     <Compile Include="Engine\IAssemblyFinder.cs" />
@@ -136,7 +125,6 @@
     <Compile Include="FluentDateTime\DateTimeExtensions.cs" />
     <Compile Include="FluentDateTime\FluentTimeSpan.cs" />
     <Compile Include="FluentDateTime\NumberExtensions.cs" />
-    <Compile Include="FluentDateTime\RoundTo.cs" />
     <Compile Include="FluentDateTime\TimeSpanExtensions.cs" />
     <Compile Include="IDateTimeHelper.cs" />
     <Compile Include="Imaging\IImageManipulator.cs" />
@@ -172,9 +160,7 @@
     <Compile Include="Process\InvocationResult.cs" />
     <Compile Include="Process\ProcessCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionUtility.cs" />
-    <Compile Include="Reflection\PropertyAccessor.cs" />
-    <Compile Include="Reflection\StaticAccessors.cs" />
+    <Compile Include="Reflection\Private.cs" />
     <Compile Include="Resources\EmbeddedResourceHandler.cs" />
     <Compile Include="Resources\Media.cs" />
     <Compile Include="Resources\Register.cs" />
@@ -227,7 +213,6 @@
     <Compile Include="Web\Url.cs" />
     <Compile Include="Web\WebHelper.cs" />
     <Compile Include="Web\WebRequestContext.cs" />
-    <Compile Include="WriteLockDisposable.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Extensions\README.txt" />
@@ -240,6 +225,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -12,17 +12,16 @@ namespace Noodle
     /// </summary>
     public static class EnumExtensions
     {
+        #region Private
 
-
-
-        private static Dictionary<Type, Dictionary<string, Enum>> values = null;
-        private static Dictionary<Type, Dictionary<Enum, string>> preferredValues = null;
+        private static Dictionary<Type, Dictionary<string, Enum>> _values = null;
+        private static Dictionary<Type, Dictionary<Enum, string>> _preferredValues = null;
 
         private static void LoadValues(Type t)
         {
             //Copy dictionary so we can modify it safely.
-            var v = values;
-            var p = preferredValues;
+            var v = _values;
+            var p = _preferredValues;
             if (v == null) v = new Dictionary<Type, Dictionary<string, Enum>>();
             else v = new Dictionary<Type, Dictionary<string, Enum>>(v);
             if (p == null) p = new Dictionary<Type, Dictionary<Enum, string>>();
@@ -60,28 +59,32 @@ namespace Noodle
             p[t] = ep;
 
             //Swap references
-            values = v;
-            preferredValues = p;
+            _values = v;
+            _preferredValues = p;
 
         }
 
         private static Dictionary<string, Enum> GetValues(Type t)
         {
-            if (values == null) LoadValues(t);
+            if (_values == null) LoadValues(t);
             Dictionary<string, Enum> d = null;
-            if (!values.TryGetValue(t, out d)) LoadValues(t);
-            if (!values.TryGetValue(t, out d)) return null;
+            if (!_values.TryGetValue(t, out d)) LoadValues(t);
+            if (!_values.TryGetValue(t, out d)) return null;
             return d;
         }
 
         private static Dictionary<Enum, string> GetPreferredStrings(Type t)
         {
-            if (preferredValues == null) LoadValues(t);
+            if (_preferredValues == null) LoadValues(t);
             Dictionary<Enum, string> d;
-            if (!preferredValues.TryGetValue(t, out d)) LoadValues(t);
-            if (!preferredValues.TryGetValue(t, out d)) return null;
+            if (!_preferredValues.TryGetValue(t, out d)) LoadValues(t);
+            if (!_preferredValues.TryGetValue(t, out d)) return null;
             return d;
         }
+
+        #endregion
+
+        #region Public
 
         /// <summary>
         /// Attempts case-insensitive parsing of the specified enum. Returns the specified default value if parsing fails.
@@ -89,10 +92,11 @@ namespace Noodle
         /// </summary>
         /// <param name="en"></param>
         /// <param name="value"></param>
+        /// <param name="defaultValue"></param>
         /// <returns></returns>
         public static T Parse<T>(T en, string value, T defaultValue) where T : struct, IConvertible
         {
-            T? val = EnumExtensions.Parse<T>(en, value);
+            var val = Parse(en, value);
             return val == null ? defaultValue : val.Value;
         }
 
@@ -107,16 +111,23 @@ namespace Noodle
         {
             return Parse<T>(value);
         }
+
+        /// <summary>
+        /// Attempts case-insensitive parsing of the specified enum. Returns null if parsing failed.
+        /// Supports [EnumString("Alternate Value")] attributes and parses flags. If any segment of a comma-delimited list isn't parsed as either a number or string, null will be returned.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static T? Parse<T>(string value) where T : struct, IConvertible
         {
-            //Reject empty or whitespace values
+            // reject empty or whitespace values
             if (string.IsNullOrEmpty(value)) return null;
             value = value.Trim();
             if (string.IsNullOrEmpty(value)) return null;
 
-            //Get the type and load the dictionary
-            Type t = typeof(T);
-            Dictionary<string, Enum> d = GetValues(t);
+            // get the type and load the dictionary
+            var t = typeof(T);
+            var d = GetValues(t);
 
             //Always parse flags, mimic Enum.Parse behavior. 
             long num = 0;
@@ -140,10 +151,10 @@ namespace Noodle
                     num = num | Convert.ToInt64(part);
                     parsedSomething = true;
                 }
-                else return null; //If we fail to parse any non-empty bit, return null
+                else return null; // if we fail to parse any non-empty bit, return null
 
             }
-            //Only return a value if we parsed something 
+            // only return a value if we parsed something 
             return parsedSomething ? (Enum.ToObject(t, num) as T?) : null;
         }
 
@@ -155,20 +166,13 @@ namespace Noodle
         /// <returns></returns>
         public static string ToPreferredString(Enum en, bool lowerCase) //ext method
         {
-            Type t = en.GetType();
-            bool isFlags = false; //Not supported yet t.IsDefined(typeof(FlagsAttribute), false);
-
-            Dictionary<Enum, string> d = GetPreferredStrings(t);
-
-            //Simple path
-            if (!isFlags)
-            {
-                string temp;
-                if (!d.TryGetValue(en, out temp)) temp = en.ToString();
-                return lowerCase ? temp.ToLowerInvariant() : temp;
-            }
-            return null;
-            //TODO: loop through keys and use binary comparison to build a comma delimited list
+            var t = en.GetType();
+            var d = GetPreferredStrings(t);
+            string temp;
+            if (!d.TryGetValue(en, out temp)) temp = en.ToString();
+            return lowerCase ? temp.ToLowerInvariant() : temp;
         }
+
+        #endregion
     }
 }

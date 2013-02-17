@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Noodle
+namespace Noodle.Tests
 {
     public static class DateTimeExtensions
     {

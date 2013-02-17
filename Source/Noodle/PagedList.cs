@@ -18,15 +18,15 @@ namespace Noodle
         public PagedList(IQueryable<T> source, int pageIndex, int pageSize)
         {
             int total = source.Count();
-            this.TotalCount = total;
-            this.TotalPages = total / pageSize;
+            TotalCount = total;
+            TotalPages = total / pageSize;
 
             if (total % pageSize > 0)
                 TotalPages++;
 
-            this.PageSize = pageSize;
-            this.PageIndex = pageIndex;
-            this.AddRange(source.Skip(pageIndex * pageSize).Take(pageSize).ToList());
+            PageSize = pageSize;
+            PageIndex = pageIndex;
+            AddRange(source.Skip(pageIndex * pageSize).Take(pageSize).ToList());
         }
 
         /// <summary>
@@ -35,34 +35,51 @@ namespace Noodle
         /// <param name="source">source</param>
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page size</param>
-        /// <param name="totalCount">the total count, if the passed in source isn't the entire collection</param>
-        /// <param name="alreadyPaged"></param>
-        public PagedList(IList<T> source, int pageIndex, int pageSize, int? totalCount = null, bool alreadyPaged = true)
+        /// <param name="totalCount">the total count</param>
+        public PagedList(IEnumerable<T> source, int pageIndex, int pageSize, int totalCount)
         {
-            TotalCount = totalCount.HasValue ? totalCount.Value : source.Count();
+            TotalCount = totalCount;
             TotalPages = TotalCount / pageSize;
 
             if (TotalCount % pageSize > 0)
                 TotalPages++;
 
-            this.PageSize = pageSize;
-            this.PageIndex = pageIndex;
-            if (!alreadyPaged)
-                this.AddRange(source.Skip(pageIndex * pageSize).Take(pageSize).ToList());
-            else
-                this.AddRange(source);
+            PageSize = pageSize;
+            PageIndex = pageIndex;
+            AddRange(source);
         }
 
+        /// <summary>
+        /// The page index (0-based)
+        /// </summary>
         public int PageIndex { get; private set; }
+
+        /// <summary>
+        /// The page size
+        /// </summary>
         public int PageSize { get; private set; }
+
+        /// <summary>
+        /// The total number of items
+        /// </summary>
         public int TotalCount { get; private set; }
+
+        /// <summary>
+        /// The total number of pages
+        /// </summary>
         public int TotalPages { get; private set; }
 
+        /// <summary>
+        /// Is there a previous page
+        /// </summary>
         public bool HasPreviousPage
         {
             get { return (PageIndex > 0); }
         }
 
+        /// <summary>
+        /// Is there a next page
+        /// </summary>
         public bool HasNextPage
         {
             get { return (PageIndex + 1 < TotalPages); }

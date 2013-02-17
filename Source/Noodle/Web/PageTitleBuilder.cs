@@ -40,7 +40,7 @@ namespace Noodle.Web
 
         public string GenerateTitle(bool addDefaultTitle)
         {
-            string result = "";
+            string result;
             var specificTitle = string.Join(_seoSettings.PageTitleSeparator, _titleParts.AsEnumerable().Reverse().ToArray());
             if (!String.IsNullOrEmpty(specificTitle))
             {

@@ -6,7 +6,9 @@ using System.Collections.ObjectModel;
 
 namespace Noodle.Linq
 {
-
+    /// <summary>
+    /// A base expression visitor for linq expression translations
+    /// </summary>
     public abstract class ExpressionVisitor
     {
         public ExpressionVisitor()

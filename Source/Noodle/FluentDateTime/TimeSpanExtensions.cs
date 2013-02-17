@@ -134,17 +134,17 @@ namespace Noodle.FluentDateTime
         {
             if (timeSpan.TotalDays > 1)
             {
-                var round = timeSpan.Round(RoundTo.Hour);
+                var round = timeSpan.Round(TimeUnit.Hours);
                 return string.Format("{0} days and {1} hours", round.Days, round.Hours);
             }
             if (timeSpan.TotalHours > 1)
             {
-                var round = timeSpan.Round(RoundTo.Minute);
+                var round = timeSpan.Round(TimeUnit.Minutes);
                 return string.Format("{0} hours and {1} minutes", round.Hours, round.Minutes);
             }
             if (timeSpan.TotalMinutes > 1)
             {
-                var round = timeSpan.Round(RoundTo.Second);
+                var round = timeSpan.Round(TimeUnit.Seconds);
                 return string.Format("{0} minutes and {1} seconds", round.Minutes, round.Seconds);
             }
             if (timeSpan.TotalSeconds > 1)
@@ -155,13 +155,13 @@ namespace Noodle.FluentDateTime
         }
 
 
-        public static TimeSpan Round(this TimeSpan timeSpan, RoundTo rt)
+        public static TimeSpan Round(this TimeSpan timeSpan, TimeUnit roundTo)
         {
             TimeSpan rounded;
 
-            switch (rt)
+            switch (roundTo)
             {
-                case RoundTo.Second:
+                case TimeUnit.Seconds:
                     {
                         rounded = new TimeSpan(timeSpan.Days, timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
                         if (timeSpan.Milliseconds >= 500)
@@ -170,7 +170,7 @@ namespace Noodle.FluentDateTime
                         }
                         break;
                     }
-                case RoundTo.Minute:
+                case TimeUnit.Minutes:
                     {
                         rounded = new TimeSpan(timeSpan.Days, timeSpan.Hours, timeSpan.Minutes, 0);
                         if (timeSpan.Seconds >= 30)
@@ -179,7 +179,7 @@ namespace Noodle.FluentDateTime
                         }
                         break;
                     }
-                case RoundTo.Hour:
+                case TimeUnit.Hours:
                     {
                         rounded = new TimeSpan(timeSpan.Days, timeSpan.Hours, 0, 0);
                         if (timeSpan.Minutes >= 30)
@@ -188,7 +188,7 @@ namespace Noodle.FluentDateTime
                         }
                         break;
                     }
-                case RoundTo.Day:
+                case TimeUnit.Days:
                     {
                         rounded = new TimeSpan(timeSpan.Days, 0, 0, 0);
                         if (timeSpan.Hours >= 12)
@@ -205,7 +205,5 @@ namespace Noodle.FluentDateTime
 
             return rounded;
         }
-
-        //TODO: equality tests: DateIsEqual() TimeIsEqual() 
     }
 }

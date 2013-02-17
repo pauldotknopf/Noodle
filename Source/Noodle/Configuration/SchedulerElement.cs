@@ -17,19 +17,5 @@ namespace Noodle.Configuration
             get { return (int)base["interval"]; }
             set { base["interval"] = value; }
         }
-
-        [ConfigurationProperty("keepAlive", DefaultValue = false)]
-        public bool KeepAlive
-        {
-            get { return (bool)base["keepAlive"]; }
-            set { base["keepAlive"] = value; }
-        }
-
-        [ConfigurationProperty("keepAlivePath", DefaultValue = "{ManagementUrl}/Resources/keepalive/ping.ashx")]
-        public string KeepAlivePath
-        {
-            get { return (string)base["keepAlivePath"]; }
-            set { base["keepAlivePath"] = value; }
-        }
     }
 }

@@ -7,13 +7,24 @@ using System.Text;
 
 namespace Noodle.Collections
 {
+    /// <summary>
+    /// A namevalue collection that is easilt build for a query string
+    /// </summary>
+    /// <typeparam name="TK"></typeparam>
     public class QuerystringBase<TK> : NameValueCollection where TK : QuerystringBase<TK>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QuerystringBase{TK}"/> class.
+        /// </summary>
         public QuerystringBase()
             : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QuerystringBase{TK}"/> class with a namevalue collection (gotten from asp.net current request?)
+        /// </summary>
+        /// <param name="q">The q.</param>
         public QuerystringBase(NameValueCollection q)
             : base(q)
         {

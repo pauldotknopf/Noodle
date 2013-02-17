@@ -20,17 +20,10 @@ namespace Noodle.Web
         /// <remarks></remarks>
         public static void CreateCookie(this HttpResponse response, string cookieName, string key, string value, DateTime expiryTime)
         {
-            try
-            {
-                var cookie = new HttpCookie(cookieName);
-                cookie.Expires = expiryTime;
-                cookie.Values[key] = value;
-                response.Cookies.Add(cookie);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            var cookie = new HttpCookie(cookieName);
+            cookie.Expires = expiryTime;
+            cookie.Values[key] = value;
+            response.Cookies.Add(cookie);
         }
 
         /// <summary>
@@ -41,13 +34,7 @@ namespace Noodle.Web
         /// <remarks></remarks>
         public static void AddCookie(this HttpResponse response, HttpCookie cookie)
         {
-            try
-            {
-                response.Cookies.Add(cookie);
-            }
-            catch (Exception)
-            {
-            }
+            response.Cookies.Add(cookie);
         }
 
         /// <summary>
@@ -63,37 +50,19 @@ namespace Noodle.Web
         public static void UpdateCookie(this HttpResponse response, string cookieName, string key, string newValue, DateTime? expiryTime = null,
             string subDomainName = "")
         {
-            try
-            {
-                HttpCookie cookie = null;
+            if (response.Cookies[cookieName] == null)
+                throw new NullReferenceException("The cookie with name " + cookieName + " does not exist.");
 
-                if (response.Cookies[cookieName] == null)
-                {
-                    throw new NullReferenceException("The cookie with name " + cookieName + " does not exist.");
-                }
-                else
-                {
-                    cookie = response.Cookies[cookieName];
-                }
+            var cookie = response.Cookies[cookieName];
+            cookie.Values[key] = newValue;
 
-                cookie.Values[key] = newValue;
+            if (expiryTime.HasValue)
+                cookie.Expires = expiryTime.Value;
 
-                if (expiryTime.HasValue)
-                {
-                    cookie.Expires = expiryTime.Value;
-                }
+            if (!string.IsNullOrEmpty(subDomainName.Trim()))
+                cookie.Domain = subDomainName;
 
-                if (!string.IsNullOrEmpty(subDomainName.Trim()))
-                {
-                    cookie.Domain = subDomainName;
-                }
-
-                response.Cookies.Set(cookie);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            response.Cookies.Set(cookie);
         }
 
         /// <summary>
@@ -106,17 +75,7 @@ namespace Noodle.Web
         /// <remarks></remarks>
         public static string GetCookieValue(this HttpRequest request, string cookieName, string valueKey)
         {
-            string cookieValue = string.Empty;
-            try
-            {
-                cookieValue = request.Cookies[cookieName].Values[valueKey];
-            }
-            catch (Exception ex)
-            {
-                cookieValue = string.Empty;
-                throw ex;
-            }
-            return cookieValue;
+            return request.Cookies[cookieName].Values[valueKey];
         }
 
         /// <summary>
@@ -127,14 +86,7 @@ namespace Noodle.Web
         /// <remarks></remarks>
         public static void DeleteCookie(this HttpResponse resposne, string cookieName)
         {
-            try
-            {
-                resposne.Cookies[cookieName].Expires = DateTime.Today.AddMinutes(-1);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            resposne.Cookies[cookieName].Expires = DateTime.Today.AddMinutes(-1);
         }
 
         /// <summary>
@@ -146,20 +98,12 @@ namespace Noodle.Web
         /// <remarks></remarks>
         public static bool CookieExists(this HttpRequest request, string cookieName)
         {
-            try
+            var cookie = request.Cookies[cookieName];
+            if (cookie == null)
             {
-                var cookie = request.Cookies[cookieName];
-                if (cookie == null)
-                {
-                    return false;
-                }
-                return true;
+                return false;
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            return true;
         }
-
     }
 }

@@ -6,7 +6,7 @@ namespace Noodle.Engine
     /// <summary>
     /// Wraps logging oprations performed by N2.
     /// </summary>
-    public struct Logger<T>
+    public class Logger<T>
     {
         private LogWriterBase Writer
         {

@@ -20,8 +20,8 @@ namespace Noodle.Security
 
         public string CreatePasswordHash(string password, string saltkey, FormsAuthPasswordFormat passwordFormat = FormsAuthPasswordFormat.SHA1)
         {
-            string saltAndPassword = String.Concat(password, saltkey);
-            string hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(saltAndPassword, passwordFormat.ToString());
+            var saltAndPassword = String.Concat(password, saltkey);
+            var hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(saltAndPassword, passwordFormat.ToString());
             return hashedPassword;
         }
 

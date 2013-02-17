@@ -27,6 +27,9 @@ namespace Noodle.Collections
             _refofMainList.Remove(this);
         }
 
+        /// <summary>
+        /// The enclosing item
+        /// </summary>
         public T Item
         {
             get { return _item; }

@@ -9,9 +9,7 @@ namespace Noodle
 {
     public static class NameValueCollectionExtensions
     {
-
-        private static NumberStyles floatingPointStyle = NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite |
-            NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands | NumberStyles.AllowExponent;
+        private const NumberStyles FloatingPointStyle = NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands | NumberStyles.AllowExponent;
 
         /// <summary>
         /// Provides culture-invariant parsing of int, double, float, bool, and enum values.
@@ -60,7 +58,7 @@ namespace Noodle
         public static T? ParsePrimitive<T>(string value, T? defaultValue) where T : struct,IConvertible
         {
             if (value == null) return defaultValue;
-            value = value.Trim(); //Trim whitespace
+            value = value.Trim(); // trim whitespace
             if (value.Length == 0) return defaultValue;
 
             Type t = typeof(T);
@@ -78,12 +76,12 @@ namespace Noodle
             else if (t == typeof(double))
             {
                 double temp = 0;
-                if (double.TryParse(value, floatingPointStyle, NumberFormatInfo.InvariantInfo, out temp)) return temp as T?;
+                if (double.TryParse(value, FloatingPointStyle, NumberFormatInfo.InvariantInfo, out temp)) return temp as T?;
             }
             else if (t == typeof(float))
             {
                 float temp = 0;
-                if (float.TryParse(value, floatingPointStyle, NumberFormatInfo.InvariantInfo, out temp)) return temp as T?;
+                if (float.TryParse(value, FloatingPointStyle, NumberFormatInfo.InvariantInfo, out temp)) return temp as T?;
             }
             else if (t == typeof(bool))
             {
@@ -104,7 +102,7 @@ namespace Noodle
             }
             else
             {
-                T? val = value as T?; //Just try casting
+                var val = value as T?; //Just try casting
                 if (val.HasValue) return val;
             }
 

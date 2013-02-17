@@ -5,16 +5,27 @@ using System.Linq;
 
 namespace Noodle.Collections
 {
+    /// <summary>
+    /// A collection of INameable objects
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class NamedCollection<T> : INamedCollection<T>, IList where T : class, INameable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NamedCollection{T}"/> class.
+        /// </summary>
         public NamedCollection()
 		{
 			_inner = new List<T>();
 		}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NamedCollection{T}"/> class with an existing collection
+        /// </summary>
+        /// <param name="inner">The inner.</param>
         public NamedCollection(IEnumerable<T> inner)
 		{
-			this._inner = inner.ToList();
+			_inner = inner.ToList();
 		}
 
 		private List<T> _inner;

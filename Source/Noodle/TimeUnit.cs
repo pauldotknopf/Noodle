@@ -7,6 +7,7 @@
     {
         Seconds,
         Minutes,
-        Hours
+        Hours,
+        Days
     }
 }

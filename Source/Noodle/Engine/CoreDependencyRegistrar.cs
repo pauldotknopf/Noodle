@@ -19,23 +19,6 @@ namespace Noodle.Engine
     {
         public static void Register(Container container)
         {
-            var configuration = new ConfigurationManagerWrapper();
-            NoodleCoreConfiguration coreConfig = null;
-            try
-            {
-                coreConfig = configuration.GetSection<NoodleCoreConfiguration>("core");
-            }
-            catch (ConfigurationErrorsException ex)
-            {
-                if (ex.Message.Contains("Missing configuration section at 'core'"))
-                {
-                    coreConfig = new NoodleCoreConfiguration();
-                }
-                else
-                {
-                    throw;
-                }
-            }
             if (WebConfigurationManager.ConnectionStrings != null)
             {
                 container.RegisterSingle(WebConfigurationManager.ConnectionStrings);
@@ -46,8 +29,9 @@ namespace Noodle.Engine
                 container.RegisterSingle(ConfigurationManager.ConnectionStrings);
                 container.RegisterSingle(new AppSettings(ConfigurationManager.AppSettings));
             }
-            container.RegisterSingle(coreConfig);
-            container.RegisterSingle(configuration);
+            container.RegisterSingle(EngineContext.ConfigurationGroupManager().GetSection<NoodleCoreConfiguration>("core", true));
+            container.RegisterSingle(EngineContext.ConfigurationGroupManager());
+            container.RegisterSingle<IWorker, AsyncWorker>();
             container.RegisterSingle<ITypeFinder, AppDomainTypeFinder>();
             container.RegisterSingle<IAssemblyFinder, AssemblyFinder>();
             container.RegisterSingle<ISerializer, BinaryStringSerializer>();
@@ -59,7 +43,6 @@ namespace Noodle.Engine
             container.RegisterSingle<IEmailSender, EmailSender>();
             container.RegisterPerWebRequest<IPageTitleBuilder, PageTitleBuilder>();
             container.RegisterSingle<ISecurityManager, DefaultSecurityManager>();
-            container.RegisterSingle<IWorker, AsyncWorker>();
             container.RegisterSingle<IPluginBootstrapper, PluginBootstrapper>();
             container.RegisterSingle<IPluginFinder, PluginFinder>();
             container.RegisterSingle<IHeart, Heart>();
