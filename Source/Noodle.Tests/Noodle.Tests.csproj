@@ -74,6 +74,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -95,6 +96,7 @@
     <Compile Include="FakeSecurityManager.cs" />
     <Compile Include="FakeTypeFinder.cs" />
     <Compile Include="FluentTimeSpanTests.cs" />
+    <Compile Include="ImageLayoutBuilderTests.cs" />
     <Compile Include="Plugins\PlugIn1.cs" />
     <Compile Include="Plugins\PlugIn2.cs" />
     <Compile Include="Plugins\PlugIn3.cs" />

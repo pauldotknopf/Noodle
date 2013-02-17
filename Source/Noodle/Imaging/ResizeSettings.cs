@@ -39,17 +39,17 @@ namespace Noodle.Imaging
         /// <param name="mode"></param>
         public ResizeSettings(int width, int height, FitMode mode)
         {
-            this.Width = width;
-            this.Height = height;
-            this.Mode = mode;
+            Width = width;
+            Height = height;
+            Mode = mode;
         }
 
 
-        protected int get(string name, int defaultValue) { return this.Get<int>(name, defaultValue); }
-        protected void set(string name, int value) { this.Set<int>(name, value); }
+        protected int Get(string name, int defaultValue) { return this.Get<int>(name, defaultValue); }
+        protected void Set(string name, int value) { this.Set<int>(name, value); }
 
-        protected double get(string name, double defaultValue) { return this.Get<double>(name, defaultValue); }
-        protected void set(string name, double value) { this.Set<double>(name, value); }
+        protected double Get(string name, double defaultValue) { return this.Get<double>(name, defaultValue); }
+        protected void Set(string name, double value) { this.Set<double>(name, value); }
 
         /// <summary>
         /// ["width"]: Sets the desired width of the image. (minus padding, borders, margins, effects, and rotation). 
@@ -62,11 +62,11 @@ namespace Noodle.Imaging
         {
             get
             {
-                return get("width", get("w", -1));
+                return Get("width", Get("w", -1));
             }
             set
             {
-                set("width", value); this.Remove("w");
+                Set("width", value); this.Remove("w");
             }
         }
 
@@ -79,14 +79,8 @@ namespace Noodle.Imaging
         /// </summary>
         public int Height
         {
-            get
-            {
-                return get("height", get("h", -1));
-            }
-            set
-            {
-                set("height", value); this.Remove("h");
-            }
+            get { return Get("height", Get("h", -1)); }
+            set { Set("height", value); this.Remove("h"); }
         }
 
         /// <summary>
@@ -95,32 +89,9 @@ namespace Noodle.Imaging
         /// </summary>
         public int MaxWidth
         {
-            get
-            {
-                return get("maxwidth", -1);
-            }
-            set
-            {
-                set("maxwidth", value);
-            }
+            get { return Get("maxwidth", -1); }
+            set { Set("maxwidth", value); }
         }
-
-
-        /// <summary>
-        /// ["quality"]: The jpeg encoding quality to use. (10..100). 90 is the default and best value, you should leave it.
-        /// </summary>
-        public int Quality
-        {
-            get
-            {
-                return get("quality", 90);
-            }
-            set
-            {
-                set("quality", value);
-            }
-        }
-
 
         /// <summary>
         /// ["maxheight"]: Sets the maximum desired height of the image.  (minus padding, borders, margins, effects, and rotation). 
@@ -128,14 +99,8 @@ namespace Noodle.Imaging
         /// </summary>
         public int MaxHeight
         {
-            get
-            {
-                return get("maxheight", -1);
-            }
-            set
-            {
-                set("maxheight", value);
-            }
+            get { return Get("maxheight", -1); }
+            set { Set("maxheight", value); }
         }
 
         /// <summary>
@@ -143,14 +108,8 @@ namespace Noodle.Imaging
         /// </summary>
         public FitMode Mode
         {
-            get
-            {
-                return Get("mode", FitMode.None);
-            }
-            set
-            {
-                Set<FitMode>("mode", value);
-            }
+            get { return Get("mode", FitMode.None); }
+            set { Set<FitMode>("mode", value); }
         }
 
         /// <summary>
@@ -158,46 +117,8 @@ namespace Noodle.Imaging
         /// </summary>
         public ContentAlignment Anchor
         {
-            get
-            {
-                return this.Get<ContentAlignment>("anchor", ContentAlignment.MiddleCenter);
-            }
-            set
-            {
-                this.Set<ContentAlignment>("anchor", value);
-            }
-        }
-
-
-
-        /// <summary>
-        /// Allows you to flip the entire resulting image vertically, horizontally, or both. Rotation is not supported.
-        /// </summary>
-        public RotateFlipType Flip
-        {
-            get
-            {
-                return (RotateFlipType)this.Get<FlipMode>("flip", FlipMode.None);
-            }
-            set
-            {
-                this.Set<FlipMode>("flip", (FlipMode)value);
-            }
-        }
-
-        /// <summary>
-        /// ["sFlip"] Allows you to flip the source image vertically, horizontally, or both. Rotation is not supported.
-        /// </summary>
-        public RotateFlipType SourceFlip
-        {
-            get
-            {
-                return (RotateFlipType)this.Get<FlipMode>("sFlip", this.Get<FlipMode>("sourceFlip", FlipMode.None));
-            }
-            set
-            {
-                this.Set<FlipMode>("sflip", (FlipMode)value);
-            }
+            get { return Get("anchor", ContentAlignment.MiddleCenter); }
+            set { Set<ContentAlignment>("anchor", value); }
         }
 
         /// <summary>
@@ -206,14 +127,8 @@ namespace Noodle.Imaging
         /// </summary>
         public ScaleMode Scale
         {
-            get
-            {
-                return this.Get<ScaleMode>("scale", ScaleMode.DownscaleOnly);
-            }
-            set
-            {
-                this.Set<ScaleMode>("scale", value);
-            }
+            get { return Get("scale", ScaleMode.DownscaleOnly); }
+            set { Set<ScaleMode>("scale", value); }
         }
 
         /// <summary>
@@ -223,8 +138,7 @@ namespace Noodle.Imaging
         /// <returns></returns>
         public override string ToString()
         {
-            // TODO: return something meaning ful
-            return base.ToString();
+            return string.Join(";", Keys.Cast<string>().Select(x => x + ":" + this[x]));
         }
 
         /// <summary>
