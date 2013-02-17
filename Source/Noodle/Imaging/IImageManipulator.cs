@@ -9,45 +9,19 @@ namespace Noodle.Imaging
     public interface IImageManipulator
     {
         /// <summary>
-        /// Resize a file system image
+        /// Resize an image
         /// </summary>
-        /// <param name="image"></param>
+        /// <param name="source"></param>
         /// <param name="parameters"></param>
-        /// <param name="resizedImage"></param>
         /// <returns></returns>
-        bool Resize(FileInfo image, ImageResizeParameters parameters, FileInfo resizedImage);
-        
-        /// <summary>
-        /// Resize an image in memory
-        /// </summary>
-        /// <param name="inputStream"></param>
-        /// <param name="parameters"></param>
-        /// <param name="outputStream"></param>
-        /// <returns></returns>
-        bool Resize(Stream inputStream, ImageResizeParameters parameters, Stream outputStream);
-        
-        /// <summary>
-        /// Resize an image in memory with the Bitmap object
-        /// </summary>
-        /// <param name="original"></param>
-        /// <param name="parameters"></param>
-        /// <param name="output"></param>
-        void Resize(Bitmap original, ImageResizeParameters parameters, Stream output);
+        Bitmap Resize(object source, ResizeSettings parameters);
 
         /// <summary>
-        /// Rotate an image
+        /// Manipulate (and resize) an image
         /// </summary>
-        /// <param name="original"></param>
-        /// <param name="rotateFlipType"></param>
-        /// <param name="output"></param>
-        void Rotate(Bitmap original, RotateFlipType rotateFlipType, Stream output);
-
-        /// <summary>
-        /// Rotate an image
-        /// </summary>
-        /// <param name="original"></param>
-        /// <param name="rotateFlipType"></param>
+        /// <param name="source"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        Bitmap Rotate(Bitmap original, RotateFlipType rotateFlipType);
+        Bitmap Manipulate(object source, ImageManipulationSettings parameters);
     }
 }

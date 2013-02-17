@@ -19,7 +19,7 @@ namespace Noodle.Imaging
         /// <summary>
         /// Creates an empty settings collection. 
         /// </summary>
-        public ResizeSettings() : base() { }
+        public ResizeSettings() { }
         /// <summary>
         /// Copies the specified collection into a new ResizeSettings instance.
         /// </summary>

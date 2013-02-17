@@ -13,20 +13,22 @@ using Noodle.Tests;
 namespace Noodle.Tests
 {
     [TestFixture]
-    public class ImageLayoutBuilderTests : TestBase
+    public class ImagingTests : TestBase
     {
-        private IImageLayoutBuilder _imageLayoutBuilder;
+        protected IImageLayoutBuilder _imageLayoutBuilder;
+        protected IImageManipulator _ImageManipulator;
 
         public override void SetUp()
         {
             base.SetUp();
             _imageLayoutBuilder = new ImageLayoutBuilder();
+            _ImageManipulator = new NoodleImageManipulator(_imageLayoutBuilder);
         }
 
         #region ScaleMode
 
         [Test]
-        public void Can_scale_down_only()
+        public virtual void Can_scale_down_only()
         {
             // nothing changes
             AssertLayout("width=200&height=100", "",
@@ -70,7 +72,7 @@ namespace Noodle.Tests
         }
 
         [Test]
-        public void Can_scale_up_only()
+        public virtual void Can_scale_up_only()
         {
             // nothing changes
             AssertLayout("width=200&height=100", "scale=up",
@@ -114,7 +116,7 @@ namespace Noodle.Tests
         }
 
         [Test]
-        public void Can_scale_both()
+        public virtual void Can_scale_both()
         {
             // nothing changes
             AssertLayout("width=200&height=100", "scale=both",
@@ -162,7 +164,7 @@ namespace Noodle.Tests
         #region Fit
 
         [Test]
-        public void Can_auto_choose_fit_based_on_values()
+        public virtual void Can_auto_choose_fit_based_on_values()
         {
             // both with and height given, we are using Pad, which adds padding
             AssertLayout("width=200&height=100", "width=400&height=400&scale=both",
@@ -210,7 +212,7 @@ namespace Noodle.Tests
         }
 
         [Test]
-        public void Can_fit_stretch()
+        public virtual void Can_fit_stretch()
         {
             // stretch behaves like max if only width or height specified
             AssertLayout("width=400&height=200", "height=100&mode=stretch",
@@ -253,7 +255,7 @@ namespace Noodle.Tests
         }
 
         [Test]
-        public void Can_fit_max()
+        public virtual void Can_fit_max()
         {
             AssertLayout("width=400&height=200", "height=100&width=100&mode=max",
                 image =>
@@ -294,7 +296,7 @@ namespace Noodle.Tests
         }
 
         [Test]
-        public void Can_fit_pad()
+        public virtual void Can_fit_pad()
         {
             // specifying only one values acts like max
             AssertLayout("width=400&height=200", "height=100&mode=pad",
@@ -344,7 +346,7 @@ namespace Noodle.Tests
         }
 
         [Test]
-        public void Can_fit_crop()
+        public virtual void Can_fit_crop()
         {
             // specifying only one values acts like max
             AssertLayout("width=400&height=200", "height=100&mode=crop",
@@ -398,7 +400,7 @@ namespace Noodle.Tests
         #region Anchor
 
         [Test]
-        public void Can_anchor_content_with_pad()
+        public virtual void Can_anchor_content_with_pad()
         {
             // too long
             AssertLayout("width=400&height=200", "height=200&width=200&mode=pad&anchor=topCenter",
@@ -467,7 +469,7 @@ namespace Noodle.Tests
         }
 
         [Test]
-        public void Can_anchor_content_with_crop()
+        public virtual void Can_anchor_content_with_crop()
         {
             // too long
             AssertLayout("width=400&height=200", "height=100&width=100&mode=crop&anchor=middleLeft",
@@ -537,7 +539,51 @@ namespace Noodle.Tests
 
         #endregion
 
-        private void AssertLayout(string sourceSize, string resizeSettings, Action<RectangleF> assertImage, Action<SizeF> assertCanvas)
+        #region Formats
+
+        [Test]
+        public void Can_resize_jpg()
+        {
+            ResizeResource(new ResizeSettings(300, 300, FitMode.Pad), 
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/sample-jpg.jpg"), 
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "jpg-resized.jpg"));
+        }
+
+        [Test]
+        public void Can_resize_bmp()
+        {
+            ResizeResource(new ResizeSettings(300, 300, FitMode.Pad),
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/sample-bmp.bmp"),
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bmp-resized.bmp"));
+        }
+
+        [Test]
+        public void Can_resize_gif()
+        {
+            ResizeResource(new ResizeSettings(300, 300, FitMode.Pad),
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/sample-gif.gif"),
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "gif-resized.gif"));
+        }
+
+        [Test]
+        public void Can_resize_png()
+        {
+            ResizeResource(new ResizeSettings(300, 300, FitMode.Pad),
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/sample-png.png"),
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "png-resized.png"));
+        }
+
+        [Test]
+        public void Can_resize_tif()
+        {
+            ResizeResource(new ResizeSettings(300, 300, FitMode.Pad),
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/sample-tif.tif"),
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tif-resized.tif"));
+        }
+
+        #endregion
+
+        protected virtual void AssertLayout(string sourceSize, string resizeSettings, Action<RectangleF> assertImage, Action<SizeF> assertCanvas)
         {
             var sourceSizeSettings = new ResizeSettings(sourceSize);
             var result = _imageLayoutBuilder.BuildLayout(new Size(sourceSizeSettings.Width, sourceSizeSettings.Height), new ResizeSettings(resizeSettings));
@@ -551,13 +597,13 @@ namespace Noodle.Tests
 
             var padding = (int)Math.Max(Math.Abs(result.Image.Y), Math.Abs(result.Image.X)) + 20;
 
-            if((maxWidth + padding) < 400)
+            if ((maxWidth + padding) < 400)
             {
                 padding = (400 - maxWidth) / 2;
             }
 
             // create a bitmap for visualizing
-            var bitmapSize = new RectangleF(0,0, maxWidth + padding * 2, maxHeight + (padding * 2));
+            var bitmapSize = new RectangleF(0, 0, maxWidth + padding * 2, maxHeight + (padding * 2));
             using (var bmp = new Bitmap((int)bitmapSize.Width, (int)bitmapSize.Height))
             {
                 using (var gfx = Graphics.FromImage(bmp))
@@ -569,11 +615,11 @@ namespace Noodle.Tests
                     gfx.DrawString("Source: " + sourceSize, new Font("Thaoma", 8), Brushes.Black, new RectangleF(0, 0, bmp.Width, bmp.Height), new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Near });
                     gfx.DrawString("Destination: " + resizeSettings, new Font("Thaoma", 8), Brushes.Black, new RectangleF(0, 0, bmp.Width, bmp.Height), new StringFormat { Alignment = StringAlignment.Far, LineAlignment = StringAlignment.Near });
                     gfx.DrawString("Canvas: " + result.CanvasSize.Width + "x" + result.CanvasSize.Height, new Font("Thaoma", 8), Brushes.Green, new RectangleF(0, 0, bmp.Width, bmp.Height), new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Far });
-                    gfx.DrawString("Image: " + result.Image.Width + "x" + result.Image.Height, new Font("Thaoma", 8), Brushes.Red, new RectangleF(0,0,bmp.Width,bmp.Height), new StringFormat{Alignment= StringAlignment.Far, LineAlignment=StringAlignment.Far});
-                    
+                    gfx.DrawString("Image: " + result.Image.Width + "x" + result.Image.Height, new Font("Thaoma", 8), Brushes.Red, new RectangleF(0, 0, bmp.Width, bmp.Height), new StringFormat { Alignment = StringAlignment.Far, LineAlignment = StringAlignment.Far });
+
                     //PolygonMath.AlignWith()
                     var canvas = new RectangleF(padding, padding, result.CanvasSize.Width, result.CanvasSize.Height);
-                    var image = new RectangleF(padding + result.Image.X, padding + result.Image.Y , result.Image.Width, result.Image.Height);
+                    var image = new RectangleF(padding + result.Image.X, padding + result.Image.Y, result.Image.Width, result.Image.Height);
                     var points = new List<PointF>();
                     points.AddRange(PolygonMath.ToPoly(canvas));
                     points.AddRange(PolygonMath.ToPoly(image));
@@ -599,6 +645,16 @@ namespace Noodle.Tests
         {
             image.X.ShouldEqual(0);
             image.Y.ShouldEqual(0);
+        }
+
+        protected virtual void ResizeResource(ResizeSettings resizeSettings, string source, string destination)
+        {
+            if(File.Exists(destination))
+                File.Delete(destination);
+
+            var resized = _ImageManipulator.Resize(source, resizeSettings);
+            resized.Save(destination);
+            resized.Dispose();
         }
     }
 }

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3BA34AEE-839B-445A-ACFE-0151A4527FB5}</ProjectGuid>
+    <ProjectGuid>{C1AA0153-0701-46EF-9274-89B525983F30}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Noodle.Imaging.Tests</RootNamespace>
-    <AssemblyName>Noodle.Imaging.Tests</AssemblyName>
+    <RootNamespace>Noodle.Imaging.AForge</RootNamespace>
+    <AssemblyName>Noodle.Imaging.AForge</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,8 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    <Reference Include="AForge">
+      <HintPath>..\..\..\packages\AForge.2.2.4\lib\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging">
+      <HintPath>..\..\..\packages\AForge.Imaging.2.2.4\lib\AForge.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Math">
+      <HintPath>..\..\..\packages\AForge.Math.2.2.4\lib\AForge.Math.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,18 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AForgeImageManipulator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Source\Modules\Noodle.Imaging\Noodle.Imaging.csproj">
-      <Project>{87613f18-96cc-41c4-a295-bc6a386c1659}</Project>
-      <Name>Noodle.Imaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Source\Noodle.Tests\Noodle.Tests.csproj">
-      <Project>{d3226938-7fe2-4f24-8a4a-c6d83f7938cb}</Project>
-      <Name>Noodle.Tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Source\Noodle\Noodle.csproj">
+    <ProjectReference Include="..\..\Noodle\Noodle.csproj">
       <Project>{944fec3d-a47f-4c92-92ac-81b3420c1caa}</Project>
       <Name>Noodle</Name>
     </ProjectReference>

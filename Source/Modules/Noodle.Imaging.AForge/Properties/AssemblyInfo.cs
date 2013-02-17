@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Noodle.Imaging.Tests")]
+[assembly: AssemblyTitle("Noodle.Imaging.AForge")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Noodle.Imaging.Tests")]
+[assembly: AssemblyProduct("Noodle.Imaging.AForge")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1dae6b68-1013-4160-91ee-b80b6fc25a01")]
+[assembly: Guid("9ae7946f-9ff1-4884-a1da-773ff3ce6e9d")]
 
 // Version information for an assembly consists of the following four values:
 //
