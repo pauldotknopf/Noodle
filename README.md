@@ -18,7 +18,6 @@ public class DependencyRegistrar : IDependencyRegistrar
     public void Register(Container container)
     {
         container.RegisterSingle<ILanguageService, LanguageService>();
-
     }
 
     /// <summary>
@@ -36,5 +35,19 @@ public class DependencyRegistrar : IDependencyRegistrar
 This class will get auto-found and invoked. After everything is said and done, the only thing implementations need to worry about is...
 
 ```c#
-Noodle.EngineContext.Resolve<ILanguageService>();
+// singleton container for current appdomain
+var container = Noodle.EngineContext.Current;
+
+// retrieve services from the container
+var languageService = Noodle.EngineContext.Resolve<ILanguageService>();
 ```
+
+Of course, this library does much more than this. Check the [wiki](https://github.com/theonlylawislove/Noodle/wiki) for the documentation.
+
+* [Container/IDependencyRegistrars](https://github.com/theonlylawislove/Noodle/wiki/Container) - The container (SimpleInjector) and how to register/consume services.
+* [Imaging/resizing](https://github.com/theonlylawislove/Noodle/wiki/Imaging) - Resize/manipulate/rotate images with an easy to use implementation.
+* [Plugins](https://github.com/theonlylawislove/Noodle/wiki/Plugins) - Framework for building a plugin ecosystem. Create your own services that can support it's own plugins with minimal effort.
+* [MongoDB](https://github.com/theonlylawislove/Noodle/wiki/MongoDB) - Services for common usages of MongoDB. Most of the modules used that require persistence (settings, localization, etc) use MongoDB, because you should!
+* [Scheduled Tasks](https://github.com/theonlylawislove/Noodle/wiki/Scheduled-Tasks) - Create background tasks that runonce/indefinitely at scheduled intervals.
+
+There are some smaller usable pieces that you may find which haven't been documented just yet :)
