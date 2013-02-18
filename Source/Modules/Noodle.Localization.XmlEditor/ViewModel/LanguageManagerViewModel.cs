@@ -5,10 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Xml;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 using Noodle.Localization.Services;
+using Telerik.Windows.Controls;
+using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
 
 namespace Noodle.Localization.XmlEditor.ViewModel
 {
@@ -36,6 +37,8 @@ namespace Noodle.Localization.XmlEditor.ViewModel
                 ImportCommand = new RelayCommand(Import);
                 ExportCommand = new RelayCommand(Export);
                 ExitCommand = new RelayCommand(Exit);
+                AddResourceCommand = new RelayCommand(AddResource, () => _languages.Count > 0);
+                AddLanguageCommand = new RelayCommand(AddLanguage);
             }
             else
             {
@@ -92,21 +95,48 @@ namespace Noodle.Localization.XmlEditor.ViewModel
         /// </summary>
         public RelayCommand ExitCommand { get; protected set; }
 
+        /// <summary>
+        /// Add a resource
+        /// </summary>
+        public RelayCommand AddResourceCommand { get; protected set; }
+
+        /// <summary>
+        /// Add a language
+        /// </summary>
+        public RelayCommand AddLanguageCommand { get; protected set; }
+
         #endregion
 
         #region Business Logic
+
+        /// <summary>
+        /// Add a language
+        /// </summary>
+        private void AddLanguage()
+        {
+
+        }
+
+        /// <summary>
+        /// Add a resource
+        /// </summary>
+        private void AddResource()
+        {
+            var dialogparameters = new DialogParameters()
+            {
+                Content = "Resource name:"
+            };
+            RadWindow.Prompt(dialogparameters, (sender, e) =>
+                                                    {
+                                                        var result = e.PromptResult;
+                                                    });
+        }
 
         /// <summary>
         /// Export an xml file
         /// </summary>
         private void Export()
         {
-            if (_languages == null || _languages.Count == 0)
-            {
-                MessageBox.Show("You must first import an xml file to modify.", "Error");
-                return;
-            }
-
             string fileName = string.Empty;
             string backupFile = string.Empty;
 
@@ -175,6 +205,7 @@ namespace Noodle.Localization.XmlEditor.ViewModel
 
                     _languages.Clear();
                     _possibleValues.Clear();
+
                     foreach (var possibleValue in deserializedLanguages.SelectMany(x => x.Second).Select(x => x.ResourceName).Distinct().ToList())
                     {
                         _possibleValues.Add(possibleValue);

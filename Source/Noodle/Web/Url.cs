@@ -13,8 +13,6 @@ namespace Noodle.Web
         /// <summary>Ampersand string.</summary>
         public const string Amp = "&";
 
-
-
         static readonly string[] querySplitter = new[] { "&amp;", Amp };
         static readonly char[] slashes = new char[] { '/' };
         static readonly char[] dotsAndSlashes = new char[] { '.', '/' };

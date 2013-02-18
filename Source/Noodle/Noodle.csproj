@@ -71,7 +71,6 @@
     <Compile Include="Collections\IQueryableList.cs" />
     <Compile Include="Collections\NamedCollection.cs" />
     <Compile Include="Collections\QuerystringBase.cs" />
-    <Compile Include="CommonExtensions.cs" />
     <Compile Include="CommonHelper.cs" />
     <Compile Include="ComponentModel\BooleanTypConverter.cs" />
     <Compile Include="ComponentModel\GenericListTypeConverter.cs" />
@@ -97,7 +96,6 @@
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\SqlConnectionProvider.cs" />
     <Compile Include="DateTimeHelper.cs" />
-    <Compile Include="DebugTextWriter.cs" />
     <Compile Include="Email\EmailAccountSettings.cs" />
     <Compile Include="Email\EmailSender.cs" />
     <Compile Include="Email\IEmailSender.cs" />
@@ -120,7 +118,6 @@
     <Compile Include="Engine\Singleton.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="EnumStringAttribute.cs" />
-    <Compile Include="ErrorEventArgs.cs" />
     <Compile Include="Extensions\CodeMirrorEnums.cs" />
     <Compile Include="FluentDateTime\DateTimeExtensions.cs" />
     <Compile Include="FluentDateTime\FluentTimeSpan.cs" />
@@ -214,7 +211,6 @@
     <Compile Include="Web\IPageTitleBuilder.cs" />
     <Compile Include="Web\IRequestContext.cs" />
     <Compile Include="Web\IWebHelper.cs" />
-    <Compile Include="Web\JsonHttpHandler.cs" />
     <Compile Include="Web\PageTitleBuilder.cs" />
     <Compile Include="Web\PageTitleSeoAdjustment.cs" />
     <Compile Include="Web\RazorPageBase.cs" />

@@ -16,9 +16,9 @@ namespace Noodle.Web
         [ThreadStatic]
         static IDictionary _items;
         [ThreadStatic]
-        Url _localUrl = new Url("/");
+        static Url _localUrl = new Url("/");
         [ThreadStatic]
-        Url _url = new Url("http://localhost");
+        static Url _url = new Url("http://localhost");
 
         static ThreadContext()
         {

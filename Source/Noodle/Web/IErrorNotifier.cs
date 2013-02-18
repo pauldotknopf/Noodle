@@ -16,6 +16,6 @@ namespace Noodle.Web
         /// <summary>
         /// Raised when an error occurs
         /// </summary>
-        event EventHandler<ErrorEventArgs> ErrorOccured;
+        event EventHandler<NoodleEventArgs<Exception>> ErrorOccured;
     }
 }

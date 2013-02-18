@@ -6,6 +6,7 @@ using Noodle.Caching;
 using Noodle.Configuration;
 using Noodle.Data;
 using Noodle.Email;
+using Noodle.Imaging;
 using Noodle.Plugins;
 using Noodle.Scheduling;
 using Noodle.Security;
@@ -42,6 +43,8 @@ namespace Noodle.Engine
             container.RegisterSingle<IDatabaseService, DatabaseService>();
             container.RegisterSingle<IEmailSender, EmailSender>();
             container.RegisterPerWebRequest<IPageTitleBuilder, PageTitleBuilder>();
+            container.RegisterSingle<IImageManipulator, NoodleImageManipulator>();
+            container.RegisterSingle<IImageLayoutBuilder, ImageLayoutBuilder>();
             container.RegisterSingle<ISecurityManager, DefaultSecurityManager>();
             container.RegisterSingle<IPluginBootstrapper, PluginBootstrapper>();
             container.RegisterSingle<IPluginFinder, PluginFinder>();

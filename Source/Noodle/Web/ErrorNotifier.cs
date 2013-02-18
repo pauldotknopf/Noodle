@@ -16,13 +16,13 @@ namespace Noodle.Web
         public void Notify(Exception ex)
         {
             if (ErrorOccured != null)
-                ErrorOccured(this, new ErrorEventArgs{Error = ex});
+                ErrorOccured(this, new NoodleEventArgs<Exception>(ex));
         }
 
         /// <summary>
         /// Raised when an error occurs
         /// </summary>
-        public event EventHandler<ErrorEventArgs> ErrorOccured;
+        public event EventHandler<NoodleEventArgs<Exception>> ErrorOccured;
 
         #endregion
     }

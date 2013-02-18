@@ -39,22 +39,22 @@ namespace Noodle.Logging
             get { throw new NotImplementedException(); }
         }
 
-        private void ErrorNotifierOnErrorOccured(object sender, ErrorEventArgs errorEventArgs)
+        private void ErrorNotifierOnErrorOccured(object sender, NoodleEventArgs<Exception> errorEventArgs)
         {
-            if(errorEventArgs.Error == null) return;
-            if (!LogStore.IsErrorLoggable(errorEventArgs.Error)) return;
+            if(errorEventArgs.Item == null) return;
+            if (!LogStore.IsErrorLoggable(errorEventArgs.Item)) return;
 
             try
             {
-                if(errorEventArgs.Error is LogException)
+                if (errorEventArgs.Item is LogException)
                 {
-                    _logger.InsertLog((errorEventArgs.Error as LogException).LogLevel, 
-                                      (errorEventArgs.Error as LogException).ShortMessage,
-                                      (errorEventArgs.Error as LogException).FullMessage, 
-                                      errorEventArgs.Error);
+                    _logger.InsertLog((errorEventArgs.Item as LogException).LogLevel,
+                                      (errorEventArgs.Item as LogException).ShortMessage,
+                                      (errorEventArgs.Item as LogException).FullMessage,
+                                      errorEventArgs.Item);
                 }else
                 {
-                    _logger.Error("IErrorNotifier", errorEventArgs.Error);
+                    _logger.Error("IErrorNotifier", errorEventArgs.Item);
                 }
             }catch(Exception ex)
             {

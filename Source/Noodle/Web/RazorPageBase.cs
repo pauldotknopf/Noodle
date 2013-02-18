@@ -3,6 +3,11 @@ using System.Web;
 
 namespace Noodle.Web
 {
+    /// <summary>
+    /// This is a base class to be used as base classes for razor pages.
+    /// This is useful for using .cshtml without a reference to the web/razor stack.
+    /// It makes embedded html pages (using RazorGenerator) really easy.
+    /// </summary>
     public class RazorPageBase : IHttpHandler
     {
         private readonly StringBuilder _output = new StringBuilder();
@@ -86,18 +91,18 @@ namespace Noodle.Web
         }
 
         internal class RazorHtmlString
-    {
-        private readonly string _value;
-
-        public RazorHtmlString(string value)
         {
-            _value = value;
-        }
+            private readonly string _value;
 
-        internal string ToHtmlString()
-        {
-            return _value;
+            public RazorHtmlString(string value)
+            {
+                _value = value;
+            }
+
+            internal string ToHtmlString()
+            {
+                return _value;
+            }
         }
-    }
     }
 }

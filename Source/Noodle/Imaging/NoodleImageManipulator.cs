@@ -35,7 +35,7 @@ namespace Noodle.Imaging
             using (var job = new ImageJob(source))
             {
                 var layout = _imageLayoutBuilder.BuildLayout(job.Bitmap.Size, parameters);
-                var bmp = new Bitmap((int)layout.CanvasSize.Width, (int)layout.CanvasSize.Height, PixelFormat.Format32bppArgb);
+                var bmp = new Bitmap((int)layout.CanvasSize.Width, (int)layout.CanvasSize.Height, PixelFormat.Format24bppRgb);
 
                 var gfx = Graphics.FromImage(bmp);
                 gfx.InterpolationMode = InterpolationMode.HighQualityBicubic;

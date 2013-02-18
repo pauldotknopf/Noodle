@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -176,7 +177,7 @@ namespace Noodle
                         _trustLevel = trustLevel;
                         break; //we've set the highest permission we can
                     }
-                    catch (System.Security.SecurityException)
+                    catch (SecurityException)
                     {
                         continue;
                     }
@@ -214,7 +215,7 @@ namespace Noodle
         public static string EnsureNotNull(string str)
         {
             if (str == null)
-                return string.Empty;
+                return String.Empty;
 
             return str;
         }
@@ -272,7 +273,7 @@ namespace Noodle
         /// <remarks></remarks>
         public static string Evaluate(object item, string expression, string format)
         {
-            return string.Format(format, Evaluate(item, expression));
+            return String.Format(format, Evaluate(item, expression));
         }
 
         /// <summary>
@@ -483,7 +484,7 @@ namespace Noodle
             newText.Append(text[0]);
             for (var i = 1; i < text.Length; i++)
             {
-                if (char.IsUpper(text[i]) && text[i - 1] != ' ')
+                if (Char.IsUpper(text[i]) && text[i - 1] != ' ')
                     newText.Append(' ');
                 newText.Append(text[i]);
             }
@@ -512,7 +513,7 @@ namespace Noodle
         /// </remarks>
         public static bool IsStaticResource(string path)
         {
-            if(string.IsNullOrEmpty(path))
+            if(String.IsNullOrEmpty(path))
             {
                 return false;
             }
@@ -535,6 +536,48 @@ namespace Noodle
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Convert an interval to a timespan
+        /// </summary>
+        /// <param name="interval"></param>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        public static TimeSpan CalculateInterval(this int interval, TimeUnit unit)
+        {
+            switch (unit)
+            {
+                case TimeUnit.Seconds:
+                    return new TimeSpan(0, 0, interval);
+                case TimeUnit.Minutes:
+                    return new TimeSpan(0, interval, 0);
+                case TimeUnit.Hours:
+                    return new TimeSpan(interval, 0, 0);
+                default:
+                    throw new NotSupportedException("Unknown time unit: " + unit);
+            }
+        }
+
+        /// <summary>
+        /// Convert a unit of time to a timespan based on an interval
+        /// </summary>
+        /// <param name="interval"></param>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        public static TimeSpan CalculateInterval(this TimeUnit unit, int interval)
+        {
+            switch (unit)
+            {
+                case TimeUnit.Seconds:
+                    return new TimeSpan(0, 0, interval);
+                case TimeUnit.Minutes:
+                    return new TimeSpan(0, interval, 0);
+                case TimeUnit.Hours:
+                    return new TimeSpan(interval, 0, 0);
+                default:
+                    throw new NotSupportedException("Unknown time unit: " + unit);
+            }
         }
 
         #endregion

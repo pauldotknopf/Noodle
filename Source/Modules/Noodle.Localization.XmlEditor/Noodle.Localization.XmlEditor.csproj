@@ -86,8 +86,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddResource.xaml.cs">
+      <DependentUpon>AddResource.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IsMissingToColorConverter.cs" />
     <Compile Include="ViewModel\LocaleStringResourceModel.cs" />
+    <Page Include="AddResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -28,7 +28,7 @@ namespace Noodle.Imaging.AForge.Tests
             var sourceBitmap = CreateSourceBitmap(new Size(sourceSizeSettings.Width, sourceSizeSettings.Height));
 
             // resize
-            var result = _ImageManipulator.Resize(sourceBitmap, new ImageManipulationSettings(resizeSettings));
+            var result = _ImageManipulator.Manipulate(sourceBitmap, new ImageManipulationSettings(resizeSettings));
 
             // save the result
             var fileName = sourceSize + "--" + resizeSettings + ".bmp";
@@ -40,6 +40,24 @@ namespace Noodle.Imaging.AForge.Tests
             Trace.WriteLine("Source:        " + sourceSize);
             Trace.WriteLine("Destination:   " + resizeSettings);
             Trace.WriteLine("   Result:     " + filePath);
+        }
+
+        protected override void ResizeResource(ResizeSettings resizeSettings, string source, string destination)
+        {
+            if (File.Exists(destination))
+                File.Delete(destination);
+
+            var resized = _ImageManipulator.Manipulate(source, new ImageManipulationSettings(resizeSettings)
+                                                                   {
+                                                                       Brightness=10,
+                                                                       Contrast = 10,
+                                                                       Gamma = 10,
+                                                                       Hue = 180,
+                                                                       Saturation = 10,
+                                                                       Sharpen = 10
+                                                                   });
+            resized.Save(destination);
+            resized.Dispose();
         }
 
         private Bitmap CreateSourceBitmap(Size size)
@@ -59,7 +77,6 @@ namespace Noodle.Imaging.AForge.Tests
             }
             return bitmap;
         }
-
 
         private ImageCodecInfo GetEncoderInfo(Guid formatID)
         {
