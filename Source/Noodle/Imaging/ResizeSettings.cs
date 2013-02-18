@@ -52,7 +52,7 @@ namespace Noodle.Imaging
         protected void Set(string name, double value) { this.Set<double>(name, value); }
 
         /// <summary>
-        /// ["width"]: Sets the desired width of the image. (minus padding, borders, margins, effects, and rotation). 
+        /// ["width"]: Sets the desired width of the image.
         /// The only instance the resulting image will be smaller is if the original source image is smaller. 
         /// Set Scale=Both to upscale these images and ensure the output always matches 'width' and 'height'. 
         /// If both width and height are specified, the image will be 'letterboxed' to match the desired aspect ratio. 
@@ -71,7 +71,7 @@ namespace Noodle.Imaging
         }
 
         /// <summary>
-        /// ["height"]: Sets the desired height of the image.  (minus padding, borders, margins, effects, and rotation)
+        /// ["height"]: Sets the desired height of the image.
         /// The only instance the resulting image will be smaller is if the original source image is smaller. 
         /// Set Scale=Both to upscale these images and ensure the output always matches 'width' and 'height'. 
         /// If both width and height are specified, the image will be 'letterboxed' to match the desired aspect ratio. 
@@ -84,7 +84,7 @@ namespace Noodle.Imaging
         }
 
         /// <summary>
-        /// ["maxwidth"]: Sets the maximum desired width of the image.  (minus padding, borders, margins, effects, and rotation). 
+        /// ["maxwidth"]: Sets the maximum desired width of the image.
         /// The image may be smaller than this value to maintain aspect ratio when both maxwidth and maxheight are specified.
         /// </summary>
         public int MaxWidth
@@ -94,7 +94,7 @@ namespace Noodle.Imaging
         }
 
         /// <summary>
-        /// ["maxheight"]: Sets the maximum desired height of the image.  (minus padding, borders, margins, effects, and rotation). 
+        /// ["maxheight"]: Sets the maximum desired height of the image.
         /// The image may be smaller than this value to maintain aspect ratio when both maxwidth and maxheight are specified.
         /// </summary>
         public int MaxHeight
@@ -123,7 +123,7 @@ namespace Noodle.Imaging
 
         /// <summary>
         /// ["scale"] Whether to downscale, upscale, upscale the canvas, or both upscale or downscale the image as needed. Defaults to
-        /// DownscaleOnly. See the DefaultSettings plugin to adjust the default.
+        /// DownscaleOnly.
         /// </summary>
         public ScaleMode Scale
         {

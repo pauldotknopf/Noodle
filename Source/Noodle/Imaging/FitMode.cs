@@ -11,7 +11,7 @@ namespace Noodle.Imaging
     public enum FitMode
     {
         /// <summary>
-        /// Fit mode will be determined by other settings, such as carve=true, stretch=fill, and crop=auto. If none are specified and width/height are specified , mode=pad will be used. If maxwidth/maxheight are used, mode=max will be used.
+        /// If width/height are specified , mode=pad will be used. If maxwidth/maxheight are used, mode=max will be used.
         /// </summary>
         None,
         /// <summary>
