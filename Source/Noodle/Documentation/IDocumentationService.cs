@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace Noodle.Documentation
 {
@@ -16,5 +17,12 @@ namespace Noodle.Documentation
         /// <param name="xmlDocumentationFile"></param>
         /// <returns></returns>
         DocumentationAssembly DeserializeDocumentation(string xmlDocumentationFile);
+
+        /// <summary>
+        /// Retuns a list of member infos (summary, example, etc) for a member in the documentation file
+        /// </summary>
+        /// <param name="xmlMember"></param>
+        /// <returns></returns>
+        List<DocumentationMemberInfo> GetInfosForMember(XmlNode xmlMember); 
     }
 }

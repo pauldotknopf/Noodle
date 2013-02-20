@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using Noodle.Plugins;
 
 namespace Noodle.Documentation
 {
@@ -11,6 +12,17 @@ namespace Noodle.Documentation
     /// </summary>
     public class DocumentationService : IDocumentationService
     {
+        private readonly IPluginFinder _pluginFinder;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DocumentationService"/> class.
+        /// </summary>
+        /// <param name="pluginFinder">The plugin finder.</param>
+        public DocumentationService(IPluginFinder pluginFinder)
+        {
+            _pluginFinder = pluginFinder;
+        }
+
         /// <summary>
         /// Deserialize the given xml file to a DocumentationAssembly for usage
         /// </summary>
@@ -37,10 +49,38 @@ namespace Noodle.Documentation
 
             foreach (XmlNode memberNode in membersNode.SelectNodes("member"))
             {
-                result.Members.Add(new DocumentationMember(memberNode));
+                result.Members.Add(new DocumentationMember(memberNode, this));
             }
 
             result.AssemblyName = assemblyNameNode.InnerText;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Retuns a list of member infos (summary, example, etc) for a member in the documentation file
+        /// </summary>
+        /// <param name="xmlMember"></param>
+        /// <returns></returns>
+        public List<DocumentationMemberInfo> GetInfosForMember(XmlNode xmlMember)
+        {
+            var infoPlugins = _pluginFinder.GetPlugins<DocumentationMemberInfoPluginAttribute, DocumentationMemberInfoPlugin>().ToList();
+            var result = new List<DocumentationMemberInfo>();
+
+            foreach(XmlNode xmlMembeInfoNode in xmlMember.ChildNodes)
+            {
+                DocumentationMemberInfo infoPluginResult = null;
+                foreach(var infoPlugin in infoPlugins)
+                {
+                    if (infoPluginResult == null)
+                    {
+                        infoPluginResult = infoPlugin.TryGetMemberInfo(xmlMembeInfoNode);
+                    }
+                }
+                if(infoPluginResult == null)
+                    infoPluginResult = new DocumentationMemberInfoUnknown(xmlMembeInfoNode);
+                result.Add(infoPluginResult);
+            }
 
             return result;
         }

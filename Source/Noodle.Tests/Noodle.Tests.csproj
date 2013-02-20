@@ -97,6 +97,7 @@
     <Compile Include="FakeSecurityManager.cs" />
     <Compile Include="FakeTypeFinder.cs" />
     <Compile Include="FluentTimeSpanTests.cs" />
+    <Compile Include="Helpers\FakeAssemblyFinder.cs" />
     <Compile Include="ImageLayoutBuilderTests.cs" />
     <Compile Include="Plugins\PlugIn1.cs" />
     <Compile Include="Plugins\PlugIn2.cs" />
@@ -127,9 +128,7 @@
       <Name>Noodle</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

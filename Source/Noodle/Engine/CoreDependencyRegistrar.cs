@@ -5,6 +5,7 @@ using System.Web.Configuration;
 using Noodle.Caching;
 using Noodle.Configuration;
 using Noodle.Data;
+using Noodle.Documentation;
 using Noodle.Email;
 using Noodle.Imaging;
 using Noodle.Plugins;
@@ -55,6 +56,7 @@ namespace Noodle.Engine
             container.RegisterSingle<Resources.RegisterStartup>();
             container.Register(() => EventBroker.Instance);
             container.RegisterSingle<Scheduler>();
+            container.RegisterSingle<IDocumentationService, DocumentationService>();
             container.RegisterPerWebRequest(() =>
             {
                 if (HttpContext.Current == null)

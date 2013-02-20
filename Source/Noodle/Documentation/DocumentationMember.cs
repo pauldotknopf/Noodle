@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using Noodle.Documentation.BuiltIn;
 
 namespace Noodle.Documentation
 {
@@ -11,7 +12,7 @@ namespace Noodle.Documentation
     {
         private readonly XmlNode _memberNode;
 
-        public DocumentationMember(XmlNode memberNode)
+        public DocumentationMember(XmlNode memberNode, IDocumentationService documentationService)
         {
             _memberNode = memberNode;
 
@@ -42,6 +43,39 @@ namespace Noodle.Documentation
                 MemberName = MemberName.Substring(0, MemberName.IndexOf(".#ctor", StringComparison.Ordinal));
             if (MemberName.IndexOf("(", StringComparison.Ordinal) > 0)
                 MemberName = MemberName.Substring(0, MemberName.IndexOf("(", StringComparison.Ordinal));
+
+            IsConstructor = FullMemberName.Contains(".#ctor");
+
+            ParameterTypes = new List<string>();
+            if(Type == DocumentationMemberType.Member)
+            {
+                var parameterTypesMatch = Regex.Match(FullMemberName, @"\([\w\.\,]*\)$");
+                if (parameterTypesMatch.Success)
+                {
+                    var parameterTypesRaw = parameterTypesMatch.Value.Substring(1);
+                    parameterTypesRaw = parameterTypesRaw.Substring(0, parameterTypesRaw.Length - 1);
+                    foreach(var parameterType in parameterTypesRaw.Split(Convert.ToChar(",")))
+                    {
+                        ParameterTypes.Add(parameterType);
+                    }
+                }  
+            }
+
+            MemberInfos = new List<DocumentationMemberInfo>();
+            MemberInfos.AddRange(documentationService.GetInfosForMember(memberNode));
+            MemberSummary = MemberInfos.OfType<DocumentationMemberSummary>().FirstOrDefault();
+            MemberReturns = MemberInfos.OfType<DocumentationMemberReturns>().FirstOrDefault();
+            MemberValue = MemberInfos.OfType<DocumentationMemberValue>().FirstOrDefault();
+            MemberParameters = MemberInfos.OfType<DocumentationMemberParameter>().ToList();
+
+            foreach (var memberParameter in MemberParameters)
+            {
+                var memberParameterIndex = MemberParameters.IndexOf(memberParameter);
+                if((ParameterTypes.Count - 1) >= memberParameterIndex)
+                {
+                    memberParameter.ParameterType = ParameterTypes[memberParameterIndex];
+                }
+            }
         }
 
         public string MemberName { get; protected set; }
@@ -49,5 +83,19 @@ namespace Noodle.Documentation
         public string FullMemberName { get; protected set; }
 
         public DocumentationMemberType Type { get; protected set; }
+
+        public bool IsConstructor { get; protected set; }
+
+        public List<DocumentationMemberInfo> MemberInfos { get; protected set; }
+
+        public DocumentationMemberSummary MemberSummary { get; protected set; }
+
+        public DocumentationMemberValue MemberValue { get; protected set; }
+
+        public DocumentationMemberReturns MemberReturns { get; protected set; }
+
+        public List<string> ParameterTypes { get; protected set; }
+
+        public List<DocumentationMemberParameter> MemberParameters { get; protected set; }
     }
 }
