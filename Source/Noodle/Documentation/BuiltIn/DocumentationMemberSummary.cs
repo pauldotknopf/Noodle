@@ -11,7 +11,7 @@ namespace Noodle.Documentation.BuiltIn
         public DocumentationMemberSummary(XmlNode node)
             :base(node)
         {
-            Summary = XmlNode.InnerText;
+            Summary = CleanText(node.InnerText);
         }
 
         public string Summary { get; protected set; }

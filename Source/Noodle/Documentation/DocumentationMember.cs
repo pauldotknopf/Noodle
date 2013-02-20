@@ -31,14 +31,20 @@ namespace Noodle.Documentation
                     Type = DocumentationMemberType.Property;
                     break;
                 case "E:":
-                    Type = DocumentationMemberType.Exception;
+                    Type = DocumentationMemberType.Event;
+                    break;
+                case "F:":
+                    Type = DocumentationMemberType.Field;
                     break;
                 default:
                     throw new InvalidOperationException("Unknown member type " + nameAttribute.Value.Substring(0, 2));
             }
 
             FullMemberName = nameAttribute.Value.Substring(2);
-            MemberName = Regex.Match(FullMemberName, @"\.[\w]+(.#ctor)?(\([\w\.\,]*\))?").Value.Substring(1);
+            var memberNameMatch = Regex.Match(FullMemberName, @"\.[\w\`\+\#\@]+(.#ctor)?(\([\w\.\,\`\+\{\}\[\]\#\@]*\))?$").Value;
+            if (string.IsNullOrEmpty(memberNameMatch))
+                throw new Exception("Couldn't get member name");
+            MemberName = memberNameMatch.Substring(1);
             if (MemberName.IndexOf(".#ctor", StringComparison.Ordinal) > 0)
                 MemberName = MemberName.Substring(0, MemberName.IndexOf(".#ctor", StringComparison.Ordinal));
             if (MemberName.IndexOf("(", StringComparison.Ordinal) > 0)
@@ -73,7 +79,7 @@ namespace Noodle.Documentation
                 var memberParameterIndex = MemberParameters.IndexOf(memberParameter);
                 if((ParameterTypes.Count - 1) >= memberParameterIndex)
                 {
-                    memberParameter.ParameterType = ParameterTypes[memberParameterIndex];
+                    memberParameter.ParameterType = memberParameter.CleanText(ParameterTypes[memberParameterIndex]);
                 }
             }
         }

@@ -90,5 +90,12 @@ namespace Noodle.Tests
             result.Members[3].MemberParameters[1].ParameterName.ShouldEqual("innerException");
             result.Members[3].MemberParameters[1].ParameterType.ShouldEqual("System.Exception");
         }
+
+        [Test]
+        public void Can_clean_text()
+        {
+            var result = _documentationService.DeserializeDocumentation(_xmlDocumentation);
+            result.Members[0].MemberSummary.Summary.ShouldEqual("The standard exception thrown when a container has an error in resolving an object.");
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace Noodle.Documentation
         Type,
         Member,
         Property,
-        Exception
+        Event,
+        Field
     }
 }

@@ -18,7 +18,12 @@ namespace Noodle.Localization
         public void Register(Container container)
         {
             container.RegisterSingle<ILanguageService, LanguageService>();
-
+            container.RegisterSingle<ILocalizationService, LocalizationService>();
+            container.RegisterSingle<ILanguageInstaller, LanguageInstaller>();
+            container.RegisterSingle<ILocalizedEntityService, LocalizedEntityService>();
+            container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<Language>("Languages"));
+            container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<LocaleStringResource>("LocaleStringResources"));
+            container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<LocalizedProperty>("LocalizedProperties"));
         }
 
         /// <summary>
@@ -30,14 +35,13 @@ namespace Noodle.Localization
         {
             get { return 0; }
         }
+
+        public static MongoDatabase GetLocalizationDatabase(Container container)
+        {
+            return container.GetInstance<IMongoService>().GetDatabase("Localization");
+        }
     }
 }
 
-            //container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<Language>("Languages"));
-            //container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<LocaleStringResource>("LocaleStringResources"));
-            //container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<LocalizedProperty>("LocalizedProperties"));
 
- //public static MongoDatabase GetLocalizationDatabase(Container container)
- //       {
- //           return container.GetInstance<IMongoService>().GetDatabase("Localization");
- //       }
+
