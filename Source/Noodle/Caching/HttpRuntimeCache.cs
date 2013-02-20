@@ -13,6 +13,12 @@ namespace Noodle.Caching
     /// </summary>
     public class HttpRuntimeCache : ICacheManager
     {
+        /// <summary>
+        /// Gets the cache.
+        /// </summary>
+        /// <value>
+        /// The cache.
+        /// </value>
         public virtual Cache Cache
         {
             get { return HttpContext.Current.Cache; }
@@ -55,7 +61,6 @@ namespace Noodle.Caching
                 Remove(key);
             }
         }
-
         public void Clear()
         {
             foreach (KeyValuePair<string,object> item in Cache)
