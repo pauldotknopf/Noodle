@@ -96,6 +96,11 @@
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\SqlConnectionProvider.cs" />
     <Compile Include="DateTimeHelper.cs" />
+    <Compile Include="Documentation\DocumentationAssembly.cs" />
+    <Compile Include="Documentation\DocumentationMember.cs" />
+    <Compile Include="Documentation\DocumentationMemberType.cs" />
+    <Compile Include="Documentation\DocumentationService.cs" />
+    <Compile Include="Documentation\IDocumentationService.cs" />
     <Compile Include="Email\EmailAccountSettings.cs" />
     <Compile Include="Email\EmailSender.cs" />
     <Compile Include="Email\IEmailSender.cs" />

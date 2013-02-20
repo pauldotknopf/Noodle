@@ -90,6 +90,7 @@
     <Compile Include="DataTestBase.cs" />
     <Compile Include="DateTimeAssert.cs" />
     <Compile Include="DateTimeExtensions.cs" />
+    <Compile Include="DocumentationTests.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="FakeIdentity.cs" />
     <Compile Include="FakePrincipal.cs" />
@@ -147,6 +148,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\sample-tif.tif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SimpleInjector.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
