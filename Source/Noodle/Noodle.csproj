@@ -98,6 +98,8 @@
     <Compile Include="DateTimeHelper.cs" />
     <Compile Include="Documentation\BuiltIn\DocumentationMemberParameter.cs" />
     <Compile Include="Documentation\BuiltIn\DocumentationMemberParameterPlugin.cs" />
+    <Compile Include="Documentation\BuiltIn\DocumentationMemberReturns.cs" />
+    <Compile Include="Documentation\BuiltIn\DocumentationMemberReturnsPlugin.cs" />
     <Compile Include="Documentation\BuiltIn\DocumentationMemberSummary.cs" />
     <Compile Include="Documentation\BuiltIn\DocumentationMemberSummaryPlugin.cs" />
     <Compile Include="Documentation\BuiltIn\DocumentationMemberValue.cs" />
