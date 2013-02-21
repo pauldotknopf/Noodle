@@ -158,7 +158,6 @@ namespace Noodle
 
         public static void RunStartupTasks(Container container)
         {
-            container.RegisterInitializer<IStartupTask>(task => task.Execute());
             var registrations = RegistrationsFieldInfo.GetValue(container) as IDictionary;
             if (registrations == null) return;
             foreach (var key in registrations.Keys.Cast<Type>().Where(x => typeof(IStartupTask).IsAssignableFrom(x)))
