@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Noodle</id>
+    <version>$version$</version>
+    <authors>Paul Knopf</authors>
+    <description>A base class library that handles dependency registrations, scheduled tasks, plugins, and a lot more.</description>
+    <language>en-US</language>
+    <projectUrl>https://github.com/theonlylawislove/Noodle</projectUrl>
+    <licenseUrl>https://github.com/theonlylawislove/Noodle</licenseUrl>
+    <dependencies>
+      <dependency id="SimpleInjector" version="[1.6.0.12319]" />
+      <dependency id="SimpleInjector.Extensions" version="[1.6.0.12319]" />
+      <dependency id="SimpleInjector.Integration.Web" version="[1.6.1.12347]" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Noodle.dll" target="lib\net40" />
+    <file src="Noodle.pdb" target="lib\net40" />
+    <file src="Noodle.xml" target="lib\net40" />
+  </files>
+</package>
