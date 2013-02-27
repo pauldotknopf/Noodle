@@ -16,7 +16,6 @@ namespace Noodle.Settings.Tests
         public override void SetUp()
         {
             base.SetUp();
-            _container.GetInstance<MongoCollection<Setting>>().RemoveAll();
             _settingService = _container.GetInstance<ISettingService>();
         }
 
