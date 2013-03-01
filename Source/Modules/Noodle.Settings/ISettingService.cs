@@ -47,6 +47,12 @@ namespace Noodle.Settings
         void SaveSetting<T>(T settingInstance) where T : ISettings, new();
 
         /// <summary>
+        /// Get a settings object from the database
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        T GetSetting<T>() where T : ISettings, new();
+
+        /// <summary>
         /// Clear cache
         /// </summary>
         void ClearCache();

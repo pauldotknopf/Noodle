@@ -45,7 +45,7 @@ namespace Noodle.Settings
             }
         }
 
-        public void SaveSettings(TSettings settings)
+        public void SaveSettings()
         {
             // not supported
         }

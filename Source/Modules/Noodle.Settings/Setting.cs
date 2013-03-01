@@ -5,7 +5,7 @@ namespace Noodle.Settings
     /// <summary>
     /// Represents a setting
     /// </summary>
-    public partial class Setting : BaseEntity<ObjectId>
+    public class Setting : BaseEntity<ObjectId>
     {
         /// <summary>
         /// Gets or sets the name

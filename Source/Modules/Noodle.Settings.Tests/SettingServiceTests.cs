@@ -55,13 +55,31 @@ namespace Noodle.Settings.Tests
             testSetting.String = "String...";
 
             _settingService.SaveSetting(testSetting);
-            testSetting = new ConfigurationProvider<TestSetting>(_settingService, new ErrorNotifier()).Settings;
+            testSetting = new ConfigurationProvider<TestSetting>(_settingService).Settings;
 
             testSetting.Decimal.ShouldEqual((decimal) 3);
             testSetting.Enum.ShouldEqual(TestSetting.TestEnumType.TestValue2);
             testSetting.Integer.ShouldEqual((int) 4);
             testSetting.Long.ShouldEqual((long) 5);
             testSetting.String.ShouldEqual("String...");
+        }
+
+        [Test]
+        public void Can_update_configuration_provider_instance_of_setting()
+        {
+            // arrange
+            var testSetting = new TestSetting();
+            testSetting.Decimal = 3;
+
+            // act/assert
+            _settingService.SaveSetting(testSetting);
+            var configurationProvider = _container.GetInstance<IConfigurationProvider<TestSetting>>();
+            configurationProvider.Settings.Decimal.ShouldEqual((decimal)3);
+
+            // act/assert
+            testSetting.Decimal = 4;
+            _settingService.SaveSetting(testSetting);
+            configurationProvider.Settings.Decimal.ShouldEqual((decimal)4);
         }
 
         [Test]

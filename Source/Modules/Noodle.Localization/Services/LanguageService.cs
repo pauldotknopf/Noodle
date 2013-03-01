@@ -191,7 +191,7 @@ namespace Noodle.Localization.Services
         public virtual void SetDefaultLanguage(ObjectId languageId)
         {
             _localizationSettings.Settings.DefaultLanguageId = languageId.ToString();
-            _localizationSettings.SaveSettings(_localizationSettings.Settings);
+            _localizationSettings.SaveSettings();
         }
 
         /// <summary>

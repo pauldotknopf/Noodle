@@ -139,7 +139,42 @@ namespace Noodle.Settings
         /// <remarks></remarks>
         public virtual void SaveSetting<T>(T settingInstance) where T : ISettings, new()
         {
-            _container.GetInstance<IConfigurationProvider<T>>().SaveSettings(settingInstance);
+            var name = typeof(T).FullName + ", " + typeof(T).Assembly.GetName().Name;
+            var existing = _settingsCollection.FindOne(Query<Setting>.EQ(x => x.Name, name)) as TypedSettings<T>;
+
+            if(existing == null)
+            {
+                var typedSetting = new TypedSettings<T>();
+                typedSetting.Id = ObjectId.GenerateNewId();
+                typedSetting.Settings = settingInstance;
+                typedSetting.Name = name;
+                _settingsCollection.Insert(typedSetting); 
+            }else
+            {
+                existing.Settings = settingInstance;
+                _settingsCollection.Update(Query.EQ("_id", existing.Id), Update<Setting>.Replace(existing));
+            }
+
+            ClearCache();
+        }
+
+        /// <summary>
+        /// Get a settings object from the database
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public T GetSetting<T>() where T : ISettings, new()
+        {
+            var name = typeof(T).FullName + ", " + typeof(T).Assembly.GetName().Name;
+
+            var settings = _settingsCollection.FindOne(Query<Setting>.EQ(x => x.Name, name));
+
+            if (settings == null)
+                return new T();
+
+            if(!(settings is TypedSettings<T>))
+                return new T();
+
+            return (settings as TypedSettings<T>).Settings;
         }
 
         /// <summary>
