@@ -36,7 +36,7 @@ namespace Noodle.Logging
 
         public int Order
         {
-            get { throw new NotImplementedException(); }
+            get { return int.MaxValue; }
         }
 
         private void ErrorNotifierOnErrorOccured(object sender, NoodleEventArgs<Exception> errorEventArgs)

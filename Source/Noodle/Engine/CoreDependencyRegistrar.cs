@@ -72,7 +72,6 @@ namespace Noodle.Engine
 
                 return new HttpContextWrapper(HttpContext.Current);
             });
-            container.RegisterInitializer<IStartupTask>(task => task.Execute());
         }
     }
 }

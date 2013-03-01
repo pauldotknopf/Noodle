@@ -160,9 +160,10 @@ namespace Noodle
         {
             var registrations = RegistrationsFieldInfo.GetValue(container) as IDictionary;
             if (registrations == null) return;
-            foreach (var key in registrations.Keys.Cast<Type>().Where(x => typeof(IStartupTask).IsAssignableFrom(x)))
+            foreach (var instance in registrations.Keys.Cast<Type>().Where(x => typeof(IStartupTask).IsAssignableFrom(x))
+                .Select(container.GetInstance).OfType<IStartupTask>().OrderBy(x => x.Order))
             {
-                container.GetInstance(key);
+                instance.Execute();
             }
         }
 
