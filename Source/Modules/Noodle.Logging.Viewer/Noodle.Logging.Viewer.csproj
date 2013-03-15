@@ -44,14 +44,10 @@
       <HintPath>..\..\..\packages\MvvmLight.4.1.26.1\lib\net40\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson">
-      <HintPath>..\..\..\..\MedXChangeWPF\Src\packages\mongocsharpdriver.1.7\lib\net35\MongoDB.Bson.dll</HintPath>
+      <HintPath>..\..\..\packages\mongocsharpdriver.1.7.1\lib\net35\MongoDB.Bson.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver">
-      <HintPath>..\..\..\..\MedXChangeWPF\Src\packages\mongocsharpdriver.1.7\lib\net35\MongoDB.Driver.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleInjector, Version=1.6.0.12319, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\SimpleInjector.1.6.0.12319\lib\net35\SimpleInjector.dll</HintPath>
+      <HintPath>..\..\..\packages\mongocsharpdriver.1.7.1\lib\net35\MongoDB.Driver.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

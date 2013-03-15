@@ -13,65 +13,53 @@ using Noodle.Scheduling;
 using Noodle.Security;
 using Noodle.Serialization;
 using Noodle.Web;
-using SimpleInjector;
 
 namespace Noodle.Engine
 {
     public static class CoreDependencyRegistrar
     {
-        public static void Register(Container container)
+        public static void Register(TinyIoCContainer container)
         {
             if (WebConfigurationManager.ConnectionStrings != null)
             {
-                container.RegisterSingle(WebConfigurationManager.ConnectionStrings);
-                container.RegisterSingle(new AppSettings(WebConfigurationManager.AppSettings));
+                container.Register(WebConfigurationManager.ConnectionStrings);
+                container.Register(new AppSettings(WebConfigurationManager.AppSettings));
             }
             else
             {
-                container.RegisterSingle(ConfigurationManager.ConnectionStrings);
-                container.RegisterSingle(new AppSettings(ConfigurationManager.AppSettings));
+                container.Register(ConfigurationManager.ConnectionStrings);
+                container.Register(new AppSettings(ConfigurationManager.AppSettings));
             }
-            container.RegisterSingle(EngineContext.ConfigurationGroupManager().GetSection<NoodleCoreConfiguration>("core", true));
-            container.RegisterSingle(EngineContext.ConfigurationGroupManager());
-            container.RegisterSingle<IWorker, AsyncWorker>();
-            container.RegisterSingle<ITypeFinder, AppDomainTypeFinder>();
-            container.RegisterSingle<IAssemblyFinder, AssemblyFinder>();
-            container.RegisterSingle<ISerializer, BinaryStringSerializer>();
-            container.RegisterSingle<IEncryptionService, EncryptionService>();
-            container.RegisterSingle<ICacheManager, AdaptiveCache>();
-            container.RegisterSingle<IRequestContext, AdaptiveContext>();
-            container.RegisterSingle<IDateTimeHelper, DateTimeHelper>();
-            container.RegisterSingle<IDatabaseService, DatabaseService>();
-            container.RegisterSingle<IEmailSender, EmailSender>();
-            container.RegisterPerWebRequest<IPageTitleBuilder, PageTitleBuilder>();
-            container.RegisterSingle<IImageManipulator, NoodleImageManipulator>();
-            container.RegisterSingle<IImageLayoutBuilder, ImageLayoutBuilder>();
-            container.RegisterSingle<ISecurityManager, DefaultSecurityManager>();
-            container.RegisterSingle<IPluginBootstrapper, PluginBootstrapper>();
-            container.RegisterSingle<IPluginFinder, PluginFinder>();
-            container.RegisterSingle<IHeart, Heart>();
-            container.RegisterSingle<IErrorNotifier, ErrorNotifier>();
-            container.RegisterSingle<IConnectionProvider, ConnectionProvider>();
-            container.RegisterSingle<Resources.EmbeddedResourceHandler>();
-            container.RegisterSingle<Resources.RegisterStartup>();
-            container.Register(() => EventBroker.Instance);
-            container.RegisterSingle<Scheduler>();
-            container.RegisterSingle<IDocumentationService, DocumentationService>();
-            container.RegisterPerWebRequest(() =>
-            {
-                if (HttpContext.Current == null)
-                    throw new InvalidOperationException(
-                        "IWebHelper is attempting to be activated by there is no web context (HttpContext.Current == null).");
-                return new WebHelper(container.GetInstance<IRequestContext>());
-            });
-            container.RegisterPerWebRequest(() =>
-            {
-                if (HttpContext.Current == null)
-                    throw new InvalidOperationException(
-                        "HttpContextWrapper is attempting to be activated by there is no web context (HttpContext.Current == null).");
+            container.Register(EngineContext.ConfigurationGroupManager().GetSection<NoodleCoreConfiguration>("core", true));
 
-                return new HttpContextWrapper(HttpContext.Current);
-            });
+            container.Register(EngineContext.ConfigurationGroupManager());
+            container.Register<IWorker, AsyncWorker>();
+            container.Register<ITypeFinder, AppDomainTypeFinder>();
+            container.Register<IAssemblyFinder, AssemblyFinder>();
+            container.Register<ISerializer, BinaryStringSerializer>();
+            container.Register<IEncryptionService, EncryptionService>();
+            container.Register<ICacheManager, AdaptiveCache>();
+            container.Register<IRequestContext, AdaptiveContext>();
+            container.Register<IDateTimeHelper, DateTimeHelper>();
+            container.Register<IDatabaseService, DatabaseService>();
+            container.Register<IEmailSender, EmailSender>();
+            container.Register<IPageTitleBuilder, PageTitleBuilder>().AsPerRequestSingleton();
+            container.Register<IImageManipulator, NoodleImageManipulator>();
+            container.Register<IImageLayoutBuilder, ImageLayoutBuilder>();
+            container.Register<ISecurityManager, DefaultSecurityManager>();
+            container.Register<IPluginBootstrapper, PluginBootstrapper>();
+            container.Register<IPluginFinder, PluginFinder>();
+            container.Register<IHeart, Heart>();
+            container.Register<IErrorNotifier, ErrorNotifier>();
+            container.Register<IConnectionProvider, ConnectionProvider>();
+            container.Register<Resources.EmbeddedResourceHandler>().AsSingleton();
+            container.Register<Resources.RegisterStartup>().AsSingleton();
+            container.Register((context, p) => EventBroker.Instance);
+            container.Register<Scheduler>();
+            container.Register<IDocumentationService, DocumentationService>();
+            container.Register((context, p) => HttpContext.Current);
+            container.Register<IWebHelper, WebHelper>().AsPerRequestSingleton();
+            container.Register<HttpContextWrapper>().AsPerRequestSingleton();
         }
     }
 }

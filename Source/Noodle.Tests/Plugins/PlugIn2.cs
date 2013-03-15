@@ -1,5 +1,4 @@
 using Noodle.Plugins;
-using SimpleInjector;
 
 namespace Noodle.Tests.Plugins
 {
@@ -8,7 +7,7 @@ namespace Noodle.Tests.Plugins
 	{
         public static bool WasInitialized { get; set; }
 
-		public void Initialize(Container container)
+		public void Initialize(TinyIoCContainer container)
 		{
             WasInitialized = true;
 		}

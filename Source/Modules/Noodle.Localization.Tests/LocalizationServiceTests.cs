@@ -60,7 +60,7 @@ namespace Noodle.Localization.Tests
             // setup
             var language1 = _languageService.InsertLanguage(CreateLanguage(1));
             var language2 = _languageService.InsertLanguage(CreateLanguage(1));
-            var localizationSetting = _container.GetInstance<IConfigurationProvider<LocalizationSettings>>();
+            var localizationSetting = _container.Resolve<IConfigurationProvider<LocalizationSettings>>();
             localizationSetting.Settings.DefaultLanguageId = language2.Id.ToString();
             localizationSetting.SaveSettings();
             var resource1 = CreateResource(1, language1.Id);
@@ -73,7 +73,7 @@ namespace Noodle.Localization.Tests
             _localizationService.InsertLocaleStringResource(resource2);
 
             // act
-            var value = _container.GetInstance<ILocalizationService>().GetResource("test default");
+            var value = _container.Resolve<ILocalizationService>().GetResource("test default");
 
             // assert
             value.ShouldEqual("test default value 2");

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using Noodle.Configuration;
 using Noodle.Engine;
-using SimpleInjector;
 
 namespace Noodle
 {
@@ -19,21 +18,18 @@ namespace Noodle
     public class EngineContext
     {
         private static readonly object ContainerCreationLockObject = new object();
-        private static readonly FieldInfo RegistrationsFieldInfo = typeof(Container).GetField("registrations",
-                                                                     BindingFlags.Public | BindingFlags.NonPublic |
-                                                                     BindingFlags.Instance);
 
         #region Current
 
         /// <summary>
         /// Return the singleton kernel
         /// </summary>
-        public static Container Current
+        public static TinyIoCContainer Current
         {
             get
             {
                 Configure(false);
-                return Singleton<Container>.Instance;
+                return Singleton<TinyIoCContainer>.Instance;
             }
         }
 
@@ -61,14 +57,14 @@ namespace Noodle
         public static void Configure(bool force)
         {
             // If the kernel hasn't been created or the call is forcing a new one do something, otherwise, just exit
-            if (Singleton<Container>.Instance == null || force)
+            if (Singleton<TinyIoCContainer>.Instance == null || force)
             {
                 lock (ContainerCreationLockObject)
                 {
                     // someone may have waited for the lock, but it has been built for them, check one more time.
-                    if (Singleton<Container>.Instance == null || force)
+                    if (Singleton<TinyIoCContainer>.Instance == null || force)
                     {
-                        var container = new Container();
+                        var container = new TinyIoCContainer();
 
                         CoreDependencyRegistrar.Register(container);
 
@@ -76,7 +72,7 @@ namespace Noodle
                         RegisterDependencyRegistrar(TypeFinder, container);
 
                         // set the kernel to the static accessor
-                        Singleton<Container>.Instance = container;
+                        Singleton<TinyIoCContainer>.Instance = container;
 
                         // run all startup tasks
                         RunStartupTasks(container);
@@ -91,12 +87,12 @@ namespace Noodle
 
         public static T Resolve<T>() where T : class
         {
-            return Current.GetInstance<T>();
+            return Current.Resolve<T>();
         }
 
         public static IEnumerable<T> ResolveAll<T>() where T : class
         {
-            return Current.GetAllInstances<T>();
+            return Current.ResolveAll<T>();
         }
 
         #endregion
@@ -128,7 +124,7 @@ namespace Noodle
 
         #region Methods
 
-        private static void RegisterDependencyRegistrar(ITypeFinder typeFinder, Container container)
+        private static void RegisterDependencyRegistrar(ITypeFinder typeFinder, TinyIoCContainer container)
         {
             var dependencyRegistrarTypes = new List<IDependencyRegistrar>();
             foreach (var dependencyRegistrarType in typeFinder.Find<IDependencyRegistrar>())
@@ -156,14 +152,13 @@ namespace Noodle
             }
         }
 
-        public static void RunStartupTasks(Container container)
+        public static void RunStartupTasks(TinyIoCContainer container)
         {
-            var registrations = RegistrationsFieldInfo.GetValue(container) as IDictionary;
-            if (registrations == null) return;
-            foreach (var instance in registrations.Keys.Cast<Type>().Where(x => typeof(IStartupTask).IsAssignableFrom(x))
-                .Select(container.GetInstance).OfType<IStartupTask>().OrderBy(x => x.Order))
+            foreach (var startupService in container.GetServicesOf<IStartupTask>()
+                .Select(x => container.Resolve(x) as IStartupTask)
+                .OrderBy(x => x.Order))
             {
-                instance.Execute();
+                startupService.Execute();
             }
         }
 

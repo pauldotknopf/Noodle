@@ -1,5 +1,3 @@
-using SimpleInjector;
-
 namespace Noodle.Plugins
 {
 	/// <summary>
@@ -7,6 +5,6 @@ namespace Noodle.Plugins
 	/// </summary>
 	public interface IPluginBootstrapper
 	{
-        void InitializePlugins(Container container);
+        void InitializePlugins(TinyIoCContainer container);
 	}
 }

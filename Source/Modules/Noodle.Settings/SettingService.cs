@@ -5,7 +5,6 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Noodle.Caching;
-using SimpleInjector;
 
 namespace Noodle.Settings
 {
@@ -20,7 +19,7 @@ namespace Noodle.Settings
 
         #region Fields
 
-        private readonly Container _container;
+        private readonly TinyIoCContainer _container;
         private readonly MongoCollection<Setting> _settingsCollection;
         private readonly ICacheManager _cacheManager;
 
@@ -36,7 +35,7 @@ namespace Noodle.Settings
         /// <param name="settingsCollection">The mongo settings collection</param>
         /// <remarks></remarks>
         public SettingService(ICacheManager cacheManager, 
-            Container container,
+            TinyIoCContainer container,
             MongoCollection<Setting> settingsCollection)
         {
             _cacheManager = cacheManager;

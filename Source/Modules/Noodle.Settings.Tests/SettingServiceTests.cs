@@ -16,7 +16,7 @@ namespace Noodle.Settings.Tests
         public override void SetUp()
         {
             base.SetUp();
-            _settingService = _container.GetInstance<ISettingService>();
+            _settingService = _container.Resolve<ISettingService>();
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace Noodle.Settings.Tests
 
             // act/assert
             _settingService.SaveSetting(testSetting);
-            var configurationProvider = _container.GetInstance<IConfigurationProvider<TestSetting>>();
+            var configurationProvider = _container.Resolve<IConfigurationProvider<TestSetting>>();
             configurationProvider.Settings.Decimal.ShouldEqual((decimal)3);
 
             // act/assert
@@ -83,10 +83,24 @@ namespace Noodle.Settings.Tests
         }
 
         [Test]
+        public void Can_retrieve_settings_object_from_container()
+        {
+            // arrange
+            // this will create "TestSEtting" with a decimal value of 4
+            Can_update_configuration_provider_instance_of_setting();
+
+            // act
+            var setting = _container.Resolve<TestSetting>();
+
+            // assert
+            setting.Decimal.ShouldEqual(4);
+        }
+
+        [Test]
         public void Can_clear_cache()
         {
             var allSettings = _settingService.GetAllSettings();
-            _container.GetInstance<MongoCollection<Setting>>().Insert(new Setting {Name = "cached1", Value = "cached2"});
+            _container.Resolve<MongoCollection<Setting>>().Insert(new Setting { Name = "cached1", Value = "cached2" });
             var cachedSettings = _settingService.GetAllSettings();
             allSettings.SequenceEqual(cachedSettings).ShouldBeTrue();
             _settingService.ClearCache();

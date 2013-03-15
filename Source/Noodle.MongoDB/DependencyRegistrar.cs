@@ -1,5 +1,4 @@
 ﻿using Noodle.Engine;
-using SimpleInjector;
 
 namespace Noodle.MongoDB
 {
@@ -8,9 +7,9 @@ namespace Noodle.MongoDB
     /// </summary>
     public class DependencyRegistrar : IDependencyRegistrar
     {
-        public void Register(Container container)
+        public void Register(TinyIoCContainer container)
         {
-            container.RegisterSingle<IMongoService, MongoService>();
+            container.Register<IMongoService, MongoService>();
         }
 
         public int Importance

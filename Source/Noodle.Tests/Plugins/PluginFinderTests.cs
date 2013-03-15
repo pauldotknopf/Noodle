@@ -6,7 +6,6 @@ using Noodle.Configuration;
 using Noodle.Engine;
 using Noodle.Plugins;
 using Noodle.Security;
-using SimpleInjector;
 
 namespace Noodle.Tests.Plugins
 {
@@ -62,7 +61,7 @@ namespace Noodle.Tests.Plugins
             _prev = CommonHelper.GetEntryAssembly;
             CommonHelper.GetEntryAssembly = () => typeof (TestBase).Assembly;
             var edit = new NoodleCoreConfiguration();
-            var container = new Container();
+            var container = new TinyIoCContainer();
             container.Register<ISecurityManager, FakeSecurityManager>();
             _finder = new PluginFinder(new AppDomainTypeFinder(new AssemblyFinder()), edit, container);
         }

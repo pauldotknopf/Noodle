@@ -26,8 +26,7 @@ namespace Noodle.Logging.Tests
         public override void SetUp()
         {
             base.SetUp();
-            _container.GetInstance<MongoCollection<Log>>().RemoveAll();
-            _logger = _container.GetInstance<ILogger>();
+            _logger = _container.Resolve<ILogger>();
 
             _requestContext = new Mock<IRequestContext>();
             _requestContext.Setup(x => x.Url).Returns(() => _currentUrl);
@@ -106,7 +105,7 @@ namespace Noodle.Logging.Tests
             _logger.ClearLog();
 
             // assert
-            _container.GetInstance<MongoCollection<Log>>().Count().ShouldEqual(0);
+            _container.Resolve<MongoCollection<Log>>().Count().ShouldEqual(0);
         }
 
         [Test]

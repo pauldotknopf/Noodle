@@ -1,5 +1,3 @@
-using SimpleInjector;
-
 namespace Noodle.Plugins
 {
 	/// <summary>
@@ -10,6 +8,6 @@ namespace Noodle.Plugins
 	{
 		/// <summary>Executes the plugin initializer.</summary>
         /// <param name="container">A reference to the container.</param>
-        void Initialize(Container container);
+        void Initialize(TinyIoCContainer container);
 	}
 }

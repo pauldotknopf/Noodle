@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Noodle.Engine;
+﻿using Noodle.Engine;
 
 namespace Noodle.Imaging.AForge
 {
@@ -16,11 +12,9 @@ namespace Noodle.Imaging.AForge
         /// </summary>
         /// <param name="container"></param>
         /// <exception cref="System.NotImplementedException"></exception>
-        public void Register(SimpleInjector.Container container)
+        public void Register(TinyIoCContainer container)
         {
-            container.Options.AllowOverridingRegistrations = true;
-            container.RegisterSingle<IImageManipulator, AForgeImageManipulator>();
-            container.Options.AllowOverridingRegistrations = false;
+            container.Register<IImageManipulator, AForgeImageManipulator>();
         }
 
         /// <summary>

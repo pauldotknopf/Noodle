@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using SimpleInjector;
 
 namespace Noodle.Logging
 {
@@ -11,7 +10,7 @@ namespace Noodle.Logging
     /// </summary>
     public static class LogStore
     {
-        private static List<Action<Exception, Container, Dictionary<string, string>>> _customDataActions = new List<Action<Exception, Container, Dictionary<string, string>>>();
+        private static List<Action<Exception, TinyIoCContainer, Dictionary<string, string>>> _customDataActions = new List<Action<Exception, TinyIoCContainer, Dictionary<string, string>>>();
         private static object _lockObject = new object();
         private static List<Regex> _ignoreRegex = new List<Regex>();
         private static List<Type> _ignoreExceptions = new List<Type>();
@@ -20,7 +19,7 @@ namespace Noodle.Logging
         /// Add a delegate to add custom data to the error
         /// </summary>
         /// <param name="action"></param>
-        public static void AddCustomDataAction(Action<Exception, Container, Dictionary<string, string>> action)
+        public static void AddCustomDataAction(Action<Exception, TinyIoCContainer, Dictionary<string, string>> action)
         {
             lock (_lockObject)
             {
@@ -71,7 +70,7 @@ namespace Noodle.Logging
         /// <param name="exception">The exception.</param>
         /// <param name="kernel">The kernel.</param>
         /// <returns></returns>
-        public static Dictionary<string, string> GetCustomData(Exception exception, Container kernel)
+        public static Dictionary<string, string> GetCustomData(Exception exception, TinyIoCContainer kernel)
         {
             var data = new Dictionary<string, string>();
             foreach(var action in _customDataActions)

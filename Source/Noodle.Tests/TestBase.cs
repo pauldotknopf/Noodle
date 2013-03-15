@@ -4,21 +4,18 @@ using NUnit.Framework;
 using Noodle.Caching;
 using Noodle.Configuration;
 using Noodle.Engine;
-using SimpleInjector;
 
 namespace Noodle.Tests
 {
     [TestFixture]
     public abstract class TestBase
     {
-        protected Container _container;
+        protected TinyIoCContainer _container;
 
         [SetUp]
         public virtual void SetUp()
         {
             _container = BuildTestContainer();
-            // placing the kernel here allows it to be used when doing EngineContext.Current
-            Singleton<Container>.Instance = _container;
             ConfigureContainer();
         }
 
@@ -39,9 +36,9 @@ namespace Noodle.Tests
             
         }
 
-        public virtual Container BuildTestContainer()
+        public virtual TinyIoCContainer BuildTestContainer()
         {
-            var container = new Container();
+            var container = new TinyIoCContainer();
             CoreDependencyRegistrar.Register(container);
             foreach (var dependencyRegistrar in GetDependencyRegistrars().OrderBy(x => x.Importance))
             {

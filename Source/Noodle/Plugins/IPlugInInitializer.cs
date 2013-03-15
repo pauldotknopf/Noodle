@@ -1,6 +1,4 @@
 
-using SimpleInjector;
-
 namespace Noodle.Plugins
 {
 	/// <summary>Classes implementing this interface can serve as plug in initializers. 
@@ -9,6 +7,6 @@ namespace Noodle.Plugins
 	{
 		/// <summary>Invoked after the factory has been initialized.</summary>
         /// <param name="container">The container that has been initialized.</param>
-		void Initialize(Container container);
+        void Initialize(TinyIoCContainer container);
 	}
 }

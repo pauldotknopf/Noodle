@@ -1,17 +1,16 @@
 ﻿using MongoDB.Driver;
 using Noodle.Engine;
 using Noodle.MongoDB;
-using SimpleInjector;
 
 namespace Noodle.Logging
 {
     public class DependencyRegistrar : IDependencyRegistrar
     {
-        public void Register(Container container)
+        public void Register(TinyIoCContainer container)
         {
-            container.RegisterSingle<ILogger, DefaultLogger>();
-            container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<Log>("Log"));
-            container.RegisterSingle<ErrorNotifierLogger>();
+            container.Register<ILogger, DefaultLogger>();
+            container.Register((context, p) => GetLocalizationDatabase(context).GetCollection<Log>("Log"));
+            container.Register<ErrorNotifierLogger>().AsSingleton();
         }
 
         public int Importance
@@ -19,9 +18,9 @@ namespace Noodle.Logging
             get { return 0; }
         }
 
-        public static MongoDatabase GetLocalizationDatabase(Container container)
+        public static MongoDatabase GetLocalizationDatabase(TinyIoCContainer container)
         {
-            return container.GetInstance<IMongoService>().GetDatabase("Logging");
+            return container.Resolve<IMongoService>().GetDatabase("Logging");
         }
     }
 }

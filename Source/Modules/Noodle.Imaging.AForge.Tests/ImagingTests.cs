@@ -18,7 +18,7 @@ namespace Noodle.Imaging.AForge.Tests
         public override void SetUp()
         {
             base.SetUp();
-            _ImageManipulator = new AForgeImageManipulator(_imageLayoutBuilder);
+            _ImageManipulator = new AForgeImageManipulator(new ImageLayoutBuilder());
         }
 
         protected override void AssertLayout(string sourceSize, string resizeSettings, Action<System.Drawing.RectangleF> assertImage, Action<System.Drawing.SizeF> assertCanvas)

@@ -1,7 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
 using Noodle.Engine;
-using SimpleInjector;
 
 namespace Noodle.Tests
 {
@@ -36,7 +35,7 @@ namespace Noodle.Tests
                 StartupTask1.Executed.ShouldBeNull();
                 StartupTask1.NumberOfTimesRan.ShouldEqual(0);
 
-                var container = new Container();
+                var container = new TinyIoCContainer();
                 container.Register<IStartupTask, StartupTask1>();
 
                 StartupTask1.NumberOfTimesRan.ShouldEqual(0);

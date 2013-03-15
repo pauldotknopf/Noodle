@@ -21,13 +21,10 @@ namespace Noodle.Tests
 
             base.SetUp();
 
-            _container.Options.AllowOverridingRegistrations = true;
-            // and set the kernel up to point to it
-            _container.RegisterSingle<IConnectionProvider>(() => new SqlConnectionProvider("mongodb://localhost:{0}/?safe=true".F(PortNumber)));
-            _container.Options.AllowOverridingRegistrations = false;
+            _container.Register<IConnectionProvider>((context, p) => new SqlConnectionProvider("mongodb://localhost:{0}/?safe=true".F(PortNumber)));
 
             // this clears the connection pool
-            _container.GetInstance<IMongoService>().GetServer().Reconnect(); 
+            _container.Resolve<IMongoService>().GetServer().Reconnect(); 
         }
 
         public override void TearDown()

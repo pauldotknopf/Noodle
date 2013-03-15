@@ -23,13 +23,13 @@ namespace Noodle.Localization.Tests
             Trace.WriteLine("Language 2:" + language2.Id.ToString());
 
             // assert
-            Assert.AreEqual(language1.Id.ToString(), _container.GetInstance<LocalizationSettings>().DefaultLanguageId);
+            Assert.AreEqual(language1.Id.ToString(), _container.Resolve<IConfigurationProvider<LocalizationSettings>>().Settings.DefaultLanguageId);
 
             // act
             _languageService.DeleteLanguage(language1.Id);
 
             // assert
-            Assert.AreEqual(language2.Id.ToString(), _container.GetInstance<LocalizationSettings>().DefaultLanguageId);
+            Assert.AreEqual(language2.Id.ToString(), _container.Resolve<IConfigurationProvider<LocalizationSettings>>().Settings.DefaultLanguageId);
         }
 
         [Test]

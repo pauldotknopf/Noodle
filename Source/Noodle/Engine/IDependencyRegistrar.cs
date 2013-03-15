@@ -1,5 +1,4 @@
 ﻿using Noodle.Configuration;
-using SimpleInjector;
 
 namespace Noodle.Engine
 {
@@ -11,7 +10,7 @@ namespace Noodle.Engine
         /// <summary>
         /// Register your services with the container. You are given a type finder to help you find anything you need.
         /// </summary>
-        void Register(Container container);
+        void Register(TinyIoCContainer container);
 
         /// <summary>
         /// The lower numbers will be registered first. Higher numbers the latest.

@@ -10,7 +10,6 @@ using Noodle.Documentation;
 using Noodle.Engine;
 using Noodle.Plugins;
 using Noodle.Tests.Helpers;
-using SimpleInjector;
 
 namespace Noodle.Tests
 {
@@ -27,8 +26,8 @@ namespace Noodle.Tests
             _xmlDocumentation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/SimpleInjector.xml");
             _documentationService = new DocumentationService(
                 new PluginFinder(new AppDomainTypeFinder(new FakeAssemblyFinder(new List<Assembly>{typeof(DocumentationMember).Assembly})), 
-                new NoodleCoreConfiguration(), 
-                new Container()));
+                new NoodleCoreConfiguration(),
+                new TinyIoCContainer()));
         }
 
         [Test]

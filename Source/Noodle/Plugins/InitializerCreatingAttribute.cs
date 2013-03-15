@@ -1,6 +1,4 @@
 using System;
-using SimpleInjector;
-
 namespace Noodle.Plugins
 {
 	/// <summary>
@@ -16,7 +14,7 @@ namespace Noodle.Plugins
 
 	    public Type InitializerType { get; set; }
 
-	    public virtual void Initialize(Container container)
+        public virtual void Initialize(TinyIoCContainer container)
 		{
 			if (InitializerType == null) throw new ArgumentNullException("InitializerType");
 

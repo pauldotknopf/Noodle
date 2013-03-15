@@ -8,7 +8,6 @@ using Noodle.Engine;
 using Noodle.Plugins;
 using Noodle.Scheduling;
 using Noodle.Web;
-using SimpleInjector;
 
 namespace Noodle.Tests.Scheduling
 {
@@ -114,8 +113,6 @@ namespace Noodle.Tests.Scheduling
             _scheduler.Actions.Insert(0, new ThrowingAction { ExceptionToThrow = ex });
             var once = SelectThe<OnceAction>();
             var repeat = SelectThe<RepeatAction>();
-
-            Singleton<Container>.Instance = new Container();
 
             _heart.Raise(x => x.Beat += null, new EventArgs());
 

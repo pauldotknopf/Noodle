@@ -8,7 +8,6 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MongoDB.Driver;
 using Noodle.Data;
-using SimpleInjector;
 
 namespace Noodle.Logging.Viewer
 {
@@ -172,7 +171,7 @@ namespace Noodle.Logging.Viewer
         {
             if (_currentSet == null || (_currentPage - 1) != _currentSet.PageIndex)
             {
-                _currentSet = new DefaultLogger(new Container(), _logCollection).GetAllLogs(pageIndex: _currentPage);
+                _currentSet = new DefaultLogger(new TinyIoCContainer(), _logCollection).GetAllLogs(pageIndex: _currentPage);
                 _currentPage = _currentSet.PageIndex + 1;
                 TotalPages = _currentSet.TotalPages;
                 _logs.Clear();

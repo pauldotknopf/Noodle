@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
@@ -8,11 +6,8 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using Noodle.Configuration;
-using Noodle.Data;
 using Noodle.Engine;
 using Noodle.MongoDB;
-using SimpleInjector;
-using SimpleInjector.Extensions;
 namespace Noodle.Settings
 {
     public class SettingsDiscriminatorConvention : IDiscriminatorConvention
@@ -22,7 +17,7 @@ namespace Noodle.Settings
             get { return "Discriminator"; }
         }
 
-        public System.Type GetActualType(global::MongoDB.Bson.IO.BsonReader bsonReader, System.Type nominalType)
+        public Type GetActualType(BsonReader bsonReader, System.Type nominalType)
         {
             var currentBsonType = bsonReader.GetCurrentBsonType();
             if (bsonReader.State == BsonReaderState.Value)
@@ -79,23 +74,25 @@ namespace Noodle.Settings
 
     public class DependencyRegistrar : IDependencyRegistrar
     {
-        public void Register(Container container)
+        public void Register(TinyIoCContainer container)
         {
-            container.RegisterSingle<ISettingService, SettingService>();
-            container.RegisterSingleOpenGeneric(typeof (IConfigurationProvider<>), typeof (ConfigurationProvider<>));
-            container.RegisterSingle(() => GetSettingsDatabase(container).GetCollection<Setting>("Settings"));
-            container.ResolveUnregisteredType += (sender, e) =>
-            {
-                var type = e.UnregisteredServiceType;
-                if (typeof(ISettings).IsAssignableFrom(type))
-                {
-                    e.Register(() =>
-                    {
-                        var buildMethod = BuildSettingsMethod.MakeGenericMethod(type);
-                        return buildMethod.Invoke(null, new object[] { container });
-                    });
-                }
-            };
+            container.Register<ISettingService, SettingService>();
+            container.Register(typeof (IConfigurationProvider<>), typeof (ConfigurationProvider<>));
+            container.Register((context, p) => GetSettingsDatabase(context));
+            container.Register((context, p) => GetSettingsDatabase(context).GetCollection<Setting>("Settings"));
+            // TODO
+            //container.ResolveUnregisteredType += (sender, e) =>
+            //{
+            //    var type = e.UnregisteredServiceType;
+            //    if (typeof(ISettings).IsAssignableFrom(type))
+            //    {
+            //        e.Register(() =>
+            //        {
+            //            var buildMethod = BuildSettingsMethod.MakeGenericMethod(type);
+            //            return buildMethod.Invoke(null, new object[] { container });
+            //        });
+            //    }
+            //};
             try
             {
                 BsonSerializer.RegisterDiscriminatorConvention(typeof(Setting), new SettingsDiscriminatorConvention());
@@ -110,20 +107,20 @@ namespace Noodle.Settings
             get { return 0; }
         }
 
-        public static MongoDatabase GetSettingsDatabase(Container container)
+        public static MongoDatabase GetSettingsDatabase(TinyIoCContainer container)
         {
-            return container.GetInstance<IMongoService>().GetDatabase("Localization");
+            return container.Resolve<IMongoService>().GetDatabase("Localization");
         }
 
         static readonly MethodInfo BuildSettingsMethod = typeof(DependencyRegistrar).GetMethod(
             "BuildSettings",
             BindingFlags.Static | BindingFlags.NonPublic);
 
-        static TSettings BuildSettings<TSettings>(Container container) where TSettings : ISettings, new()
+        static TSettings BuildSettings<TSettings>(TinyIoCContainer container) where TSettings : ISettings, new()
         {
             try
             {
-                return container.GetInstance<IConfigurationProvider<TSettings>>().Settings;
+                return container.Resolve<IConfigurationProvider<TSettings>>().Settings;
             }
             catch (NoodleException ex)
             {
@@ -131,7 +128,7 @@ namespace Noodle.Settings
                 if (!ex.Message.StartsWith("The default connection string name was"))
                     throw;
 
-                return new AppSettingsConfigurationProvider<TSettings>(container.GetInstance<AppSettings>()).Settings;
+                return new AppSettingsConfigurationProvider<TSettings>(container.Resolve<AppSettings>()).Settings;
             }
         }
     }

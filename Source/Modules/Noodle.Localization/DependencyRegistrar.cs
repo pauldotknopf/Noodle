@@ -2,7 +2,6 @@
 using Noodle.Engine;
 using Noodle.Localization.Services;
 using Noodle.MongoDB;
-using SimpleInjector;
 
 namespace Noodle.Localization
 {
@@ -15,15 +14,15 @@ namespace Noodle.Localization
         /// Register your services with the container. You are given a type finder to help you find anything you need.
         /// </summary>
         /// <param name="container"></param>
-        public void Register(Container container)
+        public void Register(TinyIoCContainer container)
         {
-            container.RegisterSingle<ILanguageService, LanguageService>();
-            container.RegisterSingle<ILocalizationService, LocalizationService>();
-            container.RegisterSingle<ILanguageInstaller, LanguageInstaller>();
-            container.RegisterSingle<ILocalizedEntityService, LocalizedEntityService>();
-            container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<Language>("Languages"));
-            container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<LocaleStringResource>("LocaleStringResources"));
-            container.RegisterSingle(() => GetLocalizationDatabase(container).GetCollection<LocalizedProperty>("LocalizedProperties"));
+            container.Register<ILanguageService, LanguageService>();
+            container.Register<ILocalizationService, LocalizationService>();
+            container.Register<ILanguageInstaller, LanguageInstaller>();
+            container.Register<ILocalizedEntityService, LocalizedEntityService>();
+            container.Register((context, p) => GetLocalizationDatabase(context).GetCollection<Language>("Languages"));
+            container.Register((context, p) => GetLocalizationDatabase(context).GetCollection<LocaleStringResource>("LocaleStringResources"));
+            container.Register((context, p) => GetLocalizationDatabase(context).GetCollection<LocalizedProperty>("LocalizedProperties"));
         }
 
         /// <summary>
@@ -36,9 +35,9 @@ namespace Noodle.Localization
             get { return 0; }
         }
 
-        public static MongoDatabase GetLocalizationDatabase(Container container)
+        public static MongoDatabase GetLocalizationDatabase(TinyIoCContainer container)
         {
-            return container.GetInstance<IMongoService>().GetDatabase("Localization");
+            return container.Resolve<IMongoService>().GetDatabase("Localization");
         }
     }
 }

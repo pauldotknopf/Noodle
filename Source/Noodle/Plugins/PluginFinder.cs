@@ -6,7 +6,6 @@ using System.Security.Principal;
 using Noodle.Configuration;
 using Noodle.Engine;
 using Noodle.Security;
-using SimpleInjector;
 
 namespace Noodle.Plugins
 {
@@ -17,10 +16,10 @@ namespace Noodle.Plugins
     {
         private readonly IList<IPlugin> _plugins;
         private readonly ITypeFinder _typeFinder;
-        private readonly Container _container;
+        private readonly TinyIoCContainer _container;
 	    private readonly IEnumerable<PluginElement> _removedPlugins = new PluginElement[0];
 
-        public PluginFinder(ITypeFinder typeFinder, NoodleCoreConfiguration config, Container container)
+        public PluginFinder(ITypeFinder typeFinder, NoodleCoreConfiguration config, TinyIoCContainer container)
         {
             _removedPlugins = config.Plugins.RemovedElements;
 			_typeFinder = typeFinder;
@@ -34,7 +33,7 @@ namespace Noodle.Plugins
     	/// <returns>An enumeration of plugins.</returns>
     	public IEnumerable<T> GetPlugins<T>(IPrincipal user) where T : class, IPlugin
 		{
-            return GetPlugins<T>().Where(plugin => _container.GetInstance<ISecurityManager>().IsAuthorized(plugin as ISecurableBase, user));
+            return GetPlugins<T>().Where(plugin => _container.Resolve<ISecurityManager>().IsAuthorized(plugin as ISecurableBase, user));
 		}
 
 	    public IEnumerable<T> GetPlugins<T>() where T : class, IPlugin
@@ -51,7 +50,7 @@ namespace Noodle.Plugins
             where T : class, IPlugin
             where TO : class
         {
-            return _plugins.OfType<T>().Where(plugin => _container.GetInstance<ISecurityManager>().IsAuthorized(plugin as ISecurableBase, user)).Select(CreatePluginTo<TO>);
+            return _plugins.OfType<T>().Where(plugin => _container.Resolve<ISecurityManager>().IsAuthorized(plugin as ISecurableBase, user)).Select(CreatePluginTo<TO>);
         }
 
         /// <summary>Gets plugins found in the environment sorted and filtered by the given user.</summary>

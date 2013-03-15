@@ -7,7 +7,6 @@ using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Noodle.Caching;
 using Noodle.Settings;
-using SimpleInjector;
 
 namespace Noodle.Localization.Services
 {

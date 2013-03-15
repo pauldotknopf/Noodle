@@ -31,10 +31,8 @@ namespace Noodle.Tests
                 }
                 return connectionStrings;
             });
-            _container.Options.AllowOverridingRegistrations = true;
-            _container.RegisterSingle(configuration.Object);
-            _container.RegisterSingle(_connectionStrings);
-            _container.Options.AllowOverridingRegistrations = false;
+            _container.Register(configuration.Object);
+            _container.Register(_connectionStrings);
         }
 
         [Test]
@@ -56,7 +54,7 @@ namespace Noodle.Tests
                 ConnectionString = "server=somewhere",
                 Name = "connection1"
             });
-            var connectionProvider = _container.GetInstance<IConnectionProvider>();
+            var connectionProvider = _container.Resolve<IConnectionProvider>();
 
             // assert
             ExceptionAssert.Throws<NoodleException>(() => connectionProvider.GetDbConnection("testName2", true));
@@ -78,7 +76,7 @@ namespace Noodle.Tests
                                                              Name = "Noodle",
                                                              ConnectionString = "server=overhere"
                                                          });
-            var connectionProvider = _container.GetInstance<IConnectionProvider>();
+            var connectionProvider = _container.Resolve<IConnectionProvider>();
 
             // assert
             connectionProvider.GetDbConnection("testName").ConnectionString.ShouldEqual("server=overhere");
@@ -104,7 +102,7 @@ namespace Noodle.Tests
                 Name = "NoodleCustom",
                 ConnectionString = "server=overthere"
             });
-            var connectionProvider = _container.GetInstance<IConnectionProvider>();
+            var connectionProvider = _container.Resolve<IConnectionProvider>();
 
             // assert
             connectionProvider.GetDbConnection("testName").ConnectionString.ShouldEqual("server=overthere");

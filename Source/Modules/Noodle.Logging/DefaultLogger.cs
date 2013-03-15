@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Noodle.Web;
-using SimpleInjector;
+using MongoDB.Bson;
 
 namespace Noodle.Logging
 {
@@ -18,7 +17,7 @@ namespace Noodle.Logging
     {
         #region Fields
 
-        private readonly Container _container;
+        private readonly TinyIoCContainer _container;
         private readonly MongoCollection<Log> _logCollection;
 
         #endregion
@@ -30,7 +29,7 @@ namespace Noodle.Logging
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="logCollection">The log collection</param>
-        public DefaultLogger(Container container,
+        public DefaultLogger(TinyIoCContainer container,
             MongoCollection<Log> logCollection)
         {
             _container = container;

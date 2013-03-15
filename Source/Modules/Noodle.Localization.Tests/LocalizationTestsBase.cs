@@ -20,14 +20,9 @@ namespace Noodle.Localization.Tests
         public override void SetUp()
         {
             base.SetUp();
-
-            _container.GetInstance<MongoCollection<Language>>().RemoveAll();
-            _container.GetInstance<MongoCollection<LocaleStringResource>>().RemoveAll();
-            _container.GetInstance<MongoCollection<LocalizedProperty>>().RemoveAll();
-            _container.GetInstance<MongoCollection<Setting>>().RemoveAll();
-            _languageService = _container.GetInstance<ILanguageService>();
-            _localizationService = _container.GetInstance<ILocalizationService>();
-            _localizedEntityService = _container.GetInstance<ILocalizedEntityService>();
+            _languageService = _container.Resolve<ILanguageService>();
+            _localizationService = _container.Resolve<ILocalizationService>();
+            _localizedEntityService = _container.Resolve<ILocalizedEntityService>();
         }
 
         public override IEnumerable<Engine.IDependencyRegistrar> GetDependencyRegistrars()
