@@ -2793,7 +2793,7 @@ namespace Noodle
             private readonly Type registerType;
             private readonly Type registerImplementation;
             private readonly object SingletonLock = new object();
-            private object _Current;
+            private Dictionary<int, object> _Current = new Dictionary<int, object>();
 
             public SingletonFactory(Type registerType, Type registerImplementation)
             {
@@ -2821,11 +2821,24 @@ namespace Noodle
                 if (parameters.Count != 0)
                     throw new ArgumentException("Cannot specify parameters for singleton types");
 
+                int hashCode = 0;
+                // if the registered type is an open generic....
+                if(registerType.IsGenericType && registerType.GetGenericArguments().All(x => x.FullName == null))
+                {
+                    // then the requested type should have the parameters defined.
+                    hashCode = requestedType.GetGenericArguments().Sum(x => x.GetHashCode());
+                }else
+                {
+                    // just a regular old singleton registration with a single stored instance
+                    hashCode = 0;
+                }
+                
                 lock (SingletonLock)
-                    if (_Current == null)
-                        _Current = container.ConstructType(requestedType, this.registerImplementation, Constructor, options);
-
-                return _Current;
+                {
+                    if (!_Current.ContainsKey(hashCode))
+                        _Current[hashCode] = container.ConstructType(requestedType, this.registerImplementation, Constructor, options);
+                    return _Current[hashCode];
+                }
             }
 
             public override ObjectFactoryBase SingletonVariant
@@ -2860,13 +2873,14 @@ namespace Noodle
 
             public void Dispose()
             {
-                if (this._Current == null)
+                if (_Current == null)
                     return;
 
-                var disposable = this._Current as IDisposable;
-
-                if (disposable != null)
-                    disposable.Dispose();
+                foreach(var value in _Current.Values)
+                {
+                    if(value is IDisposable)
+                        (value as IDisposable).Dispose();
+                }
             }
         }
 

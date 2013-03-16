@@ -67,6 +67,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ConnectionProviderTests.cs" />
+    <Compile Include="ContainerTests.cs" />
     <Compile Include="CrudCollectionTests.cs" />
     <Compile Include="DataTestBase.cs" />
     <Compile Include="DateTimeAssert.cs" />
