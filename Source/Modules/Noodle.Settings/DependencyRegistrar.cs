@@ -80,19 +80,16 @@ namespace Noodle.Settings
             container.Register(typeof (IConfigurationProvider<>), typeof (ConfigurationProvider<>));
             container.Register((context, p) => GetSettingsDatabase(context));
             container.Register((context, p) => GetSettingsDatabase(context).GetCollection<Setting>("Settings"));
-            // TODO
-            //container.ResolveUnregisteredType += (sender, e) =>
-            //{
-            //    var type = e.UnregisteredServiceType;
-            //    if (typeof(ISettings).IsAssignableFrom(type))
-            //    {
-            //        e.Register(() =>
-            //        {
-            //            var buildMethod = BuildSettingsMethod.MakeGenericMethod(type);
-            //            return buildMethod.Invoke(null, new object[] { container });
-            //        });
-            //    }
-            //};
+           
+            container.ResolveUnregisteredType += (sender, e) =>
+            {
+                if (typeof(ISettings).IsAssignableFrom(e.Request.Type))
+                {
+                    var buildMethod = BuildSettingsMethod.MakeGenericMethod(e.Request.Type);
+                    e.Result = buildMethod.Invoke(null, new object[] { container });
+                }
+            };
+
             try
             {
                 BsonSerializer.RegisterDiscriminatorConvention(typeof(Setting), new SettingsDiscriminatorConvention());

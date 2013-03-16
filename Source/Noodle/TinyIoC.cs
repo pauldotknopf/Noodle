@@ -3380,6 +3380,16 @@ namespace Noodle
                 }
             }
 
+            // BEGIN: Noodle Customization
+            if(ResolveUnregisteredType != null)
+            {
+                var unRegisteredRequest = new TinyIoCUnregisteredType(registration, this);
+                ResolveUnregisteredType(this, unRegisteredRequest);
+                if (unRegisteredRequest.Result != null)
+                    return unRegisteredRequest.Result;
+            }
+            // END: Noodle Customization
+
             // Fail if requesting named resolution and settings set to fail if unresolved
             if (!String.IsNullOrEmpty(registration.Name) && options.NamedResolutionFailureAction == NamedResolutionFailureActions.Fail)
                 throw new TinyIoCResolutionException(registration.Type);
