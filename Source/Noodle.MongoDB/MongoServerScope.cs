@@ -27,17 +27,21 @@ namespace Noodle.MongoDB
         public MongoServerScope(string directory, int port)
         {
             _directory = directory;
-            Trace.WriteLine(directory);
 
             Monitor.Enter(_lockObject);
+
+            Thread.Sleep((int)TimeSpan.FromSeconds(1).TotalMilliseconds);
+
             try
             {
                 _directory = directory;
+
                 if (Directory.Exists(directory))
                     Directory.Delete(directory, true);
                 Directory.CreateDirectory(directory);
+
                 var mongoPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mongod.exe");
-                Trace.WriteLine(mongoPath);
+
                 _process = System.Diagnostics.Process.Start(mongoPath, "--dbpath \"" + directory + "\" --port \"" + port + "\"");
             }
             catch (Exception)
@@ -52,7 +56,7 @@ namespace Noodle.MongoDB
             try
             {
                 _process.Kill();
-                System.Threading.Thread.Sleep((int)TimeSpan.FromSeconds(1).TotalMilliseconds);
+                Thread.Sleep((int)TimeSpan.FromSeconds(1).TotalMilliseconds);
                 Directory.Delete(_directory, true);
             }
             finally

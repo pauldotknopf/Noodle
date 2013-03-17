@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using MongoDB.Driver;
 using Noodle.Data;
 using Noodle.MongoDB;
 
@@ -24,7 +22,16 @@ namespace Noodle.Tests
             _container.Register<IConnectionProvider>((context, p) => new SqlConnectionProvider("mongodb://localhost:{0}/?safe=true".F(PortNumber)));
 
             // this clears the connection pool
-            _container.Resolve<IMongoService>().GetServer().Reconnect(); 
+            try
+            {
+                _container.Resolve<IMongoService>().GetServer().Reconnect();
+            }
+            catch (MongoConnectionException)
+            {
+                // some tests may still have a connetion. since we restarted the server, those connections have errors.
+                // no biggy. reconnect again.
+                _container.Resolve<IMongoService>().GetServer().Reconnect();
+            }
         }
 
         public override void TearDown()
