@@ -74,7 +74,6 @@ namespace Noodle.Engine
                     string loaderErrors = string.Empty;
                     foreach (Exception loaderEx in ex.LoaderExceptions)
                     {
-                        Trace.TraceError(loaderEx.ToString());
                         loaderErrors += ", " + loaderEx.Message;
                     }
 

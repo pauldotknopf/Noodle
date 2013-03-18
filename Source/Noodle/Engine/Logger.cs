@@ -245,30 +245,57 @@ namespace Noodle.Engine
 
         public override void Error(string message)
         {
-            Trace.TraceError(Prefix + message);
+#if IOS
+			System.Diagnostics.Debug.WriteLine("Error: " + message);
+#else
+			Trace.TraceError(Prefix + message);
+#endif
+            
         }
 
         public override void Error(string format, object[] args)
         {
-            Trace.TraceError(Prefix + format, args);
+#if IOS
+			System.Diagnostics.Debug.WriteLine("Error: " + format, args);
+#else
+			Trace.TraceError(Prefix + format, args);
+#endif 
         }
 
         public override void Warning(string message)
         {
-            Trace.TraceWarning(Prefix + message);
+#if IOS
+			System.Diagnostics.Debug.WriteLine("Warning: " + message);
+#else
+			Trace.TraceWarning(Prefix + message);
+#endif   
         }
         public override void Warning(string format, object[] args)
         {
-            Trace.TraceWarning(Prefix + format, args);
+#if IOS
+			System.Diagnostics.Debug.WriteLine("Warning: " + format, args);
+#else
+			Trace.TraceWarning(Prefix + format, args);
+#endif   
+            
         }
 
         public override void Information(string message)
-        {
-            Trace.TraceInformation(Prefix + message);
+        {  
+#if IOS
+			System.Diagnostics.Debug.WriteLine("Information: " + message);
+#else
+			Trace.TraceInformation(Prefix + message);
+#endif   
         }
         public override void Information(string format, object[] args)
         {
-            Trace.TraceInformation(Prefix + format, args);
+#if IOS
+			System.Diagnostics.Debug.WriteLine("Information: " + format, args);
+#else
+			Trace.TraceInformation(Prefix + format, args);
+#endif   
+            
         }
 
         public override void Debug(string message)

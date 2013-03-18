@@ -86,7 +86,7 @@ namespace Noodle.Email
                 if(handleErrors)
                 {
                     // TODO: Error notifier
-                    //_logger.Error("Send email error", ex);
+                    // _logger.Error("Send email error", ex);
                 }else
                 {
                     throw;

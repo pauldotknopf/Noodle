@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.iOS", "Noodle.iOS\Noodle.iOS.csproj", "{7B5055E5-2733-4DA7-BF84-291A4F3595C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.iOS.Tests", "Noodle.iOS.Tests\Noodle.iOS.Tests.csproj", "{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+		Ad-Hoc|iPhone = Ad-Hoc|iPhone
+		AppStore|iPhone = AppStore|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.Ad-Hoc|iPhone.ActiveCfg = Debug|Any CPU
+		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
+		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
+		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.AppStore|iPhone.Build.0 = Debug|Any CPU
+		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.Release|iPhone.Build.0 = Release|Any CPU
+		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}.Debug|iPhone.Build.0 = Debug|iPhone
+		{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}.Release|iPhone.ActiveCfg = Release|iPhone
+		{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}.Release|iPhone.Build.0 = Release|iPhone
+		{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Noodle.iOS\Noodle.iOS.csproj
+	EndGlobalSection
+EndGlobal

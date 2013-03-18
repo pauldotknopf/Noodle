@@ -16,8 +16,6 @@ namespace Noodle.Linq
             TypeDescriptor.AddAttributes(typeof(Expression), new TypeConverterAttribute(typeof(ExpandableObjectConverter)));
         }
 
-        private int _indentLevel = 0;
-
         protected virtual Expression Visit(Expression exp)
         {
             if (exp == null)

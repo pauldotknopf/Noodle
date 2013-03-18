@@ -27,7 +27,7 @@ namespace Noodle.Plugins
 			// assembly defined plugins
 			foreach (ICustomAttributeProvider assembly in _typeFinder.GetAssemblies())
 			{
-			    pluginDefinitions.AddRange(assembly.GetCustomAttributes(typeof (PluginAttribute), false).Cast<PluginAttribute>());
+			    pluginDefinitions.AddRange(assembly.GetCustomAttributes(typeof (PluginAttribute), false).Cast<IPluginDefinition>());
 			}
 			
 			// autoinitialize plugins

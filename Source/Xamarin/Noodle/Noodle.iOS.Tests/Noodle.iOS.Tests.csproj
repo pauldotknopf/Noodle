@@ -91,6 +91,122 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="UnitTestAppDelegate.cs" />
+    <Compile Include="..\..\..\Noodle.Tests\ContainerTests.cs">
+      <Link>ContainerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\CrudCollectionTests.cs">
+      <Link>CrudCollectionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\DataTestBase.cs">
+      <Link>DataTestBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\DateTimeAssert.cs">
+      <Link>DateTimeAssert.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\DateTimeExtensions.cs">
+      <Link>DateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\DocumentationTests.cs">
+      <Link>DocumentationTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\ExceptionAssert.cs">
+      <Link>ExceptionAssert.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\FakeIdentity.cs">
+      <Link>FakeIdentity.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\FakePrincipal.cs">
+      <Link>FakePrincipal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\FakeSecurityManager.cs">
+      <Link>FakeSecurityManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\FakeTypeFinder.cs">
+      <Link>FakeTypeFinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\FluentTimeSpanTests.cs">
+      <Link>FluentTimeSpanTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\InMemoryCacheTests.cs">
+      <Link>InMemoryCacheTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\RetryUtility.cs">
+      <Link>RetryUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\SerializationTests.cs">
+      <Link>SerializationTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\StartupTaskTests.cs">
+      <Link>StartupTaskTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\StringTests.cs">
+      <Link>StringTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\TestBase.cs">
+      <Link>TestBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\TestExtensions.cs">
+      <Link>TestExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\Helpers\FakeAssemblyFinder.cs">
+      <Link>Helpers\FakeAssemblyFinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\Plugins\PlugIn1.cs">
+      <Link>Plugins\PlugIn1.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\Plugins\PlugIn2.cs">
+      <Link>Plugins\PlugIn2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\Plugins\PlugIn3.cs">
+      <Link>Plugins\PlugIn3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\Plugins\PluginFinderTests.cs">
+      <Link>Plugins\PluginFinderTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\Plugins\SomeException.cs">
+      <Link>Plugins\SomeException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\Plugins\ThrowingPlugin1.cs">
+      <Link>Plugins\ThrowingPlugin1.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\Plugins\ThrowingPlugin2.cs">
+      <Link>Plugins\ThrowingPlugin2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\Scheduling\OnceAction.cs">
+      <Link>Scheduling\OnceAction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\Scheduling\RepeatAction.cs">
+      <Link>Scheduling\RepeatAction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle.Tests\Scheduling\SchedulingTests.cs">
+      <Link>Scheduling\SchedulingTests.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Noodle.iOS\Noodle.iOS.csproj">
+      <Project>{7B5055E5-2733-4DA7-BF84-291A4F3595C9}</Project>
+      <Name>Noodle.iOS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\..\..\Noodle.Tests\Resources\SimpleInjector.xml">
+      <Link>Resources\SimpleInjector.xml</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\..\Noodle.Tests\Resources\sample-bmp.bmp">
+      <Link>Resources\sample-bmp.bmp</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\..\Noodle.Tests\Resources\sample-gif.gif">
+      <Link>Resources\sample-gif.gif</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\..\Noodle.Tests\Resources\sample-jpg.jpg">
+      <Link>Resources\sample-jpg.jpg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\..\Noodle.Tests\Resources\sample-png.png">
+      <Link>Resources\sample-png.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\..\Noodle.Tests\Resources\sample-tif.tif">
+      <Link>Resources\sample-tif.tif</Link>
+    </BundleResource>
+  </ItemGroup>
 </Project>

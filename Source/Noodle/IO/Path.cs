@@ -1644,10 +1644,18 @@ namespace Noodle.IO
         /// <returns>The security information</returns>
         public FileSystemSecurity AccessControl()
         {
-            var firstPath = FirstPath();
-            return Directory.Exists(firstPath)
-                        ? Directory.GetAccessControl(firstPath)
-                        : (FileSystemSecurity)File.GetAccessControl(firstPath);
+
+
+#if IOS
+			// for some reason, File.GetAccessControl isn't in the iOS mono version
+			return null;
+
+#else
+			var firstPath = FirstPath();
+			return Directory.Exists(firstPath)
+				? Directory.GetAccessControl(firstPath)
+					: (FileSystemSecurity)File.GetAccessControl(firstPath);
+#endif
         }
 
         /// <summary>
@@ -1657,7 +1665,13 @@ namespace Noodle.IO
         /// <returns>The set</returns>
         public Path AccessControl(Action<FileSystemSecurity> action)
         {
-            return AccessControl((p, fss) => action(fss));
+#if IOS
+			// for some reason, File.GetAccessControl isn't in the iOS mono version
+			return this;
+#else
+			return AccessControl((p, fss) => action(fss));
+#endif
+            
         }
 
         /// <summary>
@@ -1667,15 +1681,19 @@ namespace Noodle.IO
         /// <returns>The set</returns>
         public Path AccessControl(Action<Path, FileSystemSecurity> action)
         {
-            foreach (var path in _paths)
-            {
-                action(new Path(path, this),
-                       Directory.Exists(path)
-                           ? Directory.GetAccessControl(path)
-                           : (FileSystemSecurity)File.GetAccessControl(path)
-                    );
-            }
-            return this;
+#if !IOS
+			foreach (var path in _paths)
+			{
+				action(new Path(path, this),
+				       Directory.Exists(path)
+				       ? Directory.GetAccessControl(path)
+				       : (FileSystemSecurity)File.GetAccessControl(path)
+				       );
+			}
+#else
+			// for some reason, File.GetAccessControl isn't in the iOS mono version
+#endif
+			return this;
         }
 
         /// <summary>
@@ -1695,19 +1713,24 @@ namespace Noodle.IO
         /// <returns>The set</returns>
         public Path AccessControl(Func<Path, FileSystemSecurity> securityFunction)
         {
-            foreach (var path in _paths)
-            {
-                if (Directory.Exists(path))
-                {
-                    Directory.SetAccessControl(path,
-                        (DirectorySecurity)securityFunction(new Path(path, this)));
-                }
-                else
-                {
-                    File.SetAccessControl(path,
-                        (FileSecurity)securityFunction(new Path(path, this)));
-                }
-            }
+#if !IOS
+			foreach (var path in _paths)
+			{
+				if (Directory.Exists(path))
+				{
+					Directory.SetAccessControl(path,
+					                           (DirectorySecurity)securityFunction(new Path(path, this)));
+				}
+				else
+				{
+					File.SetAccessControl(path,
+					                      (FileSecurity)securityFunction(new Path(path, this)));
+				}
+			}
+#else
+			// for some reason, File.GetAccessControl isn't in the iOS mono version
+#endif
+            
             return this;
         }
 

@@ -1,0 +1,19 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../Noodle/Engine/Logger.cs">
+    <Files>
+      <File FileName="../../Noodle/CommonHelper.cs" Line="152" Column="1" />
+      <File FileName="../../Noodle/Data/IDatabaseService.cs" Line="3" Column="1" />
+      <File FileName="../../Noodle/Engine/CoreDependencyRegistrar.cs" Line="7" Column="23" />
+      <File FileName="../../Noodle/Engine/IWorker.cs" Line="16" Column="6" />
+      <File FileName="../../Noodle/Engine/AsyncWorker.cs" Line="11" Column="25" />
+      <File FileName="../../Noodle/Engine/AppDomainTypeFinder.cs" Line="74" Column="56" />
+      <File FileName="../../Noodle/Documentation/IDocumentationService.cs" Line="1" Column="1" />
+      <File FileName="../../Noodle/Engine/Logger.cs" Line="248" Column="13" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

@@ -56,7 +56,7 @@ namespace Noodle.Engine
                 }
                 throw new InvalidOperationException("Can't get system.web! Revery to recursive referencing assemblyies");
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
                 // when not in a website, BuildManager.GetReferencedAssemblies throws an error.
                 // if we are in a console/service/winforms, we need to manually load all the relevant assemblies.
