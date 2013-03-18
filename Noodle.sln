@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Web", "Source\Noodle.Web\Noodle.Web.csproj", "{F29BBAC8-3C1A-48A6-8F9F-41F2FE4E25BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{EA85D7E6-5DCB-466B-B57A-8420DBEEE775}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA85D7E6-5DCB-466B-B57A-8420DBEEE775}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA85D7E6-5DCB-466B-B57A-8420DBEEE775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F29BBAC8-3C1A-48A6-8F9F-41F2FE4E25BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F29BBAC8-3C1A-48A6-8F9F-41F2FE4E25BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F29BBAC8-3C1A-48A6-8F9F-41F2FE4E25BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F29BBAC8-3C1A-48A6-8F9F-41F2FE4E25BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
