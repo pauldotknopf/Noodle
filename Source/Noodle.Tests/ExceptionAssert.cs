@@ -44,7 +44,7 @@ namespace Noodle.Tests
             }
             catch (TargetInvocationException ex)
             {
-                Assert.IsInstanceOf<T>(ex);
+				Assert.IsNotNull(ex as T);
             }
             catch (T ex)
             {
@@ -72,7 +72,7 @@ namespace Noodle.Tests
             }
             catch (Exception ex)
             {
-                Assert.IsInstanceOf<T>(ex);
+				Assert.IsNotNull(ex as T);
                 return;
             }
             Assert.Fail("Expected exception '" + typeof(T).FullName + "' wasn't thrown.");

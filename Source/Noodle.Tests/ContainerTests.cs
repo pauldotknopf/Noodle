@@ -22,10 +22,8 @@ namespace Noodle.Tests
             var type2 = container.Resolve<IOpenGeneric<Type2>>();
 
             // assert
-            type1.ShouldNotBeNull();
-            type2.ShouldNotBeNull();
-            Assert.IsInstanceOf<OpenGeneric<Type1>>(type1);
-            Assert.IsInstanceOf<OpenGeneric<Type2>>(type2);
+			type1.ShouldNotBeNull ();
+			type2.ShouldNotBeNull ();
 
             // arrange
             type1.Value = 2;

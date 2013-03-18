@@ -25,7 +25,7 @@ namespace Noodle.Tests
 
         public static void ShouldBe<T>(this object actual)
         {
-            Assert.IsInstanceOf<T>(actual);
+			Assert.IsTrue(actual is T);
         }
 
         public static void ShouldBeNull(this object actual)

@@ -97,17 +97,11 @@
     <Compile Include="..\..\..\Noodle.Tests\CrudCollectionTests.cs">
       <Link>CrudCollectionTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle.Tests\DataTestBase.cs">
-      <Link>DataTestBase.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Noodle.Tests\DateTimeAssert.cs">
       <Link>DateTimeAssert.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle.Tests\DateTimeExtensions.cs">
       <Link>DateTimeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle.Tests\DocumentationTests.cs">
-      <Link>DocumentationTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle.Tests\ExceptionAssert.cs">
       <Link>ExceptionAssert.cs</Link>
@@ -145,9 +139,6 @@
     <Compile Include="..\..\..\Noodle.Tests\TestBase.cs">
       <Link>TestBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle.Tests\TestExtensions.cs">
-      <Link>TestExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Noodle.Tests\Helpers\FakeAssemblyFinder.cs">
       <Link>Helpers\FakeAssemblyFinder.cs</Link>
     </Compile>
@@ -178,8 +169,9 @@
     <Compile Include="..\..\..\Noodle.Tests\Scheduling\RepeatAction.cs">
       <Link>Scheduling\RepeatAction.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle.Tests\Scheduling\SchedulingTests.cs">
-      <Link>Scheduling\SchedulingTests.cs</Link>
+    <Compile Include="..\..\..\Noodle.Tests\TestExtensions.cs">
+      <Link>TestExtensions.cs</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -192,6 +184,7 @@
   <ItemGroup>
     <BundleResource Include="..\..\..\Noodle.Tests\Resources\SimpleInjector.xml">
       <Link>Resources\SimpleInjector.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\..\..\Noodle.Tests\Resources\sample-bmp.bmp">
       <Link>Resources\sample-bmp.bmp</Link>
