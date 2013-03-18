@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using NUnit.Framework;
-using Noodle.Configuration;
 using Noodle.Documentation;
 using Noodle.Engine;
 using Noodle.Plugins;
@@ -25,8 +23,7 @@ namespace Noodle.Tests
 
             _xmlDocumentation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/SimpleInjector.xml");
             _documentationService = new DocumentationService(
-                new PluginFinder(new AppDomainTypeFinder(new FakeAssemblyFinder(new List<Assembly>{typeof(DocumentationMember).Assembly})), 
-                new NoodleCoreConfiguration(),
+                new PluginFinder(new AppDomainTypeFinder(new FakeAssemblyFinder(new List<Assembly>{typeof(DocumentationMember).Assembly})),
                 new TinyIoCContainer()));
         }
 

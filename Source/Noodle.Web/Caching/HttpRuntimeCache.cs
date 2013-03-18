@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
+using Noodle.Caching;
 
-namespace Noodle.Caching
+namespace Noodle.Web.Caching
 {
     /// <summary>
     /// This implementation of cache manager stores data in the httpruntime (not per request).

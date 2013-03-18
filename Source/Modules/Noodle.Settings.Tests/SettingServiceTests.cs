@@ -4,7 +4,6 @@ using System.Linq;
 using MongoDB.Driver;
 using NUnit.Framework;
 using Noodle.Tests;
-using Noodle.Web;
 
 namespace Noodle.Settings.Tests
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Noodle.Web
+namespace Noodle
 {
     /// <summary>
     /// Internal services notifiy the system of errors through this interface

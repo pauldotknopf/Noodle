@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
-using Noodle.Configuration;
 using Noodle.Engine;
 using Noodle.Security;
 
@@ -17,11 +16,9 @@ namespace Noodle.Plugins
         private readonly IList<IPlugin> _plugins;
         private readonly ITypeFinder _typeFinder;
         private readonly TinyIoCContainer _container;
-	    private readonly IEnumerable<PluginElement> _removedPlugins = new PluginElement[0];
 
-        public PluginFinder(ITypeFinder typeFinder, NoodleCoreConfiguration config, TinyIoCContainer container)
+        public PluginFinder(ITypeFinder typeFinder, TinyIoCContainer container)
         {
-            _removedPlugins = config.Plugins.RemovedElements;
 			_typeFinder = typeFinder;
             _container = container;
             _plugins = FindPlugins();
@@ -77,18 +74,12 @@ namespace Noodle.Plugins
                         && x.GetType().FullName.Equals(plugin.GetType().FullName, StringComparison.InvariantCultureIgnoreCase)))
                         throw new NoodleException("A plugin of the type '{0}' named '{1}' is already defined, assembly: {2}", plugin.GetType().FullName, plugin.Name, assembly.FullName);
 
-					if(!IsRemoved(plugin))
-                		foundPlugins.Add(plugin);
+                	foundPlugins.Add(plugin);
                 }
             }
             foundPlugins.Sort((first, second) => first.CompareTo(second));
             return foundPlugins;
         }
-
-		private bool IsRemoved(IPlugin plugin)
-		{
-		    return _removedPlugins.Any(configElement => plugin.Name == configElement.Name);
-		}
 
 	    private IEnumerable<IPlugin> FindPluginsIn(Assembly a)
         {

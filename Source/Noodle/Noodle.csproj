@@ -11,6 +11,7 @@
     <AssemblyName>Noodle</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,20 +35,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseEntity.cs" />
-    <Compile Include="Caching\AdaptiveCache.cs" />
     <Compile Include="Caching\CacheExtensions.cs" />
-    <Compile Include="Caching\HttpRuntimeCache.cs" />
     <Compile Include="Caching\ICacheManager.cs" />
     <Compile Include="Caching\InMemoryCache.cs" />
     <Compile Include="Caching\NullCache.cs" />
-    <Compile Include="Caching\PerRequestCache.cs" />
     <Compile Include="Collections\CrudHelper.cs" />
     <Compile Include="Collections\DelegateEqualityComparer.cs" />
     <Compile Include="Collections\ExpiringList.cs" />
@@ -61,21 +57,7 @@
     <Compile Include="CommonHelper.cs" />
     <Compile Include="ComponentModel\BooleanTypConverter.cs" />
     <Compile Include="ComponentModel\GenericListTypeConverter.cs" />
-    <Compile Include="Configuration\AppSettings.cs" />
-    <Compile Include="Configuration\ConfigurationManagerWrapper.cs" />
-    <Compile Include="Configuration\ConfigurationSectionBuilder.cs" />
-    <Compile Include="Configuration\ConnectionStringCollection.cs" />
-    <Compile Include="Configuration\ConnectionStringElement.cs" />
-    <Compile Include="Configuration\IConfigurationSectionBuilder.cs" />
-    <Compile Include="Configuration\IIdentifiable.cs" />
-    <Compile Include="Configuration\LazyRemovableCollection.cs" />
-    <Compile Include="Configuration\NoodleConfigurationGroup.cs" />
-    <Compile Include="Configuration\NoodleCoreConfiguration.cs" />
-    <Compile Include="Configuration\NamedElement.cs" />
-    <Compile Include="Configuration\PluginCollection.cs" />
-    <Compile Include="Configuration\PluginElement.cs" />
-    <Compile Include="Configuration\SchedulerElement.cs" />
-    <Compile Include="Data\ConnectionProvider.cs" />
+    <Compile Include="Data\NoConnectionProvider.cs" />
     <Compile Include="Data\DatabaseService.cs" />
     <Compile Include="Data\DatabaseTypeEnum.cs" />
     <Compile Include="Data\IConnectionProvider.cs" />
@@ -122,27 +104,15 @@
     <Compile Include="Engine\Singleton.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="EnumStringAttribute.cs" />
+    <Compile Include="ErrorNotifier.cs" />
     <Compile Include="Extensions\CodeMirrorEnums.cs" />
     <Compile Include="FluentDateTime\DateTimeExtensions.cs" />
     <Compile Include="FluentDateTime\FluentTimeSpan.cs" />
     <Compile Include="FluentDateTime\NumberExtensions.cs" />
     <Compile Include="FluentDateTime\TimeSpanExtensions.cs" />
+    <Compile Include="IClosable.cs" />
     <Compile Include="IDateTimeHelper.cs" />
-    <Compile Include="Imaging\AnchorLocation.cs" />
-    <Compile Include="Imaging\BitmapTag.cs" />
-    <Compile Include="Imaging\FitMode.cs" />
-    <Compile Include="Imaging\FlipMode.cs" />
-    <Compile Include="Imaging\IImageLayoutBuilder.cs" />
-    <Compile Include="Imaging\IImageManipulator.cs" />
-    <Compile Include="Imaging\ImageJob.cs" />
-    <Compile Include="Imaging\ImageLayout.cs" />
-    <Compile Include="Imaging\ImageLayoutBuilder.cs" />
-    <Compile Include="Imaging\ImageManipulationSettings.cs" />
-    <Compile Include="Imaging\ImageResizeMode.cs" />
-    <Compile Include="Imaging\NoodleImageManipulator.cs" />
-    <Compile Include="Imaging\PolygonMath.cs" />
-    <Compile Include="Imaging\ResizeSettings.cs" />
-    <Compile Include="Imaging\ScaleMode.cs" />
+    <Compile Include="IErrorNotifier.cs" />
     <Compile Include="IO\Overwrite.cs" />
     <Compile Include="IO\Path.cs" />
     <Compile Include="IO\PathConverter.cs" />
@@ -172,10 +142,6 @@
     <Compile Include="Process\ProcessCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\Private.cs" />
-    <Compile Include="Routing\DelegateRouteHandler.cs" />
-    <Compile Include="Routing\EmbeddedResourceRouteHandler.cs" />
-    <Compile Include="Routing\PageRouteHandler.cs" />
-    <Compile Include="Routing\RouteCollectionExtensions.cs" />
     <Compile Include="Scheduling\Heart.cs" />
     <Compile Include="Scheduling\IHeart.cs" />
     <Compile Include="Scheduling\Repeat.cs" />
@@ -183,6 +149,7 @@
     <Compile Include="Scheduling\ScheduleExecutionAttribute.cs" />
     <Compile Include="Scheduling\Scheduler.cs" />
     <Compile Include="Security\DefaultSecurityManager.cs" />
+    <Compile Include="Security\EncryptionFormat.cs" />
     <Compile Include="Security\EncryptionService.cs" />
     <Compile Include="Security\IEncryptionService.cs" />
     <Compile Include="Security\IPermittable.cs" />
@@ -192,34 +159,12 @@
     <Compile Include="Security\SecurableExtensions.cs" />
     <Compile Include="Serialization\BinaryStringSerializer.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
-    <Compile Include="Serialization\JavaScriptSerializer.cs" />
     <Compile Include="Serialization\XmlSerializer.cs" />
     <Compile Include="Single.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TimeUnit.cs" />
     <Compile Include="TinyIoC.cs" />
-    <Compile Include="TinyIoCAspNetExtensions.cs" />
     <Compile Include="TinyIoCExtensions.cs" />
-    <Compile Include="Web\AdaptiveContext.cs" />
-    <Compile Include="Web\CacheUtility.cs" />
-    <Compile Include="Web\CookieExtensions.cs" />
-    <Compile Include="Web\DelegateHttpHandler.cs" />
-    <Compile Include="Web\ErrorNotifier.cs" />
-    <Compile Include="Web\EventBroker.cs" />
-    <Compile Include="Web\IClosable.cs" />
-    <Compile Include="Web\IErrorNotifier.cs" />
-    <Compile Include="Web\InitializerModule.cs" />
-    <Compile Include="Web\IPageTitleBuilder.cs" />
-    <Compile Include="Web\IRequestContext.cs" />
-    <Compile Include="Web\IWebHelper.cs" />
-    <Compile Include="Web\PageTitleBuilder.cs" />
-    <Compile Include="Web\PageTitleSeoAdjustment.cs" />
-    <Compile Include="Web\RazorPageBase.cs" />
-    <Compile Include="Web\SeoSettings.cs" />
-    <Compile Include="Web\ThreadContext.cs" />
-    <Compile Include="Web\Url.cs" />
-    <Compile Include="Web\WebHelper.cs" />
-    <Compile Include="Web\WebRequestContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Extensions\README.txt" />

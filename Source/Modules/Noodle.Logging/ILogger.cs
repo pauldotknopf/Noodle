@@ -1,6 +1,5 @@
 ﻿using System;
 using MongoDB.Bson;
-using Noodle.Web;
 
 namespace Noodle.Logging
 {
@@ -48,8 +47,7 @@ namespace Noodle.Logging
         /// <param name="fullMessage">The full message</param>
         /// <param name="exception">The error associated with this log</param>
         /// <param name="user">The user to associate log record with</param>
-        /// <param name="requestContext">The request context. If this is supplied, additional info will be logged, like ip, post/server variables, etc</param>
         /// <returns>A log item</returns>
-        Log InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "", Exception exception = null, string user = null, IRequestContext requestContext = null);
+        Log InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "", Exception exception = null, string user = null);
     }
 }

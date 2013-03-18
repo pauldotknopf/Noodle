@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
@@ -19,6 +20,10 @@ namespace Noodle
     /// <remarks></remarks>
     public static class CommonHelper
     {
+        /// <summary>Ampersand string.</summary>
+        public const string Amp = "&";
+        public static readonly string[] QuerySplitter = new[] { "&amp;", Amp };
+
         #region Type converting
 
         /// <summary>
@@ -518,7 +523,7 @@ namespace Noodle
                 return false;
             }
 
-            string extension = VirtualPathUtility.GetExtension(path);
+            string extension = Path.GetExtension(path);
 
             if (extension == null) return false;
 
@@ -578,6 +583,41 @@ namespace Noodle
                 default:
                     throw new NotSupportedException("Unknown time unit: " + unit);
             }
+        }
+
+        /// <summary>Converts a text query string to a dictionary.</summary>
+        /// <param name="query">The query string</param>
+        /// <returns>A dictionary of the query parts.</returns>
+        public static IDictionary<string, string> ParseQueryString(string query)
+        {
+            var dictionary = new Dictionary<string, string>();
+            if (query == null)
+                return dictionary;
+
+            string[] queries = query.Split(QuerySplitter, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < queries.Length; i++)
+            {
+                string q = queries[i];
+                int eqIndex = q.IndexOf("=");
+                if (eqIndex >= 0)
+                    dictionary[q.Substring(0, eqIndex)] = q.Substring(eqIndex + 1);
+            }
+            return dictionary;
+        }
+
+        /// <summary>
+        /// Parses a query string as a name value collection
+        /// </summary>
+        /// <param name="query">The query string</param>
+        /// <returns>A namevaluecollection of the query parts.</returns>
+        public static NameValueCollection ParseQueryStringAsNameValueCollection(string query)
+        {
+            var nameValueColleciton = new NameValueCollection();
+            foreach (var keyValue in ParseQueryString(query))
+            {
+                nameValueColleciton[keyValue.Key] = keyValue.Value;
+            }
+            return nameValueColleciton;
         }
 
         #endregion

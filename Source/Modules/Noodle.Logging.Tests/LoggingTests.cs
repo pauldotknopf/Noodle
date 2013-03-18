@@ -9,7 +9,6 @@ using Moq;
 using NUnit.Framework;
 using Noodle.Collections;
 using Noodle.Tests;
-using Noodle.Web;
 
 namespace Noodle.Logging.Tests
 {
@@ -21,21 +20,11 @@ namespace Noodle.Logging.Tests
         private string _ipAddress;
         private string _referrerUrl;
         private string _currentUrl;
-        private Mock<IRequestContext> _requestContext;
 
         public override void SetUp()
         {
             base.SetUp();
             _logger = _container.Resolve<ILogger>();
-
-            _requestContext = new Mock<IRequestContext>();
-            _requestContext.Setup(x => x.Url).Returns(() => _currentUrl);
-            _requestContext.Setup(x => x.GetCurrentIpAddress()).Returns(() => _ipAddress);
-            _requestContext.Setup(x => x.GetReferrerUrl()).Returns(() => _referrerUrl);
-            _requestContext.Setup(x => x.Cookies).Returns(new List<HttpCookie>());
-            _requestContext.Setup(x => x.QueryString).Returns(new NameValueCollection());
-            _requestContext.Setup(x => x.Form).Returns(new NameValueCollection());
-            _requestContext.Setup(x => x.ServerVariables).Returns(new NameValueCollection());
         }
 
         [Test]
@@ -47,18 +36,14 @@ namespace Noodle.Logging.Tests
             _currentUrl = "http://domain.com/?query=something";
 
             // act
-            _testLog = _logger.InsertLog(LogLevel.Information, "short", "full", null, "user", _requestContext.Object);
+            _testLog = _logger.InsertLog(LogLevel.Information, "short", "full", null, "user");
 
             // assert
             var logs = _logger.GetAllLogs();
             logs.Count.ShouldEqual(1);
-            logs[0].IpAddress.ShouldEqual(_ipAddress);
-            logs[0].ReferrerUrl.ShouldEqual(_referrerUrl);
-            logs[0].PageUrl.ShouldEqual(_currentUrl);
             logs[0].LogLevel.ShouldEqual(LogLevel.Information);
             logs[0].ShortMessage.ShouldEqual("short");
             logs[0].FullMessage.ShouldEqual("full");
-            logs[0].User.ShouldEqual("user");
         }
 
         [Test]
@@ -86,13 +71,9 @@ namespace Noodle.Logging.Tests
             var log = _logger.GetLogById(_testLog.Id);
 
             // assert
-            log.IpAddress.ShouldEqual(_ipAddress);
-            log.ReferrerUrl.ShouldEqual(_referrerUrl);
-            log.PageUrl.ShouldEqual(_currentUrl);
             log.LogLevel.ShouldEqual(LogLevel.Information);
             log.ShortMessage.ShouldEqual("short");
             log.FullMessage.ShouldEqual("full");
-            log.User.ShouldEqual("user");
         }
 
         [Test]
@@ -260,7 +241,7 @@ namespace Noodle.Logging.Tests
                     _referrerUrl = "referrer" + x;
                     _currentUrl = "http://www.domain{0}.com".F(x);
                     var logLevel = int.Parse(((x % 5) + 1).ToString(CultureInfo.InvariantCulture) + "0");
-                    _logger.InsertLog((LogLevel)logLevel, "short" + x, "full" + x, null, "user" + x, _requestContext.Object);
+                    _logger.InsertLog((LogLevel)logLevel, "short" + x, "full" + x, null, "user" + x);
                 }
             }finally
             {
@@ -271,13 +252,9 @@ namespace Noodle.Logging.Tests
         public IEqualityComparer<Log> GetLogEqualityComparer()
         {
             Func<Log, int> hash = (log) => log.CreatedOnUtc.GetHashCode()
-                + log.FullMessage.GetHashCode()
-                + log.IpAddress.GetHashCode()
-                + log.LogLevel.GetHashCode()
-                + log.PageUrl.GetHashCode()
-                + log.ReferrerUrl.GetHashCode()
-                + log.ShortMessage.GetHashCode()
-                + log.User.GetHashCode();
+                                           + log.FullMessage.GetHashCode()
+                                           + log.LogLevel.GetHashCode()
+                                           + log.ShortMessage.GetHashCode();
 
             return new DelegateEqualityComparer<Log>((log1, log2) => hash(log1).Equals(hash(log2)), hash);
         }

@@ -18,23 +18,5 @@ namespace Noodle.Data
         /// </summary>
         /// <returns></returns>
         string GetConnectionString();
-
-        /// <summary>
-        /// This method will try and retrieve a connection string matching the given name.
-        /// It will return the default connection string if none is found (unless throwErrorIfMissing).
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="throwErrorIfMissing">If true and the name isn't found, an error is thrown.</param>
-        /// <returns></returns>
-        IDbConnection GetDbConnection(string name, bool throwErrorIfMissing = false);
-
-        /// <summary>
-        /// This method will try and retrieve a connection string matching the given name.
-        /// It will return the default connection string if none is found (unless throwErrorIfMissing).
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="throwErrorIfMissing">If true and the name isn't found, an error is thrown.</param>
-        /// <returns></returns>
-        string GetConnectionString(string name, bool throwErrorIfMissing = false);
     }
 }

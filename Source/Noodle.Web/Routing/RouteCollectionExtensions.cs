@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Web.Routing;
 
-namespace Noodle.Routing
+namespace Noodle.Web.Routing
 {
     /// <summary>
     /// Ported from .Net 4

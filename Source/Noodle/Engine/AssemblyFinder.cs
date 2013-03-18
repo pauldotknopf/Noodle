@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Web.Compilation;
 
 namespace Noodle.Engine
 {
@@ -44,7 +43,18 @@ namespace Noodle.Engine
         {
             try
             {
-                return BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToList();
+                var buildManager = Type.GetType("System.Web.Compilation.BuildManager, System.Web");
+                if (buildManager != null)
+                {
+                    // we can reference system.web 4.0!
+                    var getReferencedAssembliesMethod = buildManager.GetMethod("GetReferencedAssemblies",
+                                                                               BindingFlags.Public |
+                                                                               BindingFlags.NonPublic |
+                                                                               BindingFlags.Static |
+                                                                               BindingFlags.Instance);
+                    return ((ICollection) getReferencedAssembliesMethod.Invoke(null, new object[0])).Cast<Assembly>().ToList();
+                }
+                throw new InvalidOperationException("Can't get system.web! Revery to recursive referencing assemblyies");
             }
             catch (InvalidOperationException ex)
             {

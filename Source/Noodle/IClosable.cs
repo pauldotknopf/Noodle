@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Noodle.Web
+namespace Noodle
 {
     /// <summary>
     /// Represents a class that end and be disposed. Used to mark classes in

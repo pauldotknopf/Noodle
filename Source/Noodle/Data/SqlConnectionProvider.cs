@@ -30,15 +30,7 @@ namespace Noodle.Data
             return new SqlConnection(_connectionString);
         }
 
-        public System.Data.IDbConnection GetDbConnection(string name, bool throwErrorIfMissing = false)
-        {
-            return GetDbConnection();
-        }
         public string GetConnectionString()
-        {
-            return _connectionString;
-        }
-        public string GetConnectionString(string name, bool throwErrorIfMissing = false)
         {
             return _connectionString;
         }

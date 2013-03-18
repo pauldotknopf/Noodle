@@ -66,7 +66,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="ConnectionProviderTests.cs" />
     <Compile Include="ContainerTests.cs" />
     <Compile Include="CrudCollectionTests.cs" />
     <Compile Include="DataTestBase.cs" />
@@ -80,7 +79,7 @@
     <Compile Include="FakeTypeFinder.cs" />
     <Compile Include="FluentTimeSpanTests.cs" />
     <Compile Include="Helpers\FakeAssemblyFinder.cs" />
-    <Compile Include="ImageLayoutBuilderTests.cs" />
+    <Compile Include="InMemoryCacheTests.cs" />
     <Compile Include="Plugins\PlugIn1.cs" />
     <Compile Include="Plugins\PlugIn2.cs" />
     <Compile Include="Plugins\PlugIn3.cs" />
@@ -104,6 +103,10 @@
     <ProjectReference Include="..\Noodle.MongoDB\Noodle.MongoDB.csproj">
       <Project>{7b5ea470-e66d-4ce5-8d48-6d4ad89ec62d}</Project>
       <Name>Noodle.MongoDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Noodle.Web\Noodle.Web.csproj">
+      <Project>{f29bbac8-3c1a-48a6-8f9f-41f2fe4e25bd}</Project>
+      <Name>Noodle.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\Noodle\Noodle.csproj">
       <Project>{944fec3d-a47f-4c92-92ac-81b3420c1caa}</Project>

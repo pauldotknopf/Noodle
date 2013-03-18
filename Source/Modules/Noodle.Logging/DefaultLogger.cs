@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using System.Web;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-using Noodle.Web;
 using MongoDB.Bson;
 
 namespace Noodle.Logging
@@ -126,7 +125,7 @@ namespace Noodle.Logging
         /// <param name="user">The user to associate log record with</param>
         /// <param name="requestContext">The request context. If this is supplied, additional info will be logged, like ip, post/server variables, etc</param>
         /// <returns>A log item</returns>
-        public Log InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "", Exception exception = null, string user = null, IRequestContext requestContext = null)
+        public Log InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "", Exception exception = null, string user = null)
         {
             Exception ex = null;
 
@@ -165,39 +164,6 @@ namespace Noodle.Logging
             {
                 log.CustomData.Add(customData.Key, customData.Value);
             }
-
-            // add request context stuff to the property bags
-            #region
-            if (requestContext != null)
-            {
-                log.IpAddress = requestContext.GetCurrentIpAddress();
-                log.PageUrl = requestContext.Url.ToString();
-                log.ReferrerUrl = requestContext.GetReferrerUrl();
-                var serverVariables = requestContext.ServerVariables;
-                var queryString = requestContext.QueryString;
-                var form = requestContext.Form;
-                var cookies = requestContext.Cookies;
-                foreach (string key in serverVariables)
-                {
-                    log.ServerVariables.Add(key, serverVariables[key]);
-                }
-                foreach (string key in queryString)
-                {
-                    log.QueryString.Add(key, queryString[key]);
-                }
-                foreach (string key in form)
-                {
-                    log.Form.Add(key, form[key]);
-                }
-                foreach (HttpCookie cookie in cookies)
-                {
-                    if (!log.Cookies.ContainsKey(cookie.Name))
-                    {
-                        log.Form.Add(cookie.Name, cookie.Value);
-                    }
-                }
-            }
-            #endregion
 
             _logCollection.Insert(log);
 

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Noodle.Caching;
-using Noodle.Configuration;
 using Noodle.Engine;
 
 namespace Noodle.Tests

@@ -20,7 +20,7 @@ namespace Noodle.Imaging
         /// Parses the specified querystring into name/value pairs. leading ? not required.
         /// </summary>
         /// <param name="queryString"></param>
-        public ImageManipulationSettings(string queryString) : base(Web.Url.ParseQueryStringAsNameValueCollection(queryString)) { }
+        public ImageManipulationSettings(string queryString) : base(CommonHelper.ParseQueryStringAsNameValueCollection(queryString)) { }
 
         public double? Brightness
         {

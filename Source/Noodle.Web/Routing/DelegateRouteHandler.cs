@@ -2,7 +2,7 @@
 using System.Web;
 using System.Web.Routing;
 
-namespace Noodle.Routing
+namespace Noodle.Web.Routing
 {
     /// <summary>
     /// Delegate route handler for quick mocking or quick handlers

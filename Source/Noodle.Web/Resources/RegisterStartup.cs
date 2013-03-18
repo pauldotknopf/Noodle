@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Noodle;
-using Noodle.Engine;
+﻿using Noodle.Resources;
 
-namespace Noodle.Resources
+namespace Noodle.Web.Resources
 {
     public class RegisterStartup : IStartupTask
     {

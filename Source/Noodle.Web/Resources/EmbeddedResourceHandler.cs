@@ -1,27 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Web;
 using System.Web.Routing;
-using Noodle;
-using Noodle.Engine;
-using Noodle.Routing;
-using Noodle.Web;
+using Noodle.Web.Routing;
 
-namespace Noodle.Resources
+namespace Noodle.Web.Resources
 {
     public class EmbeddedResourceHandler : IStartupTask
     {
         static EmbeddedResourceHandler()
         {
-            EmebeddedRoutes.MapEmbeddedResource("jquery", "noodle/embedded/jquery", typeof(EmbeddedResourceHandler).Assembly, "Noodle.Resources.Content.jquery.js");
-            EmebeddedRoutes.MapEmbeddedResource("bootstrapjs", "noodle/embedded/bootstrapjs", typeof(EmbeddedResourceHandler).Assembly, "Noodle.Resources.Content.bootstrap.js");
-            EmebeddedRoutes.MapEmbeddedResource("bootstrapcss", "noodle/embedded/bootstrapcss", typeof(EmbeddedResourceHandler).Assembly, "Noodle.Resources.Content.bootstrap.css");
-            EmebeddedRoutes.MapEmbeddedResource("knockout", "noodle/embedded/knockout", typeof(EmbeddedResourceHandler).Assembly, "Noodle.Resources.Content.knockout.js");
-            EmebeddedRoutes.MapEmbeddedResource("knockoutmapping", "noodle/embedded/knockoutmapping", typeof(EmbeddedResourceHandler).Assembly, "Noodle.Resources.Content.knockoutmapping.js");
+            EmebeddedRoutes.MapEmbeddedResource("jquery", "noodle/embedded/jquery", typeof(EmbeddedResourceHandler).Assembly, "Noodle.Web.Resources.Content.jquery.js");
+            EmebeddedRoutes.MapEmbeddedResource("bootstrapjs", "noodle/embedded/bootstrapjs", typeof(EmbeddedResourceHandler).Assembly, "Noodle.Web.Resources.Content.bootstrap.js");
+            EmebeddedRoutes.MapEmbeddedResource("bootstrapcss", "noodle/embedded/bootstrapcss", typeof(EmbeddedResourceHandler).Assembly, "Noodle.Web.Resources.Content.bootstrap.css");
+            EmebeddedRoutes.MapEmbeddedResource("knockout", "noodle/embedded/knockout", typeof(EmbeddedResourceHandler).Assembly, "Noodle.Web.Resources.Content.knockout.js");
+            EmebeddedRoutes.MapEmbeddedResource("knockoutmapping", "noodle/embedded/knockoutmapping", typeof(EmbeddedResourceHandler).Assembly, "Noodle.Web.Resources.Content.knockoutmapping.js");
         }
 
         public static RouteCollection EmebeddedRoutes = new RouteCollection();

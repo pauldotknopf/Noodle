@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Noodle.Web;
 
 namespace Noodle.Settings
 {

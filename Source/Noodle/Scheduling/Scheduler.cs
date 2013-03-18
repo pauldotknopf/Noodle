@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Noodle.Engine;
 using Noodle.Plugins;
-using Noodle.Web;
 
 namespace Noodle.Scheduling
 {
@@ -17,15 +16,13 @@ namespace Noodle.Scheduling
         readonly IList<ScheduledAction> _actions;
         readonly IHeart _heart;
         readonly IWorker _worker;
-        readonly IRequestContext _context;
         readonly IErrorNotifier _errorHandler;
 
-        public Scheduler(IPluginFinder plugins, IHeart heart, IWorker worker, IRequestContext context, IErrorNotifier errorHandler)
+        public Scheduler(IPluginFinder plugins, IHeart heart, IWorker worker, IErrorNotifier errorHandler)
         {
             _actions = new List<ScheduledAction>(InstantiateActions(plugins));
             _heart = heart;
             _worker = worker;
-            _context = context;
             _errorHandler = errorHandler;
         }
 
@@ -97,15 +94,6 @@ namespace Noodle.Scheduling
                         }
                         action.LastExecuted = CommonHelper.CurrentTime();
                         action.IsExecuting = false;
-
-                        try
-                        {
-                            _context.Close();
-                        }
-                        catch (Exception ex)
-                        {
-                            _errorHandler.Notify(ex);
-                        }
                     });
 
                     if (action.Repeat == Repeat.Once)

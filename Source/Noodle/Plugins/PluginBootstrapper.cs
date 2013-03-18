@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Noodle.Configuration;
 using Noodle.Engine;
 
 namespace Noodle.Plugins
@@ -13,14 +12,10 @@ namespace Noodle.Plugins
 	public class PluginBootstrapper : IPluginBootstrapper
 	{
 		private readonly ITypeFinder _typeFinder;
-        public IEnumerable<PluginElement> AddedInitializers = new PluginElement[0];
-        public IEnumerable<PluginElement> RemovedInitializers = new PluginElement[0];
 
-        public PluginBootstrapper(ITypeFinder typeFinder, NoodleCoreConfiguration config)
+        public PluginBootstrapper(ITypeFinder typeFinder)
         {
             _typeFinder = typeFinder;
-			AddedInitializers = config.PluginInitializers.AllElements;
-			RemovedInitializers = config.PluginInitializers.RemovedElements;
 		}
 
 		/// <summary>Gets plugins in the current app domain using the type finder.</summary>
@@ -32,8 +27,7 @@ namespace Noodle.Plugins
 			// assembly defined plugins
 			foreach (ICustomAttributeProvider assembly in _typeFinder.GetAssemblies())
 			{
-			    pluginDefinitions.AddRange(assembly.GetCustomAttributes(typeof (PluginAttribute), false).Cast<PluginAttribute>()
-                    .Where(plugin => !IsRemoved(plugin.InitializerType)).Cast<IPluginDefinition>());
+			    pluginDefinitions.AddRange(assembly.GetCustomAttributes(typeof (PluginAttribute), false).Cast<PluginAttribute>());
 			}
 			
 			// autoinitialize plugins
@@ -43,27 +37,8 @@ namespace Noodle.Plugins
 				{
 					plugin.InitializerType = type;
 
-					if (!IsRemoved(type))
-						pluginDefinitions.Add(plugin);
+					pluginDefinitions.Add(plugin);
 				}
-			}
-		
-			// configured plugins
-			foreach (var configElement in AddedInitializers)
-			{
-				var pluginType = Type.GetType(configElement.Type);
-				if (pluginType == null)
-                    throw new NoodleException("Could not find the configured plugin initializer type '{0}'", configElement.Type);
-				if (typeof(IPluginDefinition).IsAssignableFrom(pluginType))
-                    throw new NoodleException("The configured plugin initializer type '{0}' is not a valid plugin initializer since it doesn't implement the IPluginDefinition interface.", configElement.Type);
-
-			    var plugin = new PluginAttribute
-			                     {
-			                         Name = configElement.Name,
-			                         InitializerType = pluginType,
-			                         Title = "Configured plugin " + configElement.Name
-			                     };
-			    pluginDefinitions.Add(plugin);
 			}
 
 			return pluginDefinitions;
@@ -97,18 +72,6 @@ namespace Noodle.Plugins
                 message = exceptions.Aggregate(message, (current, ex) => current + (Environment.NewLine + Environment.NewLine + "- " + ex.Message));
                 throw new PluginInitializationException(message, exceptions.ToArray());
             }
-		}
-
-		private bool IsRemoved(Type pluginType)
-		{
-			foreach(var configElement in RemovedInitializers)
-			{
-				if(configElement.Name == pluginType.Name)
-					return true;
-				if(!string.IsNullOrEmpty(configElement.Type) && Type.GetType(configElement.Type) == pluginType)
-					return true;
-			}
-			return false;
 		}
 	}
 }

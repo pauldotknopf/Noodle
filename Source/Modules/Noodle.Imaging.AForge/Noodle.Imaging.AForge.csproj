@@ -58,6 +58,10 @@
       <Project>{944fec3d-a47f-4c92-92ac-81b3420c1caa}</Project>
       <Name>Noodle</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Noodle.Imaging\Noodle.Imaging.csproj">
+      <Project>{047f91c4-93ca-4de6-a7ea-e7f64c78ffaf}</Project>
+      <Name>Noodle.Imaging</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

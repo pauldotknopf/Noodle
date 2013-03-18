@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Timers;
-using Noodle.Configuration;
 
 namespace Noodle.Scheduling
 {
@@ -10,11 +9,12 @@ namespace Noodle.Scheduling
     /// </summary>
     public class Heart : IHeart
     {
+        public static int IntervalSeconds = 60;
         readonly Timer _timer;
 
-        public Heart(NoodleCoreConfiguration configuration)
+        public Heart()
         {
-            _timer = new Timer(configuration.Scheduler.Interval * 1000);
+            _timer = new Timer(IntervalSeconds * 1000);
         }
 
         #region IStartupTask

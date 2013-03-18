@@ -1,6 +1,4 @@
-﻿using Noodle.Configuration;
-
-namespace Noodle.Engine
+﻿namespace Noodle.Engine
 {
     /// <summary>
     /// This class allows you to register dependencies dynamically while avoiding circular dependencies.

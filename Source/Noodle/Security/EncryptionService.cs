@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Security.Cryptography;
-using System.Web.Configuration;
-using System.Web.Security;
-
 namespace Noodle.Security
 {
     public class EncryptionService : IEncryptionService
@@ -18,11 +15,13 @@ namespace Noodle.Security
             return Convert.ToBase64String(buff);
         }
 
-        public string CreatePasswordHash(string password, string saltkey, FormsAuthPasswordFormat passwordFormat = FormsAuthPasswordFormat.SHA1)
+        public string CreatePasswordHash(string password, string saltkey, EncryptionFormat passwordFormat = EncryptionFormat.SHA1)
         {
-            var saltAndPassword = String.Concat(password, saltkey);
-            var hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(saltAndPassword, passwordFormat.ToString());
-            return hashedPassword;
+            // TODO: Removed dependency on system.web, so fix this
+            //var saltAndPassword = String.Concat(password, saltkey);
+            //var hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(saltAndPassword, passwordFormat.ToString());
+            //return hashedPassword;
+            return password;
         }
 
         public string EncryptText(string plainText, string encryptionPrivateKey = "")

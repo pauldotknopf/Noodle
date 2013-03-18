@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web;
 
-namespace Noodle
+namespace Noodle.Web
 {
     public class HttpContextLifetimeProvider : TinyIoCContainer.ITinyIoCObjectLifetimeProvider
     {
-        private readonly string _KeyName = String.Format("TinyIoC.HttpContext.{0}", Guid.NewGuid());
+        private readonly string _KeyName = String.Format("Noodle.TinyIoC.HttpContext.{0}", Guid.NewGuid());
 
         public object GetObject()
         {

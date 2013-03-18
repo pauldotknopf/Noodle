@@ -1,4 +1,6 @@
-﻿namespace Noodle.Serialization
+﻿using Noodle.Serialization;
+
+namespace Noodle.Web
 {
     /// <summary>
     /// Javascript (json) serializer

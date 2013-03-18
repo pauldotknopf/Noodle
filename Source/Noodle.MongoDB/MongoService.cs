@@ -29,36 +29,29 @@ namespace Noodle.MongoDB
         /// <summary>
         /// Get the client, optionaly for a given name
         /// </summary>
-        /// <param name="serverName"></param>
         /// <returns></returns>
-        public virtual MongoClient GetClient(string serverName = null)
+        public virtual MongoClient GetClient()
         {
-            return !string.IsNullOrEmpty(serverName)
-                       ? new MongoClient(_connectionProvider.GetConnectionString(serverName))
-                       : new MongoClient(_connectionProvider.GetConnectionString());
+            return new MongoClient(_connectionProvider.GetConnectionString());
         }
 
         /// <summary>
         /// Get sever, optionally a the given name
         /// </summary>
-        /// <param name="serverName"></param>
         /// <returns></returns>
-        public virtual MongoServer GetServer(string serverName = null)
+        public virtual MongoServer GetServer()
         {
-            return !string.IsNullOrEmpty(serverName)
-                       ? GetClient(serverName).GetServer()
-                       : GetClient().GetServer();
+            return GetClient().GetServer();
         }
 
         /// <summary>
         /// Get a database for th given server. Optionally specify a database name, or use the default one.
         /// </summary>
-        /// <param name="severName"></param>
         /// <param name="databaseName"></param>
         /// <returns></returns>
-        public virtual MongoDatabase GetDatabase(string severName = null, string databaseName = "Default")
+        public virtual MongoDatabase GetDatabase( string databaseName = "Default")
         {
-            return GetServer(severName).GetDatabase(databaseName);
+            return GetServer().GetDatabase(databaseName);
         }
     }
 }

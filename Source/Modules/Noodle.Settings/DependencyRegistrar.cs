@@ -5,7 +5,6 @@ using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
-using Noodle.Configuration;
 using Noodle.Engine;
 using Noodle.MongoDB;
 namespace Noodle.Settings
@@ -125,7 +124,7 @@ namespace Noodle.Settings
                 if (!ex.Message.StartsWith("The default connection string name was"))
                     throw;
 
-                return new AppSettingsConfigurationProvider<TSettings>(container.Resolve<AppSettings>()).Settings;
+                return new TSettings();
             }
         }
     }

@@ -18,8 +18,8 @@
         /// </summary>
         /// <param name="key">The key of the object used for later retrieval</param>
         /// <param name="data">The object to store in the cache</param>
-        /// <param name="cacheTime">The time (in seconds) to cache the item</param>
-        void Set(string key, object data, int cacheTime);
+        /// <param name="cacheTime">The time (in seconds) to cache the item. Negative value indicates caching forever</param>
+        void Set(string key, object data, int cacheTime = -1);
 
         /// <summary>
         /// Indicates whether the value associated with the specified key is cached

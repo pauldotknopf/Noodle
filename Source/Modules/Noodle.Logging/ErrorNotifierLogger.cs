@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Noodle.Engine;
-using Noodle.Web;
 
 namespace Noodle.Logging
 {

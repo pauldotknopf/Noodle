@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
-using Noodle.Configuration;
 using Noodle.Engine;
 using Noodle.Plugins;
 using Noodle.Security;
@@ -60,10 +59,9 @@ namespace Noodle.Tests.Plugins
         {
             _prev = CommonHelper.GetEntryAssembly;
             CommonHelper.GetEntryAssembly = () => typeof (TestBase).Assembly;
-            var edit = new NoodleCoreConfiguration();
             var container = new TinyIoCContainer();
             container.Register<ISecurityManager, FakeSecurityManager>();
-            _finder = new PluginFinder(new AppDomainTypeFinder(new AssemblyFinder()), edit, container);
+            _finder = new PluginFinder(new AppDomainTypeFinder(new AssemblyFinder()), container);
         }
 
         [TestFixtureTearDown]
@@ -133,20 +131,6 @@ namespace Noodle.Tests.Plugins
             plugins[0].Name.ShouldEqual("Plugin 2");
             plugins[1].Name.ShouldEqual("Plugin 1");
             plugins[2].Name.ShouldEqual("Plugin 3");
-        }
-
-
-        [Test]
-        public void Can_remove_plugins_through_configuration()
-        {
-            int initialCount = _finder.GetPlugins<TestPluginAttribute>().Count();
-            var configuration = new NoodleCoreConfiguration() { Plugins = new PluginCollection() };
-            configuration.Plugins.Remove(new PluginElement { Name = "Plugin 2" });
-            var newfinder = new PluginFinder(new AppDomainTypeFinder(new AssemblyFinder()), configuration, null);
-            
-            var plugins = newfinder.GetPlugins<TestPluginAttribute>().ToList();
-
-            plugins.Count.ShouldEqual(initialCount - 1);
         }
     }
 }

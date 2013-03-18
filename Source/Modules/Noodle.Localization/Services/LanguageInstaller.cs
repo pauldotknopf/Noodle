@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using MongoDB.Driver;
-using Noodle.Web;
 
 namespace Noodle.Localization.Services
 {

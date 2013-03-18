@@ -3,11 +3,9 @@ using System.Linq;
 using System.Threading;
 using Moq;
 using NUnit.Framework;
-using Noodle.Configuration;
 using Noodle.Engine;
 using Noodle.Plugins;
 using Noodle.Scheduling;
-using Noodle.Web;
 
 namespace Noodle.Tests.Scheduling
 {
@@ -30,9 +28,7 @@ namespace Noodle.Tests.Scheduling
 
             _errorHandler = new Mock<IErrorNotifier>().Object;
 
-            var ctx = new Mock<IRequestContext>();
-
-            var plugins = new PluginFinder(types.Object, new NoodleCoreConfiguration(), null); //); // TODO: Add mock kernel
+            var plugins = new PluginFinder(types.Object, _container);
 
             var worker = new AsyncWorker();
             worker.QueueUserWorkItem = delegate(WaitCallback function)
@@ -41,7 +37,7 @@ namespace Noodle.Tests.Scheduling
                 return true;
             };
 
-            _scheduler = new Scheduler(plugins, _heart.Object, worker, ctx.Object, _errorHandler);
+            _scheduler = new Scheduler(plugins, _heart.Object, worker, _errorHandler);
             _scheduler.Execute();
         }
 

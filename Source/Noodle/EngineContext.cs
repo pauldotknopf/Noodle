@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
-using Noodle.Configuration;
 using Noodle.Engine;
 
 namespace Noodle
@@ -109,16 +104,6 @@ namespace Noodle
             Including = new IncludedAssemblies();
             IncludingOnly = new IncludedOnlyAssemblies();
         }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the configuration group manager that will be used throughout the application.
-        /// This is so that unit tests may setup other configuration sections for testing
-        /// </summary>
-        public static Func<ConfigurationGroupManager> ConfigurationGroupManager = () => new ConfigurationGroupManager("noodle");
 
         #endregion
 

@@ -10,10 +10,6 @@ namespace Noodle.Web
     /// </summary>
     public class Url
     {
-        /// <summary>Ampersand string.</summary>
-        public const string Amp = "&";
-
-        static readonly string[] querySplitter = new[] { "&amp;", Amp };
         static readonly char[] slashes = new char[] { '/' };
         static readonly char[] dotsAndSlashes = new char[] { '.', '/' };
         static string defaultExtension = ".aspx";
@@ -393,7 +389,7 @@ namespace Noodle.Web
             if (string.IsNullOrEmpty(query))
                 clone.query = keyValue;
             else if (!string.IsNullOrEmpty(keyValue))
-                clone.query += Amp + keyValue;
+                clone.query += CommonHelper.Amp + keyValue;
             return clone;
         }
 
@@ -420,7 +416,7 @@ namespace Noodle.Web
                 return AppendQuery(key, value);
 
             var clone = new Url(this);
-            string[] queries = query.Split(querySplitter, StringSplitOptions.RemoveEmptyEntries);
+            string[] queries = query.Split(CommonHelper.QuerySplitter, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < queries.Length; i++)
             {
                 if (queries[i].StartsWith(key + "=", StringComparison.InvariantCultureIgnoreCase))
@@ -428,7 +424,7 @@ namespace Noodle.Web
                     if (value != null)
                     {
                         queries[i] = key + "=" + HttpUtility.UrlEncode(value);
-                        clone.query = string.Join(Amp, queries);
+                        clone.query = string.Join(CommonHelper.Amp, queries);
                         return clone;
                     }
 
@@ -437,11 +433,11 @@ namespace Noodle.Web
                     else if (query.Length == 2)
                         clone.query = queries[i == 0 ? 1 : 0];
                     else if (i == 0)
-                        clone.query = string.Join(Amp, queries, 1, queries.Length - 1);
+                        clone.query = string.Join(CommonHelper.Amp, queries, 1, queries.Length - 1);
                     else if (i == queries.Length - 1)
-                        clone.query = string.Join(Amp, queries, 0, queries.Length - 1);
+                        clone.query = string.Join(CommonHelper.Amp, queries, 0, queries.Length - 1);
                     else
-                        clone.query = string.Join(Amp, queries, 0, i) + Amp + string.Join(Amp, queries, i + 1, queries.Length - i - 1);
+                        clone.query = string.Join(CommonHelper.Amp, queries, 0, i) + CommonHelper.Amp + string.Join(CommonHelper.Amp, queries, i + 1, queries.Length - i - 1);
                     return clone;
                 }
             }
@@ -819,7 +815,7 @@ namespace Noodle.Web
 
         public string Encode()
         {
-            return ToString().Replace(Amp, "&amp;");
+            return ToString().Replace(CommonHelper.Amp, "&amp;");
         }
 
         /// <summary>Mimics the behavior of VirtualPathUtility.Combine with less restrictions and minimal dependencies.</summary>
@@ -857,7 +853,7 @@ namespace Noodle.Web
             if (query == null)
                 return dictionary;
 
-            string[] queries = query.Split(querySplitter, StringSplitOptions.RemoveEmptyEntries);
+            string[] queries = query.Split(CommonHelper.QuerySplitter, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < queries.Length; i++)
             {
                 string q = queries[i];

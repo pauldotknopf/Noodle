@@ -4,9 +4,8 @@ using System.Net;
 using System.Reflection;
 using System.Web;
 using System.Web.Routing;
-using Noodle.Web;
 
-namespace Noodle.Routing
+namespace Noodle.Web.Routing
 {
     /// <summary>
     /// Adds a route to a resource that is embedded into an assembly

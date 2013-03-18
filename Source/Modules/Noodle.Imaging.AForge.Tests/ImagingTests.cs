@@ -13,7 +13,7 @@ using Encoder = System.Drawing.Imaging.Encoder;
 namespace Noodle.Imaging.AForge.Tests
 {
     [TestFixture]
-    public class ImagingTests : Noodle.Tests.ImagingTests
+    public class ImagingTests : Noodle.Imaging.Tests.ImagingTests
     {
         public override void SetUp()
         {

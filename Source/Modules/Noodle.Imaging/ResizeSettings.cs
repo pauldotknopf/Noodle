@@ -29,7 +29,7 @@ namespace Noodle.Imaging
         /// Parses the specified querystring into name/value pairs. leading ? not required.
         /// </summary>
         /// <param name="queryString"></param>
-        public ResizeSettings(string queryString) : base(Web.Url.ParseQueryStringAsNameValueCollection(queryString)) { }
+        public ResizeSettings(string queryString) : base(CommonHelper.ParseQueryStringAsNameValueCollection(queryString)) { }
 
         /// <summary>
         /// Creates a new resize settings object with the specified resizing settings

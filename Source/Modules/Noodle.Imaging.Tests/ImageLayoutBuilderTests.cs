@@ -5,12 +5,10 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
-using Noodle.Imaging;
 using Noodle.Tests;
 
-namespace Noodle.Tests
+namespace Noodle.Imaging.Tests
 {
     [TestFixture]
     public class ImagingTests : TestBase

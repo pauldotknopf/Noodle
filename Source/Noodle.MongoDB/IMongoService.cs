@@ -14,23 +14,20 @@ namespace Noodle.MongoDB
         /// <summary>
         /// Get the client, optionaly for a given name
         /// </summary>
-        /// <param name="serverName"></param>
         /// <returns></returns>
-        MongoClient GetClient(string serverName = null);
+        MongoClient GetClient();
 
         /// <summary>
         /// Get sever, optionally a the given name
         /// </summary>
-        /// <param name="serverName"></param>
         /// <returns></returns>
-        MongoServer GetServer(string serverName = null);
+        MongoServer GetServer();
 
         /// <summary>
         /// Get a database for th given server. Optionally specify a database name, or use the default one.
         /// </summary>
-        /// <param name="severName"></param>
         /// <param name="databaseName"></param>
         /// <returns></returns>
-        MongoDatabase GetDatabase(string severName = null, string databaseName = "Default");
+        MongoDatabase GetDatabase(string databaseName = "Default");
     }
 }

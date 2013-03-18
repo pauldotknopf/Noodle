@@ -79,44 +79,6 @@ namespace Noodle.Localization.Tests
             value.ShouldEqual("test default value 2");
         }
 
-        //[Test]
-        //public void Can_get_default_value_if_resource_not_found()
-        //{
-        //    // setup
-        //    var resource = LocalStringResourceRepository.Insert(CreateResource(1, LanguageRepository.Insert(CreateLanguage()).Id));
-        //    var localizationSetting = Kernel.Resolve<LocalizationSettings>();
-        //    localizationSetting.DefaultLanguageId = resource.LanguageId;
-        //    Kernel.Resolve<ISettingService>().SaveSetting(localizationSetting);
-
-        //    // act
-        //    var value = Kernel.Resolve<ILocalizationService>().GetResource("non existing value....", defaultValue: "return this if not found...");
-
-        //    // assert
-        //    value.ShouldEqual("return this if not found...");
-        //}
-
-        //[Test]
-        //public void Can_return_empty_if_not_resource_found()
-        //{
-        //    // setup
-        //    var resource = LocalStringResourceRepository.Insert(CreateResource(1, LanguageRepository.Insert(CreateLanguage()).Id));
-        //    var localizationSetting = Kernel.Resolve<LocalizationSettings>();
-        //    localizationSetting.DefaultLanguageId = resource.LanguageId;
-        //    Kernel.Resolve<ISettingService>().SaveSetting(localizationSetting);
-
-        //    // act
-        //    var value = Kernel.Resolve<ILocalizationService>().GetResource("non existing value....", returnEmptyIfNotFound:true);
-
-        //    // assert
-        //    value.ShouldEqual(string.Empty);
-
-        //    // act
-        //    value = Kernel.Resolve<ILocalizationService>().GetResource("non existing value....", returnEmptyIfNotFound: false);
-
-        //    // assert
-        //    value.ShouldEqual("non existing value....");
-        //}
-
         [Test, Ignore]
         public void Can_log_if_resource_not_found()
         {

@@ -1,6 +1,7 @@
 ﻿using System.Web;
+using Noodle.Caching;
 
-namespace Noodle.Caching
+namespace Noodle.Web.Caching
 {
     /// <summary>
     /// This implementation if ICacheManager internally uses http cache if asp.net, otherwise, it uses in memory cache

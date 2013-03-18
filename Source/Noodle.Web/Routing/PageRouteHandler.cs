@@ -7,7 +7,7 @@ using System.Web.Compilation;
 using System.Web.Routing;
 using System.Web.UI;
 
-namespace Noodle.Routing
+namespace Noodle.Web.Routing
 {
     /// <summary>
     /// A route handler to a specific page
