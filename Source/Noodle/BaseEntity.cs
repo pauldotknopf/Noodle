@@ -50,7 +50,7 @@ namespace Noodle
 
         public override int GetHashCode()
         {
-            if (Equals(Id, default(int)))
+            if (Equals(Id, default(T)))
                 return base.GetHashCode();
             return Id.GetHashCode();
         }
