@@ -39,8 +39,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Logging.Viewer", "Source\Modules\Noodle.Logging.Viewer\Noodle.Logging.Viewer.csproj", "{A1169AF7-6375-4443-99CF-42EBF9186B2A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Imaging.AForge", "Source\Modules\Noodle.Imaging.AForge\Noodle.Imaging.AForge.csproj", "{C1AA0153-0701-46EF-9274-89B525983F30}"
+	ProjectSection(ProjectDependencies) = postProject
+		{047F91C4-93CA-4DE6-A7EA-E7F64C78FFAF} = {047F91C4-93CA-4DE6-A7EA-E7F64C78FFAF}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Imaging.AForge.Tests", "Source\Modules\Noodle.Imaging.AForge.Tests\Noodle.Imaging.AForge.Tests.csproj", "{EA85D7E6-5DCB-466B-B57A-8420DBEEE775}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A2B98E36-1141-4022-A75C-356D3E7127D6} = {A2B98E36-1141-4022-A75C-356D3E7127D6}
+		{047F91C4-93CA-4DE6-A7EA-E7F64C78FFAF} = {047F91C4-93CA-4DE6-A7EA-E7F64C78FFAF}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{884A6F63-38BE-4633-9577-C9DBFB56380B}"
 	ProjectSection(SolutionItems) = preProject
