@@ -19,7 +19,7 @@ namespace Noodle
 
         private static bool IsTransient(BaseEntity<T> obj)
         {
-            return obj != null && Equals(obj.Id, default(int));
+            return obj != null && Equals(obj.Id, default(T));
         }
 
         private Type GetUnproxiedType()

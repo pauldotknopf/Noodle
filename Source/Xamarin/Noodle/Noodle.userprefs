@@ -1,27 +1,27 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../Noodle.Tests/DataTestBase.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../Noodle.Tests/ContainerTests.cs">
     <Files>
-      <File FileName="../../Noodle/CommonHelper.cs" Line="152" Column="1" />
-      <File FileName="../../Noodle/Data/IDatabaseService.cs" Line="1" Column="1" />
-      <File FileName="../../Noodle/Engine/CoreDependencyRegistrar.cs" Line="1" Column="1" />
-      <File FileName="../../Noodle/Engine/IWorker.cs" Line="1" Column="1" />
-      <File FileName="../../Noodle/Engine/AsyncWorker.cs" Line="1" Column="1" />
-      <File FileName="../../Noodle/Engine/AppDomainTypeFinder.cs" Line="74" Column="56" />
-      <File FileName="../../Noodle/Documentation/IDocumentationService.cs" Line="1" Column="1" />
-      <File FileName="../../Noodle/Engine/Logger.cs" Line="1" Column="1" />
-      <File FileName="../../Noodle/IO/Path.cs" Line="1" Column="1" />
-      <File FileName="../../Noodle/Plugins/PluginBootstrapper.cs" Line="1" Column="1" />
-      <File FileName="../../Noodle/Plugins/PlugInAttribute.cs" Line="1" Column="1" />
-      <File FileName="../../Noodle/Plugins/InitializerCreatingAttribute.cs" Line="1" Column="1" />
-      <File FileName="../../Noodle/Email/EmailSender.cs" Line="1" Column="1" />
-      <File FileName="../../Noodle/Engine/AssemblyFinder.cs" Line="1" Column="1" />
-      <File FileName="../../Noodle/Linq/ExpressionVisitor.cs" Line="1" Column="1" />
-      <File FileName="Noodle.iOS.Tests/Main.cs" Line="1" Column="1" />
-      <File FileName="Noodle.iOS.Tests/UnitTestAppDelegate.cs" Line="35" Column="41" />
-      <File FileName="../../Noodle.Tests/Scheduling/SchedulingTests.cs" Line="22" Column="26" />
-      <File FileName="../../Noodle.Tests/DataTestBase.cs" Line="2" Column="7" />
+      <File FileName="../../Noodle/Collections/CrudHelper.cs" Line="1" Column="1" />
+      <File FileName="../../Noodle/Collections/DelegateEqualityComparer.cs" Line="1" Column="1" />
+      <File FileName="../../Noodle/Collections/INameable.cs" Line="1" Column="1" />
+      <File FileName="../../Noodle.Tests/ContainerTests.cs" Line="20" Column="19" />
+      <File FileName="../../Noodle.Tests/TestExtensions.cs" Line="1" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Noodle.iOS" selected="True" />
+          <Node name="Noodle.iOS.Tests" expanded="True" />
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
