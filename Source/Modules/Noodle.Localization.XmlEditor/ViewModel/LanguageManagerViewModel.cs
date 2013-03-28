@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Windows;
 using System.Xml;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 using Noodle.Localization.Services;
+using Noodle.Localization.XmlEditor.Bing;
 using Telerik.Windows.Controls;
 using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
 
@@ -39,6 +43,7 @@ namespace Noodle.Localization.XmlEditor.ViewModel
                 ExitCommand = new RelayCommand(Exit);
                 AddResourceCommand = new RelayCommand(AddResource, () => _languages.Count > 0);
                 AddLanguageCommand = new RelayCommand(AddLanguage);
+                TranslateMissingValuesCommand = new RelayCommand(TranslateMissingValues);
             }
             else
             {
@@ -52,6 +57,31 @@ namespace Noodle.Localization.XmlEditor.ViewModel
                         new LocaleStringResourceModel(new LocaleStringResource{ResourceName = "test 3", ResourceValue="value 3"})
                     })
                 });
+            }
+        }
+
+        /// <summary>
+        /// Translate missing values automatically
+        /// </summary>
+        private void TranslateMissingValues()
+        {
+            //Get Client Id and Client Secret from https://datamarket.azure.com/developer/applications/
+            //Refer obtaining AccessToken (http://msdn.microsoft.com/en-us/library/hh454950.aspx) 
+            var admAuth = new AdmAuthentication("Noodle", "u04jN8af+vigmdgD5ncB0KRmd3ejMyKRx+T9cFiLEzk=");
+            var accessToken = admAuth.GetAccessToken().access_token;
+
+
+            var source = _languages.First();
+            foreach (var language in _languages)
+            {
+                foreach (var resource in language.Second)
+                {
+                    if (resource.IsMissing && string.IsNullOrEmpty(resource.ResourceValue))
+                    {
+                        var sourceValue = source.Second.Single(x => x.ResourceName == resource.ResourceName);
+                        resource.ResourceValue = Translate(accessToken, sourceValue.ResourceValue, source.First.LanguageCulture, language.First.LanguageCulture);
+                    }
+                }
             }
         }
 
@@ -105,9 +135,28 @@ namespace Noodle.Localization.XmlEditor.ViewModel
         /// </summary>
         public RelayCommand AddLanguageCommand { get; protected set; }
 
+        /// <summary>
+        /// Auto translate missing values
+        /// </summary>
+        public RelayCommand TranslateMissingValuesCommand { get; protected set; }
+
         #endregion
 
         #region Business Logic
+
+        private string Translate(string accessToken, string text, string from, string to)
+        {
+            var client = new LanguageServiceClient();
+            var httpRequestProperty = new HttpRequestMessageProperty();
+            httpRequestProperty.Method = "POST";
+            httpRequestProperty.Headers.Add("Authorization", "Bearer " + accessToken);
+
+            using (var scope = new OperationContextScope(client.InnerChannel))
+            {
+                OperationContext.Current.OutgoingMessageProperties[HttpRequestMessageProperty.Name] = httpRequestProperty;
+                return client.Translate("", text, from, to, "text/plain", "");
+            }
+        }
 
         /// <summary>
         /// Add a language

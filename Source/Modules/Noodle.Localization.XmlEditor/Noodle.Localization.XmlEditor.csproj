@@ -53,6 +53,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MvvmLight.4.1.26.1\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -91,7 +94,13 @@
     <Compile Include="AddResource.xaml.cs">
       <DependentUpon>AddResource.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Bing\Adm.cs" />
     <Compile Include="IsMissingToColorConverter.cs" />
+    <Compile Include="Service References\Bing\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\LocaleStringResourceModel.cs" />
     <Page Include="AddResource.xaml">
       <SubType>Designer</SubType>
@@ -129,12 +138,36 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\Bing\Noodle.Localization.XmlEditor.Bing.GetTranslationsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Bing\Noodle.Localization.XmlEditor.Bing.TranslateArray2Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Bing\Noodle.Localization.XmlEditor.Bing.TranslateArrayResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Bing\soap.wsdl" />
+    <None Include="Service References\Bing\soap.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Bing\soap1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Bing\soap2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Bing\soap3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Bing\SoapService.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Noodle\Noodle.csproj">
@@ -146,7 +179,24 @@
       <Name>Noodle.Localization</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\Bing\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Bing\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Bing\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Bing\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -21,6 +21,7 @@
             </telerik:RadMenuItem>
             <telerik:RadMenuItem Header="Add language" Command="{Binding AddLanguageCommand}" />
             <telerik:RadMenuItem Header="Add resource" Command="{Binding AddResourceCommand}" />
+            <telerik:RadMenuItem Header="Auto translate" Command="{Binding TranslateMissingValuesCommand}" />
         </telerik:RadMenu>
         <telerik:RadTabControl ItemsSource="{Binding Languages}" ScrollMode="Item" Grid.Row="1" ScrollViewer.ScrollChanged="ScrollViewer_OnScrollChanged">
             <telerik:RadTabControl.ItemTemplate>

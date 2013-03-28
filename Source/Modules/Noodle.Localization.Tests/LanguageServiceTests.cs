@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using MongoDB.Driver;
 using NUnit.Framework;
 using Noodle.Caching;
 using Noodle.Settings;
@@ -13,7 +14,7 @@ namespace Noodle.Localization.Tests
         public void Can_update_default_language_id_when_deleting_a_language()
         {
             // setup
-            var language1 = new Language {Name = "language 1", Published = true};
+            var language1 = new Language { Name = "language 1", Published = true };
             var language2 = new Language { Name = "language 2", Published = true };
 
             // act
@@ -30,6 +31,23 @@ namespace Noodle.Localization.Tests
 
             // assert
             Assert.AreEqual(language2.Id.ToString(), _container.Resolve<IConfigurationProvider<LocalizationSettings>>().Settings.DefaultLanguageId);
+        }
+
+        [Test]
+        public void Can_delete_all_langauges()
+        {
+            // setup
+            var langauge1 = _languageService.InsertLanguage(CreateLanguage());
+            var language2 = _languageService.InsertLanguage(CreateLanguage(2));
+            _localizationService.InsertLocaleStringResource(new LocaleStringResource { LanguageId = langauge1.Id, ResourceName = "name", ResourceValue = "value" });
+            _localizationService.InsertLocaleStringResource(new LocaleStringResource { LanguageId = language2.Id, ResourceName = "name", ResourceValue = "value" });
+
+            // act
+            _languageService.DeleteAll();
+
+            // assert
+            _container.Resolve<MongoCollection<Language>>().Count().ShouldEqual(0);
+            _container.Resolve<MongoCollection<LocaleStringResource>>().Count().ShouldEqual(0);
         }
 
         [Test]

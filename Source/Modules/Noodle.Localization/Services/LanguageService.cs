@@ -180,7 +180,7 @@ namespace Noodle.Localization.Services
         {
             _localizedPropertyCollection.RemoveAll();
             _localeStringResourceCollection.RemoveAll();
-            _localeStringResourceCollection.RemoveAll();
+            _languageCollection.RemoveAll();
         }
 
         /// <summary>
