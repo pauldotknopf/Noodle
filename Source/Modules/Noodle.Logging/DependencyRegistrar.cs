@@ -20,7 +20,7 @@ namespace Noodle.Logging
 
         public static MongoDatabase GetLocalizationDatabase(TinyIoCContainer container)
         {
-            return container.Resolve<IMongoService>().GetDatabase("Logging");
+            return container.Resolve<IMongoService>().GetDatabase();
         }
     }
 }

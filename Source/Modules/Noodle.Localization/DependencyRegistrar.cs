@@ -37,7 +37,7 @@ namespace Noodle.Localization
 
         public static MongoDatabase GetLocalizationDatabase(TinyIoCContainer container)
         {
-            return container.Resolve<IMongoService>().GetDatabase("Localization");
+            return container.Resolve<IMongoService>().GetDatabase();
         }
     }
 }
