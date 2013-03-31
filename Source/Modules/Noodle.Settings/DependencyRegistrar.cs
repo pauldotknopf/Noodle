@@ -105,7 +105,7 @@ namespace Noodle.Settings
 
         public static MongoDatabase GetSettingsDatabase(TinyIoCContainer container)
         {
-            return container.Resolve<IMongoService>().GetDatabase("Localization");
+            return container.Resolve<IMongoService>().GetDatabase();
         }
 
         static readonly MethodInfo BuildSettingsMethod = typeof(DependencyRegistrar).GetMethod(
