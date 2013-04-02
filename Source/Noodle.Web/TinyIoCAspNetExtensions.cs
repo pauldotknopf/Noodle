@@ -19,6 +19,10 @@ namespace Noodle.Web
 
         public void ReleaseObject()
         {
+            // small hack for unit tests
+            if (HttpContext.Current == null)
+                return;
+
             var item = GetObject() as IDisposable;
 
             if (item != null)

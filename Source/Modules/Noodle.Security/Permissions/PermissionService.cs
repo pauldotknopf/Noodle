@@ -97,7 +97,7 @@ namespace Noodle.Security.Permissions
                 UserRoleId = role.Id
             };
 
-            _permissionPecordCollection.Update(Query.And(Query<RolePermissionMap>.EQ(x => x.PermissionRecordId, permissionRecord.Id), Query<RolePermissionMap>.EQ(x => x.UserRoleId, role.Id)),
+            _rolePermissionMapCollection.Update(Query.And(Query<RolePermissionMap>.EQ(x => x.PermissionRecordId, permissionRecord.Id), Query<RolePermissionMap>.EQ(x => x.UserRoleId, role.Id)),
                 Update<RolePermissionMap>.Replace(mapping), 
                 UpdateFlags.Upsert);
         }
@@ -141,7 +141,7 @@ namespace Noodle.Security.Permissions
             if (permissionRecord == null)
                 throw new NoodleException("The permission record " + permissionRecordSystemName + " doesn't exist.");
 
-            return _rolePermissionMapCollection.Count(Query.And(Query<RolePermissionMap>.EQ(x => x.PermissionRecordId, permissionRecord.Id), Query<RolePermissionMap>.EQ(x => x.UserRoleId, role.Id))) == 1;
+            return _rolePermissionMapCollection.Count(Query.And(Query<RolePermissionMap>.EQ(x => x.PermissionRecordId, permissionRecord.Id), Query<RolePermissionMap>.EQ(x => x.UserRoleId, role.Id))) >= 1;
         }
 
         /// <summary>
@@ -155,22 +155,26 @@ namespace Noodle.Security.Permissions
         {
             var providerName = permissionProvider.GetType().Name;
 
-            if (_permissionsInstalledCollection.Count(Query<PermissionInstalled>.EQ(x => x.Name, providerName)) == 1)
-                return;
-
+            if(reInstall)
+                _permissionsInstalledCollection.Remove(Query<PermissionInstalled>.EQ(x => x.Name, providerName));
+            else
+                if (_permissionsInstalledCollection.Count(Query<PermissionInstalled>.EQ(x => x.Name, providerName)) == 1)
+                    return;
+            
             _permissionsInstalledCollection.Insert(new PermissionInstalled { Name = providerName });
 
             foreach(var permission in permissionProvider.GetPermissions())
             {
-                // upsert
-                _permissionPecordCollection.Update(Query<PermissionRecord>.EQ(x => x.SystemName, permission.SystemName), 
-                    Update<PermissionRecord>.Replace(new PermissionRecord
-                    {
-                        Category = permission.Category, 
-                        Name = permission.Name, 
-                        SystemName = permission.SystemName
-                    }), 
-                    UpdateFlags.Upsert);
+                var existing = _permissionPecordCollection.FindOne(Query<PermissionRecord>.EQ(x => x.SystemName, permission.SystemName)) ?? new PermissionRecord();
+
+                existing.Category = permission.Category;
+                existing.Name = permission.Name;
+                existing.SystemName = permission.SystemName;
+
+                if(existing.Id == ObjectId.Empty)
+                    _permissionPecordCollection.Insert(existing);
+                else
+                    _permissionPecordCollection.Update(Query<PermissionRecord>.EQ(x => x.Id, existing.Id), Update<PermissionRecord>.Replace(existing));
             }
 
             foreach(var defaultPermission in permissionProvider.GetDefaultPermissions())
@@ -194,13 +198,18 @@ namespace Noodle.Security.Permissions
                     if(dbPermissionRecord == null)
                         throw new InvalidOperationException("The permission provider " + providerName + " is trying to install a default permission for permission " + defaultPermissionRecord.SystemName + " but it isn't provided via GetDefaultPermissions or another IPermissionProvider");
 
-                    _rolePermissionMapCollection.Update(Query.And(Query<RolePermissionMap>.EQ(x => x.PermissionRecordId, dbPermissionRecord.Id), Query<RolePermissionMap>.EQ(x => x.UserRoleId, role.Id)), 
-                        Update<RolePermissionMap>.Replace(new RolePermissionMap
-                        {
-                            PermissionRecordId = dbPermissionRecord.Id,
-                            UserRoleId = role.Id
-                        }), 
-                        UpdateFlags.Upsert);
+                    var query = Query.And(Query<RolePermissionMap>.EQ(x => x.PermissionRecordId, dbPermissionRecord.Id), Query<RolePermissionMap>.EQ(x => x.UserRoleId, role.Id));
+
+                    var existing = _rolePermissionMapCollection.FindOne(query);
+
+                    if(existing != null)
+                        continue;
+
+                    _rolePermissionMapCollection.Insert(new RolePermissionMap
+                    {
+                        PermissionRecordId = dbPermissionRecord.Id,
+                        UserRoleId = role.Id
+                    });
                 }
             }
         }

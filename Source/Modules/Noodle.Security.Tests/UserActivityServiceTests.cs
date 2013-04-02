@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
+using NUnit.Framework;
+using Noodle.Collections;
+using Noodle.Security.Activity;
+using Noodle.Tests;
 
 namespace Noodle.Security.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class UserActivityServiceTests : SecurityTestBase
     {
-        [TestMethod]
+        [Test]
         public void Can_add_new_log_types_when_installing_a_provider()
         {
             // setup
@@ -14,18 +21,15 @@ namespace Noodle.Security.Tests
             var testLogTypeProvider = new Fakes.FakeActivityLogTypeProvider(testLogTypes);
 
             // act
-            this.UserActivityService.InstallActivityLogTypes(testLogTypeProvider);
+            _userActivityService.InstallActivityLogTypes(testLogTypeProvider);
 
             // assert
-            var databaseLogTypes = ActivityLogTypeRepository.Table.ToList();
+            var databaseLogTypes = _container.Resolve<MongoCollection<ActivityLogType>>().FindAll().ToList();
             databaseLogTypes.Count.ShouldEqual(2);
             databaseLogTypes.SequenceEqual(testLogTypes, this.GetActivityLogTypeComparer()).ShouldBeTrue();
-
-            // this is so that other tests can use this method to install activity log types. the "Table" is active and executed otherwise (old data)
-            ActivityLogTypeRepository = Kernel.Resolve<IRepository<ActivityLogType>>();
         }
 
-        [TestMethod]
+        [Test]
         public void Can_ignore_already_installed_providers()
         {
             // setup
@@ -36,15 +40,15 @@ namespace Noodle.Security.Tests
             var testLogTypeProvider = new Fakes.FakeActivityLogTypeProvider(testLogTypes);
 
             // act
-            UserActivityService.InstallActivityLogTypes(testLogTypeProvider);
+            _userActivityService.InstallActivityLogTypes(testLogTypeProvider);
 
             // assert
-            var databaseLogTypes = ActivityLogTypeRepository.Table.ToList();
+            var databaseLogTypes = _container.Resolve<MongoCollection<ActivityLogType>>().FindAll().ToList();
             databaseLogTypes.Count.ShouldEqual(2);
             databaseLogTypes[0].Name.ShouldEqual("LogType1");
         }
 
-        [TestMethod]
+        [Test]
         public void Can_update_existing_log_types_when_reinstalling_a_provider()
         {
             // setup
@@ -54,22 +58,22 @@ namespace Noodle.Security.Tests
             var testLogTypeProvider = new Fakes.FakeActivityLogTypeProvider(testLogTypes);
 
             // act
-            UserActivityService.InstallActivityLogTypes(testLogTypeProvider, true);
+            _userActivityService.InstallActivityLogTypes(testLogTypeProvider, true);
 
             // assert
-            var databaseLogTypes = ActivityLogTypeRepository.Table.ToList();
+            var databaseLogTypes = _container.Resolve<MongoCollection<ActivityLogType>>().FindAll().ToList();
             databaseLogTypes.Count.ShouldEqual(2);
             databaseLogTypes[0].Name.ShouldEqual("LogType1Modified");
             databaseLogTypes[1].Name.ShouldEqual("LogType2");
         }
 
-        [TestMethod, Ignore]
+        [Test, Ignore]
         public void Can_uninstall_a_provider()
         {
             // TODO
         }
 
-        [TestMethod]
+        [Test]
         public void Can_insert_a_valid_activity()
         {
             // setup
@@ -78,29 +82,29 @@ namespace Noodle.Security.Tests
             var comment = string.Format("comment for user {0}.", testUser.Id);
 
             // act
-            UserActivityService.InsertActivity("LogType1System", comment, testUser.Id);
+            _userActivityService.InsertActivity("LogType1System", comment, testUser.Id);
 
             // assert
-            var activities = ActivityLogRepository.Table.ToList();
+            var activities = _container.Resolve<MongoCollection<ActivityLog>>().FindAll().ToList();
             activities.Count.ShouldEqual(1);
             activities[0].Comment.ShouldEqual(comment);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_ignore_log_if_invalid_userid_is_given()
         {
             // setup
             Can_add_new_log_types_when_installing_a_provider();
 
             // act
-            UserActivityService.InsertActivity("LogType1System", string.Empty, 0);
+            _userActivityService.InsertActivity("LogType1System", string.Empty);
 
             // assert
-            var activities = ActivityLogRepository.Table.ToList();
+            var activities = _container.Resolve<MongoCollection<ActivityLog>>().FindAll().ToList();
             activities.Count.ShouldEqual(0);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_ignore_log_if_logtype_doesnt_exist()
         {
             // setup
@@ -109,32 +113,32 @@ namespace Noodle.Security.Tests
             var comment = string.Format("comment for user {0}.", testUser.Id);
 
             // act
-            UserActivityService.InsertActivity("LogType1SystemTypo", comment, testUser.Id);
+            _userActivityService.InsertActivity("LogType1SystemTypo", comment, testUser.Id);
 
             // assert
-            var activities = ActivityLogRepository.Table.ToList();
+            var activities = _container.Resolve<MongoCollection<ActivityLog>>().FindAll().ToList();
             activities.Count.ShouldEqual(0);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_ignore_log_if_logtype_is_disabled()
         {
             // setup
             Can_add_new_log_types_when_installing_a_provider();
             var testUser = GetAndCreateUser();
-            var logType = ActivityLogTypeRepository.Single(x => x.SystemKeyword == "LogType1System");
+            var logType = _container.Resolve<MongoCollection<ActivityLogType>>().FindAll().ToList().Single(x => x.SystemKeyword == "LogType1System");
             logType.Enabled = false;
-            ActivityLogTypeRepository.Update(logType);
+            _container.Resolve<MongoCollection<ActivityLogType>>().Update(Query<ActivityLogType>.EQ(x => x.Id, logType.Id), Update<ActivityLogType>.Replace(logType));
 
             // act
-            UserActivityService.InsertActivity("LogType1SystemTypo", string.Empty, testUser.Id);
+            _userActivityService.InsertActivity("LogType1SystemTypo", string.Empty, testUser.Id);
 
             // assert
-            var activities = ActivityLogRepository.Table.ToList();
+            var activities = _container.Resolve<MongoCollection<ActivityLog>>().FindAll().ToList();
             activities.Count.ShouldEqual(0);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_all_activities()
         {
             // setup
@@ -142,7 +146,7 @@ namespace Noodle.Security.Tests
             CreateSampleActivityLogs();
 
             // act
-            var allActivities = UserActivityService.GetAllActivities();
+            var allActivities = _userActivityService.GetAllActivities();
         
             // assert
             allActivities.Count.ShouldEqual(112);
@@ -150,7 +154,7 @@ namespace Noodle.Security.Tests
             allActivities.TotalPages.ShouldEqual(1);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_all_activities_paged()
         {
             // setup
@@ -158,7 +162,7 @@ namespace Noodle.Security.Tests
             CreateSampleActivityLogs();
 
             // act
-            var activities = UserActivityService.GetAllActivities(pageIndex:0, pageSize:10);
+            var activities = _userActivityService.GetAllActivities(pageIndex: 0, pageSize: 10);
 
             // assert
             activities.Count.ShouldEqual(10);
@@ -168,7 +172,7 @@ namespace Noodle.Security.Tests
             activities[9].Comment.Contains("number 10").ShouldBeTrue();
 
             // act
-            activities = UserActivityService.GetAllActivities(pageIndex: 11, pageSize: 10);
+            activities = _userActivityService.GetAllActivities(pageIndex: 11, pageSize: 10);
 
             // assert
             activities.Count.ShouldEqual(2);
@@ -178,7 +182,7 @@ namespace Noodle.Security.Tests
             activities[1].Comment.Contains("number 112").ShouldBeTrue();
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_all_activities_by_email()
         {
             // setup
@@ -186,21 +190,21 @@ namespace Noodle.Security.Tests
             CreateSampleActivityLogs();
 
             // act
-            var activities = UserActivityService.GetAllActivities(email: "email1@domain1.com");
+            var activities = _userActivityService.GetAllActivities(email: "email1@domain1.com");
 
             // assert
             activities.Count.ShouldEqual(38);
             activities.Select(x => x.UserId).Distinct().Count().ShouldEqual(1);
 
             // act
-            activities = UserActivityService.GetAllActivities(email: "email2@domain2.com");
+            activities = _userActivityService.GetAllActivities(email: "email2@domain2.com");
 
             // assert
             activities.Count.ShouldEqual(74);
             activities.Select(x => x.UserId).Distinct().Count().ShouldEqual(1);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_all_activities_by_username()
         {
             // setup
@@ -208,21 +212,21 @@ namespace Noodle.Security.Tests
             CreateSampleActivityLogs();
 
             // act
-            var activities = UserActivityService.GetAllActivities(username: "username1");
+            var activities = _userActivityService.GetAllActivities(username: "username1");
 
             // assert
             activities.Count.ShouldEqual(38);
             activities.Select(x => x.UserId).Distinct().Count().ShouldEqual(1);
 
             // act
-            activities = UserActivityService.GetAllActivities(username: "username2");
+            activities = _userActivityService.GetAllActivities(username: "username2");
 
             // assert
             activities.Count.ShouldEqual(74);
             activities.Select(x => x.UserId).Distinct().Count().ShouldEqual(1);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_all_activities_from_start_date()
         {
             // setup
@@ -233,7 +237,7 @@ namespace Noodle.Security.Tests
             var start = time.Subtract(TimeSpan.FromDays(50));
 
             // act
-            var activities = UserActivityService.GetAllActivities(createdOnFrom: start);
+            var activities = _userActivityService.GetAllActivities(createdOnFromUtc: start);
 
             // assert
             activities.Count.ShouldEqual(51);
@@ -243,7 +247,7 @@ namespace Noodle.Security.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_all_acitivities_to_end_date()
         {
             // setup
@@ -254,7 +258,7 @@ namespace Noodle.Security.Tests
             var end = time.Subtract(TimeSpan.FromDays(50));
 
             // act
-            var activities = UserActivityService.GetAllActivities(createdOnTo: end);
+            var activities = _userActivityService.GetAllActivities(createdOnToUtc: end);
 
             // assert
             activities.Count.ShouldEqual(62);
@@ -264,7 +268,7 @@ namespace Noodle.Security.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Can_clear_all_activities()
         {
             // setup
@@ -272,66 +276,66 @@ namespace Noodle.Security.Tests
             CreateSampleActivityLogs();
 
             // act
-            UserActivityService.ClearAllActivities();
+            _userActivityService.ClearAllActivities();
 
             // assert
-            ActivityLogRepository.Table.Count().ShouldEqual(0);
+            _container.Resolve<MongoCollection<ActivityLog>>().FindAll().Count().ShouldEqual(0);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_get_all_activity_types()
         {
             // setup
             Can_add_new_log_types_when_installing_a_provider();
 
             // act
-            var logTypes = UserActivityService.GetAllActivityTypes();
+            var logTypes = _userActivityService.GetAllActivityTypes();
 
             // assert
             logTypes.SequenceEqual(GetTestActivityLogTypes(), GetActivityLogTypeComparer()).ShouldBeTrue();
         }
 
-        [TestMethod]
+        [Test]
         public void Can_delete_an_activity_log_item()
         {
             // setup
             Can_add_new_log_types_when_installing_a_provider();
             var testUser = GetAndCreateUser();
-            UserActivityService.GetAllActivities().Count.ShouldEqual(0);
-            UserActivityService.InsertActivity("LogType1System", string.Empty, testUser.Id);
-            var activityId = UserActivityService.GetAllActivities().Single().Id;
+            _userActivityService.GetAllActivities().Count.ShouldEqual(0);
+            _userActivityService.InsertActivity("LogType1System", string.Empty, testUser.Id);
+            var activityId = _userActivityService.GetAllActivities().Single().Id;
 
             // act
-            UserActivityService.DeleteActivity(activityId);
+            _userActivityService.DeleteActivity(activityId);
 
             // assert
-            UserActivityService.GetAllActivities().Count.ShouldEqual(0);
+            _userActivityService.GetAllActivities().Count.ShouldEqual(0);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_disable_activity_log_type()
         {
             // setup
             Can_enabled_activity_log_type();
 
             // act
-            UserActivityService.EnabledActivityLogType("LogType1System");
+            _userActivityService.EnabledActivityLogType("LogType1System");
 
             // assert
-            UserActivityService.GetAllActivityTypes().Single(x => x.SystemKeyword == "LogType1System").Enabled.ShouldBeTrue();
+            _userActivityService.GetAllActivityTypes().Single(x => x.SystemKeyword == "LogType1System").Enabled.ShouldBeTrue();
         }
 
-        [TestMethod]
+        [Test]
         public void Can_enabled_activity_log_type()
         {
             // setup
             Can_add_new_log_types_when_installing_a_provider();
 
             // act
-            UserActivityService.DisableActivityLogType("LogType1System");
+            _userActivityService.DisableActivityLogType("LogType1System");
 
             // assert
-            UserActivityService.GetAllActivityTypes().Single(x => x.SystemKeyword == "LogType1System").Enabled.ShouldBeFalse();
+            _userActivityService.GetAllActivityTypes().Single(x => x.SystemKeyword == "LogType1System").Enabled.ShouldBeFalse();
         }
 
         #region Helpers
@@ -348,7 +352,7 @@ namespace Noodle.Security.Tests
                 var userId = x%3 == 0 ? testUser1.Id : testUser2.Id;
                 var type = x % 2 == 0 ? "LogType1System" : "LogType2System";
                 CommonHelper.CurrentTime = () => time.Subtract(TimeSpan.FromDays((double)x));
-                UserActivityService.InsertActivity(type, "User {0} type {1} number {2}".F(userId, type, x + 1), userId);
+                _userActivityService.InsertActivity(type, "User {0} type {1} number {2}".F(userId, type, x + 1), userId);
             }
         }
 
@@ -379,22 +383,6 @@ namespace Noodle.Security.Tests
                 return true;
             },
             (x) => x.Name.GetHashCode() + x.SystemKeyword.GetHashCode() + x.Enabled.GetHashCode());
-        }
-
-        #endregion
-
-        #region Database
-
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            DataTestBaseHelper.DropCreateDatabase<UserActivityServiceTests>();
-        }
-
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            DataTestBaseHelper.DropDatabase<UserActivityServiceTests>();
         }
 
         #endregion

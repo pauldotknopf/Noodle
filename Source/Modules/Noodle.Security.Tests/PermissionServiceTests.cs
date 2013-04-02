@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using NUnit.Framework;
 using Noodle.Collections;
 using Noodle.Security.Permissions;
+using Noodle.Security.Users;
 using Noodle.Tests;
 
 namespace Noodle.Security.Tests
@@ -11,46 +12,46 @@ namespace Noodle.Security.Tests
     [TestFixture]
     public class PermissionServiceTests : SecurityTestBase
     {
-        //[TestMethod]
-        //public void Can_authorize_a_user_against_a_permission()
-        //{
-        //    // setup
-        //    Can_install_new_permissions();
-        //    var testUser = GetAndCreateUser(role: Guest);
+        [Test]
+        public void Can_authorize_a_user_against_a_permission()
+        {
+            // setup
+            Can_install_new_permissions();
+            var testUser = GetAndCreateUser(role: Guest);
 
-        //    // act
-        //    var isAuthorized = PermissionService.Authorize(testUser.Id, "Permission1System");
+            // act
+            var isAuthorized = _permissionService.Authorize(testUser.Id, "Permission1System");
 
-        //    // assert
-        //    isAuthorized.ShouldBeTrue();
-        //}
+            // assert
+            isAuthorized.ShouldBeTrue();
+        }
 
-        //[TestMethod]
-        //public void Can_deny_a_user_against_a_permission()
-        //{
-        //    // setup
-        //    Can_install_new_permissions();
-        //    var testUser = GetAndCreateUser(role:Guest);
+        [Test]
+        public void Can_deny_a_user_against_a_permission()
+        {
+            // setup
+            Can_install_new_permissions();
+            var testUser = GetAndCreateUser(role: Guest);
 
-        //    // act
-        //    var isAuthorized = PermissionService.Authorize(testUser.Id, "Permission2System");
+            // act
+            var isAuthorized = _permissionService.Authorize(testUser.Id, "Permission2System");
 
-        //    // assert
-        //    isAuthorized.ShouldBeFalse();
-        //}
+            // assert
+            isAuthorized.ShouldBeFalse();
+        }
 
-        //[TestMethod]
-        //public void Can_get_all_permission_records()
-        //{
-        //    // setup
-        //    Can_install_new_permissions();
+        [Test]
+        public void Can_get_all_permission_records()
+        {
+            // setup
+            Can_install_new_permissions();
 
-        //    // act
-        //    var allPermissions = PermissionService.GetAllPermissionRecords();
+            // act
+            var allPermissions = _permissionService.GetAllPermissionRecords();
 
-        //    // assert
-        //    allPermissions.SequenceEqual(GetTestPermissionRecords(), GetPermissionRecordComparer()).ShouldBeTrue();
-        //}
+            // assert
+            allPermissions.SequenceEqual(GetTestPermissionRecords(), GetPermissionRecordComparer()).ShouldBeTrue();
+        }
 
         [Test]
         public void Can_install_new_permissions()
@@ -68,111 +69,106 @@ namespace Noodle.Security.Tests
             databasePermissions.SequenceEqual(testPermissionRecords, GetPermissionRecordComparer()).ShouldBeTrue();
         }
 
-        //[TestMethod]
-        //public void Can_ignore_an_installation_provider_if_it_has_already_been_installed()
-        //{
-        //    // setup
-        //    Can_install_new_permissions();
-        //    var testPermissionRecords = GetTestPermissionRecords();
-        //    testPermissionRecords[0].Name = "Permission1Modified";
-        //    testPermissionRecords.Add(new PermissionRecord{Name = "NewPermission", Category="NewPermissionCategory", SystemName = "NewPermissionSystem"});
-        //    var testPermissionProvider = new Fakes.FakePermissionProvider(testPermissionRecords, GetTestDefaultPermissionRecords());
+        [Test]
+        public void Can_ignore_an_installation_provider_if_it_has_already_been_installed()
+        {
+            // setup
+            Can_install_new_permissions();
+            var testPermissionRecords = GetTestPermissionRecords();
+            testPermissionRecords[0].Name = "Permission1Modified";
+            testPermissionRecords.Add(new PermissionRecord { Name = "NewPermission", Category = "NewPermissionCategory", SystemName = "NewPermissionSystem" });
+            var testPermissionProvider = new Fakes.FakePermissionProvider(testPermissionRecords, GetTestDefaultPermissionRecords());
 
-        //    // act
-        //    PermissionService.InstallPermissions(testPermissionProvider);
+            // act
+            _permissionService.InstallPermissions(testPermissionProvider);
 
-        //    // assert
-        //    var databasePermissions = PermissionRecordRepository.Table.ToList();
-        //    databasePermissions.Count.ShouldEqual(2);
-        //    databasePermissions[0].Name.ShouldEqual("Permission1");
-        //}
+            // assert
+            var databasePermissions = _container.Resolve<MongoCollection<PermissionRecord>>().FindAll().ToList();
+            databasePermissions.Count.ShouldEqual(2);
+            databasePermissions[0].Name.ShouldEqual("Permission1");
+        }
 
-        //[TestMethod]
-        //public void Can_udpate_database_when_reinstalling_a_provider()
-        //{
-        //    // setup
-        //    Can_install_new_permissions();
-        //    var testPermissionRecords = GetTestPermissionRecords();
-        //    testPermissionRecords[0].Name = "Permission1Modified";
-        //    var testPermissionProvider = new Fakes.FakePermissionProvider(testPermissionRecords, GetTestDefaultPermissionRecords());
+        [Test]
+        public void Can_udpate_database_when_reinstalling_a_provider()
+        {
+            // setup
+            Can_install_new_permissions();
+            var testPermissionRecords = GetTestPermissionRecords();
+            testPermissionRecords[0].Name = "Permission1Modified";
+            var testPermissionProvider = new Fakes.FakePermissionProvider(testPermissionRecords, GetTestDefaultPermissionRecords());
 
-        //    // act
-        //    PermissionService.InstallPermissions(testPermissionProvider, true);
+            // act
+            _permissionService.InstallPermissions(testPermissionProvider, true);
 
-        //    // assert
-        //    var databasePermissions = PermissionRecordRepository.Table.ToList();
-        //    databasePermissions.Count.ShouldEqual(2);
-        //    databasePermissions[0].Name.ShouldEqual("Permission1Modified");
-        //    databasePermissions[1].Name.ShouldEqual("Permission2");
-        //}
+            // assert
+            var databasePermissions = _container.Resolve<MongoCollection<PermissionRecord>>().FindAll().ToList();
+            databasePermissions.Count.ShouldEqual(2);
+            databasePermissions[0].Name.ShouldEqual("Permission2");
+            databasePermissions[1].Name.ShouldEqual("Permission1Modified");
+        }
 
-        //[TestMethod]
-        //public void Can_add_permission_records_if_they_dont_exist_when_installign_a_provider()
-        //{
-        //    // setup
-        //    var testPermissionProvider = new Fakes.FakePermissionProvider(new List<PermissionRecord>(), GetTestDefaultPermissionRecords());
+        [Test]
+        public void Throws_error_when_default_permissions_reference_permission_records_that_werent_provided()
+        {
+            // setup
+            var testPermissionProvider = new Fakes.FakePermissionProvider(new List<PermissionRecord>(), GetTestDefaultPermissionRecords());
 
-        //    // act
-        //    PermissionService.InstallPermissions(testPermissionProvider, true);
+            // act/assert
+            Assert.That(() => _permissionService.InstallPermissions(testPermissionProvider, true), Throws.Exception);
+        }
 
-        //    // assert
-        //    var databasePermissions = PermissionRecordRepository.Table.ToList();
-        //    databasePermissions.Count.ShouldEqual(2);
-        //    databasePermissions.SequenceEqual(GetTestPermissionRecords(), GetPermissionRecordComparer()).ShouldBeTrue();
-        //}
+        [Test]
+        public void Can_add_user_roles_if_installing_a_provider_with_new_user_roles()
+        {
+            // setup
+            var testPermissionProvider = new Fakes.FakePermissionProvider(GetTestPermissionRecords(), GetTestDefaultPermissionRecords());
 
-        //[TestMethod]
-        //public void Can_add_user_roles_if_installing_a_provider_with_new_user_roles()
-        //{
-        //    // setup
-        //    var testPermissionProvider = new Fakes.FakePermissionProvider(GetTestPermissionRecords(), GetTestDefaultPermissionRecords());
+            // act
+            _permissionService.InstallPermissions(testPermissionProvider, true);
 
-        //    // act
-        //    PermissionService.InstallPermissions(testPermissionProvider, true);
+            // assert
+            var roles = _container.Resolve<MongoCollection<UserRole>>().FindAll().ToList();
+            var roleMaps = _container.Resolve<MongoCollection<RolePermissionMap>>().FindAll().ToList();
+            roles.Count.ShouldEqual(2);
+            roleMaps.Count.ShouldEqual(2);
+            roleMaps.Any(x => x.UserRoleId == roles[0].Id).ShouldBeTrue();
+            roleMaps.Any(x => x.UserRoleId == roles[1].Id).ShouldBeTrue();
+        }
 
-        //    // assert
-        //    var roles = UserRoleRepository.Table.ToList();
-        //    var roleMaps = RolePermissionMapRepository.Table.ToList();
-        //    roles.Count.ShouldEqual(2);
-        //    roleMaps.Count.ShouldEqual(2);
-        //    roleMaps.Any(x => x.UserRoleId == roles[0].Id).ShouldBeTrue();
-        //    roleMaps.Any(x => x.UserRoleId == roles[1].Id).ShouldBeTrue();
-        //}
+        [Test, Ignore]
+        public void Can_uninstall_a_provider()
+        {
+            // TODO
+            //_permissionService.UninstallPermissions()
+        }
 
-        //[TestMethod, Ignore]
-        //public void Can_uninstall_a_provider()
-        //{
-        //    // TODO
-        //    //_permissionService.UninstallPermissions()
-        //}
+        [Test]
+        public void Can_add_a_permission_to_a_role()
+        {
+            // setup
+            Can_install_new_permissions();
+            _permissionService.AuthorizeRole(Guest, "Permission2System").ShouldBeFalse();
 
-        //[TestMethod]
-        //public void Can_add_a_permission_to_a_role()
-        //{
-        //    // setup
-        //    Can_install_new_permissions();
-        //    PermissionService.AuthorizeRole(Guest, "Permission2System").ShouldBeFalse();
+            // act
+            _permissionService.AddPermissionToRole(Guest, "Permission2System");
 
-        //    // act
-        //    PermissionService.AddPermissionToRole(Guest, "Permission2System");
+            // assert
+            _permissionService.AuthorizeRole(Guest, "Permission2System").ShouldBeTrue();
+        }
 
-        //    // assert
-        //    PermissionService.AuthorizeRole(Guest, "Permission2System").ShouldBeTrue();
-        //}
+        [Test]
+        public void Can_remove_a_permission_from_a_role()
+        {
+            // setup
+            Can_install_new_permissions();
+            _permissionService.AuthorizeRole(Guest, "Permission1System").ShouldBeTrue();
 
-        //[TestMethod]
-        //public void Can_remove_a_permission_from_a_role()
-        //{
-        //    // setup
-        //    Can_install_new_permissions();
-        //    PermissionService.AuthorizeRole(Guest, "Permission1System").ShouldBeTrue();
+            // act
+            _permissionService.RemovePermissionFromRole(Guest, "Permission1System");
 
-        //    // act
-        //    PermissionService.RemovePermissionFromRole(Guest, "Permission1System");
-
-        //    // assert
-        //    PermissionService.AuthorizeRole(Guest, "Permission1System").ShouldBeFalse();
-        //}
+            // assert
+            _permissionService.AuthorizeRole(Guest, "Permission1System").ShouldBeFalse();
+        }
 
         [Test]
         public void Can_authorize_a_role_for_a_permission()
