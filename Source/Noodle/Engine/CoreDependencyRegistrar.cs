@@ -14,23 +14,28 @@ namespace Noodle.Engine
     {
         public static void Register(TinyIoCContainer container)
         {
-            container.Register<IWorker, AsyncWorker>();
-            container.Register<ITypeFinder, AppDomainTypeFinder>();
-            container.Register<IAssemblyFinder, AssemblyFinder>();
-            container.Register<ISerializer, BinaryStringSerializer>();
-            container.Register<IEncryptionService, EncryptionService>();
-            container.Register<IDateTimeHelper, DateTimeHelper>();
-            container.Register<IDatabaseService, DatabaseService>();
-            container.Register<IEmailSender, EmailSender>();
-            container.Register<ISecurityManager, DefaultSecurityManager>();
-            container.Register<IPluginBootstrapper, PluginBootstrapper>();
-            container.Register<IPluginFinder, PluginFinder>();
-            container.Register<IHeart, Heart>();
-            container.Register<IErrorNotifier, ErrorNotifier>();
-            container.Register<IConnectionProvider, NoConnectionProvider>();
-            container.Register<ICacheManager, InMemoryCache>();
-            container.Register<Scheduler>();
-            container.Register<IDocumentationService, DocumentationService>();
+#if IOS
+			container.Register(typeof(ITypeFinder), typeof(AppDomainTypeFinder));
+			container.Register(typeof(IAssemblyFinder), typeof(AssemblyFinder));
+#else
+            container.Register(typeof(IWorker), typeof(AsyncWorker));
+            container.Register(typeof(ITypeFinder), typeof(AppDomainTypeFinder));
+            container.Register(typeof(IAssemblyFinder), typeof(AssemblyFinder));
+            container.Register(typeof(ISerializer), typeof(BinaryStringSerializer));
+            container.Register(typeof(IEncryptionService), typeof(EncryptionService));
+            container.Register(typeof(IDateTimeHelper), typeof(DateTimeHelper));
+            container.Register(typeof(IDatabaseService), typeof(DatabaseService));
+            container.Register(typeof(IEmailSender), typeof(EmailSender));
+            container.Register(typeof(ISecurityManager), typeof(DefaultSecurityManager));
+            container.Register(typeof(IPluginBootstrapper), typeof(PluginBootstrapper));
+            container.Register(typeof(IPluginFinder), typeof(PluginFinder));
+            container.Register(typeof(IHeart), typeof(Heart));
+            container.Register(typeof(IErrorNotifier), typeof(ErrorNotifier));
+            container.Register(typeof(IConnectionProvider), typeof(NoConnectionProvider));
+            container.Register(typeof(ICacheManager), typeof(InMemoryCache));
+            container.Register(typeof(Scheduler));
+            container.Register(typeof(IDocumentationService), typeof(DocumentationService));
+#endif
         }
     }
 }
