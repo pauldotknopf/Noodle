@@ -63,8 +63,8 @@ namespace Noodle.Security.Tests
             // assert
             var databaseLogTypes = _container.Resolve<MongoCollection<ActivityLogType>>().FindAll().ToList();
             databaseLogTypes.Count.ShouldEqual(2);
-            databaseLogTypes[0].Name.ShouldEqual("LogType1Modified");
-            databaseLogTypes[1].Name.ShouldEqual("LogType2");
+            databaseLogTypes[0].Name.ShouldEqual("LogType2");
+            databaseLogTypes[1].Name.ShouldEqual("LogType1Modified");
         }
 
         [Test, Ignore]

@@ -241,9 +241,19 @@ namespace Noodle.Security.Activity
 
             foreach (var activityLogType in activityLogTypeProvider.GetActivityLogTypes())
             {
-                _activityLogTypeCollection.Update(Query<ActivityLogType>.EQ(x => x.SystemKeyword, activityLogType.SystemKeyword), 
-                    Update<ActivityLogType>.Replace(activityLogType), 
-                    UpdateFlags.Upsert);
+                var existing = _activityLogTypeCollection.FindOne(Query.And(Query<ActivityLogType>.EQ(x => x.SystemKeyword, activityLogType.SystemKeyword)));
+                
+                if(existing == null)
+                    existing = new ActivityLogType();
+
+                existing.SystemKeyword = activityLogType.SystemKeyword;
+                existing.Name = activityLogType.Name;
+                existing.Enabled = activityLogType.Enabled;
+
+                if(existing.Id == ObjectId.Empty)
+                    _activityLogTypeCollection.Insert(existing);
+                else
+                    _activityLogTypeCollection.Update(Query<ActivityLogType>.EQ(x => x.Id, existing.Id), Update<ActivityLogType>.Replace(existing));
             }
         }
 
