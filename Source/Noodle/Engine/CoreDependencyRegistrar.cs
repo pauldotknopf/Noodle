@@ -13,20 +13,20 @@ namespace Noodle.Engine
             container.Register(typeof(IWorker), typeof(AsyncWorker));
             container.Register(typeof(ITypeFinder), typeof(AppDomainTypeFinder));
             container.Register(typeof(IAssemblyFinder), typeof(AssemblyFinder));
-            container.Register(typeof(ISerializer), typeof(BinaryStringSerializer));
-            container.Register(typeof(IEncryptionService), typeof(EncryptionService));
+            container.Register(typeof(Serialization.ISerializer), typeof(Serialization.BinaryStringSerializer));
+            container.Register(typeof(Security.IEncryptionService), typeof(Security.EncryptionService));
             container.Register(typeof(IDateTimeHelper), typeof(DateTimeHelper));
-            container.Register(typeof(IDatabaseService), typeof(DatabaseService));
-            container.Register(typeof(IEmailSender), typeof(EmailSender));
-            container.Register(typeof(ISecurityManager), typeof(DefaultSecurityManager));
-            container.Register(typeof(IPluginBootstrapper), typeof(PluginBootstrapper));
-            container.Register(typeof(IPluginFinder), typeof(PluginFinder));
-            container.Register(typeof(IHeart), typeof(Heart));
+            container.Register(typeof(Data.IDatabaseService), typeof(Data.DatabaseService));
+            container.Register(typeof(Email.IEmailSender), typeof(Email.EmailSender));
+            container.Register(typeof(Security.ISecurityManager), typeof(Security.DefaultSecurityManager));
+            container.Register(typeof(Plugins.IPluginBootstrapper), typeof(Plugins.PluginBootstrapper));
+            container.Register(typeof(Plugins.IPluginFinder), typeof(Plugins.PluginFinder));
+            container.Register(typeof(Scheduling.IHeart), typeof(Scheduling.Heart));
             container.Register(typeof(IErrorNotifier), typeof(ErrorNotifier));
-            container.Register(typeof(IConnectionProvider), typeof(NoConnectionProvider));
-            container.Register(typeof(ICacheManager), typeof(InMemoryCache));
-            container.Register(typeof(Scheduler));
-            container.Register(typeof(IDocumentationService), typeof(DocumentationService));
+            container.Register(typeof(Data.IConnectionProvider), typeof(Data.NoConnectionProvider));
+            container.Register(typeof(Caching.ICacheManager), typeof(Caching.InMemoryCache));
+            container.Register(typeof(Scheduling.Scheduler));
+            container.Register(typeof(Documentation.IDocumentationService), typeof(Documentation.DocumentationService));
 #endif
         }
     }
