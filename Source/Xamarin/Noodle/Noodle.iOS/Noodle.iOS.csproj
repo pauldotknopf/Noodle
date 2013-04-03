@@ -29,7 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <DefineConstants>IOS;</DefineConstants>
+    <DefineConstants>IOS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -46,32 +46,14 @@
     <Compile Include="..\..\..\Noodle\CommonHelper.cs">
       <Link>CommonHelper.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle\DateTimeHelper.cs">
-      <Link>DateTimeHelper.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Noodle\EngineContext.cs">
       <Link>EngineContext.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\EnumExtensions.cs">
-      <Link>EnumExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\EnumStringAttribute.cs">
-      <Link>EnumStringAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\ErrorNotifier.cs">
       <Link>ErrorNotifier.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle\IClosable.cs">
-      <Link>IClosable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\IDateTimeHelper.cs">
-      <Link>IDateTimeHelper.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Noodle\IErrorNotifier.cs">
       <Link>IErrorNotifier.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\IPagedList.cs">
-      <Link>IPagedList.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\ISettings.cs">
       <Link>ISettings.cs</Link>
@@ -82,17 +64,11 @@
     <Compile Include="..\..\..\Noodle\LinqExtensions.cs">
       <Link>LinqExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle\NameValueCollectionExtensions.cs">
-      <Link>NameValueCollectionExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Noodle\NoodleEventArgs.cs">
       <Link>NoodleEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\NoodleException.cs">
       <Link>NoodleException.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\PagedList.cs">
-      <Link>PagedList.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\Pair.cs">
       <Link>Pair.cs</Link>
@@ -112,83 +88,11 @@
     <Compile Include="..\..\..\Noodle\TinyIoCExtensions.cs">
       <Link>TinyIoCExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle\Caching\CacheExtensions.cs">
-      <Link>Caching\CacheExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Caching\ICacheManager.cs">
-      <Link>Caching\ICacheManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Caching\InMemoryCache.cs">
-      <Link>Caching\InMemoryCache.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Caching\NullCache.cs">
-      <Link>Caching\NullCache.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Collections\CrudHelper.cs">
-      <Link>Collections\CrudHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Collections\DelegateEqualityComparer.cs">
-      <Link>Collections\DelegateEqualityComparer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Collections\ExpiringList.cs">
-      <Link>Collections\ExpiringList.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Collections\INameable.cs">
-      <Link>Collections\INameable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Collections\INamedCollection.cs">
-      <Link>Collections\INamedCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Collections\INamedListOfT.cs">
-      <Link>Collections\INamedListOfT.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Collections\IPageableListOfT.cs">
-      <Link>Collections\IPageableListOfT.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Collections\IQueryableList.cs">
-      <Link>Collections\IQueryableList.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Collections\NamedCollection.cs">
-      <Link>Collections\NamedCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Collections\QuerystringBase.cs">
-      <Link>Collections\QuerystringBase.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Noodle\ComponentModel\BooleanTypConverter.cs">
       <Link>ComponentModel\BooleanTypConverter.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\ComponentModel\GenericListTypeConverter.cs">
       <Link>ComponentModel\GenericListTypeConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Data\DatabaseService.cs">
-      <Link>Data\DatabaseService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Data\DatabaseTypeEnum.cs">
-      <Link>Data\DatabaseTypeEnum.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Data\IConnectionProvider.cs">
-      <Link>Data\IConnectionProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Data\IDatabaseService.cs">
-      <Link>Data\IDatabaseService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Data\IRepository.cs">
-      <Link>Data\IRepository.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Data\NoConnectionProvider.cs">
-      <Link>Data\NoConnectionProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Data\SqlConnectionProvider.cs">
-      <Link>Data\SqlConnectionProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Email\EmailAccountSettings.cs">
-      <Link>Email\EmailAccountSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Email\EmailSender.cs">
-      <Link>Email\EmailSender.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Email\IEmailSender.cs">
-      <Link>Email\IEmailSender.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\Engine\AppDomainTypeFinder.cs">
       <Link>Engine\AppDomainTypeFinder.cs</Link>
@@ -264,156 +168,6 @@
     </Compile>
     <Compile Include="..\..\..\Noodle\Linq\ExpressionVisitor.cs">
       <Link>Linq\ExpressionVisitor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Plugins\AutoInitializeAttribute.cs">
-      <Link>Plugins\AutoInitializeAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Plugins\BasePluginAttribute.cs">
-      <Link>Plugins\BasePluginAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Plugins\IPlugInInitializer.cs">
-      <Link>Plugins\IPlugInInitializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Plugins\IPlugin.cs">
-      <Link>Plugins\IPlugin.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Plugins\IPluginBootstrapper.cs">
-      <Link>Plugins\IPluginBootstrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Plugins\IPluginDefinition.cs">
-      <Link>Plugins\IPluginDefinition.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Plugins\IPluginFinder.cs">
-      <Link>Plugins\IPluginFinder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Plugins\InitializerCreatingAttribute.cs">
-      <Link>Plugins\InitializerCreatingAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Plugins\PlugInAttribute.cs">
-      <Link>Plugins\PlugInAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Plugins\PluginBootstrapper.cs">
-      <Link>Plugins\PluginBootstrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Plugins\PluginFinder.cs">
-      <Link>Plugins\PluginFinder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Plugins\PluginInitializationException.cs">
-      <Link>Plugins\PluginInitializationException.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Process\InvocationResult.cs">
-      <Link>Process\InvocationResult.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Process\ProcessCommand.cs">
-      <Link>Process\ProcessCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Reflection\Private.cs">
-      <Link>Reflection\Private.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Scheduling\Heart.cs">
-      <Link>Scheduling\Heart.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Scheduling\IHeart.cs">
-      <Link>Scheduling\IHeart.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Scheduling\Repeat.cs">
-      <Link>Scheduling\Repeat.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Scheduling\ScheduleExecutionAttribute.cs">
-      <Link>Scheduling\ScheduleExecutionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Scheduling\ScheduledAction.cs">
-      <Link>Scheduling\ScheduledAction.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Scheduling\Scheduler.cs">
-      <Link>Scheduling\Scheduler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Security\DefaultSecurityManager.cs">
-      <Link>Security\DefaultSecurityManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Security\EncryptionFormat.cs">
-      <Link>Security\EncryptionFormat.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Security\EncryptionService.cs">
-      <Link>Security\EncryptionService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Security\IEncryptionService.cs">
-      <Link>Security\IEncryptionService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Security\IPermittable.cs">
-      <Link>Security\IPermittable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Security\ISecurable.cs">
-      <Link>Security\ISecurable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Security\ISecurableBase.cs">
-      <Link>Security\ISecurableBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Security\ISecurityManager.cs">
-      <Link>Security\ISecurityManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Security\SecurableExtensions.cs">
-      <Link>Security\SecurableExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Serialization\BinaryStringSerializer.cs">
-      <Link>Serialization\BinaryStringSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Serialization\ISerializer.cs">
-      <Link>Serialization\ISerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Serialization\XmlSerializer.cs">
-      <Link>Serialization\XmlSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\DocumentationAssembly.cs">
-      <Link>Documentation\DocumentationAssembly.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\DocumentationMember.cs">
-      <Link>Documentation\DocumentationMember.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\DocumentationMemberInfo.cs">
-      <Link>Documentation\DocumentationMemberInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\DocumentationMemberInfoPlugin.cs">
-      <Link>Documentation\DocumentationMemberInfoPlugin.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\DocumentationMemberInfoPluginAttribute.cs">
-      <Link>Documentation\DocumentationMemberInfoPluginAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\DocumentationMemberInfoUnknown.cs">
-      <Link>Documentation\DocumentationMemberInfoUnknown.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\DocumentationMemberType.cs">
-      <Link>Documentation\DocumentationMemberType.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\DocumentationService.cs">
-      <Link>Documentation\DocumentationService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\IDocumentationService.cs">
-      <Link>Documentation\IDocumentationService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\BuiltIn\DocumentationMemberParameter.cs">
-      <Link>Documentation\BuiltIn\DocumentationMemberParameter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\BuiltIn\DocumentationMemberParameterPlugin.cs">
-      <Link>Documentation\BuiltIn\DocumentationMemberParameterPlugin.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\BuiltIn\DocumentationMemberReturns.cs">
-      <Link>Documentation\BuiltIn\DocumentationMemberReturns.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\BuiltIn\DocumentationMemberReturnsPlugin.cs">
-      <Link>Documentation\BuiltIn\DocumentationMemberReturnsPlugin.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\BuiltIn\DocumentationMemberSummary.cs">
-      <Link>Documentation\BuiltIn\DocumentationMemberSummary.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\BuiltIn\DocumentationMemberSummaryPlugin.cs">
-      <Link>Documentation\BuiltIn\DocumentationMemberSummaryPlugin.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\BuiltIn\DocumentationMemberValue.cs">
-      <Link>Documentation\BuiltIn\DocumentationMemberValue.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Documentation\BuiltIn\DocumentationMemberValuePlugin.cs">
-      <Link>Documentation\BuiltIn\DocumentationMemberValuePlugin.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

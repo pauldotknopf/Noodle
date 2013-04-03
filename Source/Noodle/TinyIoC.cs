@@ -13,6 +13,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+
 #region Preprocessor Directives
 // Uncomment this line if you want the container to automatically
 // register the TinyMessenger messenger/event aggregator
@@ -72,6 +73,7 @@ namespace Noodle
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
+	using System.Threading;
 
 #if EXPRESSIONS
     using System.Linq.Expressions;
