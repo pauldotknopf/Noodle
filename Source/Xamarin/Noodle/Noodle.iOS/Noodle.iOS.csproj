@@ -49,20 +49,11 @@
     <Compile Include="..\..\..\Noodle\EngineContext.cs">
       <Link>EngineContext.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle\ErrorNotifier.cs">
-      <Link>ErrorNotifier.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\IErrorNotifier.cs">
-      <Link>IErrorNotifier.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Noodle\ISettings.cs">
       <Link>ISettings.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\IStartupTask.cs">
       <Link>IStartupTask.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\LinqExtensions.cs">
-      <Link>LinqExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\NoodleEventArgs.cs">
       <Link>NoodleEventArgs.cs</Link>
@@ -142,21 +133,6 @@
     <Compile Include="..\..\..\Noodle\Engine\Singleton.cs">
       <Link>Engine\Singleton.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle\Extensions\CodeMirrorEnums.cs">
-      <Link>Extensions\CodeMirrorEnums.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\FluentDateTime\DateTimeExtensions.cs">
-      <Link>FluentDateTime\DateTimeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\FluentDateTime\FluentTimeSpan.cs">
-      <Link>FluentDateTime\FluentTimeSpan.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\FluentDateTime\NumberExtensions.cs">
-      <Link>FluentDateTime\NumberExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\FluentDateTime\TimeSpanExtensions.cs">
-      <Link>FluentDateTime\TimeSpanExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Noodle\IO\Overwrite.cs">
       <Link>IO\Overwrite.cs</Link>
     </Compile>
@@ -169,10 +145,5 @@
     <Compile Include="..\..\..\Noodle\Linq\ExpressionVisitor.cs">
       <Link>Linq\ExpressionVisitor.cs</Link>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\Noodle\Extensions\README.txt">
-      <Link>Extensions\README.txt</Link>
-    </None>
   </ItemGroup>
 </Project>
