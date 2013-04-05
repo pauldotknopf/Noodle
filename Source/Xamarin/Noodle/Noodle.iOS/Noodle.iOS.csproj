@@ -55,17 +55,8 @@
     <Compile Include="..\..\..\Noodle\IStartupTask.cs">
       <Link>IStartupTask.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle\NoodleEventArgs.cs">
-      <Link>NoodleEventArgs.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Noodle\NoodleException.cs">
       <Link>NoodleException.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Pair.cs">
-      <Link>Pair.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Single.cs">
-      <Link>Single.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\StringExtensions.cs">
       <Link>StringExtensions.cs</Link>
