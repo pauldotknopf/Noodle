@@ -5,12 +5,15 @@ namespace Noodle
     /// <summary>
     /// Base class for entities
     /// </summary>
+#if IOS
+	[MonoTouch.Foundation.Preserve(AllMembers=true)]
+#endif
     public abstract class BaseEntity<T>
     {
         /// <summary>
         /// Gets or sets the entity identifier
         /// </summary>
-        public virtual T Id { get; set; }
+        public T Id { get; set; }
 
         public override bool Equals(object obj)
         {
