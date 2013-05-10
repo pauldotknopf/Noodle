@@ -136,5 +136,11 @@
     <Compile Include="..\..\..\Noodle\Linq\ExpressionVisitor.cs">
       <Link>Linq\ExpressionVisitor.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Noodle\PagedList.cs">
+      <Link>PagedList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\IPagedList.cs">
+      <Link>IPagedList.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>
