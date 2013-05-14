@@ -42,7 +42,8 @@ namespace Noodle.MongoDB
 
                 var mongoPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mongod.exe");
 
-                _process = System.Diagnostics.Process.Start(mongoPath, "--dbpath \"" + directory + "\" --port \"" + port + "\"");
+                var command = new Noodle.Process.ProcessCommand(mongoPath, "--dbpath \"" + directory + "\" --port \"" + port + "\"");
+                _process = command.Run();
             }
             catch (Exception)
             {

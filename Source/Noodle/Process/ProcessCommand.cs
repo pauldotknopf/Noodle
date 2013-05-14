@@ -7,7 +7,15 @@ namespace Noodle.Process
     {
         public Func<ProcessStartInfo> ProcessStartBuilder = null;
         public Action<ProcessStartInfo> ProcessStartModifier = null;
+
+        /// <summary>
+        /// Raised when the process outputs error. Only used with "Run".
+        /// </summary>
         public EventHandler<DataReceivedEventArgs> OnError;
+
+        /// <summary>
+        /// Raised when the process outputs some data. Only used with "Run".
+        /// </summary>
         public EventHandler<DataReceivedEventArgs> OnOutput;
 
         public ProcessCommand()
@@ -51,21 +59,6 @@ namespace Noodle.Process
             try
             {
                 var proc = new System.Diagnostics.Process();
-                proc.ErrorDataReceived += (sender, e) =>
-                                              {
-                                                  if(OnError != null)
-                                                  {
-                                                      OnError(sender, e);
-                                                  }
-                                              };
-
-                proc.OutputDataReceived += (sender, e) =>
-                {
-                    if (OnOutput != null)
-                    {
-                        OnOutput(sender, e);
-                    }
-                };
                 proc.StartInfo = process;
                 proc.Start();
 
@@ -95,6 +88,49 @@ namespace Noodle.Process
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Run the process and return a reference to it.
+        /// </summary>
+        /// <returns></returns>
+        public System.Diagnostics.Process Run()
+        {
+            if (ProcessStartBuilder == null)
+                throw new InvalidOperationException("You must specifiy a ProcessStartBuilder or don't use an empty contructer");
+
+            var process = ProcessStartBuilder();
+
+            process.UseShellExecute = false;
+            process.CreateNoWindow = true;
+            process.RedirectStandardError = true;
+            process.RedirectStandardInput = true;
+            process.RedirectStandardOutput = true;
+            process.WindowStyle = ProcessWindowStyle.Hidden;
+
+            if (ProcessStartModifier != null)
+                ProcessStartModifier(process);
+
+            var proc = new System.Diagnostics.Process();
+            process.RedirectStandardError = true;
+            proc.ErrorDataReceived += (sender, e) =>
+            {
+                if (OnError != null)
+                {
+                    OnError(sender, e);
+                }
+            };
+            process.RedirectStandardOutput = true;
+            proc.OutputDataReceived += (sender, e) =>
+            {
+                if (OnOutput != null)
+                {
+                    OnOutput(sender, e);
+                }
+            };
+            proc.StartInfo = process;
+            proc.Start();
+            return proc;
         }
     }
 }
