@@ -56,7 +56,8 @@ namespace Noodle.MongoDB
         {
             try
             {
-                _process.Kill();
+                if(!_process.HasExited)
+                    _process.Kill();
                 Thread.Sleep((int)TimeSpan.FromSeconds(1).TotalMilliseconds);
                 Directory.Delete(_directory, true);
             }

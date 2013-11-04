@@ -33,7 +33,7 @@
                 <DataTemplate>
                     <telerik:RadGridView ItemsSource="{Binding Second}" 
                                         ShowGroupPanel="False"
-                                         AutoGenerateColumns="False">
+                                         AutoGenerateColumns="False" SelectionMode="Multiple">
                         <telerik:RadGridView.Columns>
                             <telerik:GridViewDataColumn DataMemberBinding="{Binding ResourceName}"  Header="Resource name" />
                             <telerik:GridViewDataColumn DataMemberBinding="{Binding ResourceValue}"  Header="Resource name" />
