@@ -41,8 +41,8 @@ namespace Noodle.MongoDB
                 Directory.CreateDirectory(directory);
 
                 var mongoPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mongod.exe");
-
-                var command = new Noodle.Process.ProcessCommand(mongoPath, "--dbpath \"" + directory + "\" --port \"" + port + "\"");
+                var logPath = Path.Combine(directory, "dblog.log");
+                var command = new Noodle.Process.ProcessCommand(mongoPath, "--dbpath \"" + directory + "\" --port \"" + port + "\" --logpath \"" + logPath + "\" --logappend");
                 _process = command.Run();
             }
             catch (Exception)
