@@ -151,7 +151,7 @@ namespace Noodle.Settings
             }else
             {
                 existing.Settings = settingInstance;
-                _settingsCollection.Update(Query.EQ("_id", existing.Id), Update<Setting>.Replace(existing));
+                _settingsCollection.Update(Query.EQ("_id", existing.Id), Update.Set("Settings", settingInstance.ToBsonDocument()));
             }
 
             ClearCache();
@@ -192,9 +192,6 @@ namespace Noodle.Settings
         /// </summary>
         public event EventHandler<EventArgs> CachedCleared;
 
-        #endregion
-
-
-        
+        #endregion 
     }
 }

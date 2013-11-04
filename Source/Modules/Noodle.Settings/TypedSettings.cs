@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MongoDB.Bson.Serialization.Attributes;
 
 namespace Noodle.Settings
 {
+    [BsonIgnoreExtraElements]
     public class TypedSettings<T> : Setting
         where T : ISettings, new()
     {

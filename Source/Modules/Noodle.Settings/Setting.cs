@@ -1,10 +1,12 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Noodle.Settings
 {
     /// <summary>
     /// Represents a setting
     /// </summary>
+    [BsonIgnoreExtraElements]
     public class Setting : BaseEntity<ObjectId>
     {
         /// <summary>
