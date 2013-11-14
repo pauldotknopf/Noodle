@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -15,15 +16,7 @@ namespace Noodle.Management
     {
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
-
-            BundleTable.Bundles.Add(new Bundle("~/custom").Include("~/noodle/content/scripts/jquery.min.js", 
-                "~/noodle/content/scripts/kendo/kendo.web.min.js"));
-
-            RouteTable.Routes.MapRoute("Default", 
-                "{controller}/{action}/{id}",
-                new { controller = "Default", action = "Index", id = UrlParameter.Optional }
-            );
+            EngineContext.Configure(false);
         }
     }
 }

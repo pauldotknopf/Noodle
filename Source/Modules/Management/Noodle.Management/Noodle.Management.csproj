@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Noodle.Management</RootNamespace>
     <AssemblyName>Noodle.Management</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <WebGreaseLibPath>..\..\..\..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,10 +40,23 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\..\..\..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="BundleTransformer.Core">
+      <HintPath>..\..\..\..\packages\BundleTransformer.Core.1.8.11\lib\net40\BundleTransformer.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="BundleTransformer.Less">
+      <HintPath>..\..\..\..\packages\BundleTransformer.Less.1.8.11\lib\net40\BundleTransformer.Less.dll</HintPath>
+    </Reference>
+    <Reference Include="JavaScriptEngineSwitcher.Core">
+      <HintPath>..\..\..\..\packages\JavaScriptEngineSwitcher.Core.0.9.2\lib\net40\JavaScriptEngineSwitcher.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="JavaScriptEngineSwitcher.V8">
+      <HintPath>..\..\..\..\packages\JavaScriptEngineSwitcher.V8.0.9.2\lib\net40\JavaScriptEngineSwitcher.V8.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -50,21 +65,43 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\..\..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
@@ -72,10 +109,6 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
       <Private>True</Private>
@@ -88,42 +121,18 @@
       <Private>True</Private>
       <HintPath>..\..\..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\packages\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <HintPath>..\..\..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -131,6 +140,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Noesis.Javascript\x64\Noesis.Javascript.dll" />
+    <Content Include="Noesis.Javascript\x86\Noesis.Javascript.dll" />
     <Content Include="Noodle\Content\Scripts\cultures\kendo.culture.af-ZA.min.js" />
     <Content Include="Noodle\Content\Scripts\cultures\kendo.culture.af.min.js" />
     <Content Include="Noodle\Content\Scripts\cultures\kendo.culture.am-ET.min.js" />
@@ -485,7 +496,7 @@
     <Content Include="Noodle\Content\Scripts\cultures\kendo.culture.zh.min.js" />
     <Content Include="Noodle\Content\Scripts\cultures\kendo.culture.zu-ZA.min.js" />
     <Content Include="Noodle\Content\Scripts\cultures\kendo.culture.zu.min.js" />
-    <Content Include="Noodle\Content\Scripts\jquery.min.js" />
+    <Content Include="Noodle\Content\Scripts\jquery-1.9.1.js" />
     <Content Include="Noodle\Content\Scripts\Kendo\kendo.autocomplete.min.js" />
     <Content Include="Noodle\Content\Scripts\Kendo\kendo.binder.min.js" />
     <Content Include="Noodle\Content\Scripts\Kendo\kendo.calendar.min.js" />
@@ -540,6 +551,33 @@
     <Content Include="Noodle\Content\Scripts\Kendo\kendo.view.min.js" />
     <Content Include="Noodle\Content\Scripts\Kendo\kendo.web.min.js" />
     <Content Include="Noodle\Content\Scripts\Kendo\kendo.window.min.js" />
+    <Content Include="Noodle\Content\Styles\Kendo\Black\editor.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Black\imagebrowser.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Black\loading-image.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Black\loading.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Black\loading_2x.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Black\slider-h.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Black\slider-v.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Black\sprite.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Black\sprite_2x.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\BlueOpal\editor.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\BlueOpal\imagebrowser.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\BlueOpal\loading-image.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\BlueOpal\loading.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\BlueOpal\loading_2x.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\BlueOpal\slider-h.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\BlueOpal\slider-v.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\BlueOpal\sprite.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\BlueOpal\sprite_2x.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Bootstrap\editor.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Bootstrap\imagebrowser.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Bootstrap\loading-image.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Bootstrap\loading.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Bootstrap\loading_2x.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Bootstrap\slider-h.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Bootstrap\slider-v.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Bootstrap\sprite.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Bootstrap\sprite_2x.png" />
     <Content Include="Noodle\Content\Styles\Kendo\Default\editor.png" />
     <Content Include="Noodle\Content\Styles\Kendo\Default\imagebrowser.png" />
     <Content Include="Noodle\Content\Styles\Kendo\Default\loading-image.gif" />
@@ -549,8 +587,101 @@
     <Content Include="Noodle\Content\Styles\Kendo\Default\slider-v.gif" />
     <Content Include="Noodle\Content\Styles\Kendo\Default\sprite.png" />
     <Content Include="Noodle\Content\Styles\Kendo\Default\sprite_2x.png" />
-    <Content Include="Noodle\Content\Styles\Kendo\kendo.common.min.css" />
-    <Content Include="Noodle\Content\Styles\Kendo\kendo.default.min.css" />
+    <Content Include="Noodle\Content\Styles\Kendo\Flat\editor.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Flat\imagebrowser.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Flat\loading-image.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Flat\loading.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Flat\loading_2x.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Flat\slider-h.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Flat\slider-v.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Flat\sprite.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Flat\sprite_2x.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\HighContrast\editor.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\HighContrast\imagebrowser.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\HighContrast\loading-image.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\HighContrast\loading.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\HighContrast\loading_2x.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\HighContrast\slider-h.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\HighContrast\slider-v.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\HighContrast\sprite.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\HighContrast\sprite_2x.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\MetroBlack\editor.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\MetroBlack\imagebrowser.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\MetroBlack\loading-image.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\MetroBlack\loading.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\MetroBlack\loading_2x.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\MetroBlack\slider-h.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\MetroBlack\slider-v.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\MetroBlack\sprite.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\MetroBlack\sprite_2x.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Metro\editor.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Metro\imagebrowser.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Metro\loading-image.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Metro\loading.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Metro\loading_2x.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Metro\slider-h.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Metro\slider-v.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Metro\sprite.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Metro\sprite_2x.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Moonlight\editor.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Moonlight\imagebrowser.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Moonlight\loading-image.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Moonlight\loading.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Moonlight\loading_2x.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Moonlight\slider-h.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Moonlight\slider-v.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Moonlight\sprite.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Moonlight\sprite_2x.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Silver\editor.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Silver\imagebrowser.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Silver\loading-image.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Silver\loading.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Silver\loading_2x.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Silver\slider-h.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Silver\slider-v.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Silver\sprite.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Silver\sprite_2x.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\brushed-metal.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\dots1.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\dots10.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\dots11.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\dots12.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\dots13.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\dots2.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\dots3.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\dots4.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\dots5.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\dots6.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\dots7.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\dots8.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\dots9.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\glass-lighter.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\glass.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\highlight.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\hsv-gradient.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\hue.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\leather1.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\leather2.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\noise.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\stripe1.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\stripe2.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\stripe3.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\stripe4.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\stripe5.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\stripe6.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\transparency.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\textures\transtexture.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Uniform\editor.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Uniform\imagebrowser.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Uniform\loading-image.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Uniform\loading.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Uniform\loading_2x.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Uniform\slider-h.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Uniform\slider-v.gif" />
+    <Content Include="Noodle\Content\Styles\Kendo\Uniform\sprite.png" />
+    <Content Include="Noodle\Content\Styles\Kendo\Uniform\sprite_2x.png" />
+    <Content Include="Noodle\Content\Scripts\jquery.validate.js" />
+    <Content Include="Noodle\Content\Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -558,10 +689,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Noodle\Views\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Default\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -607,6 +734,40 @@
     <Content Include="Noodle\Content\Styles\Bootstrap\utilities.less" />
     <Content Include="Noodle\Content\Styles\Bootstrap\variables.less" />
     <Content Include="Noodle\Content\Styles\Bootstrap\wells.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Noodle\Noodle.csproj">
+      <Project>{944fec3d-a47f-4c92-92ac-81b3420c1caa}</Project>
+      <Name>Noodle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Noodle.Management.Library\Noodle.Management.Library.csproj">
+      <Project>{c086ab5b-ed8d-4584-94f4-d909b2064ab8}</Project>
+      <Name>Noodle.Management.Library</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Noodle\Views\Default\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Noodle\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Noodle\Content\Styles\styles.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Noodle\Content\Styles\Kendo\kendo.black.less" />
+    <Content Include="Noodle\Content\Styles\Kendo\kendo.blueopal.less" />
+    <Content Include="Noodle\Content\Styles\Kendo\kendo.bootstrap.less" />
+    <Content Include="Noodle\Content\Styles\Kendo\kendo.common.less" />
+    <Content Include="Noodle\Content\Styles\Kendo\kendo.default.less" />
+    <Content Include="Noodle\Content\Styles\Kendo\kendo.flat.less" />
+    <Content Include="Noodle\Content\Styles\Kendo\kendo.highcontrast.less" />
+    <Content Include="Noodle\Content\Styles\Kendo\kendo.metro.less" />
+    <Content Include="Noodle\Content\Styles\Kendo\kendo.metroblack.less" />
+    <Content Include="Noodle\Content\Styles\Kendo\kendo.moonlight.less" />
+    <Content Include="Noodle\Content\Styles\Kendo\kendo.silver.less" />
+    <Content Include="Noodle\Content\Styles\Kendo\kendo.uniform.less" />
+    <Content Include="Noodle\Content\Styles\Kendo\template.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
