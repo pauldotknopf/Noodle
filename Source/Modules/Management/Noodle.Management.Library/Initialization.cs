@@ -68,13 +68,6 @@ namespace Noodle.Management.Library
             scriptsBundle.Include(GetContent("~/content/scripts/jquery-1.9.1.js"));
             scriptsBundle.Transforms.Add(new JsTransformer());
             bundles.Add(scriptsBundle);
-
-            bundles.Add(new Bundle("~/scripts")
-                .Include("~/noodle/content/scripts/jquery.min.js",
-                    "~/noodle/content/scripts/kendo/kendo.web.min.js"));
-            bundles.Add(new Bundle("~/styles")
-                .Include("~/noodle/content/scripts/jquery.min.js",
-                    "~/noodle/content/scripts/kendo/kendo.web.min.js"));
         }
 
         private void RegisterRoutes(RouteCollection routes)
