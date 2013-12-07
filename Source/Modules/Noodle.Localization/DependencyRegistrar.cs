@@ -20,6 +20,7 @@ namespace Noodle.Localization
             container.Register<ILocalizationService, LocalizationService>();
             container.Register<ILanguageInstaller, LanguageInstaller>();
             container.Register<ILocalizedEntityService, LocalizedEntityService>();
+            container.Register<ILanguageFileParser, LanguageFileParser>();
             container.Register((context, p) => GetLocalizationDatabase(context).GetCollection<Language>("Languages"));
             container.Register((context, p) => GetLocalizationDatabase(context).GetCollection<LocaleStringResource>("LocaleStringResources"));
             container.Register((context, p) => GetLocalizationDatabase(context).GetCollection<LocalizedProperty>("LocalizedProperties"));

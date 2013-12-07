@@ -15,12 +15,5 @@ namespace Noodle.Localization.Services
         /// </summary>
         /// <param name="languagesXmlFileLocation"></param>
         void Install(string languagesXmlFileLocation);
-
-        /// <summary>
-        /// Deserialize the xml language file to an in memory collection for modification (and maybe inserting?)
-        /// </summary>
-        /// <param name="languagesXmlFileLocation"></param>
-        /// <returns></returns>
-        List<Pair<Language, List<LocaleStringResource>>> DeserializeLanguagesFile(string languagesXmlFileLocation);
     }
 }

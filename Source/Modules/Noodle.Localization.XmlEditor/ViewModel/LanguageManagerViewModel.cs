@@ -250,7 +250,7 @@ namespace Noodle.Localization.XmlEditor.ViewModel
                 var result = ofd.ShowDialog();
                 if (result.Value)
                 {
-                    var deserializedLanguages = new LanguageInstaller(null, null, null).DeserializeLanguagesFile(ofd.FileName);
+                    var deserializedLanguages = new LanguageFileParser().DeserializeLanguagesFile(ofd.FileName);
 
                     _languages.Clear();
                     _possibleValues.Clear();
