@@ -51,7 +51,7 @@
       <HintPath>..\..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="MvcSiteMapProvider">
-      <HintPath>..\..\..\..\packages\MvcSiteMapProvider.MVC5.Core.4.4.5\lib\net45\MvcSiteMapProvider.dll</HintPath>
+      <HintPath>..\..\..\..\packages\MvcSiteMapProvider.MVC5.Core.4.4.6\lib\net45\MvcSiteMapProvider.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -94,7 +94,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WebActivatorEx">
-      <HintPath>..\..\..\..\packages\WebActivatorEx.2.0.3\lib\net40\WebActivatorEx.dll</HintPath>
+      <HintPath>..\..\..\..\packages\WebActivatorEx.2.0.4\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <HintPath>..\..\..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -104,13 +104,28 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Initialization.cs" />
     <Compile Include="INoodleManagementSitemap.cs" />
+    <Compile Include="Navigation\FluentSiteMapNodeProvider.cs" />
+    <Compile Include="Navigation\MenuItemBuilder.cs" />
+    <Compile Include="Navigation\MenuItemFactory.cs" />
     <Compile Include="NoodleManagementViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resolver.cs" />
+    <Compile Include="Registrar.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Mvc.sitemap" />
+    <None Include="MvcSiteMapSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
+    <None Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
+    <None Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
+    <None Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
+    <None Include="Views\Shared\DisplayTemplates\SiteMapHelperModel.cshtml" />
+    <None Include="Views\Shared\DisplayTemplates\SiteMapNodeModel.cshtml" />
+    <None Include="Views\Shared\DisplayTemplates\SiteMapNodeModelList.cshtml" />
+    <None Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
+    <None Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Noodle.Web.Mvc\Noodle.Web.Mvc.csproj">
@@ -125,6 +140,17 @@
       <Project>{944fec3d-a47f-4c92-92ac-81b3420c1caa}</Project>
       <Name>Noodle</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MvcSiteMapProvider_Temp_ReadMe.txt" />
+    <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.ascx" />
+    <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.ascx" />
+    <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.ascx" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapHelperModel.ascx" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModel.ascx" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModelList.ascx" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.ascx" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.ascx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
