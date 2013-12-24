@@ -24,7 +24,7 @@ namespace Noodle.Management
         protected void Application_Start()
         {
             EngineContext.Configure(false);
-            var sitemapLoader = EngineContext.Current.Resolve<ISiteMapLoader>();
+            SiteMaps.Loader = EngineContext.Current.Resolve<ISiteMapLoader>();
         }
     }
 }
