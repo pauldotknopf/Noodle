@@ -53,10 +53,11 @@ namespace Noodle.Management.Library
             container.Register<System.Runtime.Caching.ObjectCache>((c, overloads) => System.Runtime.Caching.MemoryCache.Default);
             container.Register<ICacheDetails>((c, overloads) => new CacheDetails(TimeSpan.FromMinutes(5), TimeSpan.MinValue, new NullCacheDependency()));
             container.Register(typeof (ICacheProvider<>), typeof (RuntimeCacheProvider<>));
-            container.Register<FluentSiteMapNodeProvider>().AsSingleton();
+            container.Register((c, overloads) => c.ResolveAll<INoodleSiteMapNodeProvider>().ToArray());
+            container.Register<ManagementSiteMapNodeProvider>().AsSingleton();
             container.Register((c, overloads) =>
                     c.Resolve<SiteMapBuilderFactory>()
-                        .Create(new CompositeSiteMapNodeProvider(c.Resolve<FluentSiteMapNodeProvider>())));
+                        .Create(new CompositeSiteMapNodeProvider(c.Resolve<ManagementSiteMapNodeProvider>())));
             container.Register<ISiteMapLoader, SiteMapLoader>();
             container.Register<ISiteMapCache, SiteMapCache>();
             container.Register<ISiteMapCacheKeyGenerator, SiteMapCacheKeyGenerator>();

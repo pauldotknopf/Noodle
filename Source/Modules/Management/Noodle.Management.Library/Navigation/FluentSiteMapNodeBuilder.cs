@@ -1,25 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Configuration;
-using System.Security.AccessControl;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.UI;
 using MvcSiteMapProvider;
 using MvcSiteMapProvider.Builder;
-using MvcSiteMapProvider.Collections.Specialized;
-using MvcSiteMapProvider.Reflection;
 
 namespace Noodle.Management.Library.Navigation
 {
-    public class MenuItemBuilder
+    public class FluentSiteMapNodeBuilder
     {
         private readonly ISiteMapNodeHelper _helper;
-        private readonly IList<MenuItemBuilder> _children = new List<MenuItemBuilder>();
+        private readonly IList<FluentSiteMapNodeBuilder> _children = new List<FluentSiteMapNodeBuilder>();
         private string _area;
         private string _controller;
         private string _action;
@@ -49,23 +40,23 @@ namespace Noodle.Management.Library.Navigation
         private string _urlResolver;
         private string[] _inheritedRouteParameters;
         
-        public MenuItemBuilder(ISiteMapNodeHelper helper)
+        public FluentSiteMapNodeBuilder(ISiteMapNodeHelper helper)
         {
             _helper = helper;
         }
 
-        public MenuItemBuilder Items(Action<MenuItemFactory> children)
+        public FluentSiteMapNodeBuilder Items(Action<FluentSiteMapNodeFactory> children)
         {
             if (children == null)
                 return this;
 
-            var factory = new MenuItemFactory(_children, _helper);
+            var factory = new FluentSiteMapNodeFactory(_children, _helper);
             children(factory);
 
             return this;
         }
 
-        public MenuItemBuilder SetArea(string value)
+        public FluentSiteMapNodeBuilder SetArea(string value)
         {
             _area = value;
             return this;
@@ -76,7 +67,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _area; }
         }
 
-        public MenuItemBuilder SetController(string value)
+        public FluentSiteMapNodeBuilder SetController(string value)
         {
             _controller = value;
             return this;
@@ -87,7 +78,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _controller; }
         }
 
-        public MenuItemBuilder SetAction(string value)
+        public FluentSiteMapNodeBuilder SetAction(string value)
         {
             _action = value;
             return this;
@@ -98,7 +89,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _action; }
         }
 
-        public MenuItemBuilder SetHttpMethod(HttpVerbs? method)
+        public FluentSiteMapNodeBuilder SetHttpMethod(HttpVerbs? method)
         {
             _httpMethod = method.HasValue ? method.ToString().ToUpperInvariant() : null;
             return this;
@@ -109,7 +100,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _httpMethod; }
         }
 
-        public MenuItemBuilder SetTitle(string value)
+        public FluentSiteMapNodeBuilder SetTitle(string value)
         {
             _title = value;
             return this;
@@ -120,7 +111,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _title; }
         }
 
-        public MenuItemBuilder SetDescription(string value)
+        public FluentSiteMapNodeBuilder SetDescription(string value)
         {
             _description = value;
             return this;
@@ -131,7 +122,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _description; }
         }
 
-        public MenuItemBuilder SetKey(string value)
+        public FluentSiteMapNodeBuilder SetKey(string value)
         {
             _key = value;
             return this;
@@ -142,7 +133,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _key; }
         }
 
-        public MenuItemBuilder SetUrl(string value)
+        public FluentSiteMapNodeBuilder SetUrl(string value)
         {
             _url = value;
             return this;
@@ -153,7 +144,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _url; }
         }
 
-        public MenuItemBuilder SetClickable(bool? clickable)
+        public FluentSiteMapNodeBuilder SetClickable(bool? clickable)
         {
             _clickable = clickable;
             return this;
@@ -164,7 +155,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _clickable; }
         }
 
-        public MenuItemBuilder SetRoles(string[] values)
+        public FluentSiteMapNodeBuilder SetRoles(string[] values)
         {
             _roles = values != null ? values.Where(x => !string.IsNullOrEmpty(x)).ToArray() : null;
             return this;
@@ -175,7 +166,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _roles; }
         }
 
-        public MenuItemBuilder SetResourceKey(string value)
+        public FluentSiteMapNodeBuilder SetResourceKey(string value)
         {
             _resourceKey = value;
             return this;
@@ -186,7 +177,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _resourceKey; }
         }
 
-        public MenuItemBuilder SetVisibilityProvider(string value)
+        public FluentSiteMapNodeBuilder SetVisibilityProvider(string value)
         {
             _visibilityProvider = value;
             return this;
@@ -197,7 +188,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _visibilityProvider; }
         }
 
-        public MenuItemBuilder SetDynamicNodeProvider(string value)
+        public FluentSiteMapNodeBuilder SetDynamicNodeProvider(string value)
         {
             _dynamicNodeProvider = value;
             return this;
@@ -208,7 +199,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _dynamicNodeProvider; }
         }
 
-        public MenuItemBuilder SetImageUrl(string value)
+        public FluentSiteMapNodeBuilder SetImageUrl(string value)
         {
             _imageUrl = value;
             return this;
@@ -219,7 +210,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _imageUrl; }
         }
 
-        public MenuItemBuilder SetTargetFrame(string value)
+        public FluentSiteMapNodeBuilder SetTargetFrame(string value)
         {
             _targetFrame = value;
             return this;
@@ -230,7 +221,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _targetFrame; }
         }
 
-        public MenuItemBuilder SetCachedResolvedUrl(bool? cacheResolvedUrl)
+        public FluentSiteMapNodeBuilder SetCachedResolvedUrl(bool? cacheResolvedUrl)
         {
             _cacheResolvedUrl = cacheResolvedUrl;
             return this;
@@ -241,7 +232,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _cacheResolvedUrl; }
         }
 
-        public MenuItemBuilder SetCanonicalUrl(string value)
+        public FluentSiteMapNodeBuilder SetCanonicalUrl(string value)
         {
             _canonicalUrl = value;
             return this;
@@ -252,7 +243,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _canonicalUrl; }
         }
 
-        public MenuItemBuilder SetCanonicalKey(string value)
+        public FluentSiteMapNodeBuilder SetCanonicalKey(string value)
         {
             _canonicalKey = value;
             return this;
@@ -263,7 +254,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _canonicalKey; }
         }
 
-        public MenuItemBuilder SetMetaRobotsValues(string[] values)
+        public FluentSiteMapNodeBuilder SetMetaRobotsValues(string[] values)
         {
             _metaRobotsValues = values != null ? values.Where(x => !string.IsNullOrEmpty(x)).ToArray() : null;
             return this;
@@ -274,7 +265,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _metaRobotsValues; }
         }
 
-        public MenuItemBuilder SetChangeFrequency(ChangeFrequency? value)
+        public FluentSiteMapNodeBuilder SetChangeFrequency(ChangeFrequency? value)
         {
             _changeFrequency = value;
             return this;
@@ -285,7 +276,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _changeFrequency; }
         }
 
-        public MenuItemBuilder SetUpdatePriority(UpdatePriority? value)
+        public FluentSiteMapNodeBuilder SetUpdatePriority(UpdatePriority? value)
         {
             _updatePriority = value;
             return this;
@@ -296,7 +287,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _updatePriority; }
         }
 
-        public MenuItemBuilder SetLastModifiedDate(DateTime? value)
+        public FluentSiteMapNodeBuilder SetLastModifiedDate(DateTime? value)
         {
             _lastModifiedDate = value;
             return this;
@@ -307,7 +298,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _lastModifiedDate; }
         }
 
-        public MenuItemBuilder SetOrder(int order)
+        public FluentSiteMapNodeBuilder SetOrder(int order)
         {
             _order = order;
             return this;
@@ -318,7 +309,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _order; }
         }
 
-        public MenuItemBuilder SetRoute(string value)
+        public FluentSiteMapNodeBuilder SetRoute(string value)
         {
             _route = value;
             return this;
@@ -329,7 +320,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _route; }
         }
 
-        public MenuItemBuilder SetRouteValues(object routeValues)
+        public FluentSiteMapNodeBuilder SetRouteValues(object routeValues)
         {
             _routeValues = routeValues;
             return this;
@@ -340,7 +331,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _routeValues; }
         }
 
-        public MenuItemBuilder SetPreservedRouteValues(string[] values)
+        public FluentSiteMapNodeBuilder SetPreservedRouteValues(string[] values)
         {
             _preservedRouteParameters = values != null ? values.Where(x => !string.IsNullOrEmpty(x)).ToArray() : null;
             return this;
@@ -351,7 +342,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _preservedRouteParameters; }
         }
 
-        public MenuItemBuilder SetUrlResolver(string value)
+        public FluentSiteMapNodeBuilder SetUrlResolver(string value)
         {
             _urlResolver = value;
             return this;
@@ -362,7 +353,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _urlResolver; }
         }
 
-        public MenuItemBuilder SetInheritedRouteParameters(string[] values)
+        public FluentSiteMapNodeBuilder SetInheritedRouteParameters(string[] values)
         {
             _inheritedRouteParameters = values != null ? values.Where(x => !string.IsNullOrEmpty(x)).ToArray() : null;
             return this;
@@ -373,7 +364,7 @@ namespace Noodle.Management.Library.Navigation
             get { return _inheritedRouteParameters; }
         }
 
-        public IList<MenuItemBuilder> Children { get { return _children; } }
+        public IList<FluentSiteMapNodeBuilder> Children { get { return _children; } }
 
         #region Node Building
 

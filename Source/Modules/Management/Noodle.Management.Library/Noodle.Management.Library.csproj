@@ -105,8 +105,10 @@
     <Compile Include="Initialization.cs" />
     <Compile Include="INoodleManagementSitemap.cs" />
     <Compile Include="Navigation\FluentSiteMapNodeProvider.cs" />
-    <Compile Include="Navigation\MenuItemBuilder.cs" />
-    <Compile Include="Navigation\MenuItemFactory.cs" />
+    <Compile Include="Navigation\INoodleSiteMapNodeProvider.cs" />
+    <Compile Include="Navigation\FluentSiteMapNodeBuilder.cs" />
+    <Compile Include="Navigation\FluentSiteMapNodeFactory.cs" />
+    <Compile Include="Navigation\ManagementSiteMapNodeProvider.cs" />
     <Compile Include="NoodleManagementViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registrar.cs" />
