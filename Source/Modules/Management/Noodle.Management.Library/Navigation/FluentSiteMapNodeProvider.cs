@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Cryptography;
 using Antlr.Runtime.Misc;
 using MvcSiteMapProvider;
 using MvcSiteMapProvider.Builder;
@@ -17,15 +18,15 @@ namespace Noodle.Management.Library.Navigation
         public IEnumerable<ISiteMapNodeToParentRelation> GetSiteMapNodes(ISiteMapNodeHelper helper)
         {
             var builders = new List<MenuItemBuilder>();
-            var menuItemFactory = new MenuItemFactory(null, builders, helper);
+            var menuItemFactory = new MenuItemFactory(builders, helper);
 
-            menuItemFactory.Add().Items(children =>
+            menuItemFactory.Add().SetTitle("home").SetUrl("http://www.google.com/").Items(children =>
             {
-                children.Add();
-                children.Add().Items(c =>
-                {
-                    c.Add();
-                });
+                children.Add().SetTitle("test").SetController("default").SetAction("index");
+                //children.Add().SetTitle("test3").SetController("default").SetAction("index").Items(c =>
+                //{
+                //    c.Add().SetTitle("test2").SetController("default").SetAction("index");
+                //});
             });
 
             var nodes = new List<ISiteMapNodeToParentRelation>();
@@ -36,7 +37,7 @@ namespace Noodle.Management.Library.Navigation
 
         private void RecursivelyBuildNodes(ISiteMapNodeHelper helper, ISiteMapNodeToParentRelation parent, MenuItemBuilder builder, List<ISiteMapNodeToParentRelation> nodes)
         {
-            var node = helper.CreateNode("", parent != null ? parent.Node.Key : string.Empty, "", "");
+            var node = builder.CreateNode(helper, parent != null ? parent.Node : null);
             nodes.Add(node);
             if (builder.Children != null)
                 foreach (var child in builder.Children)

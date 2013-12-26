@@ -11,20 +11,18 @@ namespace Noodle.Management.Library.Navigation
 {
     public class MenuItemFactory
     {
-        private readonly MenuItemBuilder _parent;
         private readonly IList<MenuItemBuilder> _result;
         private readonly ISiteMapNodeHelper _helper;
 
-        public MenuItemFactory(MenuItemBuilder parent, IList<MenuItemBuilder> result, ISiteMapNodeHelper helper)
+        public MenuItemFactory(IList<MenuItemBuilder> result, ISiteMapNodeHelper helper)
         {
-            _parent = parent;
             _result = result;
             _helper = helper;
         }
 
         public virtual MenuItemBuilder Add()
         {
-            var builder = new MenuItemBuilder(_parent, _helper, _result);
+            var builder = new MenuItemBuilder(_helper);
             _result.Add(builder);
             return builder;
         }
