@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Languages>
+  <Language Name="English" CultureCode="en-US">
+    <LocaleResource Name="ThisIsATest">
+      <Value>This is a test</Value>
+    </LocaleResource>
+  </Language>
+  <Language Name="العربية" CultureCode="ar">
+    <LocaleResource Name="ThisIsATest">
+      <Value>هذا هو الاختبار</Value>
+    </LocaleResource>
+  </Language>
+  <Language Name="中国的" CultureCode="zh-CN">
+    <LocaleResource Name="ThisIsATest">
+      <Value>这是一个测试</Value>
+    </LocaleResource>
+  </Language>
+  <Language Name="Español" CultureCode="es-ES">
+    <LocaleResource Name="ThisIsATest">
+      <Value>Esta es una prueba</Value>
+    </LocaleResource>
+  </Language>
+  <Language Name="Deutsch" CultureCode="de-DE">
+    <LocaleResource Name="ThisIsATest">
+      <Value>Dies ist ein Test</Value>
+    </LocaleResource>
+  </Language>
+  <Language Name="Français" CultureCode="fr-FR">
+    <LocaleResource Name="ThisIsATest">
+      <Value>Ceci est un test</Value>
+    </LocaleResource>
+  </Language>
+  <Language Name="Italiano" CultureCode="it-IT">
+    <LocaleResource Name="ThisIsATest">
+      <Value>Questo è un test</Value>
+    </LocaleResource>
+  </Language>
+  <Language Name="日本人" CultureCode="ja-JP">
+    <LocaleResource Name="ThisIsATest">
+      <Value>これはテストです</Value>
+    </LocaleResource>
+  </Language>
+  <Language Name="한국의" CultureCode="ko-KR">
+    <LocaleResource Name="ThisIsATest">
+      <Value>This is a test</Value>
+    </LocaleResource>
+  </Language>
+  <Language Name="Português" CultureCode="pt-PT">
+    <LocaleResource Name="ThisIsATest">
+      <Value>Este é um teste</Value>
+    </LocaleResource>
+  </Language>
+  <Language Name="Pусский" CultureCode="ru-RU">
+    <LocaleResource Name="ThisIsATest">
+      <Value>Это тест</Value>
+    </LocaleResource>
+  </Language>
+  <Language Name="Svenska" CultureCode="sv-SE">
+    <LocaleResource Name="ThisIsATest">
+      <Value>Detta är ett test</Value>
+    </LocaleResource>
+  </Language>
+</Languages>

@@ -104,10 +104,7 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Initialization.cs" />
     <Compile Include="INoodleManagementSitemap.cs" />
-    <Compile Include="Navigation\FluentSiteMapNodeProvider.cs" />
     <Compile Include="Navigation\INoodleSiteMapNodeProvider.cs" />
-    <Compile Include="Navigation\FluentSiteMapNodeBuilder.cs" />
-    <Compile Include="Navigation\FluentSiteMapNodeFactory.cs" />
     <Compile Include="Navigation\ManagementSiteMapNodeProvider.cs" />
     <Compile Include="NoodleManagementViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
