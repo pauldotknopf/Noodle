@@ -430,6 +430,9 @@ namespace Noodle.Management.Library.Navigation
             siteMapNode.LastModifiedDate = LastModifiedDate.HasValue ? LastModifiedDate.Value : DateTime.MinValue;
             siteMapNode.Order = Order.HasValue ? Order.Value : 0;
             siteMapNode.Route = Route ?? string.Empty;
+            if(!string.IsNullOrEmpty(Area)) siteMapNode.RouteValues.Add("area", Area);
+            if (!string.IsNullOrEmpty(Controller)) siteMapNode.RouteValues.Add("controller", Controller);
+            if (!string.IsNullOrEmpty(Action)) siteMapNode.RouteValues.Add("action", Action);
             siteMapNode.UrlResolver = UrlResolver ?? string.Empty;
             if (InheritedRouteParameters != null && parentNode != null)
             {
