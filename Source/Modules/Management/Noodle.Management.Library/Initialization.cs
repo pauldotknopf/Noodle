@@ -8,7 +8,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using BundleTransformer.Core.Transformers;
-using Noodle.Web.Mvc;
 
 namespace Noodle.Management.Library
 {

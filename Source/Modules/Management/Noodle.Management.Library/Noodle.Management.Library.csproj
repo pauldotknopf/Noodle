@@ -127,10 +127,6 @@
     <None Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Noodle.Web.Mvc\Noodle.Web.Mvc.csproj">
-      <Project>{96deaed6-1d8e-4b44-9bf3-0d69ef977824}</Project>
-      <Name>Noodle.Web.Mvc</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Noodle.Web\Noodle.Web.csproj">
       <Project>{f29bbac8-3c1a-48a6-8f9f-41f2fe4e25bd}</Project>
       <Name>Noodle.Web</Name>
