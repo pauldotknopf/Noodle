@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using BundleTransformer.Core.Transformers;
+using MvcSiteMapProvider;
+using MvcSiteMapProvider.Loader;
 
 namespace Noodle.Management.Library
 {
@@ -16,6 +18,20 @@ namespace Noodle.Management.Library
     /// </summary>
     public class Initialization : IStartupTask
     {
+        private readonly TinyIoCContainer _container;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Initialization"/> class.
+        /// </summary>
+        /// <param name="container">The container.</param>
+        public Initialization(TinyIoCContainer container)
+        {
+            _container = container;
+        }
+
+        /// <summary>
+        /// Excute is run once on startup of the application
+        /// </summary>
         public void Execute()
         {
             ViewEngines.Engines.Clear();
@@ -25,6 +41,8 @@ namespace Noodle.Management.Library
 
             RegisterBundles(BundleTable.Bundles);
             RegisterRoutes(RouteTable.Routes);
+
+            SiteMaps.Loader = _container.Resolve<ISiteMapLoader>();
         }
 
         private void RegisterBundles(BundleCollection bundles)

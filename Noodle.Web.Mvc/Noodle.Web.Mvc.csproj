@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Noodle.Web.Mvc</RootNamespace>
     <AssemblyName>Noodle.Web.Mvc</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -46,11 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseNoodleController.cs" />
+    <Compile Include="EnrichedViewResult.cs" />
+    <Compile Include="FormActionResult.cs" />
     <Compile Include="Initialization.cs" />
+    <Compile Include="IValidationDictionary.cs" />
+    <Compile Include="IValidator.cs" />
+    <Compile Include="IViewModelEnricher.cs" />
+    <Compile Include="ModelStateWrapper.cs" />
     <Compile Include="NoodleDependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Source\Noodle.Web\Noodle.Web.csproj">
+      <Project>{f29bbac8-3c1a-48a6-8f9f-41f2fe4e25bd}</Project>
+      <Name>Noodle.Web</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Source\Noodle\Noodle.csproj">
       <Project>{944fec3d-a47f-4c92-92ac-81b3420c1caa}</Project>
       <Name>Noodle</Name>

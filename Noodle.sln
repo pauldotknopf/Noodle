@@ -69,6 +69,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Settings.Tests", "So
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Web.Mvc", "Noodle.Web.Mvc\Noodle.Web.Mvc.csproj", "{09720B02-8691-4860-83B0-7960C68939C8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{C4CC70A0-3B2C-4A1B-81A1-784ACA652A88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Management.Logging", "Source\Modules\Management\Noodle.Management\Modules\Logging\Noodle.Management.Logging.csproj", "{61F9ADE1-AEAB-419D-8151-13AE6E686AEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -163,6 +167,10 @@ Global
 		{09720B02-8691-4860-83B0-7960C68939C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09720B02-8691-4860-83B0-7960C68939C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09720B02-8691-4860-83B0-7960C68939C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61F9ADE1-AEAB-419D-8151-13AE6E686AEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61F9ADE1-AEAB-419D-8151-13AE6E686AEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61F9ADE1-AEAB-419D-8151-13AE6E686AEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61F9ADE1-AEAB-419D-8151-13AE6E686AEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -191,5 +199,7 @@ Global
 		{43FBE757-E67E-423D-9414-247130298820} = {BA068D90-5C96-4B04-A7DF-95FF78E9A9D0}
 		{775F46DA-DC63-4E79-BCEB-A1D9A87F6F5B} = {AF09A19B-3281-4CD7-8CB8-033E8CE98A60}
 		{C086AB5B-ED8D-4584-94F4-D909B2064AB8} = {AF09A19B-3281-4CD7-8CB8-033E8CE98A60}
+		{C4CC70A0-3B2C-4A1B-81A1-784ACA652A88} = {AF09A19B-3281-4CD7-8CB8-033E8CE98A60}
+		{61F9ADE1-AEAB-419D-8151-13AE6E686AEE} = {C4CC70A0-3B2C-4A1B-81A1-784ACA652A88}
 	EndGlobalSection
 EndGlobal
