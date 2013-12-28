@@ -21,8 +21,6 @@ namespace Noodle.Management.Library
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new NoodleManagementViewEngine());
 
-            DependencyResolver.SetResolver(new NoodleDependencyResolver(EngineContext.Current));
-
             AreaRegistration.RegisterAllAreas();
 
             RegisterBundles(BundleTable.Bundles);
@@ -31,32 +29,6 @@ namespace Noodle.Management.Library
 
         private void RegisterBundles(BundleCollection bundles)
         {
-
-            //bundles.Add<StylesheetBundle>("managementcss", new List<string>
-            //                                         {
-            //                                             GetContent("content/css/others/boilerplate.css"),
-            //                                             GetContent("content/css/others/jquery-layout.css"),
-            //                                             GetContent("content/css/others/jquery-ui-1.8.18.css"),
-            //                                             GetContent("content/css/site.less")
-            //                                         });
-
-            //bundles.Add<ScriptBundle>("managementjs", new List<string>
-            //                                         {
-            //                                             GetContent("scripts/jquery-1.7.1.js"),
-            //                                             GetContent("scripts/jquery-ui-1.8.18.js"),
-            //                                             GetContent("scripts/modernizr-2.5.3.js"),
-            //                                             GetContent("scripts/jquery.validate.js"),
-            //                                             GetContent("scripts/jquery.validate.unobtrusive.js"),
-            //                                             GetContent("scripts/jquery.unobtrusive-ajax.js"),
-            //                                             GetContent("scripts/jquery.layout-1.3.0.rc30.4.js"),
-            //                                             GetContent("scripts/jquery.blockUI.js"),
-            //                                             GetContent("scripts/jquery.form.js"),
-            //                                             GetContent("scripts/tiny_mce/jquery.tinymce.js"),
-            //                                             GetContent("scripts/Kendo/kendo.web.min.js"),
-            //                                             GetContent("scripts/Kendo/kendo.aspnetmvc.min.js"),
-            //                                             GetContent("scripts/method.bootstrap.js"),
-            //                                             GetContent("scripts/method.management.js")
-            //                                         });
             var stylesBundle = new Bundle("~/managementcss");
             stylesBundle.Include(GetContent("~/content/styles/styles.less"));
             stylesBundle.Transforms.Add(new CssTransformer());
@@ -90,6 +62,9 @@ namespace Noodle.Management.Library
                        : "~/noodle/" + path.Substring(2, path.Length - 2);
         }
 
+        /// <summary>
+        /// The order at which the startup task will run. Smaller numbers run first.
+        /// </summary>
         public int Order
         {
             get { return 0; }

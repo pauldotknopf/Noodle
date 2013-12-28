@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Settings", "Source\M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Settings.Tests", "Source\Modules\Settings\Noodle.Setting.Tests\Noodle.Settings.Tests.csproj", "{DBD71993-70E3-4B67-9D53-D1F221D13A7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Web.Mvc", "Noodle.Web.Mvc\Noodle.Web.Mvc.csproj", "{09720B02-8691-4860-83B0-7960C68939C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +159,10 @@ Global
 		{DBD71993-70E3-4B67-9D53-D1F221D13A7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBD71993-70E3-4B67-9D53-D1F221D13A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBD71993-70E3-4B67-9D53-D1F221D13A7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09720B02-8691-4860-83B0-7960C68939C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09720B02-8691-4860-83B0-7960C68939C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09720B02-8691-4860-83B0-7960C68939C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09720B02-8691-4860-83B0-7960C68939C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
