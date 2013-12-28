@@ -37,6 +37,9 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\..\..\..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="AppDomainToolkit">
+      <HintPath>..\..\..\..\packages\AppDomainToolkit.1.0.4.1\lib\net\AppDomainToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="BundleTransformer.Core">
       <HintPath>..\..\..\..\packages\BundleTransformer.Core.1.8.11\lib\net40\BundleTransformer.Core.dll</HintPath>
     </Reference>
@@ -49,6 +52,12 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\..\..\packages\mongocsharpdriver.1.7.1\lib\net35\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\..\..\packages\mongocsharpdriver.1.7.1\lib\net35\MongoDB.Driver.dll</HintPath>
     </Reference>
     <Reference Include="MvcSiteMapProvider">
       <HintPath>..\..\..\..\packages\MvcSiteMapProvider.MVC5.Core.4.4.6\lib\net45\MvcSiteMapProvider.dll</HintPath>
@@ -102,6 +111,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="RouteProvider.cs" />
     <Compile Include="Initialization.cs" />
     <Compile Include="Navigation\INoodleSiteMapNodeProvider.cs" />
     <Compile Include="Navigation\ManagementSiteMapNodeProvider.cs" />
@@ -109,12 +120,17 @@
     <Compile Include="PluginAssemblyFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registrar.cs" />
+    <Compile Include="StandardPermissionProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Noodle.Web.Mvc\Noodle.Web.Mvc.csproj">
+      <Project>{09720b02-8691-4860-83b0-7960c68939c8}</Project>
+      <Name>Noodle.Web.Mvc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Noodle.Web\Noodle.Web.csproj">
       <Project>{f29bbac8-3c1a-48a6-8f9f-41f2fe4e25bd}</Project>
       <Name>Noodle.Web</Name>
@@ -122,6 +138,14 @@
     <ProjectReference Include="..\..\..\Noodle\Noodle.csproj">
       <Project>{944fec3d-a47f-4c92-92ac-81b3420c1caa}</Project>
       <Name>Noodle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Localization\Noodle.Localization\Noodle.Localization.csproj">
+      <Project>{99cf8d4b-2d70-4180-b7ba-cfc947c73a3f}</Project>
+      <Name>Noodle.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Security\Noodle.Security\Noodle.Security.csproj">
+      <Project>{330d00a1-e169-43e6-b1d1-960eceea5422}</Project>
+      <Name>Noodle.Security</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

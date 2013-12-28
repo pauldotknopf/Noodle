@@ -17,7 +17,7 @@ namespace Noodle.Management.Logging
 
         public override void BuildSitemapNodes(IFluentSiteMapNodeFactory fluentSiteMapNodeFactory)
         {
-            fluentSiteMapNodeFactory.Add().Title("Logging").Area("Logging").Controller("Logging").Action("List");
+            fluentSiteMapNodeFactory.Add().Title("Logging").Area("Logging").Controller("Log").Action("List");
         }
 
         public override bool UseNestedDynamicNodeRecursion

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Noodle.Engine;
 using Noodle.Management.Library.Navigation;
+using Noodle.Management.Logging.Controllers;
 
 namespace Noodle.Management.Logging
 {
@@ -16,6 +17,7 @@ namespace Noodle.Management.Logging
         public void Register(TinyIoCContainer container)
         {
             container.Register<INoodleSiteMapNodeProvider, SiteMap>();
+            container.Register<LogController>();
         }
 
         /// <summary>

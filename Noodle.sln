@@ -34,6 +34,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Management", "Management", "{AF09A19B-3281-4CD7-8CB8-033E8CE98A60}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Management", "Source\Modules\Management\Noodle.Management\Noodle.Management.csproj", "{775F46DA-DC63-4E79-BCEB-A1D9A87F6F5B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{61F9ADE1-AEAB-419D-8151-13AE6E686AEE} = {61F9ADE1-AEAB-419D-8151-13AE6E686AEE}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Management.Library", "Source\Modules\Management\Noodle.Management.Library\Noodle.Management.Library.csproj", "{C086AB5B-ED8D-4584-94F4-D909B2064AB8}"
 EndProject

@@ -10,6 +10,7 @@ using System.Web.Routing;
 using BundleTransformer.Core.Transformers;
 using MvcSiteMapProvider;
 using MvcSiteMapProvider.Loader;
+using Noodle.Security.Permissions;
 
 namespace Noodle.Management.Library
 {
@@ -19,14 +20,17 @@ namespace Noodle.Management.Library
     public class Initialization : IStartupTask
     {
         private readonly TinyIoCContainer _container;
+        private readonly IPermissionService _permissionService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Initialization"/> class.
+        /// Initializes a new instance of the <see cref="Initialization" /> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public Initialization(TinyIoCContainer container)
+        /// <param name="permissionService">The permission service.</param>
+        public Initialization(TinyIoCContainer container, IPermissionService permissionService)
         {
             _container = container;
+            _permissionService = permissionService;
         }
 
         /// <summary>
@@ -34,13 +38,12 @@ namespace Noodle.Management.Library
         /// </summary>
         public void Execute()
         {
+            _permissionService.InstallFoundPermissions();
+
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new NoodleManagementViewEngine());
 
-            AreaRegistration.RegisterAllAreas();
-
             RegisterBundles(BundleTable.Bundles);
-            RegisterRoutes(RouteTable.Routes);
 
             SiteMaps.Loader = _container.Resolve<ISiteMapLoader>();
         }
@@ -64,6 +67,10 @@ namespace Noodle.Management.Library
             routes.MapRoute("Default",
                 "{controller}/{action}/{id}",
                 new { controller = "Default", action = "Index", id = UrlParameter.Optional }
+            );
+            routes.MapRoute("DefaultRoute",
+                "Logging/{controller}/{action}/{id}",
+                new { area="Logging", controller = "Default", action = "Index", id = UrlParameter.Optional }
             );
         }
 

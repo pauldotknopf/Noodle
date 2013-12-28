@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ using MvcSiteMapProvider.Web.Mvc;
 using MvcSiteMapProvider.Web.Mvc.Filters;
 using MvcSiteMapProvider.Web.UrlResolver;
 using MvcSiteMapProvider.Xml;
+using Noodle.Data;
 using Noodle.Engine;
 using Noodle.Management.Library.Controllers;
 using Noodle.Management.Library.Navigation;
@@ -31,6 +33,8 @@ namespace Noodle.Management.Library
     {
         public void Register(TinyIoCContainer container)
         {
+            container.Register<IConnectionProvider>(
+                new SqlConnectionProvider(System.Web.Configuration.WebConfigurationManager.AppSettings["ManagementConnectionString"]));
             container.Register<IAclModule>((c, overloads) => new CompositeAclModule(new AuthorizeAttributeAclModule(c.Resolve<IMvcContextFactory>(),
                 c.Resolve<IControllerDescriptorFactory>(),
                 c.Resolve<IControllerBuilder>(),
@@ -95,6 +99,7 @@ namespace Noodle.Management.Library
             container.Register<ISiteMapNodePluginProvider, SiteMapNodePluginProvider>();
             container.Register<IDynamicNodeProviderStrategy, DynamicNodeProviderStrategy>();
             container.Register<IStringLocalizer, StringLocalizer>();
+            container.Register<IFluentFactory, FluentFactory>();
             container.Register<Initialization>();
             container.Register<DefaultController>().AsPerRequestSingleton();
         }

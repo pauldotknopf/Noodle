@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.Routing;
+using Noodle.Web.Mvc.Routes;
 
 namespace Noodle.Web.Mvc
 {
@@ -12,14 +14,17 @@ namespace Noodle.Web.Mvc
     public class Initialization : IStartupTask
     {
         private readonly TinyIoCContainer _container;
+        private readonly IRoutePublisher _routePublisher;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Initialization"/> class.
+        /// Initializes a new instance of the <see cref="Initialization" /> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public Initialization(TinyIoCContainer container)
+        /// <param name="routePublisher">The route publisher.</param>
+        public Initialization(TinyIoCContainer container, IRoutePublisher routePublisher)
         {
             _container = container;
+            _routePublisher = routePublisher;
         }
 
         /// <summary>
@@ -28,6 +33,7 @@ namespace Noodle.Web.Mvc
         public void Execute()
         {
             DependencyResolver.SetResolver(new NoodleDependencyResolver(_container));
+            _routePublisher.RegisterRoutes(RouteTable.Routes);
         }
 
         /// <summary>
