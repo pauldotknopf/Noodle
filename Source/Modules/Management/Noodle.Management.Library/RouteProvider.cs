@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Noodle.Management.Library.Controllers;
 using Noodle.Web.Mvc.Routes;
 
 namespace Noodle.Management.Library
@@ -14,7 +15,8 @@ namespace Noodle.Management.Library
         {
             routes.MapRoute("Default",
                 "{controller}/{action}/{id}",
-                new { controller = "Default", action = "Index", id = UrlParameter.Optional }
+                new { controller = "Default", action = "Index", id = UrlParameter.Optional },
+                new[]{typeof(DefaultController).Namespace + ".*"}
             );
         }
 

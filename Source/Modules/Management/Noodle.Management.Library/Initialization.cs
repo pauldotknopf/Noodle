@@ -55,11 +55,17 @@ namespace Noodle.Management.Library
             stylesBundle.Transforms.Add(new CssTransformer());
             bundles.Add(stylesBundle);
 
-            var scriptsBundle = new Bundle("~/managementjs");
-            scriptsBundle.Include(GetContent("~/content/scripts/jquery-1.9.1.js"));
-            scriptsBundle.Include(GetContent("~/content/scripts/jquery-1.9.1.js"));
-            scriptsBundle.Transforms.Add(new JsTransformer());
-            bundles.Add(scriptsBundle);
+            var preManagementScriptsBundle = new Bundle("~/premanagementjs");
+            preManagementScriptsBundle.Include(GetContent("~/content/scripts/modernizr.js"));
+            preManagementScriptsBundle.Include(GetContent("~/content/scripts/respond.js"));
+            preManagementScriptsBundle.Transforms.Add(new JsTransformer());
+            bundles.Add(preManagementScriptsBundle);
+
+            var managementScriptsBundle = new Bundle("~/managementjs");
+            managementScriptsBundle.Include(GetContent("~/content/scripts/jquery-1.9.1.js"));
+            managementScriptsBundle.Include(GetContent("~/content/scripts/jquerytax.js"));
+            managementScriptsBundle.Transforms.Add(new JsTransformer());
+            bundles.Add(managementScriptsBundle);
         }
 
         private void RegisterRoutes(RouteCollection routes)

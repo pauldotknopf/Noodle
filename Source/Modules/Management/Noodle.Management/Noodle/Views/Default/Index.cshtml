@@ -1,23 +1,2 @@
-﻿@using System.Web.Optimization
-@using MvcSiteMapProvider.Web.Html
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-    @Scripts.Render("~/managementjs")
-    @Styles.Render("~/managementcss")
-
-</head>
-<body>
-    <div>
-        @Html.MvcSiteMap().Menu()
-        @Html.MvcSiteMap().SiteMapPath()
-    </div>
-</body>
-</html>
+﻿@Html.MvcSiteMap().Menu()
+@Html.MvcSiteMap().SiteMapPath()
