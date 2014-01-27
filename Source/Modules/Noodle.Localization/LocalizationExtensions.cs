@@ -25,8 +25,8 @@ namespace Noodle.Localization
             if (!typeof(T).IsEnum) throw new ArgumentException("T must be an enumerated type");
 
             //localized value
-            string resourceName = string.Format("Enums.{0}.{1}",typeof(T),enumValue.ToString());
-            string result = localizationService.GetResource(resourceName, languageId, false, CommonHelper.PascalCamelToFriendly(enumValue.ToString()));
+            var resourceName = string.Format("Enums.{0}.{1}", typeof(T).Name, enumValue);
+            var result = localizationService.GetResource(resourceName, languageId, false, CommonHelper.PascalCamelToFriendly(enumValue.ToString()));
 
             return result;
         }
