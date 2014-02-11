@@ -70,7 +70,13 @@ namespace Noodle
                         Singleton<TinyIoCContainer>.Instance = container;
 
                         // run all startup tasks
+                        var onStartupTasksRunning = OnStartupTasksRunning;
+                        if (onStartupTasksRunning != null)
+                            onStartupTasksRunning(container);
                         RunStartupTasks(container);
+                        var onStartupTasksRan = OnStartupTasksRan;
+                        if (onStartupTasksRan != null)
+                            onStartupTasksRan(container);
                     }
                 }
             }
@@ -151,6 +157,22 @@ namespace Noodle
         {
             InitializeExcludedAndIncludedAssemblies();
         }
+
+        #endregion
+
+        #region Events
+
+        public delegate void ContainerDelegate(TinyIoCContainer container);
+
+        /// <summary>
+        /// This is raised before any startup tasks have been ran
+        /// </summary>
+        public static event ContainerDelegate OnStartupTasksRunning;
+
+        /// <summary>
+        /// This is raised directly after all startup tasks have ran
+        /// </summary>
+        public static event ContainerDelegate OnStartupTasksRan;
 
         #endregion
     }
