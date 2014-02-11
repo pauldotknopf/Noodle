@@ -1,0 +1,12 @@
+﻿@{
+    var viewResult = ViewEngines.Engines.FindView(ViewContext.Controller.ControllerContext, "_Layout", "");
+
+    if (viewResult.View != null && viewResult.View is RazorView)
+    {
+        Layout = (viewResult.View as RazorView).ViewPath;
+    }
+    else
+    {
+        Layout = "Shared/_Layout.cshtml";
+    }
+}

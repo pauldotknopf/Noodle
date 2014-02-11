@@ -11,8 +11,7 @@ namespace Noodle.Engine
 			container.Register(typeof(IAssemblyFinder), typeof(AssemblyFinder));
 #else
             container.Register(typeof(IWorker), typeof(AsyncWorker));
-            container.Register(typeof(ITypeFinder), typeof(AppDomainTypeFinder));
-            container.Register(typeof(IAssemblyFinder), typeof(AssemblyFinder));
+            container.Register(typeof(ITypeFinder), (c, overloads) => EngineContext.TypeFinder);
             container.Register(typeof(Serialization.ISerializer), typeof(Serialization.BinaryStringSerializer));
             container.Register(typeof(Security.IEncryptionService), typeof(Security.EncryptionService));
             container.Register(typeof(IDateTimeHelper), typeof(DateTimeHelper));

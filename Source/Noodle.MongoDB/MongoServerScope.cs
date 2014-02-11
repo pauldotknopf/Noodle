@@ -19,12 +19,12 @@ namespace Noodle.MongoDB
 
         public MongoServerScope() :this(8989){ }
 
-        public MongoServerScope(int port) : this(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.GetRandomFileName()), port)
+        public MongoServerScope(int port) : this(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.GetRandomFileName()), port, DefaultMongoDbLocation())
         {
             
         }
 
-        public MongoServerScope(string directory, int port)
+        public MongoServerScope(string directory, int port, string mongoLocation)
         {
             _directory = directory;
 
@@ -40,9 +40,8 @@ namespace Noodle.MongoDB
                     Directory.Delete(directory, true);
                 Directory.CreateDirectory(directory);
 
-                var mongoPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mongod.exe");
                 var logPath = Path.Combine(directory, "dblog.log");
-                var command = new Noodle.Process.ProcessCommand(mongoPath, "--dbpath \"" + directory + "\" --port \"" + port + "\" --logpath \"" + logPath + "\" --logappend");
+                var command = new Noodle.Process.ProcessCommand(mongoLocation, "--dbpath \"" + directory + "\" --port \"" + port + "\" --logpath \"" + logPath + "\" --logappend");
                 _process = command.Run();
             }
             catch (Exception)
@@ -65,6 +64,11 @@ namespace Noodle.MongoDB
             {
                 Monitor.Exit(_lockObject);
             }
+        }
+
+        private static string DefaultMongoDbLocation()
+        {
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mongod.exe");
         }
     }
 }

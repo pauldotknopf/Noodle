@@ -43,20 +43,16 @@ namespace Noodle.Engine
         {
             try
             {
-                var buildManager = Type.GetType("System.Web.Compilation.BuildManager, System.Web");
+                var buildManager = Type.GetType("System.Web.Compilation.BuildManager, System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
                 if (buildManager != null)
                 {
                     // we can reference system.web 4.0!
-                    var getReferencedAssembliesMethod = buildManager.GetMethod("GetReferencedAssemblies",
-                                                                               BindingFlags.Public |
-                                                                               BindingFlags.NonPublic |
-                                                                               BindingFlags.Static |
-                                                                               BindingFlags.Instance);
+                    var getReferencedAssembliesMethod = buildManager.GetMethod("GetReferencedAssemblies");
                     return ((ICollection) getReferencedAssembliesMethod.Invoke(null, new object[0])).Cast<Assembly>().ToList();
                 }
                 throw new InvalidOperationException("Can't get system.web! Revery to recursive referencing assemblyies");
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
                 // when not in a website, BuildManager.GetReferencedAssemblies throws an error.
                 // if we are in a console/service/winforms, we need to manually load all the relevant assemblies.

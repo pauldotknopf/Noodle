@@ -38,6 +38,12 @@ namespace Noodle
                 return Singleton<ITypeFinder>.Instance 
                     ?? (Singleton<ITypeFinder>.Instance = new AppDomainTypeFinder(new AssemblyFinder()));
             }
+            set
+            {
+                if(value == null)
+                    throw new ArgumentNullException("value");
+                Singleton<ITypeFinder>.Instance = value;
+            }
         }
 
         #endregion
