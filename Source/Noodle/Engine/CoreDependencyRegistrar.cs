@@ -9,6 +9,9 @@ namespace Noodle.Engine
 #if IOS
 			container.Register(typeof(ITypeFinder), typeof(AppDomainTypeFinder));
 			container.Register(typeof(IAssemblyFinder), typeof(AssemblyFinder));
+#elif ANDROID
+			container.Register(typeof(ITypeFinder), typeof(AppDomainTypeFinder));
+			container.Register(typeof(IAssemblyFinder), typeof(AssemblyFinder));
 #else
             container.Register(typeof(IWorker), typeof(AsyncWorker));
             container.Register(typeof(ITypeFinder), typeof(AppDomainTypeFinder));

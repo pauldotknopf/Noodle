@@ -1649,7 +1649,9 @@ namespace Noodle.IO
 #if IOS
 			// for some reason, File.GetAccessControl isn't in the iOS mono version
 			return null;
-
+#elif ANDROID			
+			// Not in Android either			
+			return null;
 #else
 			var firstPath = FirstPath();
 			return Directory.Exists(firstPath)
@@ -1681,7 +1683,13 @@ namespace Noodle.IO
         /// <returns>The set</returns>
         public Path AccessControl(Action<Path, FileSystemSecurity> action)
         {
-#if !IOS
+			#if IOS
+			// for some reason, File.GetAccessControl isn't in the iOS mono version
+			return null;
+			#elif ANDROID
+			// not in Android either
+			return null;
+			#else
 			foreach (var path in _paths)
 			{
 				action(new Path(path, this),
@@ -1690,8 +1698,7 @@ namespace Noodle.IO
 				       : (FileSystemSecurity)File.GetAccessControl(path)
 				       );
 			}
-#else
-			// for some reason, File.GetAccessControl isn't in the iOS mono version
+		
 #endif
 			return this;
         }
@@ -1713,7 +1720,13 @@ namespace Noodle.IO
         /// <returns>The set</returns>
         public Path AccessControl(Func<Path, FileSystemSecurity> securityFunction)
         {
-#if !IOS
+#if IOS
+			// for some reason, File.GetAccessControl isn't in the iOS mono version
+			return null;
+#elif ANDROID
+			// same for Android
+			return null;
+#else
 			foreach (var path in _paths)
 			{
 				if (Directory.Exists(path))
@@ -1727,8 +1740,7 @@ namespace Noodle.IO
 					                      (FileSecurity)securityFunction(new Path(path, this)));
 				}
 			}
-#else
-			// for some reason, File.GetAccessControl isn't in the iOS mono version
+
 #endif
             
             return this;

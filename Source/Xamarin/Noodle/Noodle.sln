@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.iOS", "Noodle.iOS\No
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.iOS.Tests", "Noodle.iOS.Tests\Noodle.iOS.Tests.csproj", "{86F1CD9D-BCB4-40EF-9499-49A0A00013D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noodle.Android", "Noodle.Android\Noodle.Android.csproj", "{5D10C330-F646-4E4A-96F3-1DF396DCB89C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -15,6 +17,18 @@ Global
 		AppStore|iPhone = AppStore|iPhone
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D10C330-F646-4E4A-96F3-1DF396DCB89C}.Ad-Hoc|iPhone.ActiveCfg = Debug|Any CPU
+		{5D10C330-F646-4E4A-96F3-1DF396DCB89C}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
+		{5D10C330-F646-4E4A-96F3-1DF396DCB89C}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
+		{5D10C330-F646-4E4A-96F3-1DF396DCB89C}.AppStore|iPhone.Build.0 = Debug|Any CPU
+		{5D10C330-F646-4E4A-96F3-1DF396DCB89C}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{5D10C330-F646-4E4A-96F3-1DF396DCB89C}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{5D10C330-F646-4E4A-96F3-1DF396DCB89C}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{5D10C330-F646-4E4A-96F3-1DF396DCB89C}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{5D10C330-F646-4E4A-96F3-1DF396DCB89C}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{5D10C330-F646-4E4A-96F3-1DF396DCB89C}.Release|iPhone.Build.0 = Release|Any CPU
+		{5D10C330-F646-4E4A-96F3-1DF396DCB89C}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{5D10C330-F646-4E4A-96F3-1DF396DCB89C}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.Ad-Hoc|iPhone.ActiveCfg = Debug|Any CPU
 		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
 		{7B5055E5-2733-4DA7-BF84-291A4F3595C9}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
