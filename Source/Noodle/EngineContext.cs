@@ -1,4 +1,5 @@
-﻿using System;
+﻿//#define LOGGING
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Noodle.Engine;
@@ -13,6 +14,9 @@ namespace Noodle
     public class EngineContext
     {
         private static readonly object ContainerCreationLockObject = new object();
+#if LOGGING
+        private static Logger<EngineContext> _logger = new Logger<EngineContext>(); 
+#endif
 
         #region Current
 
@@ -65,12 +69,28 @@ namespace Noodle
                     // someone may have waited for the lock, but it has been built for them, check one more time.
                     if (Singleton<TinyIoCContainer>.Instance == null || force)
                     {
+                        #if LOGGING
+                        _logger.Info("Creating the container");
+                        #endif
+
                         var container = new TinyIoCContainer();
+
+                        #if LOGGING
+                        _logger.Info("Registering the core services");
+                        #endif
 
                         CoreDependencyRegistrar.Register(container);
 
+                        #if LOGGING
+                        _logger.Info("Registering all the dependency registrars");
+                        #endif
+
                         // register everything!
                         RegisterDependencyRegistrar(TypeFinder, container);
+
+                        #if LOGGING
+                        _logger.Info("Setting the static accessor");
+                        #endif
 
                         // set the kernel to the static accessor
                         Singleton<TinyIoCContainer>.Instance = container;
@@ -129,10 +149,16 @@ namespace Noodle
                 IDependencyRegistrar instance;
                 try
                 {
+                    #if LOGGING
+                    _logger.Info("Creating the dependency registrar {0}".F(dependencyRegistrarType.FullName));
+                    #endif
                     instance = Activator.CreateInstance(dependencyRegistrarType) as IDependencyRegistrar;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    #if LOGGING
+                    _logger.Error("Error creating dependency registrar {0} ({1})".F(dependencyRegistrarType.FullName, ex.Message));
+                    #endif
                     throw new Exception("Error creating '" + dependencyRegistrarType.FullName +
                                         "', please be sure that it contains a empty constructor.");
                 }
@@ -145,18 +171,49 @@ namespace Noodle
             // Register them in order, where higher importance overwrites lover
             foreach (var dependencyRegistrarType in dependencyRegistrarTypes)
             {
+                #if LOGGING
+                _logger.Info("Registering dependency registrar {0}".F(dependencyRegistrarType.GetType().FullName));
+                #endif
                 dependencyRegistrarType.Register(container);
             }
         }
 
         public static void RunStartupTasks(TinyIoCContainer container)
         {
-            foreach (var startupService in container.GetServicesOf<IStartupTask>()
-                .Select(x => container.Resolve(x) as IStartupTask)
-                .OrderBy(x => x.Order))
+            #if LOGGING
+            _logger.Info("Running startup tasks");
+            #endif
+
+            var startupServiceTypes = container.GetServicesOf<IStartupTask>();
+            var startupServices = new List<IStartupTask>();
+
+            foreach(var startUpServiceType in startupServiceTypes)
             {
-                startupService.Execute();
+                #if LOGGING
+                _logger.Info("Creating an instance of the startup task {0}".F(startUpServiceType.FullName));
+                #endif
+                startupServices.Add(container.Resolve(startUpServiceType) as IStartupTask);
+                #if LOGGING
+                _logger.Info("Created an instance of the startup task {0}".F(startUpServiceType.FullName));
+                #endif
             }
+
+            startupServices = startupServices.OrderBy(x => x.Order).ToList();
+
+            foreach (var startupService in startupServices)
+            {
+                #if LOGGING
+                _logger.Info("Executing an instance of the startup task {0}".F(startupService.GetType().FullName));
+                #endif
+                startupService.Execute();
+                #if LOGGING
+                _logger.Info("Executing an instance of the startup task {0}".F(startupService.GetType().FullName));
+                #endif
+            }
+
+            #if LOGGING
+            _logger.Info("Ran startup tasks");
+            #endif
         }
 
         static EngineContext()
