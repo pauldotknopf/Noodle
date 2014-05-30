@@ -20,13 +20,6 @@ namespace Noodle.Logging
             LogLevel = LogLevel.Information;
         }
 
-        private string _customDataSerialized = string.Empty;
-        private string _serverVariablesSerialized = string.Empty;
-        private string _queryStringSerialized = string.Empty;
-        private string _formSerialized = string.Empty;
-        private string _cookiesSerialized = string.Empty;
-        private IDictionary<string, string> _customData = new Dictionary<string, string>();
-
         /// <summary>
         /// Gets or sets the short message
         /// </summary>
@@ -91,5 +84,33 @@ namespace Noodle.Logging
         /// The cookies associated to the log.
         /// </summary>
         public Dictionary<string, string> Cookies { get; protected set; }
+
+        /// <summary>
+        /// Information about the exception, and its inner exceptions
+        /// </summary>
+        public ExceptionInfo ExceptionInfo { get; set; }
+    }
+
+    public class ExceptionInfo
+    {
+        /// <summary>
+        /// The message of the exception
+        /// </summary>
+        public string Message { get; set; }
+
+        /// <summary>
+        /// The type of the exception
+        /// </summary>
+        public string ExceptionType { get; set; }
+
+        /// <summary>
+        /// The stacktrace of the messaage
+        /// </summary>
+        public string StackTrace { get; set; }
+
+        /// <summary>
+        /// Inner exception, if any
+        /// </summary>
+        public ExceptionInfo InnerException { get; set; }
     }
 }

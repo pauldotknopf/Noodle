@@ -6,6 +6,7 @@ using System.Web;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Bson;
+using MongoDB.Driver.Linq;
 
 namespace Noodle.Logging
 {
@@ -123,20 +124,9 @@ namespace Noodle.Logging
         /// <param name="fullMessage">The full message</param>
         /// <param name="exception">The error associated with this log</param>
         /// <param name="user">The user to associate log record with</param>
-        /// <param name="requestContext">The request context. If this is supplied, additional info will be logged, like ip, post/server variables, etc</param>
         /// <returns>A log item</returns>
         public Log InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "", Exception exception = null, string user = null)
         {
-            Exception ex = null;
-
-            if (exception != null)
-            {
-                if (IsBuiltInException(exception))
-                {
-                    ex = exception.GetBaseException();
-                }
-            }
-
             var log = new Log()
             {
                 LogLevel = logLevel,
@@ -146,6 +136,7 @@ namespace Noodle.Logging
                 CreatedOnUtc = CommonHelper.CurrentTime()
             };
 
+            var ex = exception;
             if (ex != null)
             {
                 if (string.IsNullOrEmpty(shortMessage))
@@ -160,6 +151,28 @@ namespace Noodle.Logging
                 log.FullMessage += Environment.NewLine + "Full Trace:" + Environment.NewLine + ex.StackTrace;
             }
 
+            // recursively add all the inner exceptions to the log
+            ExceptionInfo currentExceptionInfo = null;
+            while (ex != null)
+            {
+                var exceptionInfo = new ExceptionInfo();
+                exceptionInfo.Message = ex.Message;
+                exceptionInfo.ExceptionType = ex.GetType().FullName;
+                exceptionInfo.StackTrace = ex.StackTrace;
+
+                if (currentExceptionInfo == null)
+                {
+                    log.ExceptionInfo = exceptionInfo;
+                }
+                else
+                {
+                    currentExceptionInfo.InnerException = exceptionInfo;
+                }
+
+                currentExceptionInfo = exceptionInfo;
+                ex = ex.InnerException;
+            }
+
             foreach (var customData in LogStore.GetCustomData(ex ?? new LogException(logLevel, shortMessage, fullMessage), _container))
             {
                 log.CustomData.Add(customData.Key, customData.Value);
@@ -168,20 +181,6 @@ namespace Noodle.Logging
             _logCollection.Insert(log);
 
             return log;
-        }
-
-        #endregion
-
-        #region Helpers
-
-        /// <summary>
-        /// returns if the type of the exception is built into .Net core
-        /// </summary>
-        /// <param name="e">The exception to check</param>
-        /// <returns>True if the exception is a type from within the CLR, false if it's a user/third party type</returns>
-        private bool IsBuiltInException(Exception e)
-        {
-            return e.GetType().Module.ScopeName == "CommonLanguageRuntimeLibrary";
         }
 
         #endregion

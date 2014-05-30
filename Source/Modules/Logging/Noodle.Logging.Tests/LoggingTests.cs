@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using Moq;
 using NUnit.Framework;
 using Noodle.Collections;
@@ -213,6 +214,23 @@ namespace Noodle.Logging.Tests
             // assert
             logs.Count.ShouldEqual(22);
             logs.All(x => x.LogLevel == LogLevel.Fatal).ShouldBeTrue();
+        }
+
+        [Test]
+        public void Can_log_all_inner_exceptions()
+        {
+            // arrange
+            var exception = new Exception("Level 1", new Exception("Level 2", new Exception("Level 3")));
+
+            // act
+            _logger.InsertLog(LogLevel.Error, "Test exception", exception: exception);
+
+            // assert
+            var log = _logger.GetAllLogs().First();
+            Assert.That(log.ExceptionInfo.Message, Is.EqualTo("Level 1"));
+            Assert.That(log.ExceptionInfo.InnerException.Message, Is.EqualTo("Level 2"));
+            Assert.That(log.ExceptionInfo.InnerException.InnerException.Message, Is.EqualTo("Level 3"));
+            Assert.That(log.ExceptionInfo.InnerException.InnerException.InnerException, Is.Null);
         }
 
         public override IEnumerable<Engine.IDependencyRegistrar> GetDependencyRegistrars()
