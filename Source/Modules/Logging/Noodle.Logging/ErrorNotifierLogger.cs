@@ -68,21 +68,25 @@ namespace Noodle.Logging
         /// <param name="e">The <see cref="ErrorNotifierEventArgs"/> instance containing the event data.</param>
         private void OnErrorOccured(object sender, ErrorNotifierEventArgs e)
         {
-            if(e.Exception != null && !LogStore.IsErrorLoggable(e.Exception)) return;
+            if (e.Exception != null && !LogStore.IsErrorLoggable(e.Exception)) return;
 
             try
             {
                 if (e.Exception is LogException)
                 {
                     _logger.InsertLog((e.Exception as LogException).LogLevel,
-                                      (e.Exception as LogException).ShortMessage,
+                                      !string.IsNullOrEmpty(e.Message)
+                                          ? e.Message + "-" + (e.Exception as LogException).ShortMessage
+                                          : (e.Exception as LogException).ShortMessage,
                                       (e.Exception as LogException).FullMessage,
                                       e.Exception);
-                }else
+                }
+                else
                 {
                     _logger.Error(e.Message, e.Exception);
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 new Logger<ErrorNotifierLogger>().Error("There was a problem logging an exception from IErrorNotifier. " + ex.Message);
             }
