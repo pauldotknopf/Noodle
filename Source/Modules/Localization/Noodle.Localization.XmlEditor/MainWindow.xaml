@@ -17,6 +17,8 @@
             <telerik:RadMenuItem Header="File">
                 <telerik:RadMenuItem Header="Import" Command="{Binding ImportCommand}" />
                 <telerik:RadMenuItem Header="Export" Command="{Binding ExportCommand}" />
+                <telerik:RadMenuItem Header="Import Excel" Command="{Binding ImportExcelCommand}" />
+                <telerik:RadMenuItem Header="Export Excel" Command="{Binding ExportExcelCommand}" />
                 <telerik:RadMenuItem Header="Exit" Command="{Binding ExitCommand}" />
             </telerik:RadMenuItem>
             <telerik:RadMenuItem Header="Add language" Command="{Binding AddLanguageCommand}" />

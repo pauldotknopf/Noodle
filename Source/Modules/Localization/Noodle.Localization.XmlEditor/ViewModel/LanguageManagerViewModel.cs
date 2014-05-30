@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -8,8 +10,10 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Windows;
 using System.Xml;
+using Excel;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
+using MongoDB.Driver.Linq;
 using Noodle.Localization.Services;
 using Noodle.Localization.XmlEditor.Bing;
 using Telerik.Windows.Controls;
@@ -40,6 +44,8 @@ namespace Noodle.Localization.XmlEditor.ViewModel
             {
                 ImportCommand = new RelayCommand(Import);
                 ExportCommand = new RelayCommand(Export);
+                ImportExcelCommand = new RelayCommand(ImportExcel);
+                ExportExcelCommand = new RelayCommand(ExportExcel);
                 ExitCommand = new RelayCommand(Exit);
                 AddResourceCommand = new RelayCommand(AddResource, () => _languages.Count > 0);
                 AddLanguageCommand = new RelayCommand(AddLanguage);
@@ -121,6 +127,16 @@ namespace Noodle.Localization.XmlEditor.ViewModel
         public RelayCommand ExportCommand { get; protected set; }
 
         /// <summary>
+        /// Import excel file
+        /// </summary>
+        public RelayCommand ImportExcelCommand { get; protected set; }
+
+        /// <summary>
+        /// Export excel file
+        /// </summary>
+        public RelayCommand ExportExcelCommand { get; protected set; }
+
+        /// <summary>
         /// Exit the application
         /// </summary>
         public RelayCommand ExitCommand { get; protected set; }
@@ -143,6 +159,70 @@ namespace Noodle.Localization.XmlEditor.ViewModel
         #endregion
 
         #region Business Logic
+
+        private void ImportExcel()
+        {
+            try
+            {
+                var filePath = string.Format(@"C:\Users\Paul\Desktop\translations.xlsx");
+
+                FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read);
+                using (var excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream))
+                {
+                    excelReader.IsFirstRowAsColumnNames = true;
+                    var dataset = excelReader.AsDataSet();
+
+                    if (dataset.Tables.Count != 1)
+                        throw new Exception("You must have exactly one sheet.");
+
+                    var table = dataset.Tables[0];
+
+                    var columns = table.Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToList();
+
+                    if (columns.Count < 2)
+                        throw new Exception(
+                            "You must have at least two columns. First being the 'Name', and the second being a translated language.");
+
+                    if (columns[0] != "Name")
+                        throw new Exception("The first column must be 'Name'.");
+
+                    foreach (var translatedCultureCode in columns.Skip(1))
+                    {
+                        try
+                        {
+                            CultureInfo.CreateSpecificCulture(translatedCultureCode);
+                        }
+                        catch
+                        {
+                            throw new Exception("The translated culture '" + translatedCultureCode + "' is not valid.");
+                        }
+                    }
+
+                    foreach (DataRow entry in table.Rows)
+                    {
+                        var name = entry[0].ToString();
+                        for (var x = 1; x < columns.Count; x++)
+                        {
+                            var languageCulture = columns[x];
+                            var value = entry[x].ToString();
+
+                            var languageViewModel = Languages.Single(language => language.First.LanguageCulture == languageCulture);
+                            var resourceViewModel = languageViewModel.Second.Single(resource => resource.ResourceName == name);
+
+                            resourceViewModel.ResourceValue = value;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ExportExcel()
+        {
+        }
 
         private string Translate(string accessToken, string text, string from, string to)
         {
