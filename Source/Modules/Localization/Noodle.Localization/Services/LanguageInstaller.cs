@@ -66,8 +66,7 @@ namespace Noodle.Localization.Services
             }
             catch (Exception ex)
             {
-                Trace.WriteLine("Problem installing languages. " + ex.Message);
-                _errorNotifier.Notify(ex);
+                _errorNotifier.Notify("Problem installing languages", ex);
             }
         }
 

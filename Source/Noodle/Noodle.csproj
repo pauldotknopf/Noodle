@@ -105,6 +105,7 @@
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="EnumStringAttribute.cs" />
     <Compile Include="ErrorNotifier.cs" />
+    <Compile Include="ErrorNotifierEventArgs.cs" />
     <Compile Include="Extensions\CodeMirrorEnums.cs" />
     <Compile Include="FluentDateTime\DateTimeExtensions.cs" />
     <Compile Include="FluentDateTime\FluentTimeSpan.cs" />

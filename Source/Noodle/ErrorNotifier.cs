@@ -12,17 +12,18 @@ namespace Noodle
         /// <summary>
         /// Notify the system of an exception
         /// </summary>
-        /// <param name="ex"></param>
-        public void Notify(Exception ex)
+        /// <param name="message">The message.</param>
+        /// <param name="ex">The ex.</param>
+        public void Notify(string message, Exception ex)
         {
             if (ErrorOccured != null)
-                ErrorOccured(this, new NoodleEventArgs<Exception>(ex));
+                ErrorOccured(this, new ErrorNotifierEventArgs(message,  ex));
         }
 
         /// <summary>
         /// Raised when an error occurs
         /// </summary>
-        public event EventHandler<NoodleEventArgs<Exception>> ErrorOccured;
+        public event EventHandler<ErrorNotifierEventArgs> ErrorOccured;
 
         #endregion
     }

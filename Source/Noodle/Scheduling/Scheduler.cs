@@ -89,7 +89,7 @@ namespace Noodle.Scheduling
                             }
                             catch (Exception ex)
                             {
-                                _errorHandler.Notify(ex);
+                                _errorHandler.Notify("Noodle.Scheduling.Scheduler heartbeat error", ex);
                             }
                         }
                         action.LastExecuted = CommonHelper.CurrentTime();
