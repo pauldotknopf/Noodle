@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -6,93 +7,103 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace Noodle.Localization.Services
+namespace Noodle.Localization
 {
-    /// <summary>
-    /// The service that parses files into a workable set of languages/resources.
-    /// </summary>
-    public class LanguageFileParser : ILanguageFileParser
+    public static class Helpers
     {
-        /// <summary>
-        /// Deserialize the xml language file to an in memory collection for modification (and maybe inserting?)
-        /// </summary>
-        /// <param name="languagesXmlFileLocation">The languages XML file location.</param>
-        /// <returns></returns>
-        public List<Pair<Language, List<LocaleStringResource>>> DeserializeLanguagesFile(string languagesXmlFileLocation)
+        public static List<Pair<Language, List<LocaleStringResource>>> DeserializeLanguagesFile(string languagesXmlFileLocation)
         {
             var result = new List<Pair<Language, List<LocaleStringResource>>>();
             var originalXmlDocument = new XmlDocument();
 
             originalXmlDocument.Load(languagesXmlFileLocation);
-            var haveNewLanguageFile = originalXmlDocument.SelectSingleNode(@"//LanguageFile");
 
-            var pathToNodes = haveNewLanguageFile == null
-                ? @"//Languages/Language"
-                : @"//LanguageFile/Languages/Language";
-
-            var xmlNodeList = originalXmlDocument.SelectNodes(pathToNodes);
-            if (xmlNodeList != null)
-                foreach (XmlNode languageNode in xmlNodeList)
+            foreach (XmlNode languageNode in originalXmlDocument.SelectNodes(@"//Languages/Language"))
+            {
+                var pair = new Pair<Language, List<LocaleStringResource>>
                 {
-                    var pair = new Pair<Language, List<LocaleStringResource>>();
-                    pair.First = GetLanguage(languageNode);
-                    pair.Second = new List<LocaleStringResource>();
-                    result.Add(pair);
+                    First = GetLanguage(languageNode),
+                    Second = new List<LocaleStringResource>()
+                };
+                result.Add(pair);
 
-                    var resources = new List<LocaleStringResourceParent>();
+                var resources = new List<LocaleStringResourceParent>();
 
-                    foreach (XmlNode resNode in languageNode.SelectNodes(@"LocaleResource"))
-                        resources.Add(new LocaleStringResourceParent(resNode));
+                foreach (XmlNode resNode in languageNode.SelectNodes(@"LocaleResource"))
+                    resources.Add(new LocaleStringResourceParent(resNode));
 
-                    var sb = new StringBuilder();
-                    var writer = XmlWriter.Create(sb);
-                    writer.WriteStartDocument();
-                    writer.WriteStartElement("Language", "");
+                //resources.Sort((x1, x2) => String.CompareOrdinal(x1.ResourceName, x2.ResourceName));
+                //foreach (var resource in resources)
+                //    RecursivelySortChildrenResource(resource);
 
-                    writer.WriteStartAttribute("Name", "");
-                    writer.WriteString(languageNode.Attributes["Name"].InnerText.Trim());
-                    writer.WriteEndAttribute();
+                var sb = new StringBuilder();
+                var writer = XmlWriter.Create(sb);
+                writer.WriteStartDocument();
+                writer.WriteStartElement("Language", "");
 
-                    foreach (var resource in resources)
-                        RecursivelyWriteResource(resource, writer);
+                writer.WriteStartAttribute("Name", "");
+                writer.WriteString(languageNode.Attributes["Name"].InnerText.Trim());
+                writer.WriteEndAttribute();
 
-                    writer.WriteEndElement();
-                    writer.WriteEndDocument();
-                    writer.Flush();
+                foreach (var resource in resources)
+                    RecursivelyWriteResource(resource, writer);
 
-                    //read and parse resources (without <Children> elements)
-                    var resXml = new XmlDocument();
-                    var sr = new StringReader(sb.ToString());
-                    resXml.Load(sr);
-                    var resNodeList = resXml.SelectNodes(@"//Language/LocaleResource");
-                    foreach (XmlNode resNode in resNodeList)
+                writer.WriteEndElement();
+                writer.WriteEndDocument();
+                writer.Flush();
+
+
+
+                //read and parse resources (without <Children> elements)
+                var resXml = new XmlDocument();
+                var sr = new StringReader(sb.ToString());
+                resXml.Load(sr);
+                var resNodeList = resXml.SelectNodes(@"//Language/LocaleResource");
+                foreach (XmlNode resNode in resNodeList)
+                {
+                    if (resNode.Attributes != null && resNode.Attributes["Name"] != null)
                     {
-                        if (resNode.Attributes != null && resNode.Attributes["Name"] != null)
+                        var resName = resNode.Attributes["Name"].InnerText.Trim();
+                        var resValue = resNode.SelectSingleNode("Value").InnerText;
+                        if (!String.IsNullOrEmpty(resName))
                         {
-                            var resName = resNode.Attributes["Name"].InnerText.Trim();
-                            var resValue = resNode.SelectSingleNode("Value").InnerText;
-                            if (!String.IsNullOrEmpty(resName))
+                            //ensure it's not duplicate
+                            var duplicate =
+                                pair.Second.Any(
+                                    res1 =>
+                                    resName.Equals(res1.ResourceName, StringComparison.InvariantCultureIgnoreCase));
+
+                            if (duplicate)
+                                continue;
+
+                            //insert resource
+                            var lsr = new LocaleStringResource
                             {
-                                //ensure it's not duplicate
-                                var duplicate =
-                                    pair.Second.Any(
-                                        res1 =>
-                                            resName.Equals(res1.ResourceName, StringComparison.InvariantCultureIgnoreCase));
-
-                                if (duplicate)
-                                    continue;
-
-                                //insert resource
-                                var lsr = new LocaleStringResource
-                                {
-                                    ResourceName = resName,
-                                    ResourceValue = resValue
-                                };
-                                pair.Second.Add(lsr);
-                            }
+                                ResourceName = resName,
+                                ResourceValue = resValue
+                            };
+                            pair.Second.Add(lsr);
                         }
                     }
                 }
+            }
+            return result;
+        }
+
+        public static List<KeyMapping> DeserializeLanguageFileMappings(string languagesXmlFileLocation)
+        {
+            var result = new List<KeyMapping>();
+            var originalXmlDocument = new XmlDocument();
+
+            originalXmlDocument.Load(languagesXmlFileLocation);
+
+            foreach (XmlNode mapNode in originalXmlDocument.SelectNodes(@"//LanguageFile/Mappings/Map"))
+            {
+                var keyMapping = new KeyMapping();
+                keyMapping.MappingFrom = mapNode.Attributes.Item(0).Value;
+                keyMapping.MappingTo = mapNode.Attributes.Item(1).Value;
+                result.Add(keyMapping);
+            }
             return result;
         }
 
@@ -102,7 +113,7 @@ namespace Noodle.Localization.Services
         /// <param name="resource">The resource.</param>
         /// <param name="writer">The writer.</param>
         /// <remarks></remarks>
-        private void RecursivelyWriteResource(LocaleStringResourceParent resource, XmlWriter writer)
+        private static void RecursivelyWriteResource(LocaleStringResourceParent resource, XmlWriter writer)
         {
             //The value isn't actually used, but the name is used to create a namespace.
             if (resource.IsPersistable)
@@ -132,7 +143,7 @@ namespace Noodle.Localization.Services
         /// <param name="languageNode">The language node.</param>
         /// <returns>The language representing the current node</returns>
         /// <remarks></remarks>
-        private Language GetLanguage(XmlNode languageNode)
+        public static Language GetLanguage(XmlNode languageNode)
         {
             var nameAttribute = languageNode.Attributes["Name"];
             if (nameAttribute == null || string.IsNullOrEmpty(nameAttribute.Value))
@@ -159,13 +170,11 @@ namespace Noodle.Localization.Services
             };
         }
 
-        #region Nested Types
-
         /// <summary>
         /// This class helps to manage recursive references
         /// </summary>
         /// <remarks></remarks>
-        private class LocaleStringResourceParent : LocaleStringResource
+        private sealed class LocaleStringResourceParent : LocaleStringResource
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="LocaleStringResourceParent"/> class.
@@ -210,19 +219,19 @@ namespace Noodle.Localization.Services
             /// </summary>
             /// <value>The namespace.</value>
             /// <remarks></remarks>
-            public string Namespace { get; set; }
+            private string Namespace { get; set; }
 
             /// <summary>
             /// The child resources
             /// </summary>
-            public IList<LocaleStringResourceParent> ChildLocaleStringResources = new List<LocaleStringResourceParent>();
+            public readonly IList<LocaleStringResourceParent> ChildLocaleStringResources = new List<LocaleStringResourceParent>();
 
             /// <summary>
             /// Gets or sets a value indicating whether this instance is persistable.
             /// </summary>
             /// <value><c>true</c> if this instance is persistable; otherwise, <c>false</c>.</value>
             /// <remarks></remarks>
-            public bool IsPersistable { get; set; }
+            public bool IsPersistable { get; private set; }
 
             /// <summary>
             /// Gets the name with namespace.
@@ -241,7 +250,5 @@ namespace Noodle.Localization.Services
                 }
             }
         }
-
-        #endregion
     }
 }

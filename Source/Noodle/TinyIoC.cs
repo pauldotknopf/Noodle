@@ -70,14 +70,13 @@ namespace Noodle
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
 	using System.Threading;
 
 #if EXPRESSIONS
     using System.Linq.Expressions;
-    using System.Threading;
+
 
 #endif
 
@@ -778,6 +777,9 @@ namespace Noodle
     }
     #endregion
 
+#if ANDROID
+    [Android.Runtime.Preserve(AllMembers = true)]
+#endif
     public sealed partial class TinyIoCContainer : IDisposable
     {
         #region Fake NETFX_CORE Classes

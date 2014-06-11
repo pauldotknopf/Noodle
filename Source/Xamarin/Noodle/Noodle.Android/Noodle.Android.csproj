@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5D10C330-F646-4E4A-96F3-1DF396DCB89C}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Noodle</RootNamespace>
+    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+    <AndroidResgenClass>Resource</AndroidResgenClass>
+    <AssemblyName>Noodle.Android</AssemblyName>
+    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;__MOBILE__;__ANDROID__;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>__MOBILE__;__ANDROID__;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Android" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="..\..\..\Noodle\BaseEntity.cs">
+      <Link>BaseEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\CommonHelper.cs">
+      <Link>CommonHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\EngineContext.cs">
+      <Link>EngineContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\IPagedList.cs">
+      <Link>IPagedList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\ISettings.cs">
+      <Link>ISettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\IStartupTask.cs">
+      <Link>IStartupTask.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\NoodleException.cs">
+      <Link>NoodleException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\PagedList.cs">
+      <Link>PagedList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\StringExtensions.cs">
+      <Link>StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\TimeUnit.cs">
+      <Link>TimeUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\TinyIoC.cs">
+      <Link>TinyIoC.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\TinyIoCExtensions.cs">
+      <Link>TinyIoCExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\ComponentModel\BooleanTypConverter.cs">
+      <Link>ComponentModel\BooleanTypConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\ComponentModel\GenericListTypeConverter.cs">
+      <Link>ComponentModel\GenericListTypeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\AppDomainTypeFinder.cs">
+      <Link>Engine\AppDomainTypeFinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\AssemblyFinder.cs">
+      <Link>Engine\AssemblyFinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\AsyncWorker.cs">
+      <Link>Engine\AsyncWorker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\CoreDependencyRegistrar.cs">
+      <Link>Engine\CoreDependencyRegistrar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\ExcludedAssemblies.cs">
+      <Link>Engine\ExcludedAssemblies.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\IAssemblyFinder.cs">
+      <Link>Engine\IAssemblyFinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\IDependencyRegistrar.cs">
+      <Link>Engine\IDependencyRegistrar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\IExcludedAssemblies.cs">
+      <Link>Engine\IExcludedAssemblies.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\IIncludedAssemblies.cs">
+      <Link>Engine\IIncludedAssemblies.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\IIncludedOnlyAssemblies.cs">
+      <Link>Engine\IIncludedOnlyAssemblies.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\IncludedAssemblies.cs">
+      <Link>Engine\IncludedAssemblies.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\IncludedOnlyAssemblies.cs">
+      <Link>Engine\IncludedOnlyAssemblies.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\ITypeFinder.cs">
+      <Link>Engine\ITypeFinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\IWorker.cs">
+      <Link>Engine\IWorker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\Logger.cs">
+      <Link>Engine\Logger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\Engine\Singleton.cs">
+      <Link>Engine\Singleton.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\IO\Overwrite.cs">
+      <Link>IO\Overwrite.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\IO\Path.cs">
+      <Link>IO\Path.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Noodle\IO\PathConverter.cs">
+      <Link>IO\PathConverter.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AboutResources.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\Strings.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="ComponentModel\" />
+    <Folder Include="Engine\" />
+    <Folder Include="IO\" />
+  </ItemGroup>
+</Project>
