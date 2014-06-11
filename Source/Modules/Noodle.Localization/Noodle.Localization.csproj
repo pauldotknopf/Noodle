@@ -55,8 +55,10 @@
     <Compile Include="CodeFirst\LocalizationNodeExpressionVisitor.cs" />
     <Compile Include="CodeFirst\ResourceNamespaceAttribute.cs" />
     <Compile Include="DependencyRegistrar.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="ILocalizedEntity.cs" />
     <Compile Include="ILocalizedEnum.cs" />
+    <Compile Include="KeyMapping.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="LocaleStringResource.cs" />
     <Compile Include="LocalizationExtensions.cs" />

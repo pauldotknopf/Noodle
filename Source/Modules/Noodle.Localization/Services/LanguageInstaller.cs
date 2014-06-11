@@ -67,74 +67,81 @@ namespace Noodle.Localization.Services
             var originalXmlDocument = new XmlDocument();
 
             originalXmlDocument.Load(languagesXmlFileLocation);
+            var haveNewLanguageFile = originalXmlDocument.SelectSingleNode(@"//LanguageFile");
 
-            foreach (XmlNode languageNode in originalXmlDocument.SelectNodes(@"//Languages/Language"))
-            {
-                var pair = new Pair<Language, List<LocaleStringResource>>();
-                pair.First = GetLanguage(languageNode);
-                pair.Second = new List<LocaleStringResource>();
-                result.Add(pair);
+            var pathToNodes = haveNewLanguageFile == null
+                ? @"//Languages/Language"
+                : @"//LanguageFile/Languages/Language";
 
-                var resources = new List<LocaleStringResourceParent>();
-
-                foreach (XmlNode resNode in languageNode.SelectNodes(@"LocaleResource"))
-                    resources.Add(new LocaleStringResourceParent(resNode));
-
-                //resources.Sort((x1, x2) => String.CompareOrdinal(x1.ResourceName, x2.ResourceName));
-                //foreach (var resource in resources)
-                //    RecursivelySortChildrenResource(resource);
-
-                var sb = new StringBuilder();
-                var writer = XmlWriter.Create(sb);
-                writer.WriteStartDocument();
-                writer.WriteStartElement("Language", "");
-
-                writer.WriteStartAttribute("Name", "");
-                writer.WriteString(languageNode.Attributes["Name"].InnerText.Trim());
-                writer.WriteEndAttribute();
-
-                foreach (var resource in resources)
-                    RecursivelyWriteResource(resource, writer);
-
-                writer.WriteEndElement();
-                writer.WriteEndDocument();
-                writer.Flush();
-
-
-
-                //read and parse resources (without <Children> elements)
-                var resXml = new XmlDocument();
-                var sr = new StringReader(sb.ToString());
-                resXml.Load(sr);
-                var resNodeList = resXml.SelectNodes(@"//Language/LocaleResource");
-                foreach (XmlNode resNode in resNodeList)
+            var xmlNodeList = originalXmlDocument.SelectNodes(pathToNodes);
+            if (xmlNodeList != null)
+                foreach (XmlNode languageNode in xmlNodeList)
                 {
-                    if (resNode.Attributes != null && resNode.Attributes["Name"] != null)
+                    var pair = new Pair<Language, List<LocaleStringResource>>();
+                    pair.First = GetLanguage(languageNode);
+                    pair.Second = new List<LocaleStringResource>();
+                    result.Add(pair);
+
+                    var resources = new List<LocaleStringResourceParent>();
+
+                    foreach (XmlNode resNode in languageNode.SelectNodes(@"LocaleResource"))
+                        resources.Add(new LocaleStringResourceParent(resNode));
+
+                    //resources.Sort((x1, x2) => String.CompareOrdinal(x1.ResourceName, x2.ResourceName));
+                    //foreach (var resource in resources)
+                    //    RecursivelySortChildrenResource(resource);
+
+                    var sb = new StringBuilder();
+                    var writer = XmlWriter.Create(sb);
+                    writer.WriteStartDocument();
+                    writer.WriteStartElement("Language", "");
+
+                    writer.WriteStartAttribute("Name", "");
+                    writer.WriteString(languageNode.Attributes["Name"].InnerText.Trim());
+                    writer.WriteEndAttribute();
+
+                    foreach (var resource in resources)
+                        RecursivelyWriteResource(resource, writer);
+
+                    writer.WriteEndElement();
+                    writer.WriteEndDocument();
+                    writer.Flush();
+
+
+
+                    //read and parse resources (without <Children> elements)
+                    var resXml = new XmlDocument();
+                    var sr = new StringReader(sb.ToString());
+                    resXml.Load(sr);
+                    var resNodeList = resXml.SelectNodes(@"//Language/LocaleResource");
+                    foreach (XmlNode resNode in resNodeList)
                     {
-                        var resName = resNode.Attributes["Name"].InnerText.Trim();
-                        var resValue = resNode.SelectSingleNode("Value").InnerText;
-                        if (!String.IsNullOrEmpty(resName))
+                        if (resNode.Attributes != null && resNode.Attributes["Name"] != null)
                         {
-                            //ensure it's not duplicate
-                            var duplicate =
-                                pair.Second.Any(
-                                    res1 =>
-                                    resName.Equals(res1.ResourceName, StringComparison.InvariantCultureIgnoreCase));
-
-                            if (duplicate)
-                                continue;
-
-                            //insert resource
-                            var lsr = new LocaleStringResource
+                            var resName = resNode.Attributes["Name"].InnerText.Trim();
+                            var resValue = resNode.SelectSingleNode("Value").InnerText;
+                            if (!String.IsNullOrEmpty(resName))
                             {
-                                ResourceName = resName,
-                                ResourceValue = resValue
-                            };
-                            pair.Second.Add(lsr);
+                                //ensure it's not duplicate
+                                var duplicate =
+                                    pair.Second.Any(
+                                        res1 =>
+                                            resName.Equals(res1.ResourceName, StringComparison.InvariantCultureIgnoreCase));
+
+                                if (duplicate)
+                                    continue;
+
+                                //insert resource
+                                var lsr = new LocaleStringResource
+                                {
+                                    ResourceName = resName,
+                                    ResourceValue = resValue
+                                };
+                                pair.Second.Add(lsr);
+                            }
                         }
                     }
                 }
-            }
             return result;
         }
 
