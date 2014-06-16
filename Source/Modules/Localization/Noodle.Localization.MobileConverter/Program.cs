@@ -104,18 +104,38 @@ namespace Noodle.Localization.MobileConverter
                 var builder = new StringBuilder();
                 builder.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
                 builder.AppendLine("<resources>");
+
                 foreach (var resource in stringLocaleResourceList)
                 {
                     resource.ResourceValue = resource.ResourceValue.Replace("{", "\\{")
                         .Replace("}", "\\}")
-                        .Replace("\"", "\\\"");
+                        .Replace("\"", "\\\"").Replace("\'", "\\'");
                     builder.AppendLine("<string name=\"" + resource.ResourceName + "\">" + resource.ResourceValue + "</string>");
                 }
+
+                //Do mappings
+                var mappingsList = Helpers.DeserializeLanguageFileMappings(inputPath);
+                foreach (var mapping in mappingsList)
+                {
+                    var mapping1 = mapping;
+                    foreach (var resource in stringLocaleResourceList.Where(resource => resource.ResourceName == mapping1.MappingTo))
+                    {
+                        resource.ResourceValue = resource.ResourceValue.Replace("{", "\\{")
+                       .Replace("}", "\\}")
+                       .Replace("\"", "\\\"").Replace("\'", "\\'");
+                        builder.AppendLine("<string name=\"" + mapping.MappingFrom + "\">" + resource.ResourceValue + "</string>");
+                        // Only want one mapping...break incase there are doubles. Don't want to have doubles in output.
+                        break;
+                    }
+                }
+
                 builder.AppendLine("</resources>");
+
                 Directory.CreateDirectory(outputDirectory + "/values-" + cultureCode);
                 File.WriteAllText(outputDirectory + "/values-" + cultureCode + "/Strings.xml", builder.ToString());
             }
         }
+
     }
 
     // A class that describes the command line arguments for this program
