@@ -19,7 +19,6 @@ namespace Noodle.Settings
 
         #region Fields
 
-        private readonly TinyIoCContainer _container;
         private readonly MongoCollection<Setting> _settingsCollection;
         private readonly ICacheManager _cacheManager;
 
@@ -31,15 +30,12 @@ namespace Noodle.Settings
         /// Ctor
         /// </summary>
         /// <param name="cacheManager">The cache manager.</param>
-        /// <param name="container">The container.</param>
         /// <param name="settingsCollection">The mongo settings collection</param>
         /// <remarks></remarks>
-        public SettingService(ICacheManager cacheManager, 
-            TinyIoCContainer container,
+        public SettingService(ICacheManager cacheManager,
             MongoCollection<Setting> settingsCollection)
         {
             _cacheManager = cacheManager;
-            _container = container;
             _settingsCollection = settingsCollection;
         }
 

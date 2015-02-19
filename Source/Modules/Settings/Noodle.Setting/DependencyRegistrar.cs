@@ -45,7 +45,7 @@ namespace Noodle.Settings
                                 type = typeof(Setting);
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             type = typeof(Setting);
                         }
@@ -92,7 +92,7 @@ namespace Noodle.Settings
             try
             {
                 BsonSerializer.RegisterDiscriminatorConvention(typeof(Setting), new SettingsDiscriminatorConvention());
-            }catch(BsonSerializationException ex)
+            }catch(BsonSerializationException)
             {
                 // ensure that we can call this multiple times in same app domain for unit tests
             }

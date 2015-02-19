@@ -13,9 +13,6 @@ namespace Noodle.MongoDB
     public class MongoService : IMongoService
     {
         private readonly IConnectionProvider _connectionProvider;
-        private Dictionary<string, MongoClient> _cachedClients = new Dictionary<string, MongoClient>();
-        private Dictionary<string, MongoServer> _cachedServers = new Dictionary<string, MongoServer>();
-        private Dictionary<string, MongoDatabase> _cachedDatabase = new Dictionary<string, MongoDatabase>(); 
 
         /// <summary>
         /// Ctor
