@@ -87,8 +87,8 @@ namespace Noodle.Logging
             if(!string.IsNullOrEmpty(message))
             {
                 var regex = new Regex(message, RegexOptions.IgnoreCase);
-                filters.Add(Query.Or(Query.EQ("ShortMessage", BsonRegularExpression.Create(regex)),
-                    Query.EQ("FullMessage", BsonRegularExpression.Create(regex))));
+                filters.Add(Query.Or(Query.EQ("ShortMessage", new BsonRegularExpression(regex)),
+                    Query.EQ("FullMessage", new BsonRegularExpression(regex))));
             }
             
             var query = filters.Any() ? Query.And(filters) : null;
