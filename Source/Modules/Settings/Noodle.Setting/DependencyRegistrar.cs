@@ -28,7 +28,7 @@ namespace Noodle.Settings
                     var type = nominalType;
                     if (bsonReader.FindElement(ElementName))
                     {
-                        var discriminator = BsonValue.ReadFrom(bsonReader).AsString;
+                        var discriminator = BsonSerializer.Deserialize<BsonString>(bsonReader).AsString;
                         try
                         {
                             if(discriminator == "Typed")
@@ -38,7 +38,7 @@ namespace Noodle.Settings
                                 bsonReader.ReturnToBookmark(bookmark);
                                 bsonReader.ReadStartDocument();
                                 bsonReader.FindElement("Name");
-                                var stringType = BsonValue.ReadFrom(bsonReader).AsString;
+                                var stringType = BsonSerializer.Deserialize<BsonString>(bsonReader).AsString;
                                 type = type.MakeGenericType(Type.GetType(stringType));
                             }else if(discriminator == "Setting")
                             {
