@@ -1,4 +1,4 @@
-﻿namespace Noodle
+namespace Noodle
 {
     /// <summary>
     /// This interface marks settings classes as settings.

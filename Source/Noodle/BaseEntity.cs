@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Noodle
 {
@@ -6,7 +6,7 @@ namespace Noodle
     /// Base class for entities
     /// </summary>
 #if IOS
-	[MonoTouch.Foundation.Preserve(AllMembers=true)]
+	[Foundation.Preserve(AllMembers=true)]
 #endif
     public abstract class BaseEntity<T>
     {
