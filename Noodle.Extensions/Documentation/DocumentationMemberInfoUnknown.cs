@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
+﻿using System.Xml;
 
-namespace Noodle.Documentation
+namespace Noodle.Extensions.Documentation
 {
     /// <summary>
     /// These member infos are used if no plugins can build one for the node.

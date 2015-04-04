@@ -1,4 +1,4 @@
-using Noodle.Plugins;
+using Noodle.Extensions.Plugins;
 using Noodle.Tests.Plugins;
 
 [assembly:Plugin("Testplugin", "testplugin", typeof(PlugIn1))]

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Noodle.Collections
+namespace Noodle.Extensions.Collections
 {
     /// <summary>
     /// Query items in the list (possibly by querying the database).

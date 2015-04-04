@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
 using Noodle.Caching;
+using Noodle.Extensions.Caching;
 
 namespace Noodle.Web.Caching
 {

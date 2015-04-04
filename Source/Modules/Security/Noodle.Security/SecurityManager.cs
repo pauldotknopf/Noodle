@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Principal;
+using Noodle.Extensions.Security;
 using Noodle.Security.Permissions;
 using Noodle.Security.Users;
 

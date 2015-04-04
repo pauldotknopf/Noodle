@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading;
 using Moq;
+using Noodle.Extensions.Plugins;
+using Noodle.Extensions.Scheduling;
 using NUnit.Framework;
 using Noodle.Engine;
-using Noodle.Plugins;
-using Noodle.Scheduling;
 
 namespace Noodle.Tests.Scheduling
 {

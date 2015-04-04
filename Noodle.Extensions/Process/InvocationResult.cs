@@ -1,4 +1,4 @@
-﻿namespace Noodle.Process
+﻿namespace Noodle.Extensions.Process
 {
     public class InvocationResult
     {

@@ -1,4 +1,4 @@
-﻿namespace Noodle.Caching
+﻿namespace Noodle.Extensions.Caching
 {
     /// <summary>
     /// Cache manager interface

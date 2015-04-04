@@ -6,6 +6,8 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Noodle.Caching;
+using Noodle.Extensions.Caching;
+using Noodle.Extensions.Security;
 
 namespace Noodle.Security.Users
 {

@@ -1,6 +1,6 @@
 ﻿using System.Security.Principal;
 
-namespace Noodle.Security
+namespace Noodle.Extensions.Security
 {
     /// <summary>
     /// A manager resonsible for managing permissions.

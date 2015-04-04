@@ -1,4 +1,4 @@
-﻿namespace Noodle.Collections
+﻿namespace Noodle.Extensions.Collections
 {
     /// <summary>
     /// An item that has a name.

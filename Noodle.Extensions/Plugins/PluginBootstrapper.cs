@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Noodle.Engine;
 
-namespace Noodle.Plugins
+namespace Noodle.Extensions.Plugins
 {
 	/// <summary>
 	/// Finds plugins and calls their initializer.

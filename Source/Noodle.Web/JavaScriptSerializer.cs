@@ -1,4 +1,4 @@
-﻿using Noodle.Serialization;
+﻿using Noodle.Extensions.Serialization;
 
 namespace Noodle.Web
 {

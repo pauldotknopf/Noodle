@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Noodle.Collections
+namespace Noodle.Extensions.Collections
 {
     /// <summary>
     /// A list of items that have a name with dictionary-like semantics.

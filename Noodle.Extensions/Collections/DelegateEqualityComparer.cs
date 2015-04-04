@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Noodle.Collections
+namespace Noodle.Extensions.Collections
 {
     /// <summary>
     /// Compare two objects with a delegate

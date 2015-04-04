@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Noodle.FluentDateTime
+namespace Noodle.Extensions.FluentDateTime
 {
     /// <summary>
     /// Static class containing Fluent <see cref="DateTime"/> extension methods.

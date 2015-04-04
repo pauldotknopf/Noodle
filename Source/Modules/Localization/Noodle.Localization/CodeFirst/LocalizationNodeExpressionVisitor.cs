@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Noodle.Linq;
+using Noodle.Extensions.Linq;
 
 namespace Noodle.Localization.CodeFirst
 {

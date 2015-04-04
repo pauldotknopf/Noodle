@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Noodle.Scheduling
+namespace Noodle.Extensions.Scheduling
 {
     /// <summary>
     /// Base class for actions that can be scheduled to be executed by the 

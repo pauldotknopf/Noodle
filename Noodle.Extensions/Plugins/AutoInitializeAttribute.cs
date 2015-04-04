@@ -1,6 +1,6 @@
 using System;
 
-namespace Noodle.Plugins
+namespace Noodle.Extensions.Plugins
 {
 	/// <summary>
 	/// Marks a plugin initializer as eligible for auto initialization.

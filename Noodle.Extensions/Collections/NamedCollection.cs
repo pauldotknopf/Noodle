@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Noodle.Collections
+namespace Noodle.Extensions.Collections
 {
     /// <summary>
     /// A collection of INameable objects

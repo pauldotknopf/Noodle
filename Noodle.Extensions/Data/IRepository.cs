@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Noodle.Data
+namespace Noodle.Extensions.Data
 {
     /// <summary>
     /// A repository that can be used for LinqToSql, EntityFramework and even nHibernate! Lets keep db-access garbage out of the libraries!

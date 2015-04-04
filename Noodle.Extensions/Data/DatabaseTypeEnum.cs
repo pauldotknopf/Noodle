@@ -1,4 +1,4 @@
-﻿namespace Noodle.Data
+﻿namespace Noodle.Extensions.Data
 {
     /// <summary>
     /// Database type enum

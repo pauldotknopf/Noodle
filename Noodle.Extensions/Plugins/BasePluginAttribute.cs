@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Noodle.Plugins
+namespace Noodle.Extensions.Plugins
 {
     public class BasePluginAttribute : Attribute, IPlugin
     {

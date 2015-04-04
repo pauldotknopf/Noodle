@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Security.Principal;
 
-namespace Noodle.Security
+namespace Noodle.Extensions.Security
 {
     public static class SecurableExtensions
     {

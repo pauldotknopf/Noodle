@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Noodle.Collections
+namespace Noodle.Extensions.Collections
 {
     /// <summary>
     /// Retrieves a subset of the list.

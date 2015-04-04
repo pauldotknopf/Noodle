@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using MongoDB.Bson;
-using Noodle.Collections;
+using Noodle.Extensions.Collections;
 
 namespace Noodle.Localization.Services
 {

@@ -8,7 +8,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Noodle.IO
+namespace Noodle.Extensions.IO
 {
     /// <summary>
     /// Taken from "http://fluentpath.codeplex.com"

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Noodle.FluentDateTime;
+using Noodle.Extensions.FluentDateTime;
 
-namespace Noodle.Caching
+namespace Noodle.Extensions.Caching
 {
     /// <summary>
     /// This implemention of ICacheManager stores items in memory.

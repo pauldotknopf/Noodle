@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
-using Noodle.Documentation.BuiltIn;
+using Noodle.Extensions.Documentation.BuiltIn;
 
-namespace Noodle.Documentation
+namespace Noodle.Extensions.Documentation
 {
     public class DocumentationMember
     {

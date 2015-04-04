@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Noodle.Plugins
+namespace Noodle.Extensions.Plugins
 {
 	/// <summary>
 	/// Interface denoting plug-in attributes that are displayed throughout 

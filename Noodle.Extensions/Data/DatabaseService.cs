@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Noodle.Data
+namespace Noodle.Extensions.Data
 {
     /// <summary>
     /// Common helper for querying connections

@@ -1,4 +1,4 @@
-﻿namespace Noodle.Extensions
+﻿namespace Noodle.Extensions.Other
 {
     /// <summary>
     /// Code mirror editor modes

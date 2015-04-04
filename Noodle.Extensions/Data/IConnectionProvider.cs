@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace Noodle.Data
+namespace Noodle.Extensions.Data
 {
     /// <summary>
     /// A provider of connections (go figuire).

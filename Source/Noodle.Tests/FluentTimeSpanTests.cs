@@ -1,6 +1,6 @@
 ﻿using System;
+using Noodle.Extensions.FluentDateTime;
 using NUnit.Framework;
-using Noodle.FluentDateTime;
 
 namespace Noodle.Tests
 {

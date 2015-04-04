@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
+﻿using System.Xml;
 
-namespace Noodle.Documentation.BuiltIn
+namespace Noodle.Extensions.Documentation.BuiltIn
 {
     public class DocumentationMemberSummary : DocumentationMemberInfo
     {

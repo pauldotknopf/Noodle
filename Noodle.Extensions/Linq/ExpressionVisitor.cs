@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Collections.ObjectModel;
 
-namespace Noodle.Linq
+namespace Noodle.Extensions.Linq
 {
     /// <summary>
     /// A base expression visitor for linq expression translations

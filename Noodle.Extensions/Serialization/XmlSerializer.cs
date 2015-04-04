@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 
-namespace Noodle.Serialization
+namespace Noodle.Extensions.Serialization
 {
     /// <summary>
     /// Serialies to and from xml

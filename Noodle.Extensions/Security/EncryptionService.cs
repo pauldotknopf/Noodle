@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
-namespace Noodle.Security
+
+namespace Noodle.Extensions.Security
 {
     public class EncryptionService : IEncryptionService
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Noodle.Process
+namespace Noodle.Extensions.Process
 {
     public class ProcessCommand
     {

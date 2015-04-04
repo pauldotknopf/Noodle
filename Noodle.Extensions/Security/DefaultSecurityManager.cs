@@ -1,4 +1,4 @@
-﻿namespace Noodle.Security
+﻿namespace Noodle.Extensions.Security
 {
     /// <summary>
     /// The default/limited security manage implementation

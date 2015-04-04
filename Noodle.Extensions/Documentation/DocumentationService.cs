@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml;
-using Noodle.Plugins;
+using Noodle.Extensions.Plugins;
 
-namespace Noodle.Documentation
+namespace Noodle.Extensions.Documentation
 {
     /// <summary>
     /// Manages all things involved in deserializing/consuming an xml documentation file

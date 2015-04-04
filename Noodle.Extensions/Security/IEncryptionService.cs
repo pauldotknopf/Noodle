@@ -1,5 +1,5 @@
 ﻿
-namespace Noodle.Security
+namespace Noodle.Extensions.Security
 {
     public interface IEncryptionService
     {

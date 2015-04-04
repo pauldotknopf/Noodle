@@ -1,4 +1,4 @@
-﻿namespace Noodle.Email
+﻿namespace Noodle.Extensions.Email
 {
     /// <summary>
     /// Email server connection settings

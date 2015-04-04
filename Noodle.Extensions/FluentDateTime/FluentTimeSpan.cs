@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Noodle.FluentDateTime
+namespace Noodle.Extensions.FluentDateTime
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct FluentTimeSpan : IEquatable<FluentTimeSpan>, IComparable<TimeSpan>, IComparable<FluentTimeSpan>

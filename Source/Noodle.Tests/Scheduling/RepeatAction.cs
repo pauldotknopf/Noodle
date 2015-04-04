@@ -1,4 +1,4 @@
-﻿using Noodle.Scheduling;
+﻿using Noodle.Extensions.Scheduling;
 
 namespace Noodle.Tests.Scheduling
 {

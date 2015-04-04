@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Noodle.Extensions.Collections;
 using NUnit.Framework;
-using Noodle.Collections;
 
 namespace Noodle.Tests
 {

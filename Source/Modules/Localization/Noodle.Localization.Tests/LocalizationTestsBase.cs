@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using Noodle.Collections;
+using Noodle.Extensions.Collections;
 using Noodle.Localization.Services;
 using Noodle.Settings;
 using Noodle.Tests;

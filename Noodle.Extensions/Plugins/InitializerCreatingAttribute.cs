@@ -1,5 +1,6 @@
 using System;
-namespace Noodle.Plugins
+
+namespace Noodle.Extensions.Plugins
 {
 	/// <summary>
 	/// Base class for attributes which can create an instance of the plugin 

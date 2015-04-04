@@ -1,4 +1,4 @@
-﻿namespace Noodle.Serialization
+﻿namespace Noodle.Extensions.Serialization
 {
     /// <summary>
     /// Service responsible for serializing and deserializing strings to objects

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Noodle.Collections
+namespace Noodle.Extensions.Collections
 {
     /// <summary>
     /// A collection of INameable objects

@@ -7,6 +7,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Noodle.Caching;
 using Noodle.Engine;
+using Noodle.Extensions.Caching;
 using Noodle.Security.Users;
 
 namespace Noodle.Security.Activity

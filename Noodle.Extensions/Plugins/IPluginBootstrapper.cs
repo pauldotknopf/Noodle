@@ -1,4 +1,4 @@
-namespace Noodle.Plugins
+namespace Noodle.Extensions.Plugins
 {
 	/// <summary>
 	/// Finds plugins and calls their initializer.

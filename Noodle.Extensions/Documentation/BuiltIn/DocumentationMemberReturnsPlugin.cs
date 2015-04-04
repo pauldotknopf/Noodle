@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Noodle.Documentation.BuiltIn
+﻿namespace Noodle.Extensions.Documentation.BuiltIn
 {
     [DocumentationMemberInfoPlugin]
     public class DocumentationMemberReturnsPlugin : DocumentationMemberInfoPlugin

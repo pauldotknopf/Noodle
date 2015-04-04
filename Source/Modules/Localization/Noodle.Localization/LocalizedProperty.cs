@@ -1,5 +1,5 @@
 ﻿using MongoDB.Bson;
-using Noodle.Collections;
+using Noodle.Extensions.Collections;
 
 namespace Noodle.Localization
 {

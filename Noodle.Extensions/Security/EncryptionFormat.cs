@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Noodle.Security
+﻿namespace Noodle.Extensions.Security
 {
     /// <summary>
     /// The type of encrpytion

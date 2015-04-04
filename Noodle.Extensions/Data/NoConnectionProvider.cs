@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
 
-namespace Noodle.Data
+namespace Noodle.Extensions.Data
 {
     /// <summary>
     /// Provide connections to anyone who cares

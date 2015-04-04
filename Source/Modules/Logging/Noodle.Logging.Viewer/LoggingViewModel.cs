@@ -7,7 +7,7 @@ using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MongoDB.Driver;
-using Noodle.Data;
+using Noodle.Extensions.Data;
 
 namespace Noodle.Logging.Viewer
 {

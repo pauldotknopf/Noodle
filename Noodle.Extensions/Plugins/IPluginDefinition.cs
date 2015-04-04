@@ -1,4 +1,4 @@
-namespace Noodle.Plugins
+namespace Noodle.Extensions.Plugins
 {
 	/// <summary>
 	/// Classes implementing this interface define plugins and are responsible of

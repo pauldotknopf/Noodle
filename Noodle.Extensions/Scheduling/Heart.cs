@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Timers;
 
-namespace Noodle.Scheduling
+namespace Noodle.Extensions.Scheduling
 {
     /// <summary>
     /// A wrapper for a timer that beats at a certain interval.

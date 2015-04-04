@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Noodle.Caching
+namespace Noodle.Extensions.Caching
 {
     /// <summary>
     /// An Implemntation of ICacheManager that doesn't cache

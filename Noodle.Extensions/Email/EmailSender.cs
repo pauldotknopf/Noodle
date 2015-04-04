@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 
-namespace Noodle.Email
+namespace Noodle.Extensions.Email
 {
     /// <summary>
     /// Implementations of this interface can send e-mails

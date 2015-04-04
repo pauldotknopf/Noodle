@@ -2,7 +2,7 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Noodle.Reflection
+namespace Noodle.Extensions.Reflection
 {
 
     public static class Private

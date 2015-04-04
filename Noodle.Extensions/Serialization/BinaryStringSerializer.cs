@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Noodle.Serialization
+namespace Noodle.Extensions.Serialization
 {
     /// <summary>
     /// Serializer that serializers to a binary string

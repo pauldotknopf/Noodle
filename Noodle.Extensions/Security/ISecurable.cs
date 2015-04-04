@@ -1,4 +1,4 @@
-﻿namespace Noodle.Security
+﻿namespace Noodle.Extensions.Security
 {
     /// <summary>
     /// Plugins implementing this interface can have define security requirements

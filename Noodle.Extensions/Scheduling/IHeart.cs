@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Noodle.Scheduling
+namespace Noodle.Extensions.Scheduling
 {
     /// <summary>
     /// Interface of a timer wrapper that beats at a certain interval.

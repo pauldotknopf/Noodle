@@ -1,6 +1,6 @@
 using System;
 
-namespace Noodle.Plugins
+namespace Noodle.Extensions.Plugins
 {
 	/// <summary>
 	/// Use this attribute to denote plugins and reference a plugin initializer 

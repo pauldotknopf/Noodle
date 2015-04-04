@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Security.Principal;
 
-namespace Noodle.Plugins
+namespace Noodle.Extensions.Plugins
 {
     public interface IPluginFinder
     {

@@ -1,4 +1,4 @@
-﻿namespace Noodle.Scheduling
+﻿namespace Noodle.Extensions.Scheduling
 {
     /// <summary>
     /// Specifies wether an action should be executed more than once.

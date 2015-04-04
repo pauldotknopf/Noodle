@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using Noodle.Collections;
+using Noodle.Extensions.Collections;
 
 namespace Noodle.Imaging
 {

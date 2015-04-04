@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
 using Noodle.Engine;
-using Noodle.Security;
+using Noodle.Extensions.Security;
 
-namespace Noodle.Plugins
+namespace Noodle.Extensions.Plugins
 {
 	/// <summary>
 	/// Investigates the execution environment to find plugins.

@@ -1,7 +1,7 @@
 ﻿using System;
-using Noodle.Plugins;
+using Noodle.Extensions.Plugins;
 
-namespace Noodle.Scheduling
+namespace Noodle.Extensions.Scheduling
 {
     /// <summary>
     /// Defines how often a scheduled action should execute.

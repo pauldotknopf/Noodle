@@ -1,4 +1,5 @@
 ﻿using System.Web.Configuration;
+using Noodle.Extensions.Security;
 
 namespace Noodle.Security.Users
 {

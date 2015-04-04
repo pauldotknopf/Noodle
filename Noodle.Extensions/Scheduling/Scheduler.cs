@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Noodle.Engine;
-using Noodle.Plugins;
+using Noodle.Extensions.Plugins;
 
-namespace Noodle.Scheduling
+namespace Noodle.Extensions.Scheduling
 {
     /// <summary>
     /// Maintains a list of scheduler actions and checks wether it's time to 

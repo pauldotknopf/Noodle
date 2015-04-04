@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
-namespace Noodle.IO
+namespace Noodle.Extensions.IO
 {
     /// <summary>
     /// Converts back and forth between string and path
