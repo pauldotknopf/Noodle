@@ -17,7 +17,6 @@ namespace Noodle.Engine
             container.Register(typeof(ITypeFinder), (c, overloads) => EngineContext.TypeFinder);
             container.Register(typeof(IDateTimeHelper), typeof(DateTimeHelper));
             container.Register(typeof(IErrorNotifier), typeof(ErrorNotifier));
-          
 #endif
         }
     }

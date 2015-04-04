@@ -40,13 +40,30 @@ namespace Noodle
             get 
             {
                 return Singleton<ITypeFinder>.Instance 
-                    ?? (Singleton<ITypeFinder>.Instance = new AppDomainTypeFinder(new AssemblyFinder()));
+                    ?? (Singleton<ITypeFinder>.Instance = new AppDomainTypeFinder(AssemblyFinder));
             }
             set
             {
                 if(value == null)
                     throw new ArgumentNullException("value");
                 Singleton<ITypeFinder>.Instance = value;
+            }
+        }
+
+        public static IAssemblyFinder AssemblyFinder
+        {
+            get
+            {
+                return Singleton<IAssemblyFinder>.Instance
+                       ?? (Singleton<IAssemblyFinder>.Instance = new AssemblyFinder());
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                if(Singleton<IAssemblyFinder>.Instance != null)
+                    throw new Exception("Assembly finder already set");
+                Singleton<IAssemblyFinder>.Instance = value;
             }
         }
 
@@ -120,21 +137,6 @@ namespace Noodle
         public static IEnumerable<T> ResolveAll<T>() where T : class
         {
             return Current.ResolveAll<T>();
-        }
-
-        #endregion
-
-        #region AssemblyExclude/Includes
-
-        public static IExcludedAssemblies Excluding { get; private set; }
-        public static IIncludedAssemblies Including { get; private set; }
-        public static IIncludedOnlyAssemblies IncludingOnly { get; private set; }
-
-        private static void InitializeExcludedAndIncludedAssemblies()
-        {
-            Excluding = new ExcludedAssemblies();
-            Including = new IncludedAssemblies();
-            IncludingOnly = new IncludedOnlyAssemblies();
         }
 
         #endregion
@@ -214,11 +216,6 @@ namespace Noodle
             #if LOGGING
             _logger.Info("Ran startup tasks");
             #endif
-        }
-
-        static EngineContext()
-        {
-            InitializeExcludedAndIncludedAssemblies();
         }
 
         #endregion
