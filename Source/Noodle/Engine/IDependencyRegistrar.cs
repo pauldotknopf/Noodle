@@ -1,3 +1,9 @@
+#if SIMPLEINJECTOR
+using Cont = SimpleInjector.Container;
+#else
+using Cont = Noodle.TinyIoCContainer;
+#endif
+
 namespace Noodle.Engine
 {
     /// <summary>
@@ -8,7 +14,7 @@ namespace Noodle.Engine
         /// <summary>
         /// Register your services with the container. You are given a type finder to help you find anything you need.
         /// </summary>
-        void Register(TinyIoCContainer container);
+        void Register(Cont container);
 
         /// <summary>
         /// The lower numbers will be registered first. Higher numbers the latest.

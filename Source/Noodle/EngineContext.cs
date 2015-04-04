@@ -1,8 +1,15 @@
 //#define LOGGING
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Noodle.Engine;
+#if SIMPLEINJECTOR
+using Cont = SimpleInjector.Container;
+#else
+using Cont = Noodle.TinyIoCContainer;
+#endif
 
 namespace Noodle
 {
@@ -17,18 +24,23 @@ namespace Noodle
 #if LOGGING
         private static Logger<EngineContext> _logger = new Logger<EngineContext>(); 
 #endif
+#if SIMPLEINJECTOR
+        private static readonly FieldInfo RegistrationsFieldInfo = typeof(Cont).GetField("registrations",
+                                                                     BindingFlags.Public | BindingFlags.NonPublic |
+                                                                     BindingFlags.Instance);
+#endif
 
         #region Current
 
         /// <summary>
         /// Return the singleton kernel
         /// </summary>
-        public static TinyIoCContainer Current
+        public static Cont Current
         {
             get
             {
                 Configure(false);
-                return Singleton<TinyIoCContainer>.Instance;
+                return Singleton<Cont>.Instance;
             }
         }
 
@@ -79,18 +91,18 @@ namespace Noodle
         public static void Configure(bool force)
         {
             // If the kernel hasn't been created or the call is forcing a new one do something, otherwise, just exit
-            if (Singleton<TinyIoCContainer>.Instance == null || force)
+            if (Singleton<Cont>.Instance == null || force)
             {
                 lock (ContainerCreationLockObject)
                 {
                     // someone may have waited for the lock, but it has been built for them, check one more time.
-                    if (Singleton<TinyIoCContainer>.Instance == null || force)
+                    if (Singleton<Cont>.Instance == null || force)
                     {
                         #if LOGGING
                         _logger.Info("Creating the container");
                         #endif
 
-                        var container = new TinyIoCContainer();
+                        var container = new Cont();
 
                         #if LOGGING
                         _logger.Info("Registering the core services");
@@ -110,7 +122,7 @@ namespace Noodle
                         #endif
 
                         // set the kernel to the static accessor
-                        Singleton<TinyIoCContainer>.Instance = container;
+                        Singleton<Cont>.Instance = container;
 
                         // run all startup tasks
                         var onStartupTasksRunning = OnStartupTasksRunning;
@@ -131,19 +143,29 @@ namespace Noodle
 
         public static T Resolve<T>() where T : class
         {
-            return Current.Resolve<T>();
+#if SIMPLEINJECTOR
+            return Current.GetInstance<T>();
+#else
+             return Current.Resolve<T>();
+#endif
+
         }
 
         public static IEnumerable<T> ResolveAll<T>() where T : class
         {
+#if SIMPLEINJECTOR
+            return Current.GetAllInstances<T>();
+#else
             return Current.ResolveAll<T>();
+#endif
+
         }
 
         #endregion
 
         #region Methods
 
-        private static void RegisterDependencyRegistrar(ITypeFinder typeFinder, TinyIoCContainer container)
+        private static void RegisterDependencyRegistrar(ITypeFinder typeFinder, Cont container)
         {
             var dependencyRegistrarTypes = new List<IDependencyRegistrar>();
             foreach (var dependencyRegistrarType in typeFinder.Find<IDependencyRegistrar>())
@@ -180,13 +202,20 @@ namespace Noodle
             }
         }
 
-        public static void RunStartupTasks(TinyIoCContainer container)
+        public static void RunStartupTasks(Cont container)
         {
             #if LOGGING
             _logger.Info("Running startup tasks");
             #endif
 
+#if SIMPLEINJECTOR
+            var registrations = RegistrationsFieldInfo.GetValue(container) as IDictionary;
+            if(registrations == null) throw new Exception("Couldn't get registrations from simpleinjector");
+            var startupServiceTypes =
+                registrations.Keys.Cast<Type>().Where(x => typeof (IStartupTask).IsAssignableFrom(x)).ToList(); 
+#else
             var startupServiceTypes = container.GetServicesOf<IStartupTask>();
+#endif
             var startupServices = new List<IStartupTask>();
 
             foreach(var startUpServiceType in startupServiceTypes)
@@ -194,7 +223,12 @@ namespace Noodle
                 #if LOGGING
                 _logger.Info("Creating an instance of the startup task {0}".F(startUpServiceType.FullName));
                 #endif
+                #if SIMPLEINJECTOR
+                startupServices.Add(container.GetInstance(startUpServiceType) as IStartupTask);
+                #else
                 startupServices.Add(container.Resolve(startUpServiceType) as IStartupTask);
+                #endif
+
                 #if LOGGING
                 _logger.Info("Created an instance of the startup task {0}".F(startUpServiceType.FullName));
                 #endif
@@ -222,7 +256,7 @@ namespace Noodle
 
         #region Events
 
-        public delegate void ContainerDelegate(TinyIoCContainer container);
+        public delegate void ContainerDelegate(Cont container);
 
         /// <summary>
         /// This is raised before any startup tasks have been ran
