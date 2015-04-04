@@ -89,6 +89,10 @@
     <Compile Include="Users\UserUserRoleMap.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Noodle.Extensions\Noodle.Extensions.csproj">
+      <Project>{cf6f25ab-6026-4b69-a5ff-d7af5cf19b9e}</Project>
+      <Name>Noodle.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Noodle.MongoDB\Noodle.MongoDB.csproj">
       <Project>{7b5ea470-e66d-4ce5-8d48-6d4ad89ec62d}</Project>
       <Name>Noodle.MongoDB</Name>

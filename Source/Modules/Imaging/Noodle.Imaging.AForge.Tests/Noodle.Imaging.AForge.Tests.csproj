@@ -49,6 +49,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Noodle.Extensions\Noodle.Extensions.csproj">
+      <Project>{cf6f25ab-6026-4b69-a5ff-d7af5cf19b9e}</Project>
+      <Name>Noodle.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Noodle.Tests\Noodle.Tests.csproj">
       <Project>{d3226938-7fe2-4f24-8a4a-c6d83f7938cb}</Project>
       <Name>Noodle.Tests</Name>
