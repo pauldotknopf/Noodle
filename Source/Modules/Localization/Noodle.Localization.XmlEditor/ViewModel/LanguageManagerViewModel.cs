@@ -164,6 +164,73 @@ namespace Noodle.Localization.XmlEditor.ViewModel
         {
             try
             {
+                var ofd = new OpenFileDialog();
+                var result = ofd.ShowDialog();
+
+                if (result.HasValue && result.Value)
+                {
+                    using(var stream = File.Open(ofd.FileName, FileMode.Open, FileAccess.Read))
+                    using (var excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream))
+                    {
+                        excelReader.IsFirstRowAsColumnNames = true;
+                        var dataset = excelReader.AsDataSet();
+
+                        if (dataset.Tables.Count != 1)
+                            throw new Exception("You must have exactly one sheet.");
+
+                        var table = dataset.Tables[0];
+
+                        var columns = table.Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToList();
+
+                        if (columns.Count < 2)
+                            throw new Exception(
+                                "You must have at least two columns. First being the 'Name', and the second being a translated language.");
+
+                        if (columns[0] != "Name")
+                            throw new Exception("The first column must be 'Name'.");
+
+                        foreach (var translatedCultureCode in columns.Skip(1))
+                        {
+                            try
+                            {
+                                CultureInfo.CreateSpecificCulture(translatedCultureCode);
+                            }
+                            catch
+                            {
+                                throw new Exception("The translated culture '" + translatedCultureCode +
+                                                    "' is not valid.");
+                            }
+                        }
+
+                        foreach (DataRow entry in table.Rows)
+                        {
+                            var name = entry[0].ToString();
+                            for (var x = 1; x < columns.Count; x++)
+                            {
+                                var languageCulture = columns[x];
+                                var value = entry[x].ToString();
+
+                                var languageViewModel =
+                                    Languages.Single(language => language.First.LanguageCulture == languageCulture);
+                                var resourceViewModel =
+                                    languageViewModel.Second.Single(resource => resource.ResourceName == name);
+
+                                resourceViewModel.ResourceValue = value;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ExportExcel()
+        {
+            try
+            {
                 var filePath = string.Format(@"C:\Users\Paul\Desktop\translations.xlsx");
 
                 FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read);
@@ -218,10 +285,6 @@ namespace Noodle.Localization.XmlEditor.ViewModel
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        private void ExportExcel()
-        {
         }
 
         private string Translate(string accessToken, string text, string from, string to)
@@ -332,27 +395,49 @@ namespace Noodle.Localization.XmlEditor.ViewModel
                 {
                     var deserializedLanguages = new LanguageFileParser().DeserializeLanguagesFile(ofd.FileName);
 
-                    _languages.Clear();
-                    _possibleValues.Clear();
+                    //_languages.Clear();
+                    //_possibleValues.Clear();
 
                     foreach (var possibleValue in deserializedLanguages.SelectMany(x => x.Second).Select(x => x.ResourceName).Distinct().ToList())
                     {
-                        _possibleValues.Add(possibleValue);
+                        if(!_possibleValues.Contains(possibleValue))
+                            _possibleValues.Add(possibleValue);
                     }
 
                     foreach (var pair in deserializedLanguages)
                     {
-                        var language = new Pair<Language, ObservableCollection<LocaleStringResourceModel>>();
-                        language.First = pair.First;
-                        language.Second = new ObservableCollection<LocaleStringResourceModel>();
+                        Pair<Language, ObservableCollection<LocaleStringResourceModel>> language;
+
+                        language = _languages.SingleOrDefault(x => x.First.LanguageCulture == pair.First.LanguageCulture);
+
+                        if (language == null)
+                        {
+                            language = new Pair<Language, ObservableCollection<LocaleStringResourceModel>>();
+                            language.First = pair.First;
+                            language.Second = new ObservableCollection<LocaleStringResourceModel>();
+                            _languages.Add(language);
+                        }
+
                         foreach (var possibleValue in _possibleValues)
                         {
-                            var resourceModel = new LocaleStringResourceModel(pair.Second.FirstOrDefault(x => x.ResourceName == possibleValue));
-                            if (resourceModel.IsMissing)
-                                resourceModel.ResourceName = possibleValue;
-                            language.Second.Add(resourceModel);
+                            var resourceModel = language.Second.SingleOrDefault(x => x.ResourceName == possibleValue);
+                            var resource = pair.Second.FirstOrDefault(x => x.ResourceName == possibleValue);
+                            if (resourceModel == null)
+                            {
+                                resourceModel = new LocaleStringResourceModel(resource);
+                                if (resourceModel.IsMissing)
+                                    resourceModel.ResourceName = possibleValue;
+                                language.Second.Add(resourceModel);
+                            }
+                            else if (resource != null && !string.IsNullOrEmpty(resource.ResourceValue))
+                            {
+                                resourceModel.ResourceValue = resource.ResourceValue;
+                            }
+                            else
+                            {
+                                
+                            }
                         }
-                        _languages.Add(language);
                     }
                 }
             }
