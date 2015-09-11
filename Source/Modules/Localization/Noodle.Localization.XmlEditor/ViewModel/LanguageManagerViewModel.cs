@@ -229,64 +229,6 @@ namespace Noodle.Localization.XmlEditor.ViewModel
 
         private void ExportExcel()
         {
-            try
-            {
-                var filePath = string.Format(@"C:\Users\Paul\Desktop\translations.xlsx");
-
-                FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read);
-                using (var excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream))
-                {
-                    excelReader.IsFirstRowAsColumnNames = true;
-                    var dataset = excelReader.AsDataSet();
-
-                    if (dataset.Tables.Count != 1)
-                        throw new Exception("You must have exactly one sheet.");
-
-                    var table = dataset.Tables[0];
-
-                    var columns = table.Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToList();
-
-                    if (columns.Count < 2)
-                        throw new Exception(
-                            "You must have at least two columns. First being the 'Name', and the second being a translated language.");
-
-                    if (columns[0] != "Name")
-                        throw new Exception("The first column must be 'Name'.");
-
-                    foreach (var translatedCultureCode in columns.Skip(1))
-                    {
-                        try
-                        {
-                            CultureInfo.CreateSpecificCulture(translatedCultureCode);
-                        }
-                        catch
-                        {
-                            throw new Exception("The translated culture '" + translatedCultureCode + "' is not valid.");
-                        }
-                    }
-
-                    foreach (DataRow entry in table.Rows)
-                    {
-                        var name = entry[0].ToString();
-                        for (var x = 1; x < columns.Count; x++)
-                        {
-                            var languageCulture = columns[x];
-                            var value = entry[x].ToString();
-
-                            var languageViewModel = Languages.Single(language => language.First.LanguageCulture == languageCulture);
-                            var resourceViewModel = languageViewModel.Second.Single(resource => resource.ResourceName == name);
-
-                            resourceViewModel.ResourceValue = value;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
             string filename = null;
             try
             {
@@ -302,7 +244,7 @@ namespace Noodle.Localization.XmlEditor.ViewModel
                     excel.Visible = false;
                     excel.DisplayAlerts = false;
                     var workbook = excel.Workbooks.Add(Type.Missing);
-                    var worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.ActiveSheet;
+                    var worksheet = (Microsoft.Office.Interop.Excel.Worksheet) workbook.ActiveSheet;
                     worksheet.Name = "MedXChangeLanguages";
 
 
@@ -351,6 +293,8 @@ namespace Noodle.Localization.XmlEditor.ViewModel
                         File.Delete(filename);
                 }
             }
+        }
+
         private string Translate(string accessToken, string text, string from, string to)
         {
             var client = new LanguageServiceClient();
