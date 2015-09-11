@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Languages>
+  <Language Name="English" CultureCode="en-US">
+    <LocaleResource Name="YUV">
+      <Value>YUV</Value>
+    </LocaleResource><LocaleResource Name="RGB">
+      <Value>RGB</Value>
+    </LocaleResource>
+  </Language>
+</Languages>

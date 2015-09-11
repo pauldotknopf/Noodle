@@ -222,6 +222,70 @@ namespace Noodle.Localization.XmlEditor.ViewModel
 
         private void ExportExcel()
         {
+            string filename = null;
+            try
+            {
+                var sfd = new SaveFileDialog();
+                if (sfd.ShowDialog().Value)
+                {
+                    filename = sfd.FileName;
+                    if (File.Exists(filename))
+                    {
+                        //Delete it?
+                    }
+                    var excel = new Microsoft.Office.Interop.Excel.Application();
+                    excel.Visible = false;
+                    excel.DisplayAlerts = false;
+                    var workbook = excel.Workbooks.Add(Type.Missing);
+                    var worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.ActiveSheet;
+                    worksheet.Name = "MedXChangeLanguages";
+
+
+                    for (var i = 1; i <= _languages.Count; i++)
+                    {
+                        var language = _languages[i - 1];
+
+                        var resources =
+                            language.Second.Where(
+                                x => !x.IsMissing || (x.IsMissing && !string.IsNullOrEmpty((x.ResourceValue)))).ToList();
+
+                        worksheet.Cells[1, i] = language.First.Name;
+                        for (var z = 1; z <= resources.Count; z++)
+                        {
+                            var resource = resources[z - 1];
+                            worksheet.Cells[z + 1, i] = resource.ResourceValue;
+                        }
+
+                        //xmlWriter.WriteStartElement("Language");
+                        //xmlWriter.WriteAttributeString("Name", language.First.Name);
+                        //xmlWriter.WriteAttributeString("CultureCode", language.First.LanguageCulture);
+                        //foreach (var resource in language.Second.Where(x => !x.IsMissing || (x.IsMissing && !string.IsNullOrEmpty(x.ResourceValue))))
+                        //{
+                        //    xmlWriter.WriteStartElement("LocaleResource");
+                        //    xmlWriter.WriteAttributeString("Name", resource.ResourceName);
+                        //    xmlWriter.WriteStartElement("Value");
+                        //    xmlWriter.WriteRaw(resource.ResourceValue);
+                        //    xmlWriter.WriteEndElement();
+                        //    xmlWriter.WriteEndElement();
+                        //}
+                        //xmlWriter.WriteEndElement();
+                    }
+
+
+                    workbook.SaveAs(filename);
+                    workbook.Close();
+                    excel.Quit();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+                if (!string.IsNullOrEmpty(filename))
+                {
+                    if (File.Exists(filename))
+                        File.Delete(filename);
+                }
+            }
         }
 
         private string Translate(string accessToken, string text, string from, string to)
@@ -367,7 +431,7 @@ namespace Noodle.Localization.XmlEditor.ViewModel
         /// </summary>
         private void Exit()
         {
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
 
         #endregion
