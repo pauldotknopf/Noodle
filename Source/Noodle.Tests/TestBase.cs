@@ -38,6 +38,7 @@ namespace Noodle.Tests
         {
             var container = new TinyIoCContainer();
             CoreDependencyRegistrar.Register(container);
+            
             foreach (var dependencyRegistrar in GetDependencyRegistrars().OrderBy(x => x.Importance))
             {
                 dependencyRegistrar.Register(container);
@@ -51,7 +52,8 @@ namespace Noodle.Tests
         /// <returns></returns>
         public virtual IEnumerable<IDependencyRegistrar> GetDependencyRegistrars()
         {
-            return Enumerable.Empty<IDependencyRegistrar>();
+            var registrars = new List<IDependencyRegistrar> {new Extensions.DependencyRegistrar()};
+            return registrars;
         }
 
         /// <summary>

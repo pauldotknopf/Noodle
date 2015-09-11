@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace Noodle.Engine
     /// </summary>
     public class AssemblyFinder : IAssemblyFinder
     {
-        private List<Assembly> _assemblies = null;
+        private List<Assembly> _assemblies;
         private static readonly Object GetAssembliesLockObject = new object();
 
         /// <summary>
@@ -28,10 +28,7 @@ namespace Noodle.Engine
                     if (_assemblies == null)
                     {
                         _assemblies = new List<Assembly>();
-                        _assemblies.AddRange(EngineContext.IncludingOnly.Assemblies.Any()
-                            ? EngineContext.IncludingOnly.Assemblies.Select(Assembly.Load)
-                            : GetAssembliesInAppDomain()
-                                .Where(a => !a.IsDynamic && IsNotExcluded(a)));
+                        _assemblies.AddRange(GetAssembliesInAppDomain());
                     }
                 }
             }
@@ -69,37 +66,11 @@ namespace Noodle.Engine
 
             foreach (var referenced in assembly.GetReferencedAssemblies())
             {
-                // addtional check for performance reasons
-                if(!IsNotExcluded(referenced))
-                    continue;
-
                 if(assemblies.Any(x => x.FullName.Equals(referenced.FullName)))
                     continue;
 
                 RecursivelyLoadReferencedAssemblies(assemblies, Assembly.Load(referenced));
             }
-        }
-
-        /// <summary>
-        /// Ensures that the assembly is not excluded
-        /// </summary>
-        /// <param name="assembly"></param>
-        /// <returns></returns>
-        private bool IsNotExcluded(Assembly assembly)
-        {
-            return EngineContext.Including.Assemblies.Any(e => assembly.FullName == e.FullName) ||
-                    !EngineContext.Excluding.Assemblies.Any(e => Regex.IsMatch(assembly.FullName, e));
-        }
-
-        /// <summary>
-        /// Ensures that the assembly is not excluded
-        /// </summary>
-        /// <param name="assembly"></param>
-        /// <returns></returns>
-        private bool IsNotExcluded(AssemblyName assembly)
-        {
-            return EngineContext.Including.Assemblies.Any(e => assembly.FullName == e.FullName) ||
-                    !EngineContext.Excluding.Assemblies.Any(e => Regex.IsMatch(assembly.FullName, e));
         }
     }
 }

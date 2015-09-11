@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Noodle.Extensions.Documentation;
+using Noodle.Extensions.Plugins;
 using NUnit.Framework;
-using Noodle.Documentation;
 using Noodle.Engine;
-using Noodle.Plugins;
 using Noodle.Tests.Helpers;
 
 namespace Noodle.Tests

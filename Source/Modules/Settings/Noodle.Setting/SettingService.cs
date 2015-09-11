@@ -4,7 +4,7 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-using Noodle.Caching;
+using Noodle.Extensions.Caching;
 
 namespace Noodle.Settings
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Principal;
-using Noodle.Security;
+using Noodle.Extensions.Security;
 
 namespace Noodle.Tests
 {

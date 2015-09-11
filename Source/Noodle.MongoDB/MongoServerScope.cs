@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Noodle.Extensions.Process;
 
 namespace Noodle.MongoDB
 {
@@ -41,7 +42,7 @@ namespace Noodle.MongoDB
                 Directory.CreateDirectory(directory);
 
                 var logPath = Path.Combine(directory, "dblog.log");
-                var command = new Noodle.Process.ProcessCommand(mongoLocation, "--dbpath \"" + directory + "\" --port \"" + port + "\" --logpath \"" + logPath + "\" --logappend");
+                var command = new ProcessCommand(mongoLocation, "--dbpath \"" + directory + "\" --port \"" + port + "\" --logpath \"" + logPath + "\" --logappend");
                 _process = command.Run();
             }
             catch (Exception)

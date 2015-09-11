@@ -1,6 +1,6 @@
 ﻿using System;
+using Noodle.Extensions.Serialization;
 using NUnit.Framework;
-using Noodle.Serialization;
 
 namespace Noodle.Tests
 {

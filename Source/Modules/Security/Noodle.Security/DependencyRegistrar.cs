@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using Noodle.Engine;
+using Noodle.Extensions.Security;
 using Noodle.MongoDB;
 using Noodle.Security.Activity;
 using Noodle.Security.Permissions;

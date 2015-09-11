@@ -5,6 +5,7 @@ using System.Text;
 using System.Web;
 using Noodle.Caching;
 using Noodle.Engine;
+using Noodle.Extensions.Caching;
 using Noodle.Resources;
 using Noodle.Web.Caching;
 using Noodle.Web.Resources;

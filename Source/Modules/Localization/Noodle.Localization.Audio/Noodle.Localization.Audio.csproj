@@ -55,6 +55,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Noodle.Extensions\Noodle.Extensions.csproj">
+      <Project>{cf6f25ab-6026-4b69-a5ff-d7af5cf19b9e}</Project>
+      <Name>Noodle.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Noodle\Noodle.csproj">
       <Project>{944fec3d-a47f-4c92-92ac-81b3420c1caa}</Project>
       <Name>Noodle</Name>

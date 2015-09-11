@@ -7,8 +7,8 @@ using System.Web;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Moq;
+using Noodle.Extensions.Collections;
 using NUnit.Framework;
-using Noodle.Collections;
 using Noodle.Tests;
 
 namespace Noodle.Logging.Tests

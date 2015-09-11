@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver;
+using Noodle.Extensions.Collections;
 using NUnit.Framework;
-using Noodle.Collections;
 using Noodle.Security.Permissions;
 using Noodle.Security.Users;
 using Noodle.Tests;

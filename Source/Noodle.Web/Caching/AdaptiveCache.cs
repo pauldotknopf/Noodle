@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using Noodle.Caching;
+using Noodle.Extensions.Caching;
 
 namespace Noodle.Web.Caching
 {

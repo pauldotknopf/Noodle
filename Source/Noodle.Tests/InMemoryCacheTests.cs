@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Noodle.Extensions.Caching;
 using NUnit.Framework;
 using Noodle.Caching;
 

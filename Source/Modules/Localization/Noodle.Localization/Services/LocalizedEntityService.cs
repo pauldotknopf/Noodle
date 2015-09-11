@@ -5,9 +5,8 @@ using System.Reflection;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-using Noodle.Caching;
-using Noodle.Collections;
-using Noodle.Data;
+using Noodle.Extensions.Caching;
+using Noodle.Extensions.Collections;
 
 namespace Noodle.Localization.Services
 {

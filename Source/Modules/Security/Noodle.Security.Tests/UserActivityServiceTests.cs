@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using Noodle.Extensions.Collections;
 using NUnit.Framework;
-using Noodle.Collections;
 using Noodle.Security.Activity;
 using Noodle.Tests;
 

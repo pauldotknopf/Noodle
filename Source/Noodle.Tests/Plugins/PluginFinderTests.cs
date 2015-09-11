@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Noodle.Extensions.Plugins;
+using Noodle.Extensions.Security;
 using NUnit.Framework;
 using Noodle.Engine;
-using Noodle.Plugins;
-using Noodle.Security;
 
 namespace Noodle.Tests.Plugins
 {

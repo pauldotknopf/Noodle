@@ -4,9 +4,8 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-using Noodle.Caching;
-using Noodle.Collections;
-using Noodle.Data;
+using Noodle.Extensions.Caching;
+using Noodle.Extensions.Collections;
 using Noodle.Localization.CodeFirst;
 using Noodle.Settings;
 

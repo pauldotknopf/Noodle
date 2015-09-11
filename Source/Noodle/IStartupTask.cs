@@ -1,4 +1,4 @@
-﻿namespace Noodle
+namespace Noodle
 {
     /// <summary>
     /// Implementations can use this to execute some code on app start.

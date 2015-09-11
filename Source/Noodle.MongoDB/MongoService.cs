@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MongoDB.Driver;
-using Noodle.Data;
+using Noodle.Extensions.Data;
 
 namespace Noodle.MongoDB
 {

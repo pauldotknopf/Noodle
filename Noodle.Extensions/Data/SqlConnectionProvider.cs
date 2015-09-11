@@ -1,0 +1,38 @@
+﻿using System.Data.SqlClient;
+
+namespace Noodle.Extensions.Data
+{
+    /// <summary>
+    /// A sql server connection provider
+    /// </summary>
+    /// <remarks></remarks>
+    public class SqlConnectionProvider : IConnectionProvider
+    {
+        private readonly string _connectionString;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlConnectionProvider"/> class.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        /// <remarks></remarks>
+        public SqlConnectionProvider(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+        /// <summary>
+        /// Gets the db connection.
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks></remarks>
+        public System.Data.IDbConnection GetDbConnection()
+        {
+            return new SqlConnection(_connectionString);
+        }
+
+        public string GetConnectionString()
+        {
+            return _connectionString;
+        }
+    }
+}

@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using MongoDB.Driver;
 using NUnit.Framework;
-using Noodle.Caching;
 using Noodle.Settings;
 using Noodle.Tests;
 

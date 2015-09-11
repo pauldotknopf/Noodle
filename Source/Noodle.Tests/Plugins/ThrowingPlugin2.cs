@@ -1,4 +1,4 @@
-﻿using Noodle.Plugins;
+﻿using Noodle.Extensions.Plugins;
 
 namespace Noodle.Tests.Plugins
 {

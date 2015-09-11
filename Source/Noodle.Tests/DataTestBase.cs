@@ -1,6 +1,6 @@
 ﻿using System;
 using MongoDB.Driver;
-using Noodle.Data;
+using Noodle.Extensions.Data;
 using Noodle.MongoDB;
 
 namespace Noodle.Tests
