@@ -89,23 +89,11 @@
     <Compile Include="..\..\..\Noodle\Engine\CoreDependencyRegistrar.cs">
       <Link>Engine\CoreDependencyRegistrar.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle\Engine\ExcludedAssemblies.cs">
-      <Link>Engine\ExcludedAssemblies.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Noodle\Engine\IAssemblyFinder.cs">
       <Link>Engine\IAssemblyFinder.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\Engine\IDependencyRegistrar.cs">
       <Link>Engine\IDependencyRegistrar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Engine\IExcludedAssemblies.cs">
-      <Link>Engine\IExcludedAssemblies.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Engine\IIncludedAssemblies.cs">
-      <Link>Engine\IIncludedAssemblies.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Engine\IIncludedOnlyAssemblies.cs">
-      <Link>Engine\IIncludedOnlyAssemblies.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\Engine\ITypeFinder.cs">
       <Link>Engine\ITypeFinder.cs</Link>
@@ -113,29 +101,11 @@
     <Compile Include="..\..\..\Noodle\Engine\IWorker.cs">
       <Link>Engine\IWorker.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle\Engine\IncludedAssemblies.cs">
-      <Link>Engine\IncludedAssemblies.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Engine\IncludedOnlyAssemblies.cs">
-      <Link>Engine\IncludedOnlyAssemblies.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Noodle\Engine\Logger.cs">
       <Link>Engine\Logger.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\Engine\Singleton.cs">
       <Link>Engine\Singleton.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\IO\Overwrite.cs">
-      <Link>IO\Overwrite.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\IO\Path.cs">
-      <Link>IO\Path.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\IO\PathConverter.cs">
-      <Link>IO\PathConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Linq\ExpressionVisitor.cs">
-      <Link>Linq\ExpressionVisitor.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\PagedList.cs">
       <Link>PagedList.cs</Link>
