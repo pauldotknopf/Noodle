@@ -100,29 +100,11 @@
     <Compile Include="..\..\..\Noodle\Engine\CoreDependencyRegistrar.cs">
       <Link>Engine\CoreDependencyRegistrar.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle\Engine\ExcludedAssemblies.cs">
-      <Link>Engine\ExcludedAssemblies.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Noodle\Engine\IAssemblyFinder.cs">
       <Link>Engine\IAssemblyFinder.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\Engine\IDependencyRegistrar.cs">
       <Link>Engine\IDependencyRegistrar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Engine\IExcludedAssemblies.cs">
-      <Link>Engine\IExcludedAssemblies.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Engine\IIncludedAssemblies.cs">
-      <Link>Engine\IIncludedAssemblies.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Engine\IIncludedOnlyAssemblies.cs">
-      <Link>Engine\IIncludedOnlyAssemblies.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Engine\IncludedAssemblies.cs">
-      <Link>Engine\IncludedAssemblies.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\Engine\IncludedOnlyAssemblies.cs">
-      <Link>Engine\IncludedOnlyAssemblies.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Noodle\Engine\ITypeFinder.cs">
       <Link>Engine\ITypeFinder.cs</Link>
@@ -136,15 +118,6 @@
     <Compile Include="..\..\..\Noodle\Engine\Singleton.cs">
       <Link>Engine\Singleton.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Noodle\IO\Overwrite.cs">
-      <Link>IO\Overwrite.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\IO\Path.cs">
-      <Link>IO\Path.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Noodle\IO\PathConverter.cs">
-      <Link>IO\PathConverter.cs</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -153,9 +126,5 @@
     <AndroidResource Include="Resources\values\Strings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="ComponentModel\" />
-    <Folder Include="Engine\" />
-    <Folder Include="IO\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
