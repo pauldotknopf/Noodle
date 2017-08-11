@@ -167,57 +167,44 @@ namespace Noodle.Localization.XmlEditor.ViewModel
                 var ofd = new OpenFileDialog();
                 var result = ofd.ShowDialog();
 
-                if (result.HasValue && result.Value)
+                if (!result.HasValue || !result.Value)
+                    return;
+
+                using (var stream = File.Open(ofd.FileName, FileMode.Open, FileAccess.Read))
+                using (var excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream))
                 {
-                    using(var stream = File.Open(ofd.FileName, FileMode.Open, FileAccess.Read))
-                    using (var excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream))
+                    var dataset = excelReader.AsDataSet();
+
+                    if (dataset.Tables.Count != 1)
+                        throw new Exception("You must have exactly one sheet.");
+
+                    if (dataset.Tables[0].Columns.Count < 2)
+                        throw new Exception("You must have more than one column.");
+
+                    var table = dataset.Tables[0];
+
+                    for (var i = 1; i <= table.Columns.Count - 1; i++)
                     {
-                        excelReader.IsFirstRowAsColumnNames = true;
-                        var dataset = excelReader.AsDataSet();
+                        var language = new Language();
+                        var resources = new ObservableCollection<LocaleStringResourceModel>();
 
-                        if (dataset.Tables.Count != 1)
-                            throw new Exception("You must have exactly one sheet.");
+                        var cultureCode = (string)table.Rows[0][i];
+                        var languageName = (string)table.Rows[1][i];
+                        language.LanguageCulture = cultureCode;
+                        language.Name = languageName;
 
-                        var table = dataset.Tables[0];
-
-                        var columns = table.Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToList();
-
-                        if (columns.Count < 2)
-                            throw new Exception(
-                                "You must have at least two columns. First being the 'Name', and the second being a translated language.");
-
-                        if (columns[0] != "Name")
-                            throw new Exception("The first column must be 'Name'.");
-
-                        foreach (var translatedCultureCode in columns.Skip(1))
+                        for (var r = 2; r < table.Rows.Count; r++)
                         {
-                            try
-                            {
-                                CultureInfo.CreateSpecificCulture(translatedCultureCode);
-                            }
-                            catch
-                            {
-                                throw new Exception("The translated culture '" + translatedCultureCode +
-                                                    "' is not valid.");
-                            }
+                            var resourceKey = (string)table.Rows[r][0];
+                            var resourceValue = (string)table.Rows[r][i];
+
+                            var resource = new LocaleStringResourceModel(resourceKey, resourceValue);
+
+                            resources.Add(resource);
                         }
 
-                        foreach (DataRow entry in table.Rows)
-                        {
-                            var name = entry[0].ToString();
-                            for (var x = 1; x < columns.Count; x++)
-                            {
-                                var languageCulture = columns[x];
-                                var value = entry[x].ToString();
-
-                                var languageViewModel =
-                                    Languages.Single(language => language.First.LanguageCulture == languageCulture);
-                                var resourceViewModel =
-                                    languageViewModel.Second.Single(resource => resource.ResourceName == name);
-
-                                resourceViewModel.ResourceValue = value;
-                            }
-                        }
+                        var pair = new Pair<Language, ObservableCollection<LocaleStringResourceModel>>(language, resources);
+                        _languages.Add(pair);
                     }
                 }
             }
@@ -244,9 +231,28 @@ namespace Noodle.Localization.XmlEditor.ViewModel
                     excel.Visible = false;
                     excel.DisplayAlerts = false;
                     var workbook = excel.Workbooks.Add(Type.Missing);
-                    var worksheet = (Microsoft.Office.Interop.Excel.Worksheet) workbook.ActiveSheet;
+                    var worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.ActiveSheet;
                     worksheet.Name = "MedXChangeLanguages";
 
+                    //Very first row is the culture codes
+
+                    //Put keys in first column. This assumes we have a value already for every language.
+                    worksheet.Cells[2, 1] = "Keys";
+
+                    var firstLanguageForKeys = _languages[0];
+
+                    var resourcesForKeys =
+                        firstLanguageForKeys.Second.Where(
+                            x => !x.IsMissing || (x.IsMissing && !string.IsNullOrEmpty((x.ResourceValue)))).ToList();
+
+                    for (var k = 0; k < resourcesForKeys.Count; k++)
+                    {
+                        var resource = resourcesForKeys[k];
+
+                        worksheet.Cells[k + 3, 1] = resource.ResourceName;
+                    }
+
+                    //Now do languages
 
                     for (var i = 1; i <= _languages.Count; i++)
                     {
@@ -255,12 +261,14 @@ namespace Noodle.Localization.XmlEditor.ViewModel
                         var resources =
                             language.Second.Where(
                                 x => !x.IsMissing || (x.IsMissing && !string.IsNullOrEmpty((x.ResourceValue)))).ToList();
-
-                        worksheet.Cells[1, i] = language.First.Name;
+                        //Culture code first and then name of language
+                        worksheet.Cells[1, i + 1] = language.First.LanguageCulture;
+                        worksheet.Cells[2, i + 1] = language.First.Name;
                         for (var z = 1; z <= resources.Count; z++)
                         {
                             var resource = resources[z - 1];
-                            worksheet.Cells[z + 1, i] = resource.ResourceValue;
+
+                            worksheet.Cells[z + 2, i + 1] = resource.ResourceValue;
                         }
 
                         //xmlWriter.WriteStartElement("Language");
@@ -408,7 +416,7 @@ namespace Noodle.Localization.XmlEditor.ViewModel
 
                     foreach (var possibleValue in deserializedLanguages.SelectMany(x => x.Second).Select(x => x.ResourceName).Distinct().ToList())
                     {
-                        if(!_possibleValues.Contains(possibleValue))
+                        if (!_possibleValues.Contains(possibleValue))
                             _possibleValues.Add(possibleValue);
                     }
 
@@ -440,10 +448,6 @@ namespace Noodle.Localization.XmlEditor.ViewModel
                             else if (resource != null && !string.IsNullOrEmpty(resource.ResourceValue))
                             {
                                 resourceModel.ResourceValue = resource.ResourceValue;
-                            }
-                            else
-                            {
-                                
                             }
                         }
                     }
