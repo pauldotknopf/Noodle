@@ -140,7 +140,7 @@ namespace Noodle.Localization.Services
         public virtual NamedCollection<LocaleStringResource> GetAllResourcesByLanguageId(ObjectId languageId)
         {
             var key = string.Format(LOCALSTRINGRESOURCES_ALL_KEY, languageId);
-            return _cacheManager.Get(key, () => new NamedCollection<LocaleStringResource>(
+            return _cacheManager.Get(key, -1, () => new NamedCollection<LocaleStringResource>(
                 _localeStringResourceCollection.Find(Query.EQ("LanguageId", languageId)).SetSortOrder(SortBy.Ascending("ResourceName"))));
         }
 
