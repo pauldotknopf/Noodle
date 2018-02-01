@@ -42,6 +42,7 @@ namespace Noodle.Localization.XmlEditor.ViewModel
         {
             if (!IsInDesignMode)
             {
+                ImportTranslationsCommand = new RelayCommand(ImportTranslations);
                 ImportCommand = new RelayCommand(Import);
                 ExportCommand = new RelayCommand(Export);
                 ImportExcelCommand = new RelayCommand(ImportExcel);
@@ -115,6 +116,11 @@ namespace Noodle.Localization.XmlEditor.ViewModel
         #endregion
 
         #region Commands
+
+        /// <summary>
+        /// Imports missing translations from another XML file.
+        /// </summary>
+        public RelayCommand ImportTranslationsCommand { get; protected set; }
 
         /// <summary>
         /// Import an xml file
@@ -394,6 +400,88 @@ namespace Noodle.Localization.XmlEditor.ViewModel
                         File.Delete(fileName);
                     File.Move(backupFile, fileName);
                 }
+            }
+        }
+
+        private void ImportTranslations()
+        {
+            try
+            {
+                var ofd = new OpenFileDialog();
+                ofd.FileOk += (sender, args) => args.Cancel = string.IsNullOrEmpty(ofd.FileName) || !Path.GetExtension(ofd.FileName.ToLower()).Equals(".xml");
+                var result = ofd.ShowDialog();
+                if (result.Value)
+                {
+                    var deserializedLanguages = new LanguageFileParser().DeserializeLanguagesFile(ofd.FileName);
+
+                     var importedLanguages = new ObservableCollection<Pair<Language, ObservableCollection<LocaleStringResourceModel>>>();
+                     var importedPossibleValues = new ObservableCollection<string>();
+
+                    foreach (var possibleValue in deserializedLanguages.SelectMany(x => x.Second).Select(x => x.ResourceName).Distinct().ToList())
+                    {
+                        if (!importedPossibleValues.Contains(possibleValue))
+                            importedPossibleValues.Add(possibleValue);
+                    }
+
+                    foreach (var pair in deserializedLanguages)
+                    {
+                        Pair<Language, ObservableCollection<LocaleStringResourceModel>> language;
+
+                        language = importedLanguages.SingleOrDefault(x => x.First.LanguageCulture == pair.First.LanguageCulture);
+
+                        if (language == null)
+                        {
+                            language = new Pair<Language, ObservableCollection<LocaleStringResourceModel>>();
+                            language.First = pair.First;
+                            language.Second = new ObservableCollection<LocaleStringResourceModel>();
+                            importedLanguages.Add(language);
+                        }
+
+                        foreach (var possibleValue in importedPossibleValues)
+                        {
+                            var resourceModel = language.Second.SingleOrDefault(x => x.ResourceName == possibleValue);
+                            var resource = pair.Second.FirstOrDefault(x => x.ResourceName == possibleValue);
+                            if (resourceModel == null)
+                            {
+                                resourceModel = new LocaleStringResourceModel(resource);
+                                if (resourceModel.IsMissing)
+                                    resourceModel.ResourceName = possibleValue;
+                                language.Second.Add(resourceModel);
+                            }
+                            else if (resource != null && !string.IsNullOrEmpty(resource.ResourceValue))
+                            {
+                                resourceModel.ResourceValue = resource.ResourceValue;
+                            }
+                        }
+                    }
+
+                    foreach (var language in Languages)
+                    {
+                        var importedLanguage =
+                            importedLanguages.FirstOrDefault(x => x.First.LanguageCulture == language.First.LanguageCulture);
+
+                        if (importedLanguage == null)
+                            continue; //Didn't import a matching language
+
+                        foreach (var localeStringResourceModel in language.Second)
+                        {
+                            if (localeStringResourceModel.IsMissing)
+                            {
+                                //Attempt to find the key in the imported translation file
+                                var importedResource = importedLanguage.Second.FirstOrDefault(x => x.ResourceName == localeStringResourceModel.ResourceName);
+
+                                if(importedResource == null)
+                                    continue; //Don't have it translated already
+
+                                localeStringResourceModel.ResourceValue = importedResource.ResourceValue;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
             }
         }
 

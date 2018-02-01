@@ -1,9 +1,11 @@
 ﻿<Window x:Class="Noodle.Localization.XmlEditor.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:xmlEditor="clr-namespace:Noodle.Localization.XmlEditor"
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
-        Title="MainWindow" Height="350" Width="525"
+        xmlns:xmlEditor="clr-namespace:Noodle.Localization.XmlEditor"
+        Title="MainWindow"
+        Width="525"
+        Height="350"
         DataContext="{StaticResource LanguageManagerViewModel}">
     <Window.Resources>
         <xmlEditor:IsMissingToColorConverter x:Key="IsMissingColorConverter" />
@@ -15,17 +17,21 @@
         </Grid.RowDefinitions>
         <telerik:RadMenu Grid.Row="0">
             <telerik:RadMenuItem Header="File">
-                <telerik:RadMenuItem Header="Import" Command="{Binding ImportCommand}" />
-                <telerik:RadMenuItem Header="Export" Command="{Binding ExportCommand}" />
-                <telerik:RadMenuItem Header="Import Excel" Command="{Binding ImportExcelCommand}" />
-                <telerik:RadMenuItem Header="Export Excel" Command="{Binding ExportExcelCommand}" />
-                <telerik:RadMenuItem Header="Exit" Command="{Binding ExitCommand}" />
+                <telerik:RadMenuItem Command="{Binding ImportCommand}" Header="Import" />
+                <telerik:RadMenuItem Command="{Binding ExportCommand}" Header="Export" />
+                <telerik:RadMenuItem Command="{Binding ImportExcelCommand}" Header="Import Excel" />
+                <telerik:RadMenuItem Command="{Binding ExportExcelCommand}" Header="Export Excel" />
+                <telerik:RadMenuItem Command="{Binding ExitCommand}" Header="Exit" />
+                <telerik:RadMenuItem Command="{Binding ImportTranslationsCommand}" Header="Import Translations" />
             </telerik:RadMenuItem>
-            <telerik:RadMenuItem Header="Add language" Command="{Binding AddLanguageCommand}" />
-            <telerik:RadMenuItem Header="Add resource" Command="{Binding AddResourceCommand}" />
-            <telerik:RadMenuItem Header="Auto translate" Command="{Binding TranslateMissingValuesCommand}" />
+            <telerik:RadMenuItem Command="{Binding AddLanguageCommand}" Header="Add language" />
+            <telerik:RadMenuItem Command="{Binding AddResourceCommand}" Header="Add resource" />
+            <telerik:RadMenuItem Command="{Binding TranslateMissingValuesCommand}" Header="Auto translate" />
         </telerik:RadMenu>
-        <telerik:RadTabControl ItemsSource="{Binding Languages}" ScrollMode="Item" Grid.Row="1" ScrollViewer.ScrollChanged="ScrollViewer_OnScrollChanged">
+        <telerik:RadTabControl Grid.Row="1"
+                               ItemsSource="{Binding Languages}"
+                               ScrollMode="Item"
+                               ScrollViewer.ScrollChanged="ScrollViewer_OnScrollChanged">
             <telerik:RadTabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding First.Name}" />
@@ -33,16 +39,17 @@
             </telerik:RadTabControl.ItemTemplate>
             <telerik:RadTabControl.ContentTemplate>
                 <DataTemplate>
-                    <telerik:RadGridView ItemsSource="{Binding Second}" 
-                                        ShowGroupPanel="False"
-                                         AutoGenerateColumns="False" SelectionMode="Multiple">
+                    <telerik:RadGridView AutoGenerateColumns="False"
+                                         ItemsSource="{Binding Second}"
+                                         SelectionMode="Multiple"
+                                         ShowGroupPanel="False">
                         <telerik:RadGridView.Columns>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding ResourceName}"  Header="Resource name" />
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding ResourceValue}"  Header="Resource name" />
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding ResourceName}" Header="Resource name" />
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding ResourceValue}" Header="Resource name" />
                         </telerik:RadGridView.Columns>
                         <telerik:RadGridView.RowStyle>
                             <Style TargetType="telerik:GridViewRow">
-                                <Setter Property="Background" Value="{Binding IsMissing, Converter={StaticResource IsMissingColorConverter}}"></Setter>
+                                <Setter Property="Background" Value="{Binding IsMissing, Converter={StaticResource IsMissingColorConverter}}" />
                             </Style>
                         </telerik:RadGridView.RowStyle>
                     </telerik:RadGridView>
