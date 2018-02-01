@@ -8,6 +8,11 @@ namespace Noodle.Extensions.Caching
     public static class CacheExtensions
     {
         /// <summary>
+        /// Variable (lock) to support thread-safe
+        /// </summary>
+        private static readonly object SyncObject = new object();
+
+        /// <summary>
         /// Gets a value from the cache.
         /// Invokes delegate to get value if no value found.
         /// </summary>
@@ -33,14 +38,15 @@ namespace Noodle.Extensions.Caching
         /// <returns></returns>
         public static T Get<T>(this ICacheManager cacheManager, string key, int cacheTime, Func<T> acquire)
         {
-            if (cacheManager.IsSet(key))
+            lock (SyncObject)
             {
-                return cacheManager.Get<T>(key);
-            }
+                if (cacheManager.IsSet(key))
+                    return cacheManager.Get<T>(key);
 
-            var result = acquire();
-            cacheManager.Set(key, result, cacheTime);
-            return result;
+                var result = acquire();
+                cacheManager.Set(key, result, cacheTime);
+                return result;
+            }
         }
     }
 }
