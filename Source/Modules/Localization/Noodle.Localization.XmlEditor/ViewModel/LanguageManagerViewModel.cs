@@ -265,8 +265,7 @@ namespace Noodle.Localization.XmlEditor.ViewModel
                         var language = _languages[i - 1];
 
                         var resources =
-                            language.Second.Where(
-                                x => !x.IsMissing || (x.IsMissing && !string.IsNullOrEmpty((x.ResourceValue)))).ToList();
+                            language.Second.ToList();
                         //Culture code first and then name of language
                         worksheet.Cells[1, i + 1] = language.First.LanguageCulture;
                         worksheet.Cells[2, i + 1] = language.First.Name;
